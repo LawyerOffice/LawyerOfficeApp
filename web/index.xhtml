@@ -16,17 +16,21 @@
     </h:head>
     <h:body>
         <div class="pen-title">
-            <h1>Flat Login Form</h1>
+            <img src="#{loginBean.urlRequest}resources/img/lawyerofficeblue_v5.png"/>
         </div>
         <!-- Form Module-->
         <div class="module form-module">
             <div class="toggle"><i class="fa fa-times fa-pencil"></i>
             </div>
             <div class="form">
-                <h2>Lawyer Office</h2>
+                <h2>Iniciar Sesión</h2>
                 <form>
-                    <p:inputText id="Username" />
-                    <p:password id="Password" />
+                        <p:outputLabel value="Usuario"/>
+                        <br/>
+                        <p:inputText id="Username" />
+                        <p:outputLabel value="Contraseña"/>
+                        <br/>
+                        <p:password id="Password" />          
                     <p:commandButton value="Entrar" />
                 </form>
             </div>
