@@ -5,6 +5,7 @@
  */
 package com.beans;
 
+import com.util.LawyerOfficeUtil;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -43,9 +44,10 @@ public class LoginBean {
         RequestContext context = RequestContext.getCurrentInstance();
         boolean loggedIn =false;
         String ruta = "";
-        
+        String rutaDemo = LawyerOfficeUtil.getURL_Login()+"views/inicio_procu.xhtml";
+        loggedIn = true;
         context.addCallbackParam("loggedIn", loggedIn);
-        context.addCallbackParam("ruta", ruta);
+        context.addCallbackParam("ruta", rutaDemo);
     }
 
     public void logout(java.awt.event.ActionEvent event) {
