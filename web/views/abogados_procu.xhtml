@@ -11,33 +11,11 @@
         <ui:composition template="./menu_procu.xhtml">
 
             <ui:define name="content">
-                <p:scrollPanel mode="native" style="width: auto;height:400px">
-                    <h1>Lista de Abogados</h1>
-                    <br></br>
-
-
-                    <p:dataTable var="car" value="#{dtBasicView.cars}">
-
-                        <p:column headerText="Nombre">
-                            <h:outputText value="#{car.id}" />
-                        </p:column>
-
-                        <p:column headerText="Casos Asignados">
-                            <h:outputText value="#{car.year}" />
-                        </p:column>
-
-                        <p:column headerText="Ultima Actividad">
-                            <h:outputText value="#{car.manufacturer}" />
-                        </p:column>
-
-                        <p:column headerText="Cazos Finalizados">
-                            <h:outputText value="#{car.color}" />
-                        </p:column>
-                    </p:dataTable>
-
-                 
-                </p:scrollPanel>
-
+                <h:form id="form">
+                    <div align="center">
+                        <h3>PROXIMAMENTE EN LA NOCHE</h3>
+                    </div>
+                </h:form>
 
             </ui:define>
 
