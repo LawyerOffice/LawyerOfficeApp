@@ -11,29 +11,84 @@
         <ui:composition template="./menu_procu.xhtml">
 
             <ui:define name="content">
-                <h:form id="form">
-                    <p:dataScroller value="#{dataScrollerView.cars}" var="car" chunkSize="10" mode="inline" scrollHeight="500">
+                <h:form id="form_noti">
+                    <p:dataScroller value="#{dataScrollerView.notiService.notifs}" var="noti" chunkSize="10" mode="inline" scrollHeight="500">
                         <f:facet name="header">
-                            Scroll Down to Load More Cars
+                            Notificaciones
                         </f:facet>
-
                         <h:panelGrid columns="2" style="width:100%" columnClasses="logo,detail">
 
                             <p:outputPanel>
                                 <h:panelGrid columns="2" cellpadding="5">
-                                    <h:outputText value="Id:" />
-                                    <h:outputText value="#{car.id}" style="font-weight: bold"/>
+                                    <h:outputText value="Abogado:" />
+                                    <h:outputText value="#{noti.abogado}" style="font-weight: bold"/>
 
-                                    <h:outputText value="Year:" />
-                                    <h:outputText value="#{car.year}" style="font-weight: bold"/>
+                                    <h:outputText value="Caso:" />
+                                    <h:outputText value="#{noti.caso}" style="font-weight: bold"/>
 
-                                    <h:outputText value="Color:" />
-                                    <h:outputText value="#{car.color}" style="font-weight: bold"/>
+                                    <h:outputText value="Detalle:" />
+                                    <h:outputText value="#{noti.detalle}" style="font-weight: bold"/>
                                 </h:panelGrid>
                             </p:outputPanel>
                         </h:panelGrid>
                     </p:dataScroller>
                 </h:form>
+
+                <h:form id="form_task">
+                    <p:panel header="Nueva Tarea">
+                        <div align="center">
+                            <h:panelGrid id="grid_task" columns="2" cellpadding="5">
+
+                                <img src="#{loginBean.urlRequest}resources/img/nuevocaso.png"/>
+                                <p:commandButton id="new_case" value="Nuevo Caso" style="width:225px"
+                                                 oncomplete="PF('dlgNewCase').show();"/>
+
+                                <img src="#{loginBean.urlRequest}resources/img/abogados.png"/>
+                                <p:commandButton id="open_case" value="Revisar Casos Abiertos" style="width:225px"/>
+
+                                <img src="#{loginBean.urlRequest}resources/img/presentation.png"/>
+                                <p:commandButton id="state_abo" value="Estado de Abogados" style="width:225px"/>
+
+                            </h:panelGrid>
+                        </div>
+                    </p:panel>
+                </h:form>
+
+                <p:dialog id="dlgNuevoCaso" widgetVar="dlgNewCase" header="Nuevo Caso" minHeight="40" modal="true" visible="false" 
+                          showEffect="fade" hideEffect="fade" resizable="false">
+                    <h2><strong>Generar Nuevo Caso</strong></h2>
+                    <h:panelGrid id="panelNuevoCaso" columns="2" cellpadding="5">
+                        <h:outputLabel value="Nombre de Demandante:"/>
+                        <p:inputText style="width:225px"/>
+
+                        <h:outputLabel value="Numero de Causa:"/>
+                        <p:inputText style="width:225px"/>
+
+                        <h:outputLabel value="Tribunal:"/>
+                        <p:inputText style="width:225px"/>
+
+                        <h:outputLabel value="Tipo de Caso:"/>
+                        <p:selectOneMenu id="TipoCaso" style="width:235px">
+                            <f:selectItem itemLabel="Selecionar" itemValue="" />
+                            <f:selectItem itemLabel="Demanda Legal" itemValue="Xbox One" />
+                            <f:selectItem itemLabel="Administrativo" itemValue="PS4" />
+                            <f:selectItem itemLabel="Penal" itemValue="Wii U" />
+                            <f:selectItem itemLabel="Losas" itemValue="Wii U" />
+                        </p:selectOneMenu>
+
+                        <h:outputLabel value="Abogado Responsable:"/>
+                        <p:selectOneMenu id="AboRespo" style="width:235px">
+                            <f:selectItem itemLabel="Selecionar" itemValue="" />
+                            <f:selectItem itemLabel="A" itemValue="Xbox One" />
+                            <f:selectItem itemLabel="B" itemValue="PS4" />
+                            <f:selectItem itemLabel="C" itemValue="Wii U" />
+                        </p:selectOneMenu>
+                    </h:panelGrid>
+                    <f:facet name="footer">
+                        <p:commandButton value="Asignar" id="btnAsiganrNuevoCaso"/>
+                    </f:facet> 
+                </p:dialog>
+
             </ui:define>
 
         </ui:composition>

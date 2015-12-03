@@ -44,7 +44,7 @@ public class LoginBean {
         RequestContext context = RequestContext.getCurrentInstance();
         boolean loggedIn =false;
         String ruta = "";
-        String rutaDemo = LawyerOfficeUtil.getURL_Login()+"views/inicio_procu.xhtml";
+        String rutaDemo = LawyerOfficeUtil.getURL_Login()+"views/resumen_procu.xhtml";
         loggedIn = true;
         context.addCallbackParam("loggedIn", loggedIn);
         context.addCallbackParam("ruta", rutaDemo);

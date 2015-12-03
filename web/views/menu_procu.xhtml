@@ -16,7 +16,7 @@
     <h:body>
 
         <div id="top">
-            <ui:insert name="top">Top</ui:insert>
+            <img src="#{loginBean.urlRequest}resources/img/lawyerofficeblue_v5.png"/>
         </div>
         <div>
             <h:form>
@@ -27,12 +27,6 @@
                     <p:menuitem value="Calendario" icon="ui-icon-circle-arrow-e" url="#{appBean.URL_Menu}/calendario_procu.xhtml" />
 
                     <f:facet name="options" >
-                        <p:commandButton id="mcal" value="Calendario" type="button" icon="ui-icon-calendar" />
-                        <p:overlayPanel id="imgPanel" for="mcal" showEffect="blind" hideEffect="explode"
-                                        dismissable="false" showCloseIcon="true">
-                            <p:calendar id="inline" mode="inline" />
-                        </p:overlayPanel>
-
                         <p:commandButton id="dynaButton" value="Usuario" type="button" icon="ui-icon-person" />
                         <p:tieredMenu overlay="true" trigger="dynaButton" my="left top" at="left bottom" style="width:200px">
                             <p:menuitem value="Salir" icon="ui-icon-circle-arrow-e" actionListener="#{loginBean.logout(event)}" oncomplete="handleLoginRequest(xhr, status, args)" />
@@ -46,25 +40,20 @@
             <div id="left">
                 <ui:insert name="left">Left</ui:insert>
             </div>
-            <div>
-                <div id="right">
-                    <ui:insert name="right">Right</ui:insert>
-                </div>
-                <script type="text/javascript">
-                    function handleLoginRequest(xhr, status, args) {
-                        if (args.loggerOut) {
-                            location.href = args.ruta;
-                        }
-                    }
-                </script>
-                <div id="content" class="right_content">
-                    <ui:insert name="content">Content</ui:insert>
-                </div>
+            <div id="content" class="left_content">
+                <ui:insert name="content">Content</ui:insert>
             </div>
         </div>
         <div id="bottom">
             <ui:insert name="bottom">Bottom</ui:insert>
         </div>
+        <script type="text/javascript">
+            function handleLoginRequest(xhr, status, args) {
+                if (args.loggerOut) {
+                    location.href = args.ruta;
+                }
+            }
+        </script>        
 
     </h:body>
 
