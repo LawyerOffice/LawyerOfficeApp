@@ -14,10 +14,10 @@
                 <p:scrollPanel mode="native" style="width: auto;height:400px">
                     <h1>Lista de Abogados</h1>
                     <br></br>
-                    
-                    
+
+
                     <p:dataTable var="car" value="#{dtBasicView.cars}">
-                        
+
                         <p:column headerText="Nombre">
                             <h:outputText value="#{car.id}" />
                         </p:column>
@@ -33,10 +33,12 @@
                         <p:column headerText="Cazos Finalizados">
                             <h:outputText value="#{car.color}" />
                         </p:column>
-                    </p:dataTable>      
+                    </p:dataTable>
+
+                 
                 </p:scrollPanel>
-                
-                
+
+
             </ui:define>
 
         </ui:composition>

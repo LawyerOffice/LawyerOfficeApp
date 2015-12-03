@@ -12,6 +12,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import org.primefaces.event.SelectEvent;
  
 @ManagedBean(name="dtBasicView")
 @ViewScoped
@@ -19,6 +20,7 @@ import javax.faces.bean.ViewScoped;
 public class BasicView implements Serializable {
      
     private List<Car> cars;
+    private Car selectedCar;
      
     @ManagedProperty("#{carService}")
     private CarService service;
@@ -34,5 +36,17 @@ public class BasicView implements Serializable {
  
     public void setService(CarService service) {
         this.service = service;
+    }
+
+    public Car getSelectedCar() {
+        return selectedCar;
+    }
+
+    public void setSelectedCar(Car selectedCar) {
+        this.selectedCar = selectedCar;
+    }
+    
+    public void onRowSelect(SelectEvent event) {
+        this.selectedCar = (Car) event.getObject();
     }
 }
