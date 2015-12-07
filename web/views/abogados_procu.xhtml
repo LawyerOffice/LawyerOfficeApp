@@ -3,8 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:p="http://primefaces.org/ui">
 
     <body>
 
@@ -12,9 +11,29 @@
 
             <ui:define name="content">
                 <h:form id="form">
-                    <div align="center">
-                        <h3>PROXIMAMENTE EN LA NOCHE</h3>
-                    </div>
+                    <p:growl id="msgs" showDetail="true" />
+
+                    <p:dataTable id="dtabogado" var="abogado" 
+                                 value="#{lazyView.getmAbogados}"
+                                 selection="#{lazyView.selectedAbogado}">
+                        
+                        <p:ajax event="rowSelect" listener="#{lazyView.onRowSelect(event)}" oncomplete="PF('carDialog').show()" />
+                        
+                        <p:column headerText="Nombre">
+                            <h:outputText value="#{abogado.abogado.nombre}" />
+                        </p:column>
+                        <p:column headerText="Casos Asigandos">
+                            <h:outputText value="#{abogado.casosAsigando}" />
+                        </p:column>
+                        <p:column headerText="Ultima Actividad">
+                            <h:outputText value="#{abogado.getmCasos.get(abogado.getmCasos.size - 1)}" />
+                        </p:column>
+                        <p:column headerText="Casos Finalizados">
+                            <h:outputText value="#{abogado.casosFinalizados}" />
+                            
+                            
+                    </p:dataTable>
+                    
                 </h:form>
 
             </ui:define>

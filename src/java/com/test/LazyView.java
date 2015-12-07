@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import org.primefaces.event.SelectEvent;
 
 /**
  *
@@ -32,6 +33,7 @@ public class LazyView {
     
     public void LoadData(){
         
+        
     }
 
     public List<Abogado> getmAbogados() {
@@ -48,6 +50,10 @@ public class LazyView {
 
     public void setSelectedAbogado(Abogado selectedAbogado) {
         this.selectedAbogado = selectedAbogado;
+    }
+    
+    public void onRowSelect(SelectEvent event) {
+        this.selectedAbogado = (Abogado) event.getObject();
     }
     
 }
