@@ -1,9 +1,10 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <body>
 
@@ -13,12 +14,21 @@
                 <h:form id="form">
                     <p:growl id="msgs" showDetail="true" />
 
-                    <p:dataTable id="dtabogado" var="abogado" 
-                                 value="#{lazyView.getmAbogados}"
-                                 selection="#{lazyView.selectedAbogado}">
+                    <p:dataTable var="abogado" 
+                                 value="#{lazyView.abogados}" 
+                                 widgetVar="aboTable" 
+                                 emptyMessage="No se ha econtrado ese cliente" 
+                                 selection="#{lazyView.selectedAbogado}" 
+                                 selectionMode="single" 
+                                 rowKey="#{abogado.abogado.cedula}"
+                                 id="dtabogado">
+                        <p:ajax event="rowSelect" listener="#{lazyView.onRowSelect(event)}" 
+                                update=":form:carDetail" oncomplete="PF('carDialog').show()" />
                         
-                        <p:ajax event="rowSelect" listener="#{lazyView.onRowSelect(event)}" oncomplete="PF('carDialog').show()" />
-                        
+                        <f:facet name="header">
+                            LISTA DE ABOGADOS
+                        </f:facet>
+
                         <p:column headerText="Nombre">
                             <h:outputText value="#{abogado.abogado.nombre}" />
                         </p:column>
@@ -26,14 +36,20 @@
                             <h:outputText value="#{abogado.casosAsigando}" />
                         </p:column>
                         <p:column headerText="Ultima Actividad">
-                            <h:outputText value="#{abogado.getmCasos.get(abogado.getmCasos.size - 1)}" />
+                            <h:outputText value="#{abogado.ultimoCaso}" />
                         </p:column>
                         <p:column headerText="Casos Finalizados">
                             <h:outputText value="#{abogado.casosFinalizados}" />
-                            
-                            
+                        </p:column>
+
                     </p:dataTable>
-                    
+
+                    <p:dialog header="Estado de Abogado" widgetVar="carDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+                        <p:outputPanel id="carDetail" style="text-align:center;">
+                            
+                        </p:outputPanel>
+                    </p:dialog>
+
                 </h:form>
 
             </ui:define>

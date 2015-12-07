@@ -8,8 +8,10 @@ package com.test;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import org.primefaces.event.SelectEvent;
 
 /**
@@ -24,25 +26,56 @@ public class LazyView {
      * Creates a new instance of LazyView
      */
     
-    private List<Abogado> mAbogados;
+    private List<Abogado> Abogados;
     private Abogado selectedAbogado;
     
     public LazyView() {
-        this.mAbogados = new ArrayList<Abogado>();
+        this.Abogados = new ArrayList<Abogado>();
+        this.selectedAbogado = new Abogado();
+        this.LoadData();
     }
     
     public void LoadData(){
         
+        List<Caso> Casos = new ArrayList<Caso>();
+        Casos.add(new Caso("18", "04", "11", "04"));
+        Casos.add(new Caso("18", "04", "11", "04"));
+        Casos.add(new Caso("18", "04", "11", "04"));
+        Casos.add(new Caso("18", "04", "11", "04"));
+        Casos.add(new Caso("18", "04", "11", "04"));
         
+        Abogado prueba = new Abogado(new DatosPersonales("LUIS IVAN", "ESPIN VELASCO","180411", "24241854", "789*456*123"), "12", "12", "12");
+        prueba.setCasos(Casos);
+        
+        this.Abogados.add(prueba);
+        this.Abogados.add(prueba);
+        this.Abogados.add(prueba);
+        this.Abogados.add(prueba);
+        this.Abogados.add(prueba);
+        this.Abogados.add(prueba);
+        this.Abogados.add(prueba);
+        
+        Casos.add(new Caso("05", "01", "82", "78"));
+        Casos.add(new Caso("05", "01", "82", "78"));
+        Casos.add(new Caso("05", "01", "82", "78"));
+        Casos.add(new Caso("05", "01", "82", "78"));
+        Casos.add(new Caso("05", "01", "82", "78"));
+        Casos.add(new Caso("05", "01", "82", "78"));
+        prueba = new Abogado(new DatosPersonales("SANCHO", "PANSA","050182785", "2421854", "789*456*123"), "12", "12", "12");
+        prueba.setCasos(Casos);
+        this.Abogados.add(prueba);
+         
     }
 
-    public List<Abogado> getmAbogados() {
-        return mAbogados;
+    public List<Abogado> getAbogados() {
+        return Abogados;
     }
 
-    public void setmAbogados(List<Abogado> mAbogados) {
-        this.mAbogados = mAbogados;
+    public void setAbogados(List<Abogado> Abogados) {
+        this.Abogados = Abogados;
     }
+
+
 
     public Abogado getSelectedAbogado() {
         return selectedAbogado;

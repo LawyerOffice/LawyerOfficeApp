@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.test;
 
 import java.util.ArrayList;
@@ -14,15 +13,17 @@ import java.util.List;
  * @author Ivan
  */
 public class Abogado {
-    
+
     private DatosPersonales abogado;
     private String CasosAsigando;
     private String UltimaActividad;
     private String CasosFinalizados;
-    private List<Caso> mCasos;
+    private String UltimoCaso;
+    private List<Caso> Casos;
 
     public Abogado() {
-        this.mCasos = new ArrayList<Caso>();
+        this.Casos = new ArrayList<Caso>();
+        this.UltimoCaso = "";
     }
 
     public Abogado(DatosPersonales abogado, String CasosAsigando, String UltimaActividad, String CasosFinalizados) {
@@ -38,7 +39,7 @@ public class Abogado {
 
     public void setAbogado(DatosPersonales abogado) {
         this.abogado = abogado;
-    }    
+    }
 
     public String getCasosAsigando() {
         return CasosAsigando;
@@ -64,12 +65,25 @@ public class Abogado {
         this.CasosFinalizados = CasosFinalizados;
     }
 
-    public List<Caso> getmCasos() {
-        return mCasos;
+    public List<Caso> getCasos() {
+        return Casos;
     }
 
-    public void setmCasos(List<Caso> mCasos) {
-        this.mCasos = mCasos;
+    public void setCasos(List<Caso> Casos) {
+        this.Casos = Casos;
     }
-            
+
+    public String getUltimoCaso() {
+        if (!this.Casos.isEmpty()) {
+            int num = this.Casos.size() - 1;
+            Caso ultimo = this.Casos.get(num);
+            UltimoCaso = ultimo.getEstado() + " " + ultimo.getFechaActual() + " " + ultimo.getFechaInicio() + " " + ultimo.getNumeroCaso();
+        }
+        return UltimoCaso;
+    }
+
+    public void setUltimoCaso(String UltimoCaso) {
+        this.UltimoCaso = UltimoCaso;
+    }
+
 }
