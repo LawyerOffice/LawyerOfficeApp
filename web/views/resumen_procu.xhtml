@@ -58,8 +58,9 @@
                           showEffect="fade" hideEffect="fade" resizable="false">
                     <h2><strong>Generar Nuevo Caso</strong></h2>
                     <h:panelGrid id="panelNuevoCaso" columns="2" cellpadding="5">
-                        <h:outputLabel value="Nombre de Demandante:"/>
-                        <p:inputText style="width:225px"/>
+                        
+                        <h:outputLabel for="text" value="Nombre de Demandante:"/>
+                        <p:inputText  style="width:225px"/>
 
                         <h:outputLabel value="Numero de Causa:"/>
                         <p:inputText style="width:225px"/>
@@ -70,23 +71,69 @@
                         <h:outputLabel value="Tipo de Caso:"/>
                         <p:selectOneMenu id="TipoCaso" style="width:235px">
                             <f:selectItem itemLabel="Selecionar" itemValue="" />
-                            <f:selectItem itemLabel="Demanda Legal" itemValue="Xbox One" />
-                            <f:selectItem itemLabel="Administrativo" itemValue="PS4" />
-                            <f:selectItem itemLabel="Penal" itemValue="Wii U" />
-                            <f:selectItem itemLabel="Losas" itemValue="Wii U" />
+                            <f:selectItem itemLabel="Contencioso Administrativo" itemValue="Xbox One" />
+                            <f:selectItem itemLabel="Civíl" itemValue="PS4" />
+                            <f:selectItem itemLabel="Laboral" itemValue="Wii U" />
+                            <f:selectItem itemLabel="Penal" itemValue="Wii X" />
+                            <f:selectItem itemLabel="Glosas" itemValue="Wii Y" />
                         </p:selectOneMenu>
 
                         <h:outputLabel value="Abogado Responsable:"/>
                         <p:selectOneMenu id="AboRespo" style="width:235px">
                             <f:selectItem itemLabel="Selecionar" itemValue="" />
-                            <f:selectItem itemLabel="A" itemValue="Xbox One" />
-                            <f:selectItem itemLabel="B" itemValue="PS4" />
-                            <f:selectItem itemLabel="C" itemValue="Wii U" />
+                            <f:selectItem itemLabel="Dr. Alfonso" itemValue="Xbox One" />
+                            <f:selectItem itemLabel="Dra. Patricia" itemValue="PS4" />
+                            <f:selectItem itemLabel="Dr. Chicaiza" itemValue="Wii U" />
                         </p:selectOneMenu>
                     </h:panelGrid>
                     <f:facet name="footer">
-                        <p:commandButton value="Asignar" id="btnAsiganrNuevoCaso"/>
+                        <p:commandButton value="Asignar" id="btnAsigarNuevoCaso"  
+                                         icon="ui-icon-check"
+                                         oncomplete="PF('dlgNewCaseConf').show();"/> <!-- action ="" -->
+
                     </f:facet> 
+                </p:dialog>
+
+                <p:dialog id="dlgNuevoCasoConf" widgetVar="dlgNewCaseConf" header="Nuevo Caso" minHeight="40" modal="true" visible="false" 
+                          showEffect="fade" hideEffect="fade" resizable="false">
+                    <h2><strong>Nuevo Caso</strong></h2>
+                    <h:panelGrid id="panelNuevoCasoConf" columns="2" cellpadding="3">
+                        <h:outputLabel value="Nombre de Demandante:"/>
+                        <p:inputText style="width:225px"/>
+
+                        <h:outputLabel value="Numero de Causa:"/>
+                        <p:inputText style="width:225px"/>
+
+                        <h:outputLabel value="Tribunal:"/>
+                        <p:inputText style="width:225px"/>
+
+                        <f:facet name="footer">
+                            <p:commandButton value="Regresar" id="btnAsigarNuevoCasoRegresar"  
+                                             oncomplete="PF('dlgNewCaseConf').hide();" ><!-- action ="" -->
+                            </p:commandButton>
+                            <p:commandButton value="Continuar" id="btnAsigarNuevoCasoContinuar"  
+                                             oncomplete="PF('dlgNewCaseMSG').show();" > <!-- action ="" -->
+                                <p:ajax oncomplete="PF('dlgNewCase').hide(); PF('dlgNewCaseConf').hide();" />
+                            </p:commandButton>
+                        </f:facet> 
+
+                    </h:panelGrid>
+
+                </p:dialog>
+
+                <p:dialog id="dlgNuevoCasoMSG" widgetVar="dlgNewCaseMSG" header="Nuevo Caso" minHeight="40" modal="true" visible="false" 
+                          showEffect="fade" hideEffect="fade" resizable="false">
+                    <h2><strong>Éxito</strong></h2>
+                    <h:panelGrid id="panelNuevoCasoMSG" columns="1" cellpadding="1">
+
+                        <h:outputLabel value="Nuevo caso creado satisfactoriamente!"/>
+
+                        <f:facet name="footer">
+                            <p:commandButton value="Aceptar" id="btnAsigarNuevoCasoMSG"  
+                                             oncomplete="PF('dlgNewCaseMSG').hide();" > <!-- action ="" -->
+                            </p:commandButton>
+                        </f:facet> 
+                    </h:panelGrid>
                 </p:dialog>
 
             </ui:define>
