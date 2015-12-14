@@ -11,13 +11,14 @@
         <ui:composition template="./menu_procu.xhtml">
 
             <ui:define name="content">
-                
-                
+
+
                 <h:form id="form">
                     <p:growl id="msgs" showDetail="true" />
 
                     <p:dataTable var="caso" 
                                  value="#{lazyView.casos}" 
+                                 rows="10" paginator="true"
                                  widgetVar="aboTable" 
                                  emptyMessage="No se ha econtrado casos disponibles" 
                                  selection="#{lazyView.selectedCaso}" 
@@ -26,7 +27,7 @@
                                  id="dtabogado">
                         <p:ajax event="rowSelect" listener="#{lazyView.onRowSelectCaso(event)}" 
                                 update=":form:carDetail" oncomplete="PF('carDialog').show()" />
-                        
+
                         <f:facet name="header">
                             LISTA DE CASOS
                         </f:facet>
@@ -48,15 +49,72 @@
 
                     <p:dialog header="Estado del caso" widgetVar="carDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
                         <p:outputPanel id="carDetail" style="text-align:center;">
-                            
+                            <h2><strong>Detalles del Caso</strong></h2>
+                            <h:panelGrid id="panelNuevoCasoConf" columns="2" cellpadding="6">
+
+                                <h:outputLabel value="Demandante: " style="font-weight:bold;text-decoration:underline"/>
+                                <!--<h:outputLabel value=""/>  Viene el valor del anterior cuadro -->
+
+                                <h:outputLabel value="Numero de Causa: " style="font-weight:bold;text-decoration:underline"/>
+                                <!--<h:outputLabel value=""/>  Viene el valor del anterior cuadro -->
+
+                                <h:outputLabel value="Tribunal: " style="font-weight:bold;text-decoration:underline"/>
+                                <!--<h:outputLabel value=""/>  Viene el valor del anterior cuadro -->
+
+                                <h:outputLabel value="Tipo de caso: " style="font-weight:bold;text-decoration:underline"/>
+                                <!--<h:outputLabel value=""/>  Viene el valor del anterior cuadro -->
+
+                                <h:outputLabel value="Abogado Responsable: " style="font-weight:bold;text-decoration:underline"/>
+                                <!--<h:outputLabel value=""/>  Viene el valor del anterior cuadro -->
+
+                                <p:dataTable var="DetailCaso" 
+                                             value="#{lazyView.casos}" 
+                                             rows="5" paginator="true"
+                                             widgetVar="casoTable" 
+                                             emptyMessage="No se ha econtrado casos disponibles" 
+                                             id="dtCaso">
+
+                                    <f:facet name="header">
+                                        FASES ACTUALES
+                                    </f:facet>
+
+                                    <p:column headerText="Número">
+                                        <h:outputText value="#{caso.numeroCaso}" />
+                                    </p:column>
+                                    <p:column headerText="Nombre">
+                                        <h:outputText value="#{caso.fechaInicio}" />
+                                    </p:column>
+                                    <p:column headerText="Descripción">
+                                        <h:outputText value="#{caso.fechaActual}" />
+                                    </p:column>
+                                    <p:column headerText="Fecha Inicial">
+                                        <h:outputText value="#{caso.fechaActual}" />
+                                    </p:column>
+                                    <p:column headerText="Fecha Final">
+                                        <h:outputText value="#{caso.fechaActual}" />
+                                    </p:column>
+                                    <p:column headerText="Documentación">
+                                        <h:outputText value="#{caso.estado}" />
+                                    </p:column>
+
+                                </p:dataTable>
+                            </h:panelGrid>
                         </p:outputPanel>
+
+                        <f:facet name="footer">
+                            <p:commandButton value="Regresar" id="btnAsigarNuevoCasoRegresar"  
+                                             oncomplete="PF('carDialog').hide();" ><!-- action ="" -->
+                            </p:commandButton>
+
+                        </f:facet> 
+
                     </p:dialog>
 
                 </h:form>
 
-                
+
             </ui:define>
-            
+
         </ui:composition>
 
     </body>

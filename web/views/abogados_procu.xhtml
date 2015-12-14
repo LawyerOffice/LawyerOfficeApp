@@ -16,6 +16,7 @@
 
                     <p:dataTable var="abogado" 
                                  value="#{lazyView.abogados}" 
+                                 rows="10" paginator="true"
                                  widgetVar="aboTable" 
                                  emptyMessage="No se ha econtrado ese cliente" 
                                  selection="#{lazyView.selectedAbogado}" 
@@ -24,7 +25,7 @@
                                  id="dtabogado">
                         <p:ajax event="rowSelect" listener="#{lazyView.onRowSelect(event)}" 
                                 update=":form:carDetail" oncomplete="PF('carDialog').show()" />
-                        
+
                         <f:facet name="header">
                             LISTA DE ABOGADOS
                         </f:facet>
@@ -46,8 +47,58 @@
 
                     <p:dialog header="Estado de Abogado" widgetVar="carDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
                         <p:outputPanel id="carDetail" style="text-align:center;">
-                            
+                            <h2><strong>Detalles del Abogado</strong></h2>
+                            <h:panelGrid id="panelNuevoCasoConf" columns="2" cellpadding="6">
+
+                                <h:outputLabel value="Nombre completo: " style="font-weight:bold;text-decoration:underline"/>
+                                <!--<h:outputLabel value=""/>  Viene el valor del anterior cuadro -->
+
+                                <h:outputLabel value="Fecha de ingreso: " style="font-weight:bold;text-decoration:underline"/>
+                                <!--<h:outputLabel value=""/>  Viene el valor del anterior cuadro -->
+
+                                <h:outputLabel value="Número de teléfono: " style="font-weight:bold;text-decoration:underline"/>
+                                <!--<h:outputLabel value=""/>  Viene el valor del anterior cuadro -->
+
+                                <h:outputLabel value="Tipo de caso: " style="font-weight:bold;text-decoration:underline"/>
+                                <!--<h:outputLabel value=""/>  Viene el valor del anterior cuadro -->
+
+                                <h:outputLabel value="Abogado Responsable: " style="font-weight:bold;text-decoration:underline"/>
+                                <!--<h:outputLabel value=""/>  Viene el valor del anterior cuadro -->
+
+                                <p:dataTable var="Caso" 
+                                             value="#{lazyView.abogados}" 
+                                             rows="10" paginator="true"
+                                             widgetVar="aboCaso" 
+                                             emptyMessage="No se ha econtrado ese cliente" 
+                                             id="dtCaso">
+
+                                    <f:facet name="header">
+                                        CASOS ASIGNADOS
+                                    </f:facet>
+
+                                    <p:column headerText="Numero">
+                                        <h:outputText value="#{abogado.abogado.nombre}" />
+                                    </p:column>
+                                    <p:column headerText="Fecha Inicio">
+                                        <h:outputText value="#{abogado.casosAsigando}" />
+                                    </p:column>
+                                    <p:column headerText="Fase Actual">
+                                        <h:outputText value="#{abogado.ultimoCaso}" />
+                                    </p:column>
+                                    <p:column headerText="Estado">
+                                        <h:outputText value="#{abogado.casosFinalizados}" />
+                                    </p:column>
+
+                                </p:dataTable>
+                            </h:panelGrid>
                         </p:outputPanel>
+
+                        <f:facet name="footer">
+                            <p:commandButton value="Regresar" id="btnAsigarNuevoCasoRegresar"  
+                                             oncomplete="PF('carDialog').hide();" ><!-- action ="" -->
+                            </p:commandButton>
+
+                        </f:facet>
                     </p:dialog>
 
                 </h:form>

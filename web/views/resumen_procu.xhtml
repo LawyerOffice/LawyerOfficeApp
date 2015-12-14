@@ -45,7 +45,7 @@
 
                                 <img src="#{loginBean.urlRequest}resources/img/abogados.png"/>
                                 <p:commandButton id="open_case" value="Revisar Casos Abiertos" 
-                                                 onclick="#{loginBean.urlRequest}views/casos_procu.xhtml" style="width:225px"/>
+                                                 onclick="#{loginBean.urlRequest}views / casos_procu.xhtml" style="width:225px"/>
 
                                 <img src="#{loginBean.urlRequest}resources/img/presentation.png"/>
                                 <p:commandButton id="state_abo" value="Estado de Abogados" style="width:225px"/>
@@ -59,7 +59,7 @@
                           showEffect="fade" hideEffect="fade" resizable="false">
                     <h2><strong>Generar Nuevo Caso</strong></h2>
                     <h:panelGrid id="panelNuevoCaso" columns="2" cellpadding="5">
-                        
+
                         <h:outputLabel for="text" value="Nombre de Demandante:"/>
                         <p:inputText  style="width:225px"/>
 
@@ -99,10 +99,10 @@
                           showEffect="fade" hideEffect="fade" resizable="false">
                     <h2><strong>Nuevo Caso</strong></h2>
                     <h:panelGrid id="panelNuevoCasoConf" columns="2" cellpadding="6">
-                        
+
                         <h:outputLabel value="Se va a crear el siguiente caso: "/>
                         <!--<h:outputLabel value=""/>  Viene el valor del anterior cuadro -->
-                        
+
                         <h:outputLabel value="Demandante: " style="font-weight:bold;text-decoration:underline"/>
                         <!--<h:outputLabel value=""/>  Viene el valor del anterior cuadro -->
 
@@ -114,21 +114,19 @@
 
                         <h:outputLabel value="Tipo de caso: " style="font-weight:bold;text-decoration:underline"/>
                         <!--<h:outputLabel value=""/>  Viene el valor del anterior cuadro -->
-                        
+
                         <h:outputLabel value="Abogado Responsable: " style="font-weight:bold;text-decoration:underline"/>
                         <!--<h:outputLabel value=""/>  Viene el valor del anterior cuadro -->
-                        
-                        <f:facet name="footer">
-                            <p:commandButton value="Regresar" id="btnAsigarNuevoCasoRegresar"  
-                                             oncomplete="PF('dlgNewCaseConf').hide();" ><!-- action ="" -->
-                            </p:commandButton>
-                            <p:commandButton value="Continuar" id="btnAsigarNuevoCasoContinuar"  
-                                             oncomplete="PF('dlgNewCaseMSG').show();" > <!-- action ="" -->
-                                <p:ajax oncomplete="PF('dlgNewCase').hide(); PF('dlgNewCaseConf').hide();" />
-                            </p:commandButton>
-                        </f:facet> 
-
                     </h:panelGrid>
+                    <f:facet name="footer">
+                        <p:commandButton value="Regresar" id="btnAsigarNuevoCasoRegresar"  
+                                         oncomplete="PF('dlgNewCaseConf').hide();" ><!-- action ="" -->
+                        </p:commandButton>
+                        <p:commandButton value="Continuar" id="btnAsigarNuevoCasoContinuar"  
+                                         oncomplete="PF('dlgNewCaseMSG').show();" > <!-- action ="" -->
+                            <p:ajax oncomplete="PF('dlgNewCase').hide(); PF('dlgNewCaseConf').hide();" />
+                        </p:commandButton>
+                    </f:facet> 
 
                 </p:dialog>
 
@@ -138,13 +136,14 @@
                     <h:panelGrid id="panelNuevoCasoMSG" columns="1" cellpadding="1">
 
                         <h:outputLabel value="Nuevo caso creado satisfactoriamente!"/>
-
-                        <f:facet name="footer">
-                            <p:commandButton value="Aceptar" id="btnAsigarNuevoCasoMSG"  
-                                             oncomplete="PF('dlgNewCaseMSG').hide();" > <!-- action ="" -->
-                            </p:commandButton>
-                        </f:facet> 
                     </h:panelGrid>
+                    
+                    <f:facet name="footer">
+                        <p:commandButton value="Aceptar" id="btnAsigarNuevoCasoMSG"  
+                                         oncomplete="PF('dlgNewCaseMSG').hide();" > <!-- action ="" -->
+                        </p:commandButton>
+                    </f:facet> 
+
                 </p:dialog>
 
             </ui:define>
