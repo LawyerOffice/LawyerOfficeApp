@@ -24,7 +24,7 @@
                                  rowKey="#{abogado.abogado.cedula}"
                                  id="dtabogado">
                         <p:ajax event="rowSelect" listener="#{lazyView.onRowSelect(event)}" 
-                                update=":form:carDetail" oncomplete="PF('carDialog').show()" />
+                                update=":form:carDetail , :form:dtCaso" oncomplete="PF('carDialog').show()" />
 
                         <f:facet name="header">
                             LISTA DE ABOGADOS
@@ -48,7 +48,7 @@
                     <p:dialog header="Estado de Abogado" widgetVar="carDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
                         <p:outputPanel id="carDetail" style="text-align:center;">
                             <h2><strong>Detalles del Abogado</strong></h2>
-                            <h:panelGrid id="panelNuevoCasoConf" columns="2" cellpadding="6">
+                            <h:panelGrid id="panelNuevoCasoConf" columns="2" cellpadding="8">
 
                                 <h:outputLabel value="Nombre completo: " style="font-weight:bold;text-decoration:underline"/>
                                 <!--<h:outputLabel value=""/>  Viene el valor del anterior cuadro -->
@@ -67,7 +67,7 @@
 
                                 <p:dataTable var="Caso" 
                                              value="#{lazyView.abogados}" 
-                                             rows="10" paginator="true"
+                                             rows="5" paginator="true"
                                              widgetVar="aboCaso" 
                                              emptyMessage="No se ha econtrado ese cliente" 
                                              id="dtCaso">
@@ -77,16 +77,16 @@
                                     </f:facet>
 
                                     <p:column headerText="Numero">
-                                        <h:outputText value="#{abogado.abogado.nombre}" />
+                                        <h:outputText value="#{Caso.abogado.nombre}" />
                                     </p:column>
                                     <p:column headerText="Fecha Inicio">
-                                        <h:outputText value="#{abogado.casosAsigando}" />
+                                        <h:outputText value="#{Caso.casosAsigando}" />
                                     </p:column>
                                     <p:column headerText="Fase Actual">
-                                        <h:outputText value="#{abogado.ultimoCaso}" />
+                                        <h:outputText value="#{Caso.ultimoCaso}" />
                                     </p:column>
                                     <p:column headerText="Estado">
-                                        <h:outputText value="#{abogado.casosFinalizados}" />
+                                        <h:outputText value="#{Caso.casosFinalizados}" />
                                     </p:column>
 
                                 </p:dataTable>
