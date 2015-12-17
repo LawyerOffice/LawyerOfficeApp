@@ -29,7 +29,8 @@
                     <f:facet name="options" >
                         <p:commandButton id="dynaButton" value="Usuario" type="button" icon="ui-icon-person" />
                         <p:tieredMenu overlay="true" trigger="dynaButton" my="left top" at="left bottom" style="width:200px">
-                            <p:menuitem value="Salir" icon="ui-icon-circle-arrow-e" actionListener="#{loginBean.logout(event)}" oncomplete="handleLoginRequest(xhr, status, args)" />
+                            <p:menuitem value="Salir" icon="ui-icon-circle-arrow-e" actionListener="#{loginBean.logout(event)}" 
+                                        oncomplete="handleLoginRequest(xhr, status, args)" />
                         </p:tieredMenu>
                     </f:facet>
                 </p:menubar>
