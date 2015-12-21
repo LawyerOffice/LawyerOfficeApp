@@ -11,6 +11,7 @@
         <ui:composition template="./menu_procu.xhtml">
 
             <ui:define name="content">
+                
                 <h:form id="form_noti">
                     <p:dataScroller value="#{dataScrollerView.notiService.notifs}" var="noti" chunkSize="10" mode="inline" scrollHeight="500">
                         <f:facet name="header">
@@ -57,12 +58,14 @@
 
                 <p:dialog id="dlgNuevoCaso" widgetVar="dlgNewCase" header="Nuevo Caso" minHeight="40" modal="true" visible="false" 
                           showEffect="fade" hideEffect="fade" resizable="false">
+                <h:form id="form_t">    
                     <h2><strong>Generar Nuevo Caso</strong></h2>
-                    <h:panelGrid id="panelNuevoCaso" columns="2" cellpadding="5">
+                    <h:panelGrid id="panelNuevoCaso" columns="2" cellpadding="6">
 
-                        <h:outputLabel for="text" value="Nombre de Demandante:"/>
-                        <p:inputText  style="width:225px"/>
-
+                        <h:outputLabel for="txtNombreD" value="Nombre de Demandante:"/>
+                        <p:inputText id="txtNombreD" label="Nombre" required="true" value="#{capNewCaso.nombreDemandante}" style="width:225px"/>
+                        <h:message for="txtNombreD"/>
+                        
                         <h:outputLabel value="Numero de Causa:"/>
                         <p:inputText style="width:225px"/>
 
@@ -87,20 +90,25 @@
                             <f:selectItem itemLabel="Dr. Chicaiza" itemValue="Wii U" />
                         </p:selectOneMenu>
                     </h:panelGrid>
+                    </h:form>
                     <f:facet name="footer">
                         <p:commandButton value="Asignar" id="btnAsigarNuevoCaso"  
                                          icon="ui-icon-check"
+                                         action="envio"
                                          oncomplete="PF('dlgNewCaseConf').show();"/> <!-- action ="" -->
 
                     </f:facet> 
+                    
                 </p:dialog>
 
                 <p:dialog id="dlgNuevoCasoConf" widgetVar="dlgNewCaseConf" header="Nuevo Caso" minHeight="40" modal="true" visible="false" 
                           showEffect="fade" hideEffect="fade" resizable="false">
+                    <h:form id="form_t2"> 
                     <h2><strong>Nuevo Caso</strong></h2>
-                    <h:panelGrid id="panelNuevoCasoConf" columns="2" cellpadding="6">
+                    <h:panelGrid id="panelNuevoCasoConf" columns="3" cellpadding="6">
 
-                        <h:outputLabel value="Se va a crear el siguiente caso: "/>
+                        <h:outputLabel for="txtNombreCompleto" value="Se va a crear el siguiente caso: "/>
+                        <h:outputText id="txtNombreCompleto" value="#{capNewCaso.nombreDemandante}"/>
                         <!--<h:outputLabel value=""/>  Viene el valor del anterior cuadro -->
 
                         <h:outputLabel value="Demandante: " style="font-weight:bold;text-decoration:underline"/>
@@ -118,11 +126,13 @@
                         <h:outputLabel value="Abogado Responsable: " style="font-weight:bold;text-decoration:underline"/>
                         <!--<h:outputLabel value=""/>  Viene el valor del anterior cuadro -->
                     </h:panelGrid>
+                    </h:form>
                     <f:facet name="footer">
                         <p:commandButton value="Regresar" id="btnAsigarNuevoCasoRegresar"  
                                          oncomplete="PF('dlgNewCaseConf').hide();" ><!-- action ="" -->
                         </p:commandButton>
-                        <p:commandButton value="Continuar" id="btnAsigarNuevoCasoContinuar"  
+                        <p:commandButton value="Continuar" id="btnAsigarNuevoCasoContinuar"
+                                         update="form_t:panelNuevoCaso"
                                          oncomplete="PF('dlgNewCaseMSG').show();" > <!-- action ="" -->
                             <p:ajax oncomplete="PF('dlgNewCase').hide(); PF('dlgNewCaseConf').hide();" />
                         </p:commandButton>
