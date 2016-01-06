@@ -11,7 +11,7 @@
         <ui:composition template="./menu_procu.xhtml">
 
             <ui:define name="content">
-                
+
                 <h:form id="form_noti">
                     <p:dataScroller value="#{dataScrollerView.notiService.notifs}" var="noti" chunkSize="10" mode="inline" scrollHeight="500">
                         <f:facet name="header">
@@ -45,87 +45,172 @@
                                                  oncomplete="PF('dlgNewCase').show();"/>
 
                                 <img src="#{loginBean.urlRequest}resources/img/abogados.png"/>
-                                <p:commandButton id="open_case" value="Revisar Casos Abiertos" 
-                                                 style="width:225px"/>
+                                <p:commandButton id="permits_assignment" value="Permisos de Asignación" style="width:225px"
+                                                 oncomplete="PF('dlgPermitsAssignment').show();"/>
+
+                                <img src="#{loginBean.urlRequest}resources/img/nuevocaso.png"/>
+                                <p:commandButton id="reassign_case" value="Reasignar Casos" style="width:225px"/>
 
                                 <img src="#{loginBean.urlRequest}resources/img/presentation.png"/>
-                                <p:commandButton id="state_abo" value="Estado de Abogados" style="width:225px"/>
+                                <p:commandButton id="state_case" value="Estado de Casos" style="width:225px"/>
+
+                                <img src="#{loginBean.urlRequest}resources/img/presentation.png"/>
+                                <p:commandButton id="state_abo" value="Abogados" style="width:225px"/>
 
                             </h:panelGrid>
                         </div>
                     </p:panel>
                 </h:form>
 
+
+                <p:dialog id="dlgPermisosAsignacion" widgetVar="dlgPermitsAssignment" header="Permisos de Asignación" minHeight="40" modal="true" visible="false" 
+                          showEffect="fade" hideEffect="fade" resizable="false">   
+                    <h:form id="form_PA"> 
+                        <h2>Permisos de crear y asignar casos</h2>
+                        <h:panelGrid id="panelPermisoAsignacion" columns="2" cellpadding="3">
+
+                            <p:dataTable var="DetailPermisoAsig" 
+                                         value="#{lazyView.casos}" 
+                                         rows="5" paginator="true"
+                                         widgetVar="PATable" 
+                                         emptyMessage="No se ha econtrado responsables disponibles" 
+                                         id="dtPermiAsig">
+                                <!--<h:outputLabel value=""/>  Tomar encuenta siempre la varibale que se este manejando en cada tabla debido al javascript interno que maneja-->
+                                <f:facet name="header">
+                                    RESPONSABLES ACTUALES
+                                </f:facet>
+
+                                <p:column headerText="Número">
+                                    <h:outputText value="#{DetailPermisoAsig.numeroCaso}" />
+                                </p:column>
+                                <p:column headerText="Nombre">
+                                    <h:outputText value="#{DetailPermisoAsig.fechaInicio}" />
+                                </p:column>
+                                <p:column headerText="Cargo">
+                                    <h:outputText value="#{DetailPermisoAsig.fechaActual}" />
+                                </p:column>
+                                <p:column headerText="Observaciones">
+                                    <h:outputText value="#{DetailPermisoAsig.fechaActual}" />
+                                </p:column>
+                                <p:column style="width:32px;text-align: center">
+                                    <p:commandButton oncomplete="PF('dlgNewCaseMSG').show()" icon="ui-icon-search" title="View">
+                                        <f:setPropertyActionListener value="#{lazyView.casos}" target="#{dtSelectionView.selectedCar}" />
+                                    </p:commandButton>
+                                </p:column>
+
+                            </p:dataTable>
+                        </h:panelGrid>
+                    </h:form>
+
+                    <f:facet name="footer">
+                        <p:commandButton value="Nuevo Permiso" id="btnAsigarNuevoPermiso"  
+                                         icon="ui-icon-check"
+                                         oncomplete="PF('dlgNewPermits').show();"> <!-- action ="" -->
+                        </p:commandButton>
+                    </f:facet> 
+
+                </p:dialog>
+
+                <p:dialog id="dlgNuevoPermiso" widgetVar="dlgNewPermits" header="Nuevo Permiso" minHeight="40" modal="true" visible="false" 
+                          showEffect="fade" hideEffect="fade" resizable="false">
+                    <h:form id="form_NP">    
+                        <h2><strong>Seleccione Nuevo Responsable:</strong></h2>
+                        <h:panelGrid id="panelNuevoPermiso" columns="2" cellpadding="6">
+
+                            <h:outputLabel value="Persona:"/>
+                            <p:selectOneMenu id="AboRespo" style="width:235px">
+                                <f:selectItem itemLabel="Selecionar" itemValue="" />
+                                <f:selectItem itemLabel="Dr. Alfonso" itemValue="Xbox One" />
+                                <f:selectItem itemLabel="Dra. Patricia" itemValue="PS4" />
+                                <f:selectItem itemLabel="Dr. Chicaiza" itemValue="Wii U" />
+                            </p:selectOneMenu>
+                        </h:panelGrid>
+                    </h:form>
+                    <f:facet name="footer">
+                        <p:commandButton value="Asignar" id="btnConfirmarNewPermiso"  
+                                         icon="ui-icon-check"
+                                         update="form_t2:panelNuevoCasoConf"
+                                         oncomplete="PF('dlgNewCaseConf').show();"/> <!-- action ="" -->
+
+                    </f:facet> 
+
+                </p:dialog>
+                
+                
                 <p:dialog id="dlgNuevoCaso" widgetVar="dlgNewCase" header="Nuevo Caso" minHeight="40" modal="true" visible="false" 
                           showEffect="fade" hideEffect="fade" resizable="false">
-                <h:form id="form_t">    
-                    <h2><strong>Generar Nuevo Caso</strong></h2>
-                    <h:panelGrid id="panelNuevoCaso" columns="2" cellpadding="6">
+                    <h:form id="form_t">    
+                        <h2><strong>Generar Nuevo Caso</strong></h2>
+                        <h:panelGrid id="panelNuevoCaso" columns="2" cellpadding="6">
 
-                        <h:outputLabel for="txtNombreD" value="Nombre de Demandante:"/>
-                        <p:inputText id="txtNombreD" label="Nombre" required="true" value="#{capNewCaso.nombreDemandante}" style="width:225px"/>
-                        <h:message for="txtNombreD"/>
-                        
-                        <h:outputLabel value="Numero de Causa:"/>
-                        <p:inputText style="width:225px"/>
+                            <p:outputLabel for="txtNombreDemandado" value="Nombre del Demandado:"/>
+                            <p:inputText id="txtNombreDemandado" label="Nombre" value="#{capNewCaso.nombreDemandante}" style="width:225px"/>
 
-                        <h:outputLabel value="Tribunal:"/>
-                        <p:inputText style="width:225px"/>
+                            <p:outputLabel for="txtNombreDemandante" value="Nombre de Demandante:"/>
+                            <p:inputText id="txtNombreDemandante" label="Nombre" value="#{capNewCaso.nombreDemandante}" style="width:225px"/>
 
-                        <h:outputLabel value="Tipo de Caso:"/>
-                        <p:selectOneMenu id="TipoCaso" style="width:235px">
-                            <f:selectItem itemLabel="Selecionar" itemValue="" />
-                            <f:selectItem itemLabel="Contencioso Administrativo" itemValue="Xbox One" />
-                            <f:selectItem itemLabel="Civíl" itemValue="PS4" />
-                            <f:selectItem itemLabel="Laboral" itemValue="Wii U" />
-                            <f:selectItem itemLabel="Penal" itemValue="Wii X" />
-                            <f:selectItem itemLabel="Glosas" itemValue="Wii Y" />
-                        </p:selectOneMenu>
+                            <h:outputLabel value="Número de Causa:"/>
+                            <p:inputText style="width:225px"/>
 
-                        <h:outputLabel value="Abogado Responsable:"/>
-                        <p:selectOneMenu id="AboRespo" style="width:235px">
-                            <f:selectItem itemLabel="Selecionar" itemValue="" />
-                            <f:selectItem itemLabel="Dr. Alfonso" itemValue="Xbox One" />
-                            <f:selectItem itemLabel="Dra. Patricia" itemValue="PS4" />
-                            <f:selectItem itemLabel="Dr. Chicaiza" itemValue="Wii U" />
-                        </p:selectOneMenu>
-                    </h:panelGrid>
+                            <h:outputLabel value="Lugar:"/>
+                            <p:inputText style="width:225px"/>
+
+                            <h:outputLabel value="Tipo de Caso:"/>
+                            <p:selectOneMenu id="TipoCaso" style="width:235px">
+                                <f:selectItem itemLabel="Selecionar" itemValue="" />
+                                <f:selectItem itemLabel="Contencioso Administrativo" itemValue="Xbox One" />
+                                <f:selectItem itemLabel="Civíl" itemValue="PS4" />
+                                <f:selectItem itemLabel="Laboral" itemValue="Wii U" />
+                                <f:selectItem itemLabel="Penal" itemValue="Wii X" />
+                                <f:selectItem itemLabel="Glosas" itemValue="Wii Y" />
+                            </p:selectOneMenu>
+
+                            <h:outputLabel value="Abogado Responsable:"/>
+                            <p:selectOneMenu id="AboRespo" style="width:235px">
+                                <f:selectItem itemLabel="Selecionar" itemValue="" />
+                                <f:selectItem itemLabel="Dr. Alfonso" itemValue="Xbox One" />
+                                <f:selectItem itemLabel="Dra. Patricia" itemValue="PS4" />
+                                <f:selectItem itemLabel="Dr. Chicaiza" itemValue="Wii U" />
+                            </p:selectOneMenu>
+                        </h:panelGrid>
                     </h:form>
                     <f:facet name="footer">
                         <p:commandButton value="Asignar" id="btnAsigarNuevoCaso"  
                                          icon="ui-icon-check"
-                                         action="envio"
+                                         update="form_t2:panelNuevoCasoConf"
                                          oncomplete="PF('dlgNewCaseConf').show();"/> <!-- action ="" -->
 
                     </f:facet> 
-                    
+
                 </p:dialog>
 
                 <p:dialog id="dlgNuevoCasoConf" widgetVar="dlgNewCaseConf" header="Nuevo Caso" minHeight="40" modal="true" visible="false" 
                           showEffect="fade" hideEffect="fade" resizable="false">
                     <h:form id="form_t2"> 
-                    <h2><strong>Nuevo Caso</strong></h2>
-                    <h:panelGrid id="panelNuevoCasoConf" columns="3" cellpadding="6">
+                        <h2><strong>Nuevo Caso</strong></h2>
+                        <h:panelGrid id="panelNuevoCasoConf" columns="2" cellpadding="6" columnClasses="label,value">
 
-                        <h:outputLabel for="txtNombreCompleto" value="Se va a crear el siguiente caso: "/>
-                        <h:outputText id="txtNombreCompleto" value="#{capNewCaso.nombreDemandante}"/>
-                        <!--<h:outputLabel value=""/>  Viene el valor del anterior cuadro -->
+                            <p:outputLabel value="Se va a crear el siguiente caso: "/>
+                            <!--<h:outputLabel value=""/>  Viene el valor del anterior cuadro -->
 
-                        <h:outputLabel value="Demandante: " style="font-weight:bold;text-decoration:underline"/>
-                        <!--<h:outputLabel value=""/>  Viene el valor del anterior cuadro -->
+                            <h:outputText value="Demandado: " style="font-weight:bold;text-decoration:underline"/>
+                            <h:outputText id="txtNombreComDemandado" value="#{capNewCaso.nombreDemandante}"/>
 
-                        <h:outputLabel value="Numero de Causa: " style="font-weight:bold;text-decoration:underline"/>
-                        <!--<h:outputLabel value=""/>  Viene el valor del anterior cuadro -->
+                            <h:outputText value="Demandante: " style="font-weight:bold;text-decoration:underline"/>
+                            <h:outputText id="txtNombreComDemandante" value="#{capNewCaso.nombreDemandante}"/>
 
-                        <h:outputLabel value="Tribunal: " style="font-weight:bold;text-decoration:underline"/>
-                        <!--<h:outputLabel value=""/>  Viene el valor del anterior cuadro -->
+                            <h:outputText value="Número de Causa: " style="font-weight:bold;text-decoration:underline"/>
+                            <h:outputText value="" />
 
-                        <h:outputLabel value="Tipo de caso: " style="font-weight:bold;text-decoration:underline"/>
-                        <!--<h:outputLabel value=""/>  Viene el valor del anterior cuadro -->
+                            <h:outputLabel value="Lugar: " style="font-weight:bold;text-decoration:underline"/>
+                            <!--<h:outputLabel value=""/>  Viene el valor del anterior cuadro -->
 
-                        <h:outputLabel value="Abogado Responsable: " style="font-weight:bold;text-decoration:underline"/>
-                        <!--<h:outputLabel value=""/>  Viene el valor del anterior cuadro -->
-                    </h:panelGrid>
+                            <h:outputLabel value="Tipo de caso: " style="font-weight:bold;text-decoration:underline"/>
+                            <!--<h:outputLabel value=""/>  Viene el valor del anterior cuadro -->
+
+                            <h:outputLabel value="Abogado Responsable: " style="font-weight:bold;text-decoration:underline"/>
+                            <!--<h:outputLabel value=""/>  Viene el valor del anterior cuadro -->
+                        </h:panelGrid>
                     </h:form>
                     <f:facet name="footer">
                         <p:commandButton value="Regresar" id="btnAsigarNuevoCasoRegresar"  
@@ -147,7 +232,7 @@
 
                         <h:outputLabel value="Nuevo caso creado satisfactoriamente!"/>
                     </h:panelGrid>
-                    
+
                     <f:facet name="footer">
                         <p:commandButton value="Aceptar" id="btnAsigarNuevoCasoMSG"  
                                          oncomplete="PF('dlgNewCaseMSG').hide();" > <!-- action ="" -->
