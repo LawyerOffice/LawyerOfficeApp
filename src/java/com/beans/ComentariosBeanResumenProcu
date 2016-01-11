@@ -5,25 +5,24 @@ Debe cargarse la informacion de los ultimos 5 casos creados, ultimos 5 casos
 reasignados y la lista de los ultimos 5 casos finalizados. O Escojer una de estas tres opciones 
 y mostrar todos los registros disponibles - esto se cargara parcialmente utilizando el lazy
 del datatable
-
--Se señalaran las fechas de las citas correspondientes a la semana actual 
+Se señalaran las fechas de las citas correspondientes a la semana actual 
 de todos los abogados, segun el calendario. Y cada click en la fecha señalada 
 lanzara una ventana con la descripcion de la cita.
 
--Crear Caso
+-Crear Caso(Asignador, Procurador)
 Primero carga los datos de los lugares y abogados en los combobox
 Despues Este crea un objeto caso con su informacion, luego crea una fase "Creacion de Caso" y se 
 le asigna al abogado escojido. Una ves escojida la opcion grabar en la ventana de validacion
 se guardara este objeto en la base de datos.
 
--asignar permisos
+-asignar permisos (Asignador, Procurador)
 Este es basicamente un asignador de permisos
 Este cargara al inicio la lista de todos los trabajadores de ese departamento y el estado de 
 sus permisos. al hacer click saldra una ventana para dar un permiso, revocar un permiso, y
 una pequeña observacion. Al guardar se hará un update a la base con los nuevos permisos y se
 debera guardar un historial de los que paso junto con la oobservacion.
 
--Reasignar casos
+-Reasignar casos (Asignador, Procurador)
 Este hace un select segun el parametro que se requiera, ete puede ser numero de causa, nombre,
 apellido abogado, etc. Al hacer click en el boton se realiza un select y ese resultado se muestra
 en la tabla de abajo, se hace click en algun registro, se obtiene la informacion de ese registro
@@ -31,18 +30,34 @@ y se muestra la vista de cambio de abogado con la informacion del caso y cargada
 en el combo box. Cuando se continua y graba se hace un update a la tabla de fases de ese caso y se 
 le asigna a ese abogado como responsable, registrando fecha y persona que realizo el cambio.
 
--Historial de casos
+-Historial de casos (Procurador, Abogado)
 Muestra al inicio todos los casos ordenados por fecha de creacion, igual que en el anterior
 existe un buscador que filtra por numero de causa, abogado, estado, etc.
 
 Al hacer click se carga la informacion completa de ese caso y una tabla que debe recolectar
 informacion general de las fases para armar una pequeña tabla de resumen.
 
--Historial Abogados
+-Historial Abogados (Procurador, Abogado)
 Lo mismo del anterior pero se carga la informacion de abogados, al hacer click en alguno se
 muestra la informacion general del abogado(tomada del banner) y un pequeño resumen de los 
 casos actualmente asignados.
 
--Calendario
+-Calendario General(Todos)
 Por ultimo se mostrara el calendario general de todos los abogados, es el calendario
 que esta en la pizarra.
+
+-Administrar Casos (Abogado)
+
+Este es parecido a historial de casos pero solo corresponde a un solo abogado. 
+Al hacer click en un caso se abre la ventana de administración de caso.
+En la parte izquierda se muestra los datos del caso y su descripcion.
+En la tabla de la parte central se enumeran todas las fases que tiene este caso.
+al hacer click en una se abrira la tabla para mostrar la informacion de esa fase. Se mostrara
+la informacion de la fase y un tabbed pane con comentarios, documentos y citas.
+comentarios guardara en la case de datos los comentarios que desee agregar el abogado y su fecha.
+documentos mostrara todos los archivos que se han guardado y permitira su descarga, nuevo o
+eliminacion.
+citas creara nuevas citas que tiene una fecha limite, estas son reflejadas en el calendario 
+personal del abogado y seran las encargadas de las notificaciones y correos al abogado.
+Al crear una nueva fase se pedira una descripcion general.
+Las fases tienen un boton para cambiar el estado de una fase (creada, en curso, terminada).
