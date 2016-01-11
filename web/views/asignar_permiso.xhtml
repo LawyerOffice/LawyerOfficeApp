@@ -14,7 +14,10 @@
                 <h:form id="form_PA"> 
                     <h2>Permisos de crear y asignar casos</h2>
 
-
+ <p:contextMenu for="dtPermiAsig">
+        
+        <p:menuitem value="Delete" update="dtPermiAsig" icon="ui-icon-close" actionListener="#{lazyView.deleteCaso}"/>
+    </p:contextMenu>
 
 
                     <h:panelGrid id="panelPermisoAsignacion" columns="1" cellpadding="3">
@@ -25,12 +28,15 @@
                                          style="float: right"
                                          oncomplete="PF('dlgNewPermits').show();"> <!-- action ="" -->
                         </p:commandButton>
-                        <p:dataTable var="DetailPermisoAsig" 
-                                     value="#{lazyView.casos}" 
-                                     rows="5" paginator="true"
+                        <p:dataTable 
+                                     id="dtPermiAsig"
+                                     var="DetailPermisoAsig" 
+                                     value="#{lazyView.casos}"
                                      widgetVar="PATable" 
-                                     emptyMessage="No se ha econtrado responsables disponibles" 
-                                     id="dtPermiAsig">
+                                     selection="#{lazyView.selectedCaso}" 
+                                     selectionMode="single" 
+                                     rowKey="#{DetailPermisoAsig.numeroCaso}"
+                                     emptyMessage="No se ha econtrado responsables disponibles">
                             <!--<h:outputLabel value=""/>  Tomar encuenta siempre la varibale que se este manejando en cada tabla debido al javascript interno que maneja-->
                             <f:facet name="header">
                                 RESPONSABLES ACTUALES
@@ -49,8 +55,8 @@
                                 <h:outputText value="#{DetailPermisoAsig.fechaActual}" />
                             </p:column>
                             <p:column style="width:32px;text-align: center">
-                                <p:commandButton oncomplete="PF('dlgNewCaseMSG').show()" icon="ui-icon-search" title="View">
-                                    <f:setPropertyActionListener value="#{lazyView.casos}" target="#{dtSelectionView.selectedCar}" />
+                                <p:commandButton update="dtPermiAsig" icon="ui-icon-close" title="View">
+                                    <f:setPropertyActionListener value="#{lazyView.casos}" target="#{lazyView.deleteCaso}" />
                                 </p:commandButton>
                             </p:column>
 
@@ -82,8 +88,25 @@
                     <f:facet name="footer">
                         <p:commandButton value="Asignar" id="btnConfirmarNewPermiso"  
                                          icon="ui-icon-check"
-                                         oncomplete="PF('dlgNewCaseConf').show();"/> <!-- action ="" -->
+                                         oncomplete="PF('dlgNewRespMSG').show();"/> <!-- action ="" -->
 
+                    </f:facet> 
+
+                </p:dialog>
+                
+                <p:dialog id="dlgNuevoResponMSG" widgetVar="dlgNewRespMSG" header="Nuevo Caso" minHeight="40" modal="true" visible="false" 
+                          showEffect="fade" hideEffect="fade" resizable="false">
+                    <h2><strong>Éxito</strong></h2>
+                    <h:panelGrid id="panelNuevoCasoMSG" columns="1" cellpadding="1">
+
+                        <h:outputLabel value="Nuevo responsable añadido satisfactoriamente!"/>
+                    </h:panelGrid>
+
+                    <f:facet name="footer">
+                        <p:commandButton value="Aceptar" id="btnAsigarNuevoCasoMSG"
+                                         update="form_NP:panelNuevoPermiso"
+                                         oncomplete="PF('dlgNewRespMSG').hide(); PF('dlgNewPermits').hide();" > <!-- action ="" -->
+                        </p:commandButton>
                     </f:facet> 
 
                 </p:dialog>

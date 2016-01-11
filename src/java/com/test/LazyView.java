@@ -106,4 +106,9 @@ public class LazyView {
     public void onRowSelectCaso(SelectEvent event) {
         this.selectedCaso = (Caso) event.getObject();
     }
+    
+    public void deleteCaso() {
+        Casos.remove(selectedCaso);
+        selectedCaso = null;
+    }
 }
