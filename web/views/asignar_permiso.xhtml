@@ -12,31 +12,39 @@
 
             <ui:define name="content">
                 <h:form id="form_PA"> 
+                    
+                    <p:growl id="growl" showDetail="true" sticky="true" /> 
+                    
                     <h2>Permisos de crear y asignar casos</h2>
 
- <p:contextMenu for="dtPermiAsig">
-        
-        <p:menuitem value="Delete" update="dtPermiAsig" icon="ui-icon-close" actionListener="#{lazyView.deleteCaso}"/>
-    </p:contextMenu>
+                    <p:contextMenu for="dtPermiAsig">
+                        <p:menuitem value="Delete" update="dtPermiAsig" icon="ui-icon-close" 
+                                    actionListener="#{lazyView.deleteCaso}"/>
+                    </p:contextMenu>
 
 
-                    <h:panelGrid id="panelPermisoAsignacion" columns="1" cellpadding="3">
-
+                    <h:panelGrid id="panelPermisoAsignacion" columns="2" cellpadding="3">
 
                         <p:commandButton value="Nuevo Permiso" id="btnAsigarNuevoPermiso"  
-                                         icon="ui-icon-check"
-                                         style="float: right"
-                                         oncomplete="PF('dlgNewPermits').show();"> <!-- action ="" -->
-                        </p:commandButton>
+                                         icon="ui-icon-check" style="float: right"
+                                         oncomplete="PF('dlgNewPermits').show();"/>
+
+                        <p:commandButton actionListener="#{lazyView.EraseItem(event)}" 
+                                         update=":form_PA:dtPermiAsig, :form_PA:growl" style="float: right" 
+                                         icon="ui-icon-close" title="View" value="Eliminar"/>
+
+                    </h:panelGrid>
+
+                    <h:panelGrid id="panelPermisoAsignacion2" columns="1" cellpadding="3">
                         <p:dataTable 
-                                     id="dtPermiAsig"
-                                     var="DetailPermisoAsig" 
-                                     value="#{lazyView.casos}"
-                                     widgetVar="PATable" 
-                                     selection="#{lazyView.selectedCaso}" 
-                                     selectionMode="single" 
-                                     rowKey="#{DetailPermisoAsig.numeroCaso}"
-                                     emptyMessage="No se ha econtrado responsables disponibles">
+                            id="dtPermiAsig"
+                            var="DetailPermisoAsig" 
+                            value="#{lazyView.casos}"
+                            widgetVar="PATable" 
+                            selection="#{lazyView.selectedCaso}" 
+                            selectionMode="single" 
+                            rowKey="#{DetailPermisoAsig.numeroCaso}"
+                            emptyMessage="No se ha econtrado responsables disponibles">
                             <!--<h:outputLabel value=""/>  Tomar encuenta siempre la varibale que se este manejando en cada tabla debido al javascript interno que maneja-->
                             <f:facet name="header">
                                 RESPONSABLES ACTUALES
@@ -54,13 +62,9 @@
                             <p:column headerText="Observaciones">
                                 <h:outputText value="#{DetailPermisoAsig.fechaActual}" />
                             </p:column>
-                            <p:column style="width:32px;text-align: center">
-                                <p:commandButton update="dtPermiAsig" icon="ui-icon-close" title="View">
-                                    <f:setPropertyActionListener value="#{lazyView.casos}" target="#{lazyView.deleteCaso}" />
-                                </p:commandButton>
-                            </p:column>
 
                         </p:dataTable>
+
                     </h:panelGrid>
 
                 </h:form>
@@ -93,7 +97,7 @@
                     </f:facet> 
 
                 </p:dialog>
-                
+
                 <p:dialog id="dlgNuevoResponMSG" widgetVar="dlgNewRespMSG" header="Nuevo Caso" minHeight="40" modal="true" visible="false" 
                           showEffect="fade" hideEffect="fade" resizable="false">
                     <h2><strong>Éxito</strong></h2>

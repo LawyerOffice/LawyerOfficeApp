@@ -7,8 +7,11 @@ package com.test;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 import org.primefaces.event.SelectEvent;
 
 /**
@@ -45,7 +48,6 @@ public class LazyView {
 
     public void LoadData() {
 
-        
         Casos.add(new Caso("18", "04", "11", "04"));
         Casos.add(new Caso("18", "04", "11", "04"));
         Casos.add(new Caso("18", "04", "11", "04"));
@@ -106,9 +108,22 @@ public class LazyView {
     public void onRowSelectCaso(SelectEvent event) {
         this.selectedCaso = (Caso) event.getObject();
     }
-    
+
     public void deleteCaso() {
         Casos.remove(selectedCaso);
         selectedCaso = null;
+    }
+
+    public void EraseItem(ActionEvent event) {
+        if (selectedCaso != null) {
+            Casos.remove(selectedCaso);
+            selectedCaso = null;
+        }
+        else
+        {
+        FacesContext context = FacesContext.getCurrentInstance();
+        context.addMessage(null, new FacesMessage("Error",  "Seleccione una fila.") );
+        }
+
     }
 }
