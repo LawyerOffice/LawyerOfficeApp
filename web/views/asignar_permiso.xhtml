@@ -67,62 +67,60 @@
 
                     </h:panelGrid>
 
-                </h:form>
 
+                    <p:dialog id="dlgNuevoPermiso" widgetVar="dlgNewPermits" header="Nuevo Permiso" minHeight="40" modal="true" visible="false" 
+                              showEffect="fade" hideEffect="fade" resizable="false">
+                        <h:form id="form_NP">    
+                            <h2><strong>Seleccione Nuevo Responsable:</strong></h2>
+                            <h:panelGrid id="panelNuevoPermiso" columns="1" cellpadding="6">
 
-                <p:dialog id="dlgNuevoPermiso" widgetVar="dlgNewPermits" header="Nuevo Permiso" minHeight="40" modal="true" visible="false" 
-                          showEffect="fade" hideEffect="fade" resizable="false">
-                    <h:form id="form_NP">    
-                        <h2><strong>Seleccione Nuevo Responsable:</strong></h2>
-                        <h:panelGrid id="panelNuevoPermiso" columns="1" cellpadding="6">
+                                <h:outputLabel value="Persona:"/>
+                                <p:selectOneMenu id="Responsable" style="width:345px">
+                                    <f:selectItem itemLabel="Seleccionar" itemValue="" />
+                                    <f:selectItem itemLabel="Dr. Alfonso" itemValue="Xbox One" />
+                                    <f:selectItem itemLabel="Dra. Patricia" itemValue="PS4" />
+                                    <f:selectItem itemLabel="Dr. Chicaiza" itemValue="Wii U" />
+                                </p:selectOneMenu>
 
-                            <h:outputLabel value="Persona:"/>
-                            <p:selectOneMenu id="Responsable" style="width:345px">
-                                <f:selectItem itemLabel="Seleccionar" itemValue="" />
-                                <f:selectItem itemLabel="Dr. Alfonso" itemValue="Xbox One" />
-                                <f:selectItem itemLabel="Dra. Patricia" itemValue="PS4" />
-                                <f:selectItem itemLabel="Dr. Chicaiza" itemValue="Wii U" />
-                            </p:selectOneMenu>
+                                <h:outputLabel value="Rol:"/>
+                                <p:selectOneMenu id="RolPersona" style="width:345px">
+                                    <f:selectItem itemLabel="Seleccionar" itemValue="" />
+                                    <f:selectItem itemLabel="Abogado" itemValue="Xbox One" />
+                                    <f:selectItem itemLabel="Secretaria" itemValue="PS4" />
+                                </p:selectOneMenu>
 
-                            <h:outputLabel value="Rol:"/>
-                            <p:selectOneMenu id="RolPersona" style="width:345px">
-                                <f:selectItem itemLabel="Seleccionar" itemValue="" />
-                                <f:selectItem itemLabel="Abogado" itemValue="Xbox One" />
-                                <f:selectItem itemLabel="Secretaria" itemValue="PS4" />
-                            </p:selectOneMenu>
+                                <h:outputLabel value="Observaciones:"/>
+                                <p:inputTextarea rows="4" cols="40" counter="display" maxlength="150" 
+                                                 counterTemplate="{0} caracteres restantes." autoResize="false" />
+                                <h:outputText id="display" />
+                            </h:panelGrid>
+                        </h:form>
+                        <f:facet name="footer">
+                            <p:commandButton value="Asignar" id="btnConfirmarNewPermiso"  
+                                             icon="ui-icon-check"
+                                             oncomplete="PF('dlgNewRespMSG').show();"/> <!-- action ="" -->
 
-                            <h:outputLabel value="Observaciones:"/>
-                            <p:inputTextarea rows="4" cols="40" counter="display" maxlength="150" 
-                                             counterTemplate="{0} caracteres restantes." autoResize="false" />
-                            <h:outputText id="display" />
+                        </f:facet> 
+
+                    </p:dialog>
+
+                    <p:dialog id="dlgNuevoResponMSG" widgetVar="dlgNewRespMSG" header="Nuevo Caso" minHeight="40" modal="true" visible="false" 
+                              showEffect="fade" hideEffect="fade" resizable="false">
+                        <h2><strong>Éxito</strong></h2>
+                        <h:panelGrid id="panelNuevoCasoMSG" columns="1" cellpadding="1">
+
+                            <h:outputLabel value="Nuevo responsable añadido satisfactoriamente!"/>
                         </h:panelGrid>
-                    </h:form>
-                    <f:facet name="footer">
-                        <p:commandButton value="Asignar" id="btnConfirmarNewPermiso"  
-                                         icon="ui-icon-check"
-                                         oncomplete="PF('dlgNewRespMSG').show();"/> <!-- action ="" -->
 
-                    </f:facet> 
+                        <f:facet name="footer">
+                            <p:commandButton value="Aceptar" id="btnAsigarNuevoCasoMSG"
+                                             update="form_NP:panelNuevoPermiso"
+                                             oncomplete="PF('dlgNewRespMSG').hide(); PF('dlgNewPermits').hide();" > <!-- action ="" -->
+                            </p:commandButton>
+                        </f:facet> 
 
-                </p:dialog>
-
-                <p:dialog id="dlgNuevoResponMSG" widgetVar="dlgNewRespMSG" header="Nuevo Caso" minHeight="40" modal="true" visible="false" 
-                          showEffect="fade" hideEffect="fade" resizable="false">
-                    <h2><strong>Éxito</strong></h2>
-                    <h:panelGrid id="panelNuevoCasoMSG" columns="1" cellpadding="1">
-
-                        <h:outputLabel value="Nuevo responsable añadido satisfactoriamente!"/>
-                    </h:panelGrid>
-
-                    <f:facet name="footer">
-                        <p:commandButton value="Aceptar" id="btnAsigarNuevoCasoMSG"
-                                         update="form_NP:panelNuevoPermiso"
-                                         oncomplete="PF('dlgNewRespMSG').hide(); PF('dlgNewPermits').hide();" > <!-- action ="" -->
-                        </p:commandButton>
-                    </f:facet> 
-
-                </p:dialog>
-
+                    </p:dialog>
+                </h:form>
             </ui:define>
 
         </ui:composition>
