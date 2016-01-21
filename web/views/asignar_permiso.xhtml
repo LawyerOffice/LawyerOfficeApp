@@ -12,9 +12,9 @@
 
             <ui:define name="content">
                 <h:form id="form_PA"> 
-                    
+
                     <p:growl id="growl" showDetail="true" sticky="true" /> 
-                    
+
                     <h2>Permisos de crear y asignar casos</h2>
 
                     <p:contextMenu for="dtPermiAsig">
@@ -90,7 +90,7 @@
                                 <f:selectItem itemLabel="Abogado" itemValue="Xbox One" />
                                 <f:selectItem itemLabel="Secretaria" itemValue="PS4" />
                             </p:selectOneMenu>
-                            
+
                             <h:outputLabel value="Observaciones:"/>
                             <p:inputTextarea rows="4" cols="40" counter="display" maxlength="150" counterTemplate="{0} characters remaining." autoResize="false" />
                             <h:outputText id="display" />
