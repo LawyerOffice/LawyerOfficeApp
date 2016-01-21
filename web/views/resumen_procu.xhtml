@@ -33,7 +33,7 @@
                                 <p:inputText id="txtNombreDemandante" label="Nombre" value="#{capNewCaso.nombreDemandante}" style="width:225px"/>
 
                                 <h:outputLabel value="Número de Causa:"/>
-                                <p:inputText style="width:225px"/>
+                                <p:inputText id="txtNumeroCausa" label="Nombre" value="#{capNewCaso.numeroCausa}" style="width:225px"/>
 
                                 <h:outputLabel value="Lugar:"/>
                                 <p:inputText style="width:225px"/>
@@ -77,13 +77,13 @@
                                 <!--<h:outputLabel value=""/>  Viene el valor del anterior cuadro -->
 
                                 <h:outputText value="Demandado: " style="font-weight:bold;text-decoration:underline"/>
-                                <h:outputText id="txtNombreComDemandado" value="#{capNewCaso.nombreDemandante}"/>
+                                <h:outputText id="txtNombreComDemandado" value="#{capNewCaso.nombreDemandante}" styleClass="outputLabel"/>
 
                                 <h:outputText value="Demandante: " style="font-weight:bold;text-decoration:underline"/>
-                                <h:outputText id="txtNombreComDemandante" value="#{capNewCaso.nombreDemandante}"/>
+                                <h:outputText id="txtNombreComDemandante" value="#{capNewCaso.nombreDemandante}" styleClass="outputLabel"/>
 
                                 <h:outputText value="Número de Causa: " style="font-weight:bold;text-decoration:underline"/>
-                                <h:outputText value="" />
+                                <h:outputText id="txtNumeroComCausa" value="#{capNewCaso.numeroCausa}" styleClass="outputLabel"/>
 
                                 <h:outputLabel value="Lugar: " style="font-weight:bold;text-decoration:underline"/>
                                 <!--<h:outputLabel value=""/>  Viene el valor del anterior cuadro -->
