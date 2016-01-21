@@ -18,7 +18,7 @@
                     <h2>Permisos de crear y asignar casos</h2>
 
                     <p:contextMenu for="dtPermiAsig">
-                        <p:menuitem value="Delete" update="dtPermiAsig" icon="ui-icon-close" 
+                        <p:menuitem value="Eliminar" update="dtPermiAsig" icon="ui-icon-close" 
                                     actionListener="#{lazyView.deleteCaso}"/>
                     </p:contextMenu>
 
@@ -77,15 +77,22 @@
                         <h:panelGrid id="panelNuevoPermiso" columns="1" cellpadding="6">
 
                             <h:outputLabel value="Persona:"/>
-                            <p:selectOneMenu id="AboRespo" style="width:235px">
-                                <f:selectItem itemLabel="Selecionar" itemValue="" />
+                            <p:selectOneMenu id="Responsable" style="width:345px">
+                                <f:selectItem itemLabel="Seleccionar" itemValue="" />
                                 <f:selectItem itemLabel="Dr. Alfonso" itemValue="Xbox One" />
                                 <f:selectItem itemLabel="Dra. Patricia" itemValue="PS4" />
                                 <f:selectItem itemLabel="Dr. Chicaiza" itemValue="Wii U" />
                             </p:selectOneMenu>
 
+                            <h:outputLabel value="Rol:"/>
+                            <p:selectOneMenu id="RolPersona" style="width:345px">
+                                <f:selectItem itemLabel="Seleccionar" itemValue="" />
+                                <f:selectItem itemLabel="Abogado" itemValue="Xbox One" />
+                                <f:selectItem itemLabel="Secretaria" itemValue="PS4" />
+                            </p:selectOneMenu>
+                            
                             <h:outputLabel value="Observaciones:"/>
-                            <p:inputTextarea rows="3" cols="50" counter="display" maxlength="150" counterTemplate="{0} characters remaining." autoResize="false" />
+                            <p:inputTextarea rows="4" cols="40" counter="display" maxlength="150" counterTemplate="{0} characters remaining." autoResize="false" />
                             <h:outputText id="display" />
                         </h:panelGrid>
                     </h:form>
