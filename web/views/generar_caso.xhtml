@@ -17,53 +17,59 @@
 
                     <p:wizard flowListener="#{nuevoCasoBean.onFlowProcess}">
                         <p:tab id="personalDemandante" title="Demandante">
-                            <h:panelGrid columns="2" >
+                   
                                 <p:panel header="Datos Personales">
                                     <p:messages />
-                                    <h:panelGrid columns="2" columnClasses="label, value">
+                                    <h:panelGrid id="PanelDatosDemandante" columns="4" columnClasses="label, value, label, value">
                                         <h:outputText value="Cédula: *" />
-                                        <p:inputText value="#{nuevoCasoBean.nuevoActor.uztactorCedula}" required="true" label="Cédula"/>
+                                        <p:inputText style="margin-right:50px;width:225px" value="#{nuevoCasoBean.nuevoActor.uztactorId}" required="true" label="Cédula"/>
 
+                                        <h:outputText value="Institución: *" />
+                                        <p:inputText style="width:225px" value="#{nuevoCasoBean.nuevoActor.uztactorInstitutcion}" required="true" label="Institución"/>
+                                        
                                         <h:outputText value="Nombres: *" />
-                                        <p:inputText value="#{nuevoCasoBean.nuevoActor.uztactorNombres}" required="true" label="Nombres"/>
+                                        <p:inputText style="margin-right:50px;width:225px" value="#{nuevoCasoBean.nuevoActor.uztactorNombres}" required="true" label="Nombres"/>
 
                                         <h:outputText value="Apellidos: *" />
-                                        <p:inputText value="#{nuevoCasoBean.nuevoActor.uztactorApellidos}" required="true" label="Apellidos"/>
+                                        <p:inputText style="width:225px" value="#{nuevoCasoBean.nuevoActor.uztactorApellidos}" required="true" label="Apellidos"/>
 
                                         <h:outputText value="Dirección: " />
-                                        <p:inputText value="#{nuevoCasoBean.nuevoActor.uztactorDireccion}" />
+                                        <p:inputText style="margin-right:50px;width:225px" value="#{nuevoCasoBean.nuevoActor.uztactorDireccion}" />
 
                                         <h:outputText value="Móvil: " />
-                                        <p:inputText value="#{nuevoCasoBean.nuevoActor.uztactorMovil}" />
+                                        <p:inputText style="width:225px" value="#{nuevoCasoBean.nuevoActor.uztactorMovil}" />
 
                                         <h:outputText value="E-mail: " />
-                                        <p:inputText value="#{nuevoCasoBean.nuevoActor.uztactorEmail}" />
+                                        <p:inputText style="width:225px" value="#{nuevoCasoBean.nuevoActor.uztactorEmail}" />
 
+                                        <h:outputText value="" />
+                                        <h:outputText value="" />
+                                        
                                         <p:commandButton actionListener="#{nuevoCasoBean.AddItem(event)}" 
                                                          update=":form_Caso:listaDemandantes" style="float: right" 
-                                                         icon="ui-icon-check" title="View" value="Agregar"/>
-
+                                                         icon="ui-icon-check" title="Agregar" value="Agregar"/>
+                                                        <!--DEBE ENTRAR LA ACTUALIZACION DEL PANEL DE DATOS-->
                                     </h:panelGrid>
                                 </p:panel>
 
                                 <p:panel >
-                                    <h:panelGrid columns="2" style="width:750px">
+                                    <h:panelGrid columns="2">
                                         <p:dataList id="listaDemandantes" value="#{nuevoCasoBean.nuevoDemandante}" 
-                                                    emptyMessage="No se han encontrado demandantes." style="width:700px"
+                                                    emptyMessage="No se han encontrado demandantes." 
                                                     var="newDemandante" type="unordered" itemType="none">
                                             <f:facet name="header">
                                                 Lista de Demandantes
                                             </f:facet>
                                             <p:commandLink update=":form_Caso:listaDemandantes" actionListener="#{nuevoCasoBean.deleteCaso}" styleClass="ui-icon ui-icon-close" style="float:left;margin-right:10px">
                                                 <f:setPropertyActionListener value="#{newDemandante}" target="#{nuevoCasoBean.nuevoActor}" />
-                                                <h:outputText value="#{newDemandante.uztactorCedula}, #{newDemandante.uztactorNombres}" />
+                                                <h:outputText value="#{newDemandante.uztactorCedula}, #{newDemandante.uztactorApellidos}" />
                                             </p:commandLink>
-                                            <h:outputText value="#{newDemandante.uztactorCedula}, #{newDemandante.uztactorApellidos} #{newDemandante.uztactorNombres}, #{newDemandante.uztactorDireccion}, #{newDemandante.uztactorMovil}, #{newDemandante.uztactorEmail}" 
+                                            <h:outputText value="#{newDemandante.uztactorCedula}, #{newDemandante.uztactorApellidos} #{newDemandante.uztactorNombres}, #{newDemandante.uztactorInstitutcion}, #{newDemandante.uztactorDireccion}, #{newDemandante.uztactorMovil}, #{newDemandante.uztactorEmail}" 
                                                           style="display:inline-block"/>
                                         </p:dataList>
                                     </h:panelGrid>
                                 </p:panel>
-                            </h:panelGrid>
+                         
                         </p:tab>
 
                         <p:tab id="personalDemandado" title="Demandado">

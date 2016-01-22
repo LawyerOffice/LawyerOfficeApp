@@ -6,6 +6,7 @@
 package com.beans;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -112,6 +113,7 @@ public class NuevoCasoBean implements Serializable {
 
     public void AddItem(ActionEvent event) {
         if (NuevoActor != null) {
+            NuevoActor.setUztactorCedula(String.valueOf(NuevoActor.getUztactorId()));
             NuevoDemandante.add(NuevoActor);
             NuevoActor = new Uztactor();
 
@@ -120,7 +122,6 @@ public class NuevoCasoBean implements Serializable {
         } else {
 
         }
-
     }
 
     public void deleteCaso() {
