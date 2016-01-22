@@ -41,22 +41,25 @@
 
                                         <p:commandButton actionListener="#{nuevoCasoBean.AddItem(event)}" 
                                                          update=":form_Caso:listaDemandantes" style="float: right" 
-                                                         icon="ui-icon-close" title="View" value="Agregar"/>
+                                                         icon="ui-icon-check" title="View" value="Agregar"/>
 
                                     </h:panelGrid>
                                 </p:panel>
 
                                 <p:panel >
-                                    <h:panelGrid columns="1" >
-                                        <p:dataList id="listaDemandantes" value="#{nuevoCasoBean.nuevoDemandante}" var="newDemandante" type="unordered" itemType="none">
+                                    <h:panelGrid columns="2" style="width:750px">
+                                        <p:dataList id="listaDemandantes" value="#{nuevoCasoBean.nuevoDemandante}" 
+                                                    emptyMessage="No se han encontrado demandantes." style="width:700px"
+                                                    var="newDemandante" type="unordered" itemType="none">
                                             <f:facet name="header">
                                                 Lista de Demandantes
                                             </f:facet>
-                                            <p:commandLink update=":form_Caso:listaDemandantes" actionListener="#{nuevoCasoBean.deleteCaso}" styleClass="ui-icon ui-icon-search" >
+                                            <p:commandLink update=":form_Caso:listaDemandantes" actionListener="#{nuevoCasoBean.deleteCaso}" styleClass="ui-icon ui-icon-close" style="float:left;margin-right:10px">
                                                 <f:setPropertyActionListener value="#{newDemandante}" target="#{nuevoCasoBean.nuevoActor}" />
                                                 <h:outputText value="#{newDemandante.uztactorCedula}, #{newDemandante.uztactorNombres}" />
                                             </p:commandLink>
-                                            <h:outputText value="#{newDemandante.uztactorCedula}, #{newDemandante.uztactorNombres}" style="display:inline-block"/>
+                                            <h:outputText value="#{newDemandante.uztactorCedula}, #{newDemandante.uztactorApellidos} #{newDemandante.uztactorNombres}, #{newDemandante.uztactorDireccion}, #{newDemandante.uztactorMovil}, #{newDemandante.uztactorEmail}" 
+                                                          style="display:inline-block"/>
                                         </p:dataList>
                                     </h:panelGrid>
                                 </p:panel>
