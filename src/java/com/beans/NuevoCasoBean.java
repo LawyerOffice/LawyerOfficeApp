@@ -11,6 +11,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 import org.primefaces.event.FlowEvent;
 import procuradoria.map.Uztactor;
 import procuradoria.map.Uztcaso;
@@ -21,16 +22,16 @@ import procuradoria.map.Uztcaso;
  */
 @ManagedBean
 @ViewScoped
-public class NuevoCasoBean implements Serializable{
+public class NuevoCasoBean implements Serializable {
 
     /**
      * Creates a new instance of NuevoCasoBean
      */
     private Uztcaso NuevoCaso;
     private Uztactor NuevoActor;
-    
-     private ArrayList<Uztactor> NuevoDemandante;
-     private ArrayList<Uztactor> NuevoDemandado;
+
+    private ArrayList<Uztactor> NuevoDemandante;
+    private ArrayList<Uztactor> NuevoDemandado;
     //TIPOS DE BANDERAS PARA DEFINIR ACTOR
     //0-DEMANDANTE
     //1-DEMANDADO
@@ -48,6 +49,8 @@ public class NuevoCasoBean implements Serializable{
     private void init() {
         this.setNuevoCaso(new Uztcaso());
         this.setNuevoActor(new Uztactor());
+        this.setNuevoDemandado(new ArrayList<Uztactor>());
+        this.setNuevoDemandante(new ArrayList<Uztactor>());
     }
 
     public Uztcaso getNuevoCaso() {
@@ -81,32 +84,48 @@ public class NuevoCasoBean implements Serializable{
     public void setNuevoDemandado(ArrayList<Uztactor> NuevoDemandado) {
         this.NuevoDemandado = NuevoDemandado;
     }
-    
+
     ////////////////////////////////////////////////////////////////////////////
-     
     private boolean skip;
-     
-    public void save() {        
+
+    public void save() {
         FacesMessage msg = new FacesMessage("Successful", "Welcome :" + NuevoActor.getUztactorId());
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
-     
+
     public boolean isSkip() {
         return skip;
     }
- 
+
     public void setSkip(boolean skip) {
         this.skip = skip;
     }
-     
+
     public String onFlowProcess(FlowEvent event) {
-        if(skip) {
+        if (skip) {
             skip = false;   //reset in case user goes back
             return "confirm";
-        }
-        else {
+        } else {
             return event.getNewStep();
         }
+    }
+
+    public void AddItem(ActionEvent event) {
+        if (NuevoActor != null) {
+            NuevoDemandante.add(NuevoActor);
+            NuevoActor = new Uztactor();
+
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null, new FacesMessage("Éxito", "Demandante añadido correctamente."));
+        } else {
+
+        }
+
+    }
+
+    public void deleteCaso() {
+        NuevoDemandante.remove(NuevoActor);
+        NuevoActor = null;
     }
 
 }

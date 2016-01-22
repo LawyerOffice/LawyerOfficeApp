@@ -11,7 +11,7 @@
         <ui:composition template="./menu_procu.xhtml">
 
             <ui:define name="content">
-                <h:form>
+                <h:form id="form_Caso">
 
                     <p:growl id="growl" sticky="true" showDetail="true"/>
 
@@ -39,23 +39,24 @@
                                         <h:outputText value="E-mail: " />
                                         <p:inputText value="#{nuevoCasoBean.nuevoActor.uztactorEmail}" />
 
-                                        <h:outputText value="Skip to last: " />
-                                        <h:selectBooleanCheckbox value="#{nuevoCasoBean.skip}" />
+                                        <p:commandButton actionListener="#{nuevoCasoBean.AddItem(event)}" 
+                                                         update=":form_Caso:listaDemandantes" style="float: right" 
+                                                         icon="ui-icon-close" title="View" value="Agregar"/>
+
                                     </h:panelGrid>
                                 </p:panel>
 
-                                <p:panel>
-                                    <p:messages />
+                                <p:panel >
                                     <h:panelGrid columns="1" >
-                                        <p:dataList value="#{nuevoCasoBean.nuevoDemandante}" var="newDemandante" type="unordered" itemType="none">
+                                        <p:dataList id="listaDemandantes" value="#{nuevoCasoBean.nuevoDemandante}" var="newDemandante" type="unordered" itemType="none">
                                             <f:facet name="header">
                                                 Lista de Demandantes
                                             </f:facet>
-                                            <p:commandLink update=":form:carDetail" oncomplete="PF('carDialog').show()" title="View Detail" styleClass="ui-icon ui-icon-search" style="float:left;margin-right:10px">
-                                                <f:setPropertyActionListener value="#{car}" target="#{dataListView.selectedCar}" />
-                                                <h:outputText value="#{car.brand}, #{car.year}" />
+                                            <p:commandLink update=":form_Caso:listaDemandantes" actionListener="#{nuevoCasoBean.deleteCaso}" styleClass="ui-icon ui-icon-search" >
+                                                <f:setPropertyActionListener value="#{newDemandante}" target="#{nuevoCasoBean.nuevoActor}" />
+                                                <h:outputText value="#{newDemandante.uztactorCedula}, #{newDemandante.uztactorNombres}" />
                                             </p:commandLink>
-                                            <h:outputText value="#{car.brand}, #{car.year}" style="display:inline-block"/>
+                                            <h:outputText value="#{newDemandante.uztactorCedula}, #{newDemandante.uztactorNombres}" style="display:inline-block"/>
                                         </p:dataList>
                                     </h:panelGrid>
                                 </p:panel>
