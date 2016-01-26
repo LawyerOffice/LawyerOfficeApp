@@ -74,19 +74,16 @@
                             <h2><strong>Seleccione Nuevo Responsable:</strong></h2>
                             <h:panelGrid id="panelNuevoPermiso" columns="1" cellpadding="6">
 
-                                <h:outputLabel value="Persona:"/>
+                                <h:outputLabel value="Funcionarios:"/>
                                 <p:selectOneMenu id="Responsable" style="width:345px">
-                                    <f:selectItem itemLabel="Seleccionar" itemValue="" />
-                                    <f:selectItem itemLabel="Dr. Alfonso" itemValue="Xbox One" />
-                                    <f:selectItem itemLabel="Dra. Patricia" itemValue="PS4" />
-                                    <f:selectItem itemLabel="Dr. Chicaiza" itemValue="Wii U" />
+                                    <f:selectItem itemLabel="Seleccionar" itemValue="" noSelectionOption="true"/>
+                                    <f:selectItems value="#{asignarPermisoBean.itemsFuncionarios}"/>
                                 </p:selectOneMenu>
 
                                 <h:outputLabel value="Rol:"/>
-                                <p:selectOneMenu id="RolPersona" style="width:345px">
-                                    <f:selectItem itemLabel="Seleccionar" itemValue="" />
-                                    <f:selectItem itemLabel="Abogado" itemValue="Xbox One" />
-                                    <f:selectItem itemLabel="Secretaria" itemValue="PS4" />
+                                <p:selectOneMenu id="RolPersona" value="#{asignarPermisoBean.patterRoles}" style="width:345px">
+                                    <f:selectItem itemLabel="Seleccionar" itemValue="" noSelectionOption="true"/>
+                                    <f:selectItems value="#{asignarPermisoBean.itemsRoles}"/>
                                 </p:selectOneMenu>
 
                                 <h:outputLabel value="Observaciones:"/>

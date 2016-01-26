@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.model.SelectItem;
+import org.primefaces.model.NestedSelectItem;
 import procuradoria.crud.ProcuradoriaMethods;
 import procuradoria.map.*;
 
@@ -45,18 +46,26 @@ public class AsignarPermisoBean {
         this.setItemsRoles(new ArrayList<SelectItem>());
         this.setPatterFuncionario("");
         this.setPatterRoles("");
+        this.loadlistFuncionarios();
+        this.loadlistRoles();
     }
 
     public void loadlistFuncionarios() {
-
         ArrayList<Uztfuncionario> list2 = ProcuradoriaMethods.ListFuncionarios(BigDecimal.ONE);
+        this.ItemsFuncionarios.clear();
+        for(int i = 0 ; i < list2.size() ; i++){
+            this.ItemsFuncionarios.add(new SelectItem(list2.get(i).getUztfuncionarioId(),list2.get(i).getUztfuncionarioApellidos()+
+                    " "+list2.get(i).getUztfuncionarioNombres()));
+        }
 
     }
 
-    public void loadlistRoles() {
-        
+    public void loadlistRoles() {      
         ArrayList<Uzttiporol>  list1 = ProcuradoriaMethods.ListTipoRol();
-
+        this.ItemsRoles.clear();
+        for(int i = 0 ;  i  < list1.size() ; i++){
+            this.ItemsRoles.add(new SelectItem(list1.get(i).getUzttiporolId(), list1.get(i).getUzttiporolDescripcion()));
+        }
     }
 
     private int getIdUserAssigned() {

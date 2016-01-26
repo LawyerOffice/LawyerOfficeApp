@@ -17,11 +17,11 @@
                         <h:panelGrid columnClasses="value">
                             <h3>Calendario</h3>
                             <p:schedule id="schedule" value="#{scheduleView.eventModel}" widgetVar="myschedule" timeZone="GMT-5" locale="es">
-                                <p:ajax event="dateSelect" listener="#{scheduleView.onDateSelect}" update="eventDetails" oncomplete="PF('eventDialog').show();" />
+                                <p:ajax event="eventSelect" listener="#{scheduleView.onEventSelect}" update="eventDetails" oncomplete="PF('eventDialog').show();" />
                             </p:schedule>
                         </h:panelGrid>
 
-                        <p:dialog widgetVar="eventDialog" header="Event Details" showEffect="clip" hideEffect="clip">
+                        <p:dialog widgetVar="eventDialog" header="Cita" showEffect="clip" hideEffect="clip" resizable="false" modal="true">
                             <h:panelGrid id="eventDetails" columns="2">
                                 <p:outputLabel for="title" value="Titles:" />
                                 <p:inputText id="title" value="#{scheduleView.event.title}" required="true" />
@@ -29,7 +29,7 @@
                                 <p:outputLabel for="from" value="From:" />
                                 <p:calendar id="from" value="#{scheduleView.event.startDate}" timeZone="GMT+2" pattern="dd/MM/yyyy HH:mm"/>
 
-                                <p:outputLabel for="to" value="To:" />
+                                <p:outputLabel for="to" value="To:" /> 
                                 <p:calendar id="to" value="#{scheduleView.event.endDate}" timeZone="GMT+2" pattern="dd/MM/yyyy HH:mm"/>
 
                                 <p:outputLabel for="allDay" value="All Day:" />
