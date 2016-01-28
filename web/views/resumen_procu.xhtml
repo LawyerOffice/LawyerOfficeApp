@@ -10,178 +10,43 @@
 
         <ui:composition template="./menu_procu.xhtml">
 
-
-            <ui:define name="left">
-                <h:form>
-                    <p:growl autoUpdate="true"/>
-                    <p:panelMenu style="width:160px">
-                        <p:submenu label="Resumen">
-                            <p:menuitem value="Nuevo Caso" oncomplete="PF('dlgNewCase').show();" icon="ui-icon-disk" />
-                        </p:submenu>
-                    </p:panelMenu>
-
-                    <p:dialog id="dlgNuevoCaso" widgetVar="dlgNewCase" header="Nuevo Caso" minHeight="40" modal="true" visible="false" 
-                              showEffect="fade" hideEffect="fade" resizable="false">
-                        <h:form id="form_t">    
-                            <h2><strong>Generar Nuevo Caso</strong></h2>
-                            <h:panelGrid id="panelNuevoCaso" columns="2" cellpadding="6">
-
-                                <p:outputLabel for="txtNombreDemandado" value="Nombre del Demandado:"/>
-                                <p:inputText id="txtNombreDemandado" label="Nombre" value="#{capNewCaso.nombreDemandante}" style="width:225px"/>
-
-                                <p:outputLabel for="txtNombreDemandante" value="Nombre de Demandante:"/>
-                                <p:inputText id="txtNombreDemandante" label="Nombre" value="#{capNewCaso.nombreDemandante}" style="width:225px"/>
-
-                                <h:outputLabel value="Número de Causa:"/>
-                                <p:inputText id="txtNumeroCausa" label="Nombre" value="#{capNewCaso.numeroCausa}" style="width:225px"/>
-
-                                <h:outputLabel value="Lugar:"/>
-                                <p:inputText style="width:225px"/>
-
-                                <h:outputLabel value="Tipo de Caso:"/>
-                                <p:selectOneMenu id="TipoCaso" style="width:235px">
-                                    <f:selectItem itemLabel="Selecionar" itemValue="" />
-                                    <f:selectItem itemLabel="Contencioso Administrativo" itemValue="Xbox One" />
-                                    <f:selectItem itemLabel="Civíl" itemValue="PS4" />
-                                    <f:selectItem itemLabel="Laboral" itemValue="Wii U" />
-                                    <f:selectItem itemLabel="Penal" itemValue="Wii X" />
-                                    <f:selectItem itemLabel="Glosas" itemValue="Wii Y" />
-                                </p:selectOneMenu>
-
-                                <h:outputLabel value="Abogado Responsable:"/>
-                                <p:selectOneMenu id="AboRespo" style="width:235px">
-                                    <f:selectItem itemLabel="Selecionar" itemValue="" />
-                                    <f:selectItem itemLabel="Dr. Alfonso" itemValue="Xbox One" />
-                                    <f:selectItem itemLabel="Dra. Patricia" itemValue="PS4" />
-                                    <f:selectItem itemLabel="Dr. Chicaiza" itemValue="Wii U" />
-                                </p:selectOneMenu>
-                            </h:panelGrid>
-                        </h:form>
-                        <f:facet name="footer">
-                            <p:commandButton value="Asignar" id="btnAsigarNuevoCaso"  
-                                             icon="ui-icon-check"
-                                             update="form_t2:panelNuevoCasoConf"
-                                             oncomplete="PF('dlgNewCaseConf').show();"/> <!-- action ="" -->
-
-                        </f:facet> 
-
-                    </p:dialog>
-
-                    <p:dialog id="dlgNuevoCasoConf" widgetVar="dlgNewCaseConf" header="Nuevo Caso" minHeight="40" modal="true" visible="false" 
-                              showEffect="fade" hideEffect="fade" resizable="false">
-                        <h:form id="form_t2"> 
-                            <h2><strong>Nuevo Caso</strong></h2>
-                            <h:panelGrid id="panelNuevoCasoConf" columns="2" cellpadding="6" columnClasses="label,value">
-
-                                <p:outputLabel value="Se va a crear el siguiente caso: "/>
-                                <!--<h:outputLabel value=""/>  Viene el valor del anterior cuadro -->
-
-                                <h:outputText value="Demandado: " style="font-weight:bold;text-decoration:underline"/>
-                                <h:outputText id="txtNombreComDemandado" value="#{capNewCaso.nombreDemandante}" styleClass="outputLabel"/>
-
-                                <h:outputText value="Demandante: " style="font-weight:bold;text-decoration:underline"/>
-                                <h:outputText id="txtNombreComDemandante" value="#{capNewCaso.nombreDemandante}" styleClass="outputLabel"/>
-
-                                <h:outputText value="Número de Causa: " style="font-weight:bold;text-decoration:underline"/>
-                                <h:outputText id="txtNumeroComCausa" value="#{capNewCaso.numeroCausa}" styleClass="outputLabel"/>
-
-                                <h:outputLabel value="Lugar: " style="font-weight:bold;text-decoration:underline"/>
-                                <!--<h:outputLabel value=""/>  Viene el valor del anterior cuadro -->
-
-                                <h:outputLabel value="Tipo de caso: " style="font-weight:bold;text-decoration:underline"/>
-                                <!--<h:outputLabel value=""/>  Viene el valor del anterior cuadro -->
-
-                                <h:outputLabel value="Abogado Responsable: " style="font-weight:bold;text-decoration:underline"/>
-                                <!--<h:outputLabel value=""/>  Viene el valor del anterior cuadro -->
-                            </h:panelGrid>
-                        </h:form>
-                        <f:facet name="footer">
-                            <p:commandButton value="Regresar" id="btnAsigarNuevoCasoRegresar"  
-                                             oncomplete="PF('dlgNewCaseConf').hide();" ><!-- action ="" -->
-                            </p:commandButton>
-                            <p:commandButton value="Continuar" id="btnAsigarNuevoCasoContinuar"
-                                             update="form_t:panelNuevoCaso"
-                                             oncomplete="PF('dlgNewCaseMSG').show();" > <!-- action ="" -->
-                                <p:ajax oncomplete="PF('dlgNewCase').hide(); PF('dlgNewCaseConf').hide();" />
-                            </p:commandButton>
-                        </f:facet> 
-
-                    </p:dialog>
-
-                    <p:dialog id="dlgNuevoCasoMSG" widgetVar="dlgNewCaseMSG" header="Nuevo Caso" minHeight="40" modal="true" visible="false" 
-                              showEffect="fade" hideEffect="fade" resizable="false">
-                        <h2><strong>Éxito</strong></h2>
-                        <h:panelGrid id="panelNuevoCasoMSG" columns="1" cellpadding="1">
-
-                            <h:outputLabel value="Nuevo caso creado satisfactoriamente!"/>
-                        </h:panelGrid>
-
-                        <f:facet name="footer">
-                            <p:commandButton value="Aceptar" id="btnAsigarNuevoCasoMSG"  
-                                             oncomplete="PF('dlgNewCaseMSG').hide();" > <!-- action ="" -->
-                            </p:commandButton>
-                        </f:facet> 
-
-                    </p:dialog>
-
-
-                </h:form>
-            </ui:define>
-
-
             <ui:define name="content">
-
                 <h:form id="form_noti">
-                    <p:dataScroller value="#{dataScrollerView.notiService.notifs}" var="noti" chunkSize="10" mode="inline" scrollHeight="500">
-                        <f:facet name="header">
-                            Notificaciones
-                        </f:facet>
-                        <h:panelGrid columns="2" style="width:100%" columnClasses="logo,detail">
 
-                            <p:outputPanel>
-                                <h:panelGrid columns="2" cellpadding="5">
-                                    <h:outputText value="Abogado:" />
-                                    <h:outputText value="#{noti.abogado}" style="font-weight: bold"/>
+                    <p:layout>
 
-                                    <h:outputText value="Caso:" />
-                                    <h:outputText value="#{noti.caso}" style="font-weight: bold"/>
+                        <p:layoutUnit position="west" size="240" resizable="true">
+                            <p:calendar id="inline" mode="inline" />
+                        </p:layoutUnit>
 
-                                    <h:outputText value="Detalle:" />
-                                    <h:outputText value="#{noti.detalle}" style="font-weight: bold"/>
+                        <p:layoutUnit position="center">
+
+                            <p:dataScroller value="#{dataScrollerView.notiService.notifs}" var="noti" chunkSize="10" mode="inline" scrollHeight="500">
+                                <f:facet name="header">
+                                    Notificaciones
+                                </f:facet>
+                                <h:panelGrid columns="2" style="width:100%" columnClasses="logo,detail">
+
+                                    <p:outputPanel>
+                                        <h:panelGrid columns="2" cellpadding="5">
+                                            <h:outputText value="Abogado:" />
+                                            <h:outputText value="#{noti.abogado}" style="font-weight: bold"/>
+
+                                            <h:outputText value="Caso:" />
+                                            <h:outputText value="#{noti.caso}" style="font-weight: bold"/>
+
+                                            <h:outputText value="Detalle:" />
+                                            <h:outputText value="#{noti.detalle}" style="font-weight: bold"/>
+                                        </h:panelGrid>
+                                    </p:outputPanel>
                                 </h:panelGrid>
-                            </p:outputPanel>
-                        </h:panelGrid>
-                    </p:dataScroller>
-                </h:form>
-                
-<!--
-                <h:form id="form_task">
-                    <p:panel header="Nueva Tarea">
-                        <div align="center">
-                            <h:panelGrid id="grid_task" columns="2" cellpadding="5">
+                            </p:dataScroller>
 
-                                <img src="#{loginBean.urlRequest}resources/img/nuevocaso.png"/>
-                                <p:commandButton id="new_case" value="Nuevo Caso" style="width:225px"
-                                                 oncomplete="PF('dlgNewCase').show();"/>
+                        </p:layoutUnit>
 
-                                <img src="#{loginBean.urlRequest}resources/img/abogados.png"/>
-                                <p:commandButton id="permits_assignment" value="Permisos de Asignación" style="width:225px"
-                                                 oncomplete="PF('dlgPermitsAssignment').show();"/>
+                    </p:layout>
 
-                                <img src="#{loginBean.urlRequest}resources/img/nuevocaso.png"/>
-                                <p:commandButton id="reassign_case" value="Reasignar Casos" style="width:225px"/>
-
-                                <img src="#{loginBean.urlRequest}resources/img/presentation.png"/>
-                                <p:commandButton id="state_case" value="Estado de Casos" style="width:225px"/>
-
-                                <img src="#{loginBean.urlRequest}resources/img/presentation.png"/>
-                                <p:commandButton id="state_abo" value="Abogados" style="width:225px"/>
-
-                            </h:panelGrid>
-                        </div>
-                    </p:panel>
-                </h:form>
--->
+                </h:form>  
             </ui:define>
 
         </ui:composition>

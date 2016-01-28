@@ -5,7 +5,6 @@
  */
 package com.test;
 
-import com.util.calendario.EventoCalendario;
 import java.util.Calendar;
 import java.util.Date;
 import javax.faces.application.FacesMessage;
@@ -31,15 +30,14 @@ public class ScheduleView {
 
     private ScheduleModel eventModel;
 
-    private ScheduleEvent event = new DefaultScheduleEvent();
+    private DefaultScheduleEvent event = new DefaultScheduleEvent();
 
     public ScheduleView() {
         eventModel = new DefaultScheduleModel();
         eventModel.addEvent(new DefaultScheduleEvent("Champions League Match", previousDay8Pm(), previousDay11Pm()));
         eventModel.addEvent(new DefaultScheduleEvent("Birthday Party", today1Pm(), today6Pm()));
         eventModel.addEvent(new DefaultScheduleEvent("Breakfast at Tiffanys", nextDay9Am(), nextDay11Am()));
-        //eventModel.addEvent(new DefaultScheduleEvent("Plant the new garden stuff", theDayAfter3Pm(), fourDaysLater3pm()));
-        eventModel.addEvent(new EventoCalendario("ESPE",theDayAfter3Pm(), fourDaysLater3pm()));
+        eventModel.addEvent(new DefaultScheduleEvent("Plant the new garden stuff", theDayAfter3Pm(), fourDaysLater3pm()));
     }
 
     public ScheduleModel getEventModel() {
@@ -127,7 +125,7 @@ public class ScheduleView {
         return event;
     }
 
-    public void setEvent(ScheduleEvent event) {
+    public void setEvent(DefaultScheduleEvent event) {
         this.event = event;
     }
 
@@ -142,7 +140,7 @@ public class ScheduleView {
     }
 
     public void onEventSelect(SelectEvent selectEvent) {
-        event = (ScheduleEvent) selectEvent.getObject();
+        event = (DefaultScheduleEvent) selectEvent.getObject();
     }
 
     public void onDateSelect(SelectEvent selectEvent) {
