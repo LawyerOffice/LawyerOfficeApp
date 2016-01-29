@@ -100,7 +100,7 @@ public class LazyView {
     public void setSelectedAbogado(Abogado selectedAbogado) {
         this.selectedAbogado = selectedAbogado;
     }
-
+    
     public void onRowSelect(SelectEvent event) {
         this.selectedAbogado = (Abogado) event.getObject();
     }
@@ -126,4 +126,6 @@ public class LazyView {
         }
 
     }
+
+    
 }

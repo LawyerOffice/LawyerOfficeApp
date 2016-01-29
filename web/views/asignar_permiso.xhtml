@@ -18,32 +18,35 @@
                     <p:panel id="asigPermiso">
                         <p:contextMenu for="dtPermiAsig">
                             <p:menuitem value="Eliminar" update="dtPermiAsig" icon="ui-icon-close" 
-                                        actionListener="#{lazyView.deleteCaso}"/>
+                                        actionListener="#{asignarPermisoBean.deletePermisoAginado()}"/>
                         </p:contextMenu>
 
                         <p:dataTable 
                             id="dtPermiAsig"
                             var="DetailPermisoAsig" 
-                            value="#{lazyView.casos}"
+                            value="#{asignarPermisoBean.rolsAsignandos}"
                             widgetVar="PATable" 
-                            selection="#{lazyView.selectedCaso}" 
+                            selection="#{asignarPermisoBean.selectedRol}" 
                             selectionMode="single" 
-                            rowKey="#{DetailPermisoAsig.numeroCaso}"
+                            rowKey="#{DetailPermisoAsig.uztfuncionario.uztfuncionarioCedula}"
                             emptyMessage="No se ha econtrado responsables disponibles.">
                             <f:facet name="header">
-                                RESPONSABLES ACTUALES
+                                Permisos Asignados
                             </f:facet>
                             <p:column headerText="Número">
-                                <h:outputText value="#{DetailPermisoAsig.numeroCaso}" />
+                                <h:outputText value="#{DetailPermisoAsig.uztfuncionario.uztfuncionarioCedula}" />
+                            </p:column>
+                            <p:column headerText="Apellido">
+                                <h:outputText value="#{DetailPermisoAsig.uztfuncionario.uztfuncionarioApellidos}" />
                             </p:column>
                             <p:column headerText="Nombre">
-                                <h:outputText value="#{DetailPermisoAsig.fechaInicio}" />
+                                <h:outputText value="#{DetailPermisoAsig.uztfuncionario.uztfuncionarioNombres}" />
                             </p:column>
-                            <p:column headerText="Cargo">
-                                <h:outputText value="#{DetailPermisoAsig.fechaActual}" />
+                            <p:column headerText="Permiso">
+                                <h:outputText value="#{DetailPermisoAsig.uzttiporol.uzttiporolDescripcion}" />
                             </p:column>
-                            <p:column headerText="Observaciones">
-                                <h:outputText value="#{DetailPermisoAsig.fechaActual}" />
+                            <p:column headerText="Fecha Asignacion">
+                                <h:outputText value="#{DetailPermisoAsig.uztrolFechaIn}" />
                             </p:column>
 
                         </p:dataTable>
@@ -53,7 +56,7 @@
                                              icon="ui-icon-check"
                                              oncomplete="PF('dlgNewPermits').show();"/>
 
-                            <p:commandButton actionListener="#{lazyView.EraseItem(event)}" 
+                            <p:commandButton actionListener="#{asignarPermisoBean.EraseItem(event)}" 
                                              update=":form_PA:dtPermiAsig, :form_PA:growl" style="float: right" 
                                              icon="ui-icon-close" value="Eliminar"/>
                         </f:facet>
