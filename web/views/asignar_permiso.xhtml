@@ -11,9 +11,10 @@
         <ui:composition template="./menu_procu.xhtml">
 
             <ui:define name="content">
-                <h:form id="form_PA"> 
 
-                    <p:growl id="growl" showDetail="true" sticky="true" /> 
+                <p:growl id="growl" showDetail="true" life="3000" /> 
+                <h:form id="form_PA"> 
+                    <p:growl id="growl" showDetail="true" life="3000" /> 
 
                     <p:panel id="asigPermiso">
                         <p:contextMenu for="dtPermiAsig">
@@ -57,14 +58,12 @@
                                              oncomplete="PF('dlgNewPermits').show();"/>
 
                             <p:commandButton actionListener="#{asignarPermisoBean.EraseItem(event)}" 
-                                             update=":form_PA:dtPermiAsig, :form_PA:growl" style="float: right" 
+                                             update=":form_PA:dtPermiAsig, :growl" style="float: right" 
                                              icon="ui-icon-close" value="Eliminar"/>
                         </f:facet>
-                    </p:panel>
 
-                    <p:dialog id="dlgNuevoPermiso" widgetVar="dlgNewPermits" header="Nuevo Permiso" minHeight="40" modal="true" visible="false" 
-                              showEffect="fade" hideEffect="fade" resizable="false">
-                        <h:form id="form_NP">    
+                        <p:dialog id="dlgNuevoPermiso" widgetVar="dlgNewPermits" header="Nuevo Permiso" minHeight="40" modal="true" visible="false" 
+                                  showEffect="fade" hideEffect="fade" resizable="false">  
                             <h2><strong>Seleccione Nuevo Responsable:</strong></h2>
                             <h:panelGrid id="panelNuevoPermiso" columns="1" cellpadding="6">
 
@@ -79,35 +78,37 @@
                                     <f:selectItem itemLabel="Seleccionar" itemValue="" noSelectionOption="true"/>
                                     <f:selectItems value="#{asignarPermisoBean.itemsRoles}"/>
                                 </p:selectOneMenu>
-                                
+
                             </h:panelGrid>
-                        </h:form>
-                        <f:facet name="footer">
-                            <p:commandButton value="Asignar" id="btnConfirmarNewPermiso"
-                                             actionListener="#{asignarPermisoBean.genratedPermiso(event)}"
-                                             icon="ui-icon-check"/> <!-- action ="" -->
 
-                        </f:facet> 
+                            <f:facet name="footer">
+                                <p:commandButton value="Asignar" id="btnConfirmarNewPermiso"
+                                                 actionListener="#{asignarPermisoBean.genratedPermiso(event)}"
+                                                 update=":growl , :form_PA , :form_PA:dtPermiAsig"
+                                                 icon="ui-icon-check"/> <!-- action ="" -->
 
-                    </p:dialog>
+                            </f:facet> 
+                        </p:dialog>
 
-                    <p:dialog id="dlgNuevoResponMSG" widgetVar="dlgNewRespMSG" header="Asiganar Permiso" modal="true"  
-                              showEffect="fade" hideEffect="fade" resizable="false">
-                        <h2><strong>Éxito</strong></h2>
-                        <h:panelGrid id="panelNuevoCasoMSG" columns="1" cellpadding="1">
+                        <p:dialog id="dlgNuevoResponMSG" widgetVar="dlgNewRespMSG" header="Asiganar Permiso" modal="true"  
+                                  showEffect="fade" hideEffect="fade" resizable="false">
+                            <h2><strong>Éxito</strong></h2>
+                            <h:panelGrid id="panelNuevoCasoMSG" columns="1" cellpadding="1">
 
-                            <h:outputLabel value="Nuevo responsable añadido satisfactoriamente!"/>
-                        </h:panelGrid>
+                                <h:outputLabel value="Nuevo responsable añadido satisfactoriamente!"/>
+                            </h:panelGrid>
 
-                        <f:facet name="footer">
-                            <p:commandButton value="Aceptar" id="btnAsigarNuevoCasoMSG"
-                                             actionListener="#{asignarPermisoBean.genratedPermiso(event)}"
-                                             update="form_NP:panelNuevoPermiso, :form_PA:dtPermiAsig, :form_PA:growl"
-                                             oncomplete="PF('dlgNewRespMSG').hide(); PF('dlgNewPermits').hide();" > <!-- action ="" -->
-                            </p:commandButton>
-                        </f:facet> 
+                            <f:facet name="footer">
+                                <p:commandButton value="Aceptar" id="btnAsigarNuevoCasoMSG"
+                                                 actionListener="#{asignarPermisoBean.genratedPermiso(event)}"
+                                                 update=":form_PA:dtPermiAsig, :growl"
+                                                 oncomplete="PF('dlgNewRespMSG').hide(); PF('dlgNewPermits').hide();" > <!-- action ="" -->
+                                </p:commandButton>
+                            </f:facet> 
+                        </p:dialog>
 
-                    </p:dialog>
+                    </p:panel>
+
                 </h:form>
             </ui:define>
 

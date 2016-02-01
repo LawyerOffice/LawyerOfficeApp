@@ -92,13 +92,14 @@ public class AsignarPermisoBean {
         this.newRol.setUztrolFlag(BigDecimal.ONE);
         this.newRol.getUztfuncionario().setUztfuncionarioId(this.newRol.getId().getUztfuncionarioId());
         this.newRol.getUzttiporol().setUzttiporolId(this.newRol.getId().getUzttiporolId());
-        Boolean exito = ProcuradoriaMethods.UpdateRol(this.newRol);
+        Boolean exito = ProcuradoriaMethods.InsertRol(this.newRol);
         if(exito){
-            RequestContext.getCurrentInstance().execute("PF('dlgNewRespMSG').show();");
+            //RequestContext.getCurrentInstance().execute("PF('dlgNewRespMSG').show();");
+            this.loadlistRolesAsignados();
         }
     }
 
-    public void loadlistRolesAsignados() {
+    private void loadlistRolesAsignados() {
         this.rolsAsignandos = ProcuradoriaMethods.GetFuncionariosTipoRolByFlag(BigDecimal.ONE);
     }
 
