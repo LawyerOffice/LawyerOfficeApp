@@ -6,8 +6,9 @@
 package com.beans;
 
 import java.math.BigDecimal;
-import java.util.AbstractList;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -15,6 +16,7 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.model.SelectItem;
+import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
 import procuradoria.crud.ProcuradoriaMethods;
 import procuradoria.map.*;
@@ -40,6 +42,7 @@ public class AsignarPermisoBean {
 
     private List<Uztrol> rolsAsignandos;
     private Uztrol selectedRol;
+    private Uztrol newRol;
 
     public AsignarPermisoBean() {
         this.init();
@@ -56,6 +59,8 @@ public class AsignarPermisoBean {
         this.setPatterRoles("");
         this.rolsAsignandos = new ArrayList<Uztrol>();
         this.selectedRol = new Uztrol();
+        this.newRol = new Uztrol();
+        this.setNewRol(new Uztrol());
         this.loadlistFuncionarios();
         this.loadlistRoles();
         this.loadlistRolesAsignados();
@@ -76,6 +81,20 @@ public class AsignarPermisoBean {
         this.ItemsRoles.clear();
         for (int i = 0; i < list1.size(); i++) {
             this.ItemsRoles.add(new SelectItem(list1.get(i).getUzttiporolId(), list1.get(i).getUzttiporolDescripcion()));
+        }
+    }
+
+    public void genratedPermiso(ActionEvent event) {
+
+        GregorianCalendar g1 = new GregorianCalendar();
+        SimpleDateFormat s1 = new SimpleDateFormat("dd/MM/yyyy");
+        this.newRol.setUztrolFechaIn(s1.format(g1.getTime()));
+        this.newRol.setUztrolFlag(BigDecimal.ONE);
+        this.newRol.getUztfuncionario().setUztfuncionarioId(this.newRol.getId().getUztfuncionarioId());
+        this.newRol.getUzttiporol().setUzttiporolId(this.newRol.getId().getUzttiporolId());
+        Boolean exito = ProcuradoriaMethods.UpdateRol(this.newRol);
+        if(exito){
+            RequestContext.getCurrentInstance().execute("PF('dlgNewRespMSG').show();");
         }
     }
 
@@ -165,6 +184,14 @@ public class AsignarPermisoBean {
             context.addMessage(null, new FacesMessage("Error", "Seleccione una fila."));
         }
 
+    }
+
+    public Uztrol getNewRol() {
+        return newRol;
+    }
+
+    public void setNewRol(Uztrol newRol) {
+        this.newRol = newRol;
     }
 
 }
