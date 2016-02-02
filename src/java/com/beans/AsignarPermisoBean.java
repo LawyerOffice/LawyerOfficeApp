@@ -5,6 +5,8 @@
  */
 package com.beans;
 
+import banner.crud.BannerMethos;
+import banner.map.PersonaBanner;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -36,6 +38,8 @@ public class AsignarPermisoBean {
 
     private String patterFuncionario;
     private String patterRoles;
+    
+    private String claveFuncionario;
 
     private ArrayList<SelectItem> ItemsFuncionarios;
     private ArrayList<SelectItem> ItemsRoles;
@@ -43,6 +47,8 @@ public class AsignarPermisoBean {
     private List<Uztrol> rolsAsignandos;
     private Uztrol selectedRol;
     private Uztrol newRol;
+    
+    private Uztfuncionario newFuncionario;
 
     public AsignarPermisoBean() {
         this.init();
@@ -57,6 +63,7 @@ public class AsignarPermisoBean {
         this.setItemsRoles(new ArrayList<SelectItem>());
         this.setPatterFuncionario("");
         this.setPatterRoles("");
+        this.newFuncionario = new Uztfuncionario();
         this.rolsAsignandos = new ArrayList<Uztrol>();
         this.selectedRol = new Uztrol();
         this.newRol = new Uztrol();
@@ -67,13 +74,13 @@ public class AsignarPermisoBean {
     }
 
     public void loadlistFuncionarios() {
-        ArrayList<Uztfuncionario> list2 = ProcuradoriaMethods.ListFuncionarios(BigDecimal.ONE);
+        ArrayList<String> selectItemsCli = new ArrayList<String>();
+        selectItemsCli.add("Id Banner");
+        selectItemsCli.add("Cedula");
         this.ItemsFuncionarios.clear();
-        for (int i = 0; i < list2.size(); i++) {
-            this.ItemsFuncionarios.add(new SelectItem(list2.get(i).getUztfuncionarioId(), list2.get(i).getUztfuncionarioApellidos()
-                    + " " + list2.get(i).getUztfuncionarioNombres()));
+        for (String Item : selectItemsCli) {
+            this.ItemsFuncionarios.add(new SelectItem(Item, Item));
         }
-
     }
 
     public void loadlistRoles() {
@@ -93,10 +100,60 @@ public class AsignarPermisoBean {
         this.newRol.getUztfuncionario().setUztfuncionarioId(this.newRol.getId().getUztfuncionarioId());
         this.newRol.getUzttiporol().setUzttiporolId(this.newRol.getId().getUzttiporolId());
         Boolean exito = ProcuradoriaMethods.InsertRol(this.newRol);
-        if(exito){
-            //RequestContext.getCurrentInstance().execute("PF('dlgNewRespMSG').show();");
+        if (exito) {
+            RequestContext.getCurrentInstance().execute("PF('dlgNewRespMSG').show();");
             this.loadlistRolesAsignados();
         }
+    }
+    
+    public void findFuncionario(ActionEvent event){
+        
+        if (this.patterFuncionario.equals("Id Banner")) {
+            if (!ValidateFuncionario(this.claveFuncionario, 0)) {
+                generateMessage(FacesMessage.SEVERITY_WARN, "No se ha encontrado al Funcionario", "de Id: " + this.claveFuncionario);
+            }
+        } else if (patterFuncionario.equals("Cedula")) {
+            if (!ValidateFuncionario(this.claveFuncionario, 1)) {
+                generateMessage(FacesMessage.SEVERITY_WARN, "No se ha encontrado al Funcionario", "de Cedula: " + this.claveFuncionario);
+            }
+        } else {
+            generateMessage(FacesMessage.SEVERITY_INFO, "Por favor", "Seleciona un campo.");
+        }
+        
+    }
+    
+    private Boolean ValidateFuncionario(String claveFuncionario, int type) {
+        Boolean exito = false;
+        PersonaBanner find = null;
+        String mdatoCli = claveFuncionario.trim();
+        claveFuncionario = mdatoCli.toUpperCase();
+        if (type == 0) {
+            find = BannerMethos.FindPersonBannerByIdBanner(claveFuncionario);
+        } else if (type == 1) {
+            find = BannerMethos.FindPersonBannerByCedula(claveFuncionario);
+        }
+        if (find != null) {
+            SendDataFuncionario(find);
+            exito = true;
+        }
+        return exito;
+    }
+    
+    
+    public void SendDataFuncionario(PersonaBanner Funcionario){
+        this.newFuncionario.setUztfuncionarioApellidos(Funcionario.getApellidos());
+        this.newFuncionario.setUztfuncionarioCedula(Funcionario.getCedula());
+        this.newFuncionario.setUztfuncionarioEmail(Funcionario.getEmail());
+        this.newFuncionario.setUztfuncionarioFlag(BigDecimal.ONE);
+        this.newFuncionario.setUztfuncionarioNombres(Funcionario.getNombres());
+        this.newFuncionario.setUztfuncionarioIdbanner(Funcionario.getIdBanner());
+        Boolean exito = ProcuradoriaMethods.InserFuncionario(this.newFuncionario);
+    }
+    
+    
+    public void generateMessage(FacesMessage.Severity Tipo, String Header, String Mensaje) {
+        FacesMessage message = new FacesMessage(Tipo, Header, Mensaje);
+        FacesContext.getCurrentInstance().addMessage(null, message);
     }
 
     private void loadlistRolesAsignados() {
@@ -193,6 +250,22 @@ public class AsignarPermisoBean {
 
     public void setNewRol(Uztrol newRol) {
         this.newRol = newRol;
+    }
+
+    public String getClaveFuncionario() {
+        return claveFuncionario;
+    }
+
+    public void setClaveFuncionario(String claveFuncionario) {
+        this.claveFuncionario = claveFuncionario;
+    }
+
+    public Uztfuncionario getNewFuncionario() {
+        return newFuncionario;
+    }
+
+    public void setNewFuncionario(Uztfuncionario newFuncionario) {
+        this.newFuncionario = newFuncionario;
     }
 
 }
