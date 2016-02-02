@@ -11,81 +11,76 @@
         <ui:composition template="./menu_procu.xhtml">
 
             <ui:define name="content">
+                <p:growl id="growl" showDetail="true" life="3000" />
                 <h:form id="form_Caso">
+                    <p:growl id="growl" showDetail="true" life="3000" />
 
-                    <p:growl id="growl" sticky="true" showDetail="true"/>
-
-                    <p:wizard flowListener="#{nuevoCasoBean.onFlowProcess}"> 
-
-                        <p:tab id="tab_caso" title="Caso">
-                            <p:panel header="Información del Caso">
-                                <p:messages />
-                                <h:panelGrid columns="2" columnClasses="label, value">
-                                    <h:outputText value="Numero de Causa: *" />
-                                    <p:inputText value="#{nuevoCasoBean.nuevoCaso.uztcasoNumcausa}" required="true" label="Número de Causa"/>
-
-                                    <p:outputLabel for="mask" value="Fecha de creación:" />
-                                    <p:calendar id="mask" value="#{nuevoCasoBean.date}" pattern="dd-MM-yyyy" mask="true" />
-
+                    <p:panel id="panelCaso" header="Nuevo Caso">
+                        <h:panelGrid columns="2" cellpadding="10">
+                            <h:outputText value="Numero de Causa"/>
+                            <p:inputText/>
+                            
+                            <h:outputText value="Abogado:"/>
+                            <p:commandButton value="Añadir" style="width:170px"
+                                             oncomplete="PF('dlgNewPermits').show();"/>
+                            
+                            <h:outputText value="Tipo de Caso"/>
+                            <p:inputText/>
+                            
+                            <h:outputText value="Materia:"/>
+                            <p:inputText/>
+                            
+                            <h:outputText value="Judicatura:"/>
+                            <p:inputText/>                            
+                        </h:panelGrid>
+                        <f:facet name="footer">
+                            <p:commandButton value="Crear" style="width:170px"/>
+                        </f:facet>
+                    </p:panel>
+                    
+                    <p:dialog id="dlgNuevoPermiso" widgetVar="dlgNewPermits" header="Asignar Abogado" minHeight="40" modal="true" visible="false" 
+                                  showEffect="fade" hideEffect="fade" resizable="false">
+                            <h:panelGrid id="panelNuevoPermiso" columns="1" cellpadding="6">
+                                
+                                <h:panelGrid columns="4" cellpadding="10">
+                                    <h:outputLabel for="patter" value="Buscar por:"/>
+                                    <p:selectOneMenu id="patter" required="false" value="#{asignarPermisoBean.patterFuncionario}">
+                                        <f:selectItem itemLabel="Seleccionar" itemValue="" noSelectionOption="true"/>
+                                        <f:selectItems value="#{asignarPermisoBean.itemsFuncionarios}"/>
+                                    </p:selectOneMenu>
+                                    <p:inputText id="findPatter" required="fasle" value="#{asignarPermisoBean.claveFuncionario}"/>
+                                    <p:commandButton value="Buscar" id="btnPatterFuncionario" icon="ui-icon-search" update=":growl , :form_Caso:panelFunc"
+                                                     actionListener="#{asignarPermisoBean.findFuncionario(event)}"/>
                                 </h:panelGrid>
-                            </p:panel>
-                        </p:tab>
-
-                        <p:tab id="tab_abogado" title="Abogado">
-                            <p:panel header="Información del Abogado">
-                                <p:messages />
-                                <h:panelGrid columns="2" columnClasses="label, value">
-                                    <h:outputText value="Nombre: *" />
-                                    <p:inputText value="#{userWizard.user.email}" required="true" label="Email"/>
-
-                                </h:panelGrid>
-                            </p:panel>
-                        </p:tab>
-
-                        <p:tab id="confirm" title="Confirmation">
-                            <p:panel header="Confirmation">
-                                <h:panelGrid id="confirmation" columns="3" columnClasses="grid,grid,grid">
-                                    <h:panelGrid columns="2" columnClasses="label, value">
-                                        <h:outputText value="Firstname: " />
-                                        <h:outputText value="#{userWizard.user.firstname}" styleClass="outputLabel"/>
-
-                                        <h:outputText value="Lastname: " />
-                                        <h:outputText value="#{userWizard.user.lastname}" styleClass="outputLabel"/>
-
-                                        <h:outputText value="Age: " />
-                                        <h:outputText value="#{userWizard.user.age}" styleClass="outputLabel"/>
+                                <p:panel id="panelFunc" header="Funcionario">
+                                    <h:panelGrid  columns="4" cellpadding="10">
+                                        <h:outputText value="Id Banner:"/>
+                                        <h:outputText value="#{asignarPermisoBean.newFuncionario.uztfuncionarioIdbanner}"/>
+                                        <h:outputText value="Cedula:"/>
+                                        <h:outputText value="#{asignarPermisoBean.newFuncionario.uztfuncionarioCedula}"/>
+                                        <h:outputText value="Nombres:"/>
+                                        <h:outputText value="#{asignarPermisoBean.newFuncionario.uztfuncionarioNombres}"/>
+                                        <h:outputText value="Apellidos:"/>
+                                        <h:outputText value="#{asignarPermisoBean.newFuncionario.uztfuncionarioApellidos}"/> 
+                                        <h:outputText value="E-mail:"/>
+                                        <h:outputText value="#{asignarPermisoBean.newFuncionario.uztfuncionarioEmail}"/>
+                                        <h:outputLabel for="cliMovil" value="Movil:"/>
+                                        <p:inputText id="cliMovil" required="false" value="#{asignarPermisoBean.newFuncionario.uztfuncionarioMovil}"/>
                                     </h:panelGrid>
+                                </p:panel>
 
-                                    <h:panelGrid columns="2" columnClasses="label, value">
-                                        <h:outputText value="Street: " />
-                                        <h:outputText value="#{userWizard.user.street}" styleClass="outputLabel"/>
+                            </h:panelGrid>
 
-                                        <h:outputText value="Postal: " />
-                                        <h:outputText value="#{userWizard.user.postalCode}" styleClass="outputLabel"/>
+                            <f:facet name="footer">
+                                <p:commandButton value="Asignar" id="btnConfirmarNewPermiso"
+                                                 actionListener="#{asignarPermisoBean.genratedPermiso(event)}"
+                                                 update=":growl , :form_Caso"
+                                                 icon="ui-icon-check"/> <!-- action ="" -->
 
-                                        <h:outputText value="City: " />
-                                        <h:outputText value="#{userWizard.user.city}" styleClass="outputLabel"/>
-                                    </h:panelGrid>
-
-                                    <h:panelGrid columns="2" columnClasses="label, value">
-                                        <h:outputText value="Email: " />
-                                        <h:outputText value="#{userWizard.user.email}" styleClass="outputLabel"/>
-
-                                        <h:outputText value="Phone " />
-                                        <h:outputText value="#{userWizard.user.phone}" styleClass="outputLabel"/>
-
-                                        <h:outputText value="Info: " />
-                                        <h:outputText value="#{userWizard.user.info}" styleClass="outputLabel"/>
-
-                                        <h:outputText />
-                                        <h:outputText />
-                                    </h:panelGrid>
-                                </h:panelGrid>
-
-                                <p:commandButton value="Submit" actionListener="#{userWizard.save}" update="growl" process="@this"/>
-                            </p:panel>
-                        </p:tab>
-                    </p:wizard>
+                            </f:facet> 
+                        </p:dialog>
+                    
+                    
 
                 </h:form>
             </ui:define>
