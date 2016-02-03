@@ -17,32 +17,35 @@
                     <p:growl id="msgs" showDetail="true" />
 
                     <p:dataTable var="caso" 
-                                 value="#{lazyView.casos}" 
+                                 value="#{consultarCasosBean.listCasos}" 
                                  rows="10" paginator="true"
                                  widgetVar="aboTable" 
                                  emptyMessage="No se ha econtrado casos disponibles" 
-                                 selection="#{lazyView.selectedCaso}" 
+                                 selection="#{consultarCasosBean.caso}" 
                                  selectionMode="single" 
-                                 rowKey="#{caso.numeroCaso}"
-                                 id="dtabogado">
-                        <p:ajax event="rowSelect" listener="#{lazyView.onRowSelectCaso(event)}" 
+                                 rowKey="#{caso.uztcasoId}"
+                                 id="dtCasoActivos">
+                        <p:ajax event="rowSelect" listener="#{consultarCasosBean.onRowSelectCaso(event)}" 
                                 update=":form:carDetail" oncomplete="PF('carDialog').show()" />
 
                         <f:facet name="header">
                             LISTA DE CASOS
                         </f:facet>
 
-                        <p:column headerText="Numero Caso">
-                            <h:outputText value="#{caso.numeroCaso}" />
+                        <p:column headerText="Numero de Causa">
+                            <h:outputText value="#{caso.uztcasoNumcausa}" />
+                        </p:column>
+                        <p:column headerText="Motivo">
+                            <h:outputText value="#{caso.uztcasoMotivo}" />
+                        </p:column>
+                        <p:column headerText="Detalle">
+                            <h:outputText value="#{caso.uztcasoDetalle}" />
+                        </p:column>
+                        <p:column headerText="Tipo">
+                            <h:outputText value="#{caso.uztcasoTipo}" />
                         </p:column>
                         <p:column headerText="Fecha Inicial">
-                            <h:outputText value="#{caso.fechaInicio}" />
-                        </p:column>
-                        <p:column headerText="Fecha Final">
-                            <h:outputText value="#{caso.fechaActual}" />
-                        </p:column>
-                        <p:column headerText="Estado">
-                            <h:outputText value="#{caso.estado}" />
+                            <h:outputText value="#{caso.uztcasoFechaIn}" />
                         </p:column>
 
                     </p:dataTable>
@@ -50,21 +53,21 @@
                     <p:dialog header="Estado del caso" widgetVar="carDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
                         <p:outputPanel id="carDetail" style="text-align:center;">
                             <h2><strong>Detalles del Caso</strong></h2>
-                            <h:panelGrid id="panelNuevoCasoConf" columns="2" cellpadding="6">
+                            <h:panelGrid id="panelNuevoCasoConf" rendered="#{not empty consultarCasosBean.caso}" columnClasses="label,label">
 
-                                <h:outputLabel value="Demandante: " style="font-weight:bold;text-decoration:underline"/>
+                                <!--<h:outputLabel value="Demandante: " style="font-weight:bold;text-decoration:underline"/>-->
                                 <!--<h:outputLabel value=""/>  Viene el valor del anterior cuadro -->
 
-                                <h:outputLabel value="Numero de Causa: " style="font-weight:bold;text-decoration:underline"/>
+                                <h:outputText value="Numero de Causa: " style="font-weight:bold;text-decoration:underline"/>
+                                <h:outputText value="#{consultarCasosBean.caso.uztcasoNumcausa}" />
+
+                                <!--<h:outputLabel value="Tribunal: " style="font-weight:bold;text-decoration:underline"/>-->
                                 <!--<h:outputLabel value=""/>  Viene el valor del anterior cuadro -->
 
-                                <h:outputLabel value="Tribunal: " style="font-weight:bold;text-decoration:underline"/>
-                                <!--<h:outputLabel value=""/>  Viene el valor del anterior cuadro -->
+                                <h:outputText value="Tipo de caso: " style="font-weight:bold;text-decoration:underline"/>
+                                <h:outputText value="#{consultarCasosBean.caso.uztcasoTipo}" />
 
-                                <h:outputLabel value="Tipo de caso: " style="font-weight:bold;text-decoration:underline"/>
-                                <!--<h:outputLabel value=""/>  Viene el valor del anterior cuadro -->
-
-                                <h:outputLabel value="Abogado Responsable: " style="font-weight:bold;text-decoration:underline"/>
+                                <!--<h:outputLabel value="Abogado Responsable: " style="font-weight:bold;text-decoration:underline"/>-->
                                 <!--<h:outputLabel value=""/>  Viene el valor del anterior cuadro -->
 
                                 <p:dataTable var="DetailCaso" 
