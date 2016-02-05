@@ -23,7 +23,7 @@
                                  emptyMessage="No se ha econtrado casos disponibles" 
                                  selection="#{consultarCasosBean.caso}" 
                                  selectionMode="single" 
-                                 rowKey="#{caso.uztcasoId}"
+                                 rowKey="#{caso.uzatcasoId}"
                                  id="dtCasoActivos">
                         <p:ajax event="rowSelect" listener="#{consultarCasosBean.onRowSelectCaso(event)}" 
                                 update=":form:carDetail" oncomplete="PF('carDialog').show()" />
@@ -33,19 +33,19 @@
                         </f:facet>
 
                         <p:column headerText="Numero de Causa">
-                            <h:outputText value="#{caso.uztcasoNumcausa}" />
+                            <h:outputText value="#{caso.uzatcasoNumcausa}" />
                         </p:column>
                         <p:column headerText="Motivo">
-                            <h:outputText value="#{caso.uztcasoMotivo}" />
+                            <h:outputText value="#{caso.uzatcasoMotivo}" />
                         </p:column>
                         <p:column headerText="Detalle">
-                            <h:outputText value="#{caso.uztcasoDetalle}" />
+                            <h:outputText value="#{caso.uzatcasoDetalle}" />
                         </p:column>
                         <p:column headerText="Tipo">
-                            <h:outputText value="#{caso.uztcasoTipo}" />
+                            <h:outputText value="#{caso.uzatcasoTipo}" />
                         </p:column>
                         <p:column headerText="Fecha Inicial">
-                            <h:outputText value="#{caso.uztcasoFechaIn}" />
+                            <h:outputText value="#{caso.uzatcasoFechaIn}" />
                         </p:column>
 
                     </p:dataTable>
@@ -59,13 +59,13 @@
                                 <!--<h:outputLabel value=""/>  Viene el valor del anterior cuadro -->
 
                                 <h:outputText value="Numero de Causa: " style="font-weight:bold;text-decoration:underline"/>
-                                <h:outputText value="#{consultarCasosBean.caso.uztcasoNumcausa}" />
+                                <h:outputText value="#{consultarCasosBean.caso.uzatcasoNumcausa}" />
 
                                 <!--<h:outputLabel value="Tribunal: " style="font-weight:bold;text-decoration:underline"/>-->
                                 <!--<h:outputLabel value=""/>  Viene el valor del anterior cuadro -->
 
                                 <h:outputText value="Tipo de caso: " style="font-weight:bold;text-decoration:underline"/>
-                                <h:outputText value="#{consultarCasosBean.caso.uztcasoTipo}" />
+                                <h:outputText value="#{consultarCasosBean.caso.uzatcasoTipo}" />
 
                                 <!--<h:outputLabel value="Abogado Responsable: " style="font-weight:bold;text-decoration:underline"/>-->
                                 <!--<h:outputLabel value=""/>  Viene el valor del anterior cuadro -->

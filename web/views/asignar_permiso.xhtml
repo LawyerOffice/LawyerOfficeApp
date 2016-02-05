@@ -29,25 +29,25 @@
                             widgetVar="PATable" 
                             selection="#{asignarPermisoBean.selectedRol}" 
                             selectionMode="single" 
-                            rowKey="#{DetailPermisoAsig.uztfuncionario.uztfuncionarioCedula}"
+                            rowKey="#{DetailPermisoAsig.uzatfunci.uzatfuncionarioCedula}"
                             emptyMessage="No se ha econtrado responsables disponibles.">
                             <f:facet name="header">
                                 Permisos Asignados
                             </f:facet>
                             <p:column headerText="Número">
-                                <h:outputText value="#{DetailPermisoAsig.uztfuncionario.uztfuncionarioCedula}" />
+                                <h:outputText value="#{DetailPermisoAsig.uzatfunci.uzatfuncionarioCedula}" />
                             </p:column>
                             <p:column headerText="Apellido">
-                                <h:outputText value="#{DetailPermisoAsig.uztfuncionario.uztfuncionarioApellidos}" />
+                                <h:outputText value="#{DetailPermisoAsig.uzatfunci.uzatfuncionarioApellidos}" />
                             </p:column>
                             <p:column headerText="Nombre">
-                                <h:outputText value="#{DetailPermisoAsig.uztfuncionario.uztfuncionarioNombres}" />
+                                <h:outputText value="#{DetailPermisoAsig.uzatfunci.uzatfuncionarioNombres}" />
                             </p:column>
                             <p:column headerText="Permiso">
-                                <h:outputText value="#{DetailPermisoAsig.uzttiporol.uzttiporolDescripcion}" />
+                                <h:outputText value="#{DetailPermisoAsig.uzattrol.uzattiporolDescripcion}" />
                             </p:column>
                             <p:column headerText="Fecha Asignacion">
-                                <h:outputText value="#{DetailPermisoAsig.uztrolFechaIn}" />
+                                <h:outputText value="#{DetailPermisoAsig.uzatrolFechaIn}" />
                             </p:column>
 
                         </p:dataTable>
@@ -79,22 +79,22 @@
                                 <p:panel id="panelFunc" header="Funcionario">
                                     <h:panelGrid  columns="4" cellpadding="10">
                                         <h:outputText value="Id Banner:"/>
-                                        <h:outputText value="#{asignarPermisoBean.newFuncionario.uztfuncionarioIdbanner}"/>
+                                        <h:outputText value="#{asignarPermisoBean.newFuncionario.uzatfuncionarioIdbanner}"/>
                                         <h:outputText value="Cedula:"/>
-                                        <h:outputText value="#{asignarPermisoBean.newFuncionario.uztfuncionarioCedula}"/>
+                                        <h:outputText value="#{asignarPermisoBean.newFuncionario.uzatfuncionarioCedula}"/>
                                         <h:outputText value="Nombres:"/>
-                                        <h:outputText value="#{asignarPermisoBean.newFuncionario.uztfuncionarioNombres}"/>
+                                        <h:outputText value="#{asignarPermisoBean.newFuncionario.uzatfuncionarioNombres}"/>
                                         <h:outputText value="Apellidos:"/>
-                                        <h:outputText value="#{asignarPermisoBean.newFuncionario.uztfuncionarioApellidos}"/> 
+                                        <h:outputText value="#{asignarPermisoBean.newFuncionario.uzatfuncionarioApellidos}"/> 
                                         <h:outputText value="E-mail:"/>
-                                        <h:outputText value="#{asignarPermisoBean.newFuncionario.uztfuncionarioEmail}"/>
+                                        <h:outputText value="#{asignarPermisoBean.newFuncionario.uzatfuncionarioEmail}"/>
                                         <h:outputLabel for="cliMovil" value="Movil:"/>
-                                        <p:inputText id="cliMovil" required="false" value="#{asignarPermisoBean.newFuncionario.uztfuncionarioMovil}"/>
+                                        <p:inputText id="cliMovil" required="false" value="#{asignarPermisoBean.newFuncionario.uzatfuncionarioMovil}"/>
                                     </h:panelGrid>
                                 </p:panel>
 
                                 <h:outputLabel value="Permiso:"/>
-                                <p:selectOneMenu id="RolPersona" value="#{asignarPermisoBean.newRol.id.uzttiporolId}" style="width:345px">
+                                <p:selectOneMenu id="RolPersona" value="#{asignarPermisoBean.newRol.id.uzattiporolId}" style="width:345px">
                                     <f:selectItem itemLabel="Seleccionar" itemValue="" noSelectionOption="true"/>
                                     <f:selectItems value="#{asignarPermisoBean.itemsRoles}"/>
                                 </p:selectOneMenu>
