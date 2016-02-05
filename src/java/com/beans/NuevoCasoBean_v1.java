@@ -14,8 +14,8 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import org.primefaces.event.FlowEvent;
-import procuradoria.map.Uztactor;
-import procuradoria.map.Uztcaso;
+import procuradoria.map.Uzatactor;
+import procuradoria.map.Uzatcaso;
 
 /**
  *
@@ -28,11 +28,11 @@ public class NuevoCasoBean_v1 implements Serializable {
     /**
      * Creates a new instance of NuevoCasoBean
      */
-    private Uztcaso NuevoCaso;
-    private Uztactor NuevoActor;
+    private Uzatcaso NuevoCaso;
+    private Uzatactor NuevoActor;
 
-    private ArrayList<Uztactor> NuevoDemandante;
-    private ArrayList<Uztactor> NuevoDemandado;
+    private ArrayList<Uzatactor> NuevoDemandante;
+    private ArrayList<Uzatactor> NuevoDemandado;
     //TIPOS DE BANDERAS PARA DEFINIR ACTOR
     //0-DEMANDANTE
     //1-DEMANDADO
@@ -40,49 +40,49 @@ public class NuevoCasoBean_v1 implements Serializable {
     public NuevoCasoBean_v1() {
         this.init();
         if (this.NuevoCaso == null) {
-            this.NuevoCaso = new Uztcaso();
+            this.NuevoCaso = new Uzatcaso();
         }
         if (this.NuevoActor == null) {
-            this.NuevoActor = new Uztactor();
+            this.NuevoActor = new Uzatactor();
         }
     }
 
     private void init() {
-        this.setNuevoCaso(new Uztcaso());
-        this.setNuevoActor(new Uztactor());
-        this.setNuevoDemandado(new ArrayList<Uztactor>());
-        this.setNuevoDemandante(new ArrayList<Uztactor>());
+        this.setNuevoCaso(new Uzatcaso());
+        this.setNuevoActor(new Uzatactor());
+        this.setNuevoDemandado(new ArrayList<Uzatactor>());
+        this.setNuevoDemandante(new ArrayList<Uzatactor>());
     }
 
-    public Uztcaso getNuevoCaso() {
+    public Uzatcaso getNuevoCaso() {
         return NuevoCaso;
     }
 
-    public void setNuevoCaso(Uztcaso NuevoCaso) {
+    public void setNuevoCaso(Uzatcaso NuevoCaso) {
         this.NuevoCaso = NuevoCaso;
     }
 
-    public Uztactor getNuevoActor() {
+    public Uzatactor getNuevoActor() {
         return NuevoActor;
     }
 
-    public void setNuevoActor(Uztactor NuevoActor) {
+    public void setNuevoActor(Uzatactor NuevoActor) {
         this.NuevoActor = NuevoActor;
     }
 
-    public ArrayList<Uztactor> getNuevoDemandante() {
+    public ArrayList<Uzatactor> getNuevoDemandante() {
         return NuevoDemandante;
     }
 
-    public void setNuevoDemandante(ArrayList<Uztactor> NuevoDemandante) {
+    public void setNuevoDemandante(ArrayList<Uzatactor> NuevoDemandante) {
         this.NuevoDemandante = NuevoDemandante;
     }
 
-    public ArrayList<Uztactor> getNuevoDemandado() {
+    public ArrayList<Uzatactor> getNuevoDemandado() {
         return NuevoDemandado;
     }
 
-    public void setNuevoDemandado(ArrayList<Uztactor> NuevoDemandado) {
+    public void setNuevoDemandado(ArrayList<Uzatactor> NuevoDemandado) {
         this.NuevoDemandado = NuevoDemandado;
     }
 
@@ -90,7 +90,7 @@ public class NuevoCasoBean_v1 implements Serializable {
     private boolean skip;
 
     public void save() {
-        FacesMessage msg = new FacesMessage("Successful", "Welcome :" + NuevoActor.getUztactorId());
+        FacesMessage msg = new FacesMessage("Successful", "Welcome :" + NuevoActor.getUzatactorId());
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 
@@ -113,9 +113,9 @@ public class NuevoCasoBean_v1 implements Serializable {
 
     public void AddItem(ActionEvent event) {
         if (NuevoActor != null) {
-            NuevoActor.setUztactorCedula(String.valueOf(NuevoActor.getUztactorId()));
+            NuevoActor.setUzatactorCedula(String.valueOf(NuevoActor.getUzatactorId()));
             NuevoDemandante.add(NuevoActor);
-            NuevoActor = new Uztactor();
+            NuevoActor = new Uzatactor();
 
             FacesContext context = FacesContext.getCurrentInstance();
             context.addMessage(null, new FacesMessage("Éxito", "Demandante añadido correctamente."));

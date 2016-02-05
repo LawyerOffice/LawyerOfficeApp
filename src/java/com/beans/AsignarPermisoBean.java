@@ -34,7 +34,7 @@ public class AsignarPermisoBean {
     /**
      * Creates a new instance of AsignarPermisoBean
      */
-    private Uztasignar NuevaAsiganacion;
+    private Uzatasign NuevaAsiganacion;
 
     private String patterFuncionario;
     private String patterRoles;
@@ -44,30 +44,30 @@ public class AsignarPermisoBean {
     private ArrayList<SelectItem> ItemsFuncionarios;
     private ArrayList<SelectItem> ItemsRoles;
 
-    private List<Uztrol> rolsAsignandos;
-    private Uztrol selectedRol;
-    private Uztrol newRol;
+    private List<Uzatrol> rolsAsignandos;
+    private Uzatrol selectedRol;
+    private Uzatrol newRol;
 
-    private Uztfuncionario newFuncionario;
+    private Uzatfunci newFuncionario;
 
     public AsignarPermisoBean() {
         this.init();
         if (this.NuevaAsiganacion == null) {
-            this.NuevaAsiganacion = new Uztasignar();
+            this.NuevaAsiganacion = new Uzatasign();
         }
     }
 
     private void init() {
-        this.setNuevaAsiganacion(new Uztasignar());
+        this.setNuevaAsiganacion(new Uzatasign());
         this.setItemsFuncionarios(new ArrayList<SelectItem>());
         this.setItemsRoles(new ArrayList<SelectItem>());
         this.setPatterFuncionario("");
         this.setPatterRoles("");
-        this.newFuncionario = new Uztfuncionario();
-        this.rolsAsignandos = new ArrayList<Uztrol>();
-        this.selectedRol = new Uztrol();
-        this.newRol = new Uztrol();
-        this.setNewRol(new Uztrol());
+        this.newFuncionario = new Uzatfunci();
+        this.rolsAsignandos = new ArrayList<Uzatrol>();
+        this.selectedRol = new Uzatrol();
+        this.newRol = new Uzatrol();
+        this.setNewRol(new Uzatrol());
         this.loadlistFuncionarios();
         this.loadlistRoles();
         this.loadlistRolesAsignados();
@@ -84,10 +84,10 @@ public class AsignarPermisoBean {
     }
 
     public void loadlistRoles() {
-        ArrayList<Uzttiporol> list1 = ProcuradoriaMethods.ListTipoRol();
+        ArrayList<Uzattrol> list1 = ProcuradoriaMethods.ListTipoRol();
         this.ItemsRoles.clear();
         for (int i = 0; i < list1.size(); i++) {
-            this.ItemsRoles.add(new SelectItem(list1.get(i).getUzttiporolId(), list1.get(i).getUzttiporolDescripcion()));
+            this.ItemsRoles.add(new SelectItem(list1.get(i).getUzattiporolId(), list1.get(i).getUzattiporolDescripcion()));
         }
     }
 
@@ -95,11 +95,11 @@ public class AsignarPermisoBean {
 
         GregorianCalendar g1 = new GregorianCalendar();
         SimpleDateFormat s1 = new SimpleDateFormat("dd/MM/yyyy");
-        this.newRol.setUztrolFechaIn(s1.format(g1.getTime()));
-        this.newRol.setUztrolFlag(BigDecimal.ONE);
-        this.newRol.getId().setUztfuncionarioId(this.newFuncionario.getUztfuncionarioId());
-        this.newRol.getUztfuncionario().setUztfuncionarioId(this.newFuncionario.getUztfuncionarioId());
-        this.newRol.getUzttiporol().setUzttiporolId(this.newRol.getId().getUzttiporolId());
+        this.newRol.setUzatrolFechaIn(s1.format(g1.getTime()));
+        this.newRol.setUzatrolFlag(BigDecimal.ONE);
+        this.newRol.getId().setUzatfuncionarioId(this.newFuncionario.getUzatfuncionarioId());
+        this.newRol.getUzatfunci().setUzatfuncionarioId(this.newFuncionario.getUzatfuncionarioId());
+        this.newRol.getUzattrol().setUzattiporolId(this.newRol.getId().getUzattiporolId());
         Boolean exito = ProcuradoriaMethods.InsertRol(this.newRol);
         if (exito) {
             RequestContext.getCurrentInstance().execute("PF('dlgNewRespMSG').show();");
@@ -146,18 +146,18 @@ public class AsignarPermisoBean {
         if (this.newFuncionario != null) {
             exito = true;
         } else {
-            this.newFuncionario = new Uztfuncionario();
+            this.newFuncionario = new Uzatfunci();
         }
         return exito;
     }
 
     public void SendDataFuncionario(PersonaBanner Funcionario) {
-        this.newFuncionario.setUztfuncionarioApellidos(Funcionario.getApellidos());
-        this.newFuncionario.setUztfuncionarioCedula(Funcionario.getCedula());
-        this.newFuncionario.setUztfuncionarioEmail(Funcionario.getEmail());
-        this.newFuncionario.setUztfuncionarioFlag(BigDecimal.ONE);
-        this.newFuncionario.setUztfuncionarioNombres(Funcionario.getNombres());
-        this.newFuncionario.setUztfuncionarioIdbanner(Funcionario.getIdBanner());
+        this.newFuncionario.setUzatfuncionarioApellidos(Funcionario.getApellidos());
+        this.newFuncionario.setUzatfuncionarioCedula(Funcionario.getCedula());
+        this.newFuncionario.setUzatfuncionarioEmail(Funcionario.getEmail());
+        this.newFuncionario.setUzatfuncionarioFlag(BigDecimal.ONE);
+        this.newFuncionario.setUzatfuncionarioNombres(Funcionario.getNombres());
+        this.newFuncionario.setUzatfuncionarioIdbanner(Funcionario.getIdBanner());
         processAsignarPermiso();
     }
 
@@ -181,11 +181,11 @@ public class AsignarPermisoBean {
         return 0;
     }
 
-    public Uztasignar getNuevaAsiganacion() {
+    public Uzatasign getNuevaAsiganacion() {
         return NuevaAsiganacion;
     }
 
-    public void setNuevaAsiganacion(Uztasignar NuevaAsiganacion) {
+    public void setNuevaAsiganacion(Uzatasign NuevaAsiganacion) {
         this.NuevaAsiganacion = NuevaAsiganacion;
     }
 
@@ -221,39 +221,39 @@ public class AsignarPermisoBean {
         this.ItemsRoles = ItemsRoles;
     }
 
-    public List<Uztrol> getRolsAsignandos() {
+    public List<Uzatrol> getRolsAsignandos() {
         return rolsAsignandos;
     }
 
-    public void setRolsAsignandos(List<Uztrol> rolsAsignandos) {
+    public void setRolsAsignandos(List<Uzatrol> rolsAsignandos) {
         this.rolsAsignandos = rolsAsignandos;
     }
 
-    public Uztrol getSelectedRol() {
+    public Uzatrol getSelectedRol() {
         return selectedRol;
     }
 
-    public void setSelectedRol(Uztrol selectedRol) {
+    public void setSelectedRol(Uzatrol selectedRol) {
         this.selectedRol = selectedRol;
     }
 
     public void onRowSelect(SelectEvent event) {
-        this.selectedRol = (Uztrol) event.getObject();
+        this.selectedRol = (Uzatrol) event.getObject();
     }
 
     public void deletePermisoAginado() {
         this.rolsAsignandos.remove(this.selectedRol);
-        this.selectedRol.setUztrolFlag(BigDecimal.ZERO);
+        this.selectedRol.setUzatrolFlag(BigDecimal.ZERO);
         ProcuradoriaMethods.UpdateRol(this.selectedRol);
-        this.selectedRol = new Uztrol();
+        this.selectedRol = new Uzatrol();
     }
 
     public void EraseItem(ActionEvent event) {
         if (this.selectedRol != null) {
             this.rolsAsignandos.remove(this.selectedRol);
-            this.selectedRol.setUztrolFlag(BigDecimal.ZERO);
+            this.selectedRol.setUzatrolFlag(BigDecimal.ZERO);
             ProcuradoriaMethods.UpdateRol(this.selectedRol);
-            this.selectedRol = new Uztrol();
+            this.selectedRol = new Uzatrol();
         } else {
             FacesContext context = FacesContext.getCurrentInstance();
             context.addMessage(null, new FacesMessage("Error", "Seleccione una fila."));
@@ -261,11 +261,11 @@ public class AsignarPermisoBean {
 
     }
 
-    public Uztrol getNewRol() {
+    public Uzatrol getNewRol() {
         return newRol;
     }
 
-    public void setNewRol(Uztrol newRol) {
+    public void setNewRol(Uzatrol newRol) {
         this.newRol = newRol;
     }
 
@@ -277,11 +277,11 @@ public class AsignarPermisoBean {
         this.claveFuncionario = claveFuncionario;
     }
 
-    public Uztfuncionario getNewFuncionario() {
+    public Uzatfunci getNewFuncionario() {
         return newFuncionario;
     }
 
-    public void setNewFuncionario(Uztfuncionario newFuncionario) {
+    public void setNewFuncionario(Uzatfunci newFuncionario) {
         this.newFuncionario = newFuncionario;
     }
 

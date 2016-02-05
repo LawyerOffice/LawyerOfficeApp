@@ -38,7 +38,7 @@ public class ConsultarCasosBean {
     
     public void loadlistCasos() {
         this.ListCasos.clear();
-        this.ListCasos = ProcuradoriaMethods.GetCasosActivos();
+        this.ListCasos = ProcuradoriaMethods.GetActiveCasos();
     }
 
     public void onRowSelectCaso(SelectEvent event) {

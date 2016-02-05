@@ -10,8 +10,8 @@ import java.util.ArrayList;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.model.SelectItem;
-import procuradoria.map.Uztasignar;
-import procuradoria.map.Uztcaso;
+import procuradoria.map.Uzatasign;
+import procuradoria.map.Uzatcaso;
 
 /**
  *
@@ -24,8 +24,8 @@ public class GenerarCasoBean {
     /**
      * Creates a new instance of GenerarCasoBean
      */
-    private Uztasignar newAsignador;
-    private Uztcaso newCaso;
+    private Uzatasign newAsignador;
+    private Uzatcaso newCaso;
             
     private ArrayList<SelectItem> ItemsMaterias;
     private ArrayList<SelectItem> ItemsJudicaturas;
@@ -50,19 +50,19 @@ public class GenerarCasoBean {
         return ItemsJudicaturas;
     }
 
-    public Uztasignar getNewAsignador() {
+    public Uzatasign getNewAsignador() {
         return newAsignador;
     }
 
-    public void setNewAsignador(Uztasignar newAsignador) {
+    public void setNewAsignador(Uzatasign newAsignador) {
         this.newAsignador = newAsignador;
     }
 
-    public Uztcaso getNewCaso() {
+    public Uzatcaso getNewCaso() {
         return newCaso;
     }
 
-    public void setNewCaso(Uztcaso newCaso) {
+    public void setNewCaso(Uzatcaso newCaso) {
         this.newCaso = newCaso;
     }
 

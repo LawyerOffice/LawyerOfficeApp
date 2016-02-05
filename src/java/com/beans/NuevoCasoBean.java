@@ -14,8 +14,8 @@ import javax.faces.context.FacesContext;
 import org.primefaces.event.FlowEvent;
 import java.util.Date;
 import procuradoria.crud.ProcuradoriaMethods;
-import procuradoria.map.Uztcaso;
-import procuradoria.map.Uztfuncionario;
+import procuradoria.map.Uzatcaso;
+import procuradoria.map.Uzatfunci;
 
 /**
  *
@@ -28,13 +28,13 @@ public class NuevoCasoBean implements Serializable {
     /**
      * Creates a new instance of NuevoCasoBean
      */
-    private Uztcaso NuevoCaso;
+    private Uzatcaso NuevoCaso;
     private Date date;
 
     public NuevoCasoBean() {
         this.init();
         if (this.NuevoCaso == null) {
-            this.NuevoCaso = new Uztcaso();
+            this.NuevoCaso = new Uzatcaso();
         }
         if (this.date == null) {
             this.date = new Date();
@@ -42,7 +42,7 @@ public class NuevoCasoBean implements Serializable {
     }
     
         private void init() {
-        this.setNuevoCaso(new Uztcaso());
+        this.setNuevoCaso(new Uzatcaso());
         this.setDate(new Date());
     }
 
@@ -54,11 +54,11 @@ public class NuevoCasoBean implements Serializable {
         this.date = date;
     }
 
-    public Uztcaso getNuevoCaso() {
+    public Uzatcaso getNuevoCaso() {
         return NuevoCaso;
     }
 
-    public void setNuevoCaso(Uztcaso NuevoCaso) {
+    public void setNuevoCaso(Uzatcaso NuevoCaso) {
         this.NuevoCaso = NuevoCaso;
     }
     
@@ -66,7 +66,7 @@ public class NuevoCasoBean implements Serializable {
     private boolean skip;
 
     public void save() {
-        FacesMessage msg = new FacesMessage("Éxito", "Datos guardados correctamente del caso con Número de Causa : " + NuevoCaso.getUztcasoNumcausa());
+        FacesMessage msg = new FacesMessage("Éxito", "Datos guardados correctamente del caso con Número de Causa : " + NuevoCaso.getUzatcasoNumcausa());
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 
