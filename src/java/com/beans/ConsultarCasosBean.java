@@ -24,6 +24,7 @@ public class ConsultarCasosBean {
      * Creates a new instance of ConsultarCasosBean
      */
     private Uzatcaso Caso;
+    private Uzatcaso SlectedCaso;
     private ArrayList<Uzatcaso> ListCasos;
 
     public ConsultarCasosBean() {
@@ -32,6 +33,7 @@ public class ConsultarCasosBean {
 
     private void init() {
         this.setCaso(new Uzatcaso());
+        this.SlectedCaso =  new Uzatcaso();
         this.setListCasos(new ArrayList<Uzatcaso>());
         this.loadlistCasos();
     }
@@ -42,7 +44,7 @@ public class ConsultarCasosBean {
     }
 
     public void onRowSelectCaso(SelectEvent event) {
-        this.Caso = (Uzatcaso) event.getObject();
+        this.SlectedCaso = (Uzatcaso) event.getObject();
     }
 
     public Uzatcaso getCaso() {
@@ -59,5 +61,13 @@ public class ConsultarCasosBean {
 
     public void setListCasos(ArrayList<Uzatcaso> ListCasos) {
         this.ListCasos = ListCasos;
+    }
+
+    public Uzatcaso getSlectedCaso() {
+        return SlectedCaso;
+    }
+
+    public void setSlectedCaso(Uzatcaso SlectedCaso) {
+        this.SlectedCaso = SlectedCaso;
     }
 }

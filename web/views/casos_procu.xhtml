@@ -12,21 +12,19 @@
 
             <ui:define name="content">
 
-
                 <h:form id="form">
-                    <p:growl id="msgs" showDetail="true" />
 
                     <p:dataTable var="caso" 
                                  value="#{consultarCasosBean.listCasos}" 
                                  rows="10" paginator="true"
                                  widgetVar="aboTable" 
                                  emptyMessage="No se ha econtrado casos disponibles" 
-                                 selection="#{consultarCasosBean.caso}" 
+                                 selection="#{consultarCasosBean.slectedCaso}" 
                                  selectionMode="single" 
                                  rowKey="#{caso.uzatcasoId}"
                                  id="dtCasoActivos">
-                        <p:ajax event="rowSelect" listener="#{consultarCasosBean.onRowSelectCaso(event)}" 
-                                update=":form:carDetail" oncomplete="PF('carDialog').show()" />
+                        <p:ajax event="rowSelect" listener="#{consultarCasosBean.onRowSelectCaso}" 
+                                update=":form:msgar" oncomplete="PF('carDialog').show()" />
 
                         <f:facet name="header">
                             LISTA DE CASOS
@@ -50,59 +48,58 @@
 
                     </p:dataTable>
 
-                    <p:dialog header="Estado del caso" widgetVar="carDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
-                        <p:outputPanel id="carDetail" style="text-align:center;">
-                            <h2><strong>Detalles del Caso</strong></h2>
-                            <h:panelGrid id="panelNuevoCasoConf" rendered="#{not empty consultarCasosBean.caso}" columnClasses="label,label">
+                    <p:dialog id="msgar" header="Estado del caso" widgetVar="carDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
 
-                                <!--<h:outputLabel value="Demandante: " style="font-weight:bold;text-decoration:underline"/>-->
-                                <!--<h:outputLabel value=""/>  Viene el valor del anterior cuadro -->
+                        <h2><strong>Detalles del Caso</strong></h2>
+                        <h:panelGrid columns="2">
 
-                                <h:outputText value="Numero de Causa: " style="font-weight:bold;text-decoration:underline"/>
-                                <h:outputText value="#{consultarCasosBean.caso.uzatcasoNumcausa}" />
+                            <!--<h:outputLabel value="Demandante: " style="font-weight:bold;text-decoration:underline"/>-->
+                            <!--<h:outputLabel value=""/>  Viene el valor del anterior cuadro -->
 
-                                <!--<h:outputLabel value="Tribunal: " style="font-weight:bold;text-decoration:underline"/>-->
-                                <!--<h:outputLabel value=""/>  Viene el valor del anterior cuadro -->
+                            <h:outputText value="Numero de Causa: " style="font-weight:bold;text-decoration:underline"/>
+                            <h:outputText value="#{consultarCasosBean.slectedCaso.uzatcasoNumcausa}" />
 
-                                <h:outputText value="Tipo de caso: " style="font-weight:bold;text-decoration:underline"/>
-                                <h:outputText value="#{consultarCasosBean.caso.uzatcasoTipo}" />
+                            <!--<h:outputLabel value="Tribunal: " style="font-weight:bold;text-decoration:underline"/>-->
+                            <!--<h:outputLabel value=""/>  Viene el valor del anterior cuadro -->
 
-                                <!--<h:outputLabel value="Abogado Responsable: " style="font-weight:bold;text-decoration:underline"/>-->
-                                <!--<h:outputLabel value=""/>  Viene el valor del anterior cuadro -->
+                            <h:outputText value="Tipo de caso: " style="font-weight:bold;text-decoration:underline"/>
+                            <h:outputText value="#{consultarCasosBean.slectedCaso.uzatcasoTipo}" />
 
-                                <p:dataTable var="DetailCaso" 
-                                             value="#{lazyView.casos}" 
-                                             rows="5" paginator="true"
-                                             widgetVar="casoTable" 
-                                             emptyMessage="No se ha econtrado casos disponibles" 
-                                             id="dtCaso">
-                                    <!--<h:outputLabel value=""/>  Tomar encuenta siempre la varibale que se este manejando en cada tabla debido al javascript interno que maneja-->
-                                    <f:facet name="header">
-                                        FASES ACTUALES
-                                    </f:facet>
+                            <!--<h:outputLabel value="Abogado Responsable: " style="font-weight:bold;text-decoration:underline"/>-->
+                            <!--<h:outputLabel value=""/>  Viene el valor del anterior cuadro -->
 
-                                    <p:column headerText="Número">
-                                        <h:outputText value="#{DetailCaso.numeroCaso}" />
-                                    </p:column>
-                                    <p:column headerText="Nombre">
-                                        <h:outputText value="#{DetailCaso.fechaInicio}" />
-                                    </p:column>
-                                    <p:column headerText="Descripción">
-                                        <h:outputText value="#{DetailCaso.fechaActual}" />
-                                    </p:column>
-                                    <p:column headerText="Fecha Inicial">
-                                        <h:outputText value="#{DetailCaso.fechaActual}" />
-                                    </p:column>
-                                    <p:column headerText="Fecha Final">
-                                        <h:outputText value="#{DetailCaso.fechaActual}" />
-                                    </p:column>
-                                    <p:column headerText="Documentación">
-                                        <h:outputText value="#{DetailCaso.estado}" />
-                                    </p:column>
+                            <p:dataTable var="DetailCaso" 
+                                         value="#{lazyView.casos}" 
+                                         rows="5" paginator="true"
+                                         widgetVar="casoTable" 
+                                         emptyMessage="No se ha econtrado casos disponibles" 
+                                         id="dtCaso">
+                                <!--<h:outputLabel value=""/>  Tomar encuenta siempre la varibale que se este manejando en cada tabla debido al javascript interno que maneja-->
+                                <f:facet name="header">
+                                    FASES ACTUALES
+                                </f:facet>
 
-                                </p:dataTable>
-                            </h:panelGrid>
-                        </p:outputPanel>
+                                <p:column headerText="Número">
+                                    <h:outputText value="#{DetailCaso.numeroCaso}" />
+                                </p:column>
+                                <p:column headerText="Nombre">
+                                    <h:outputText value="#{DetailCaso.fechaInicio}" />
+                                </p:column>
+                                <p:column headerText="Descripción">
+                                    <h:outputText value="#{DetailCaso.fechaActual}" />
+                                </p:column>
+                                <p:column headerText="Fecha Inicial">
+                                    <h:outputText value="#{DetailCaso.fechaActual}" />
+                                </p:column>
+                                <p:column headerText="Fecha Final">
+                                    <h:outputText value="#{DetailCaso.fechaActual}" />
+                                </p:column>
+                                <p:column headerText="Documentación">
+                                    <h:outputText value="#{DetailCaso.estado}" />
+                                </p:column>
+
+                            </p:dataTable>
+                        </h:panelGrid>
 
                         <f:facet name="footer">
                             <p:commandButton value="Regresar" id="btnAsigarNuevoCasoRegresar"  
