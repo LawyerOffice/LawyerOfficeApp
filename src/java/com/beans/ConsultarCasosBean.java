@@ -51,6 +51,7 @@ public class ConsultarCasosBean {
     public void onRowSelectCaso(SelectEvent event) {
         this.SlectedCaso = (Uzatcaso) event.getObject();
         this.Asignar =  ProcuradoriaMethods.GetActiveAbogadosByIdCaso(this.SlectedCaso.getUzatcasoId());
+        
     }
 
     public Uzatcaso getCaso() {
