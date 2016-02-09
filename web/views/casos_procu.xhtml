@@ -30,7 +30,7 @@
                             LISTA DE CASOS
                         </f:facet>
 
-                        <p:column headerText="Numero de Causa">
+                        <p:column headerText="Numero de Causa" filterBy="#{caso.uzatcasoNumcausa}" >
                             <h:outputText value="#{caso.uzatcasoNumcausa}" />
                         </p:column>
                         <p:column headerText="Motivo">
@@ -48,25 +48,44 @@
 
                     </p:dataTable>
 
-                    <p:dialog id="msgar" header="Estado del caso" widgetVar="carDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+                    <p:dialog id="msgar" header="Estado del caso" widgetVar="carDialog" 
+                              modal="true" showEffect="fade" hideEffect="fade" resizable="false">
 
-                        <h2><strong>Detalles del Caso</strong></h2>
-                        <h:panelGrid columns="2">
+                        <p:accordionPanel multiple="true">
+                            <p:tab title="Detalles del Caso">
+                                <h:panelGrid columns="4" cellpadding="5"> 
+
+                                    <h:outputText value="Numero de Causa: " style="font-weight:bold;text-decoration:underline"/>
+                                    <h:outputText value="#{consultarCasosBean.slectedCaso.uzatcasoNumcausa}" />
+
+                                    <h:outputText value="Tipo de caso: " style="font-weight:bold;text-decoration:underline"/>
+                                    <h:outputText value="#{consultarCasosBean.slectedCaso.uzatcasoTipo}" />
+
+                                </h:panelGrid>
+                            </p:tab>
+                            <p:tab title="Detalles del Abogado">
+                                <h:panelGrid columns="4" cellpadding="5">            
+
+                                    <h:outputText value="Id Banner: " style="font-weight:bold;text-decoration:underline"/>
+                                    <h:outputText value="#{consultarCasosBean.asignar.uzatfunci.uzatfuncionarioIdbanner}" />
+
+                                    <h:outputText value="Cédula: " style="font-weight:bold;text-decoration:underline"/>
+                                    <h:outputText value="#{consultarCasosBean.asignar.uzatfunci.uzatfuncionarioCedula}" />
+
+                                </h:panelGrid>
+                            </p:tab>
+                        </p:accordionPanel>
 
                             <!--<h:outputLabel value="Demandante: " style="font-weight:bold;text-decoration:underline"/>-->
                             <!--<h:outputLabel value=""/>  Viene el valor del anterior cuadro -->
 
-                            <h:outputText value="Numero de Causa: " style="font-weight:bold;text-decoration:underline"/>
-                            <h:outputText value="#{consultarCasosBean.slectedCaso.uzatcasoNumcausa}" />
-
                             <!--<h:outputLabel value="Tribunal: " style="font-weight:bold;text-decoration:underline"/>-->
                             <!--<h:outputLabel value=""/>  Viene el valor del anterior cuadro -->
 
-                            <h:outputText value="Tipo de caso: " style="font-weight:bold;text-decoration:underline"/>
-                            <h:outputText value="#{consultarCasosBean.slectedCaso.uzatcasoTipo}" />
-
                             <!--<h:outputLabel value="Abogado Responsable: " style="font-weight:bold;text-decoration:underline"/>-->
                             <!--<h:outputLabel value=""/>  Viene el valor del anterior cuadro -->
+
+                        <h:panelGrid columns="1" cellpadding="8">
 
                             <p:dataTable var="DetailCaso" 
                                          value="#{lazyView.casos}" 
