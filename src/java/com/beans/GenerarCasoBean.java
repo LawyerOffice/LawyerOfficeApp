@@ -10,8 +10,10 @@ import java.util.ArrayList;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.model.SelectItem;
+import procuradoria.crud.ProcuradoriaMethods;
 import procuradoria.map.Uzatasign;
 import procuradoria.map.Uzatcaso;
+import procuradoria.map.Uzatmateri;
 
 /**
  *
@@ -26,7 +28,10 @@ public class GenerarCasoBean {
      */
     private Uzatasign newAsignador;
     private Uzatcaso newCaso;
-            
+    private int materia;
+    private int judi;
+    
+    
     private ArrayList<SelectItem> ItemsMaterias;
     private ArrayList<SelectItem> ItemsJudicaturas;
     
@@ -36,8 +41,26 @@ public class GenerarCasoBean {
     public void init(){
         this.ItemsJudicaturas = new ArrayList<SelectItem>();
         this.ItemsMaterias = new ArrayList<SelectItem>();
+        this.loadlistMaterias();
     }
 
+    
+    
+    
+   public void loadlistMaterias() {
+       //Dennis Santamaria
+       
+        ArrayList<Uzatmateri> selectItemsMat = ProcuradoriaMethods.ListMaterias();
+        this.ItemsMaterias.clear();
+        SelectItem  si;
+        for (int i = 0; i < selectItemsMat.size(); i++) {
+            si = new SelectItem(selectItemsMat.get(i).getUzatmateriaId(),selectItemsMat.get(i).getUzatmateriaDescripcion());
+                this.ItemsMaterias.add(si);
+            
+        }
+    }
+        
+   
     public ArrayList<SelectItem> getItemsMaterias() {
         return ItemsMaterias;
     }

@@ -28,7 +28,12 @@
                             <p:inputText/>
                             
                             <h:outputText value="Materia:"/>
-                            <p:inputText/>
+                            <p:selectOneMenu id="Materia" >
+                                <f:selectItem itemLabel="Seleccione Materia" itemValue="" />
+                                <f:selectItems  value="#{generarCasoBean.itemsMaterias}"
+                                                var="model" itemLabel="#{model.description}" 
+                                                itemValue="#{model.value}" />
+                            </p:selectOneMenu>
                             
                             <h:outputText value="Judicatura:"/>
                             <p:inputText/>                            
