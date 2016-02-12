@@ -52,39 +52,53 @@
                               modal="true" showEffect="fade" hideEffect="fade" resizable="false">
 
                         <p:accordionPanel multiple="true">
-                            <p:tab title="Detalles del Caso">
+                            <p:tab title="Detalles">
+                                
+                                <h2>Detalles del Caso</h2>
+                                    
                                 <h:panelGrid columns="4" cellpadding="5"> 
 
                                     <h:outputText value="Numero de Causa: " style="font-weight:bold;text-decoration:underline"/>
                                     <h:outputText value="#{consultarCasosBean.slectedCaso.uzatcasoNumcausa}" />
-                                    
+
                                     <h:outputText value="Tipo de caso: " style="font-weight:bold;text-decoration:underline"/>
                                     <h:outputText value="#{consultarCasosBean.slectedCaso.uzatcasoTipo}" />
 
                                 </h:panelGrid>
-                            </p:tab>
-                            <p:tab title="Detalles del Abogado">
-                                <h:panelGrid columns="4" cellpadding="5">            
+
+                                <h2>Detalles del Abogado</h2>
+                                
+                                <h:panelGrid columns="12" cellpadding="5">            
 
                                     <h:outputText value="Id Banner: " style="font-weight:bold;text-decoration:underline"/>
                                     <h:outputText value="#{consultarCasosBean.asignar.uzatfunci.uzatfuncionarioIdbanner}" />
 
-                                    
                                     <h:outputText value="Cédula: " style="font-weight:bold;text-decoration:underline"/>
                                     <h:outputText value="#{consultarCasosBean.asignar.uzatfunci.uzatfuncionarioCedula}" />
 
+                                    <h:outputText value="Nombre: " style="font-weight:bold;text-decoration:underline"/>
+                                    <h:outputText value="#{consultarCasosBean.asignar.uzatfunci.uzatfuncionarioApellidos} #{consultarCasosBean.asignar.uzatfunci.uzatfuncionarioNombres}" />
+
+                                    <h:outputText value="E-mail: " style="font-weight:bold;text-decoration:underline"/>
+                                    <h:outputText value="#{consultarCasosBean.asignar.uzatfunci.uzatfuncionarioEmail}" />
+
+                                    <h:outputText value="Móvil: " style="font-weight:bold;text-decoration:underline"/>
+                                    <h:outputText value="#{consultarCasosBean.asignar.uzatfunci.uzatfuncionarioMovil}" />
+
+                                    <h:outputText value="Asignación: " style="font-weight:bold;text-decoration:underline"/>
+                                    <h:outputText value="#{consultarCasosBean.asignar.uzatasignarFechaIn}" />
                                 </h:panelGrid>
                             </p:tab>
                         </p:accordionPanel>
 
-                            <!--<h:outputLabel value="Demandante: " style="font-weight:bold;text-decoration:underline"/>-->
-                            <!--<h:outputLabel value=""/>  Viene el valor del anterior cuadro -->
+                        <!--<h:outputLabel value="Demandante: " style="font-weight:bold;text-decoration:underline"/>-->
+                        <!--<h:outputLabel value=""/>  Viene el valor del anterior cuadro -->
 
-                            <!--<h:outputLabel value="Tribunal: " style="font-weight:bold;text-decoration:underline"/>-->
-                            <!--<h:outputLabel value=""/>  Viene el valor del anterior cuadro -->
+                        <!--<h:outputLabel value="Tribunal: " style="font-weight:bold;text-decoration:underline"/>-->
+                        <!--<h:outputLabel value=""/>  Viene el valor del anterior cuadro -->
 
-                            <!--<h:outputLabel value="Abogado Responsable: " style="font-weight:bold;text-decoration:underline"/>-->
-                            <!--<h:outputLabel value=""/>  Viene el valor del anterior cuadro -->
+                        <!--<h:outputLabel value="Abogado Responsable: " style="font-weight:bold;text-decoration:underline"/>-->
+                        <!--<h:outputLabel value=""/>  Viene el valor del anterior cuadro -->
 
                         <h:panelGrid columns="1" cellpadding="8">
 
