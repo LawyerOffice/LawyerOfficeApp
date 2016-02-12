@@ -51,10 +51,10 @@ public class AsignarPermisoBean {
     private Uzatfunci newFuncionario;
 
     public AsignarPermisoBean() {
-        this.init();
         if (this.NuevaAsiganacion == null) {
             this.NuevaAsiganacion = new Uzatasign();
         }
+        this.init();
     }
 
     private void init() {
@@ -68,9 +68,12 @@ public class AsignarPermisoBean {
         this.selectedRol = new Uzatrol();
         this.newRol = new Uzatrol();
         this.setNewRol(new Uzatrol());
+        this.loadlistRolesAsignados();
+    }
+
+    public void loadAisgnarPermiso(ActionEvent event) {
         this.loadlistFuncionarios();
         this.loadlistRoles();
-        this.loadlistRolesAsignados();
     }
 
     public void loadlistFuncionarios() {
@@ -174,7 +177,7 @@ public class AsignarPermisoBean {
     }
 
     private void loadlistRolesAsignados() {
-        this.rolsAsignandos = ProcuradoriaMethods.GetFuncionariosTipoRolByFlag(BigDecimal.ONE);
+        this.rolsAsignandos = ProcuradoriaMethods.FindRolsAndFuciByFlag(BigDecimal.ONE);
     }
 
     private int getIdUserAssigned() {
@@ -239,13 +242,6 @@ public class AsignarPermisoBean {
 
     public void onRowSelect(SelectEvent event) {
         this.selectedRol = (Uzatrol) event.getObject();
-    }
-
-    public void deletePermisoAginado() {
-        this.rolsAsignandos.remove(this.selectedRol);
-        this.selectedRol.setUzatrolFlag(BigDecimal.ZERO);
-        ProcuradoriaMethods.UpdateRol(this.selectedRol);
-        this.selectedRol = new Uzatrol();
     }
 
     public void EraseItem(ActionEvent event) {
