@@ -53,10 +53,10 @@
 
                         <p:accordionPanel multiple="true">
                             <p:tab title="Detalles">
-                                
-                                <h2>Detalles del Caso</h2>
-                                    
-                                <h:panelGrid columns="4" cellpadding="5"> 
+
+                                <h3>Detalles del Caso</h3>
+
+                                <h:panelGrid columns="6" cellpadding="5"> 
 
                                     <h:outputText value="Numero de Causa: " style="font-weight:bold;text-decoration:underline"/>
                                     <h:outputText value="#{consultarCasosBean.slectedCaso.uzatcasoNumcausa}" />
@@ -64,10 +64,13 @@
                                     <h:outputText value="Tipo de caso: " style="font-weight:bold;text-decoration:underline"/>
                                     <h:outputText value="#{consultarCasosBean.slectedCaso.uzatcasoTipo}" />
 
+                                    <h:outputText value="Creación: " style="font-weight:bold;text-decoration:underline"/>
+                                    <h:outputText value="#{consultarCasosBean.slectedCaso.uzatcasoFechaIn}" />
+
                                 </h:panelGrid>
 
-                                <h2>Detalles del Abogado</h2>
-                                
+                                <h3>Detalles del Abogado</h3>
+
                                 <h:panelGrid columns="12" cellpadding="5">            
 
                                     <h:outputText value="Id Banner: " style="font-weight:bold;text-decoration:underline"/>
@@ -91,19 +94,10 @@
                             </p:tab>
                         </p:accordionPanel>
 
-                        <!--<h:outputLabel value="Demandante: " style="font-weight:bold;text-decoration:underline"/>-->
-                        <!--<h:outputLabel value=""/>  Viene el valor del anterior cuadro -->
-
-                        <!--<h:outputLabel value="Tribunal: " style="font-weight:bold;text-decoration:underline"/>-->
-                        <!--<h:outputLabel value=""/>  Viene el valor del anterior cuadro -->
-
-                        <!--<h:outputLabel value="Abogado Responsable: " style="font-weight:bold;text-decoration:underline"/>-->
-                        <!--<h:outputLabel value=""/>  Viene el valor del anterior cuadro -->
-
                         <h:panelGrid columns="1" cellpadding="8">
 
-                            <p:dataTable var="DetailCaso" 
-                                         value="#{lazyView.casos}" 
+                            <p:dataTable var="ComtFase" 
+                                         value="#{consultarCasosBean.listComtFases}" 
                                          rows="5" paginator="true"
                                          widgetVar="casoTable" 
                                          emptyMessage="No se ha econtrado casos disponibles" 
@@ -113,24 +107,34 @@
                                     FASES ACTUALES
                                 </f:facet>
 
+                                <p:column style="width:16px">
+                                    <p:rowToggler />
+                                </p:column>
+
                                 <p:column headerText="Número">
-                                    <h:outputText value="#{DetailCaso.numeroCaso}" />
+                                    <h:outputText value="#{ComtFase.uzatfase.uzatfaseNumfase}" />
                                 </p:column>
                                 <p:column headerText="Nombre">
-                                    <h:outputText value="#{DetailCaso.fechaInicio}" />
+                                    <h:outputText value="#{ComtFase.uzatfase.uzatfaseNombre}" />
                                 </p:column>
-                                <p:column headerText="Descripción">
-                                    <h:outputText value="#{DetailCaso.fechaActual}" />
+                                <p:column headerText="Fecha Inicio">
+                                    <h:outputText value="#{ComtFase.uzatfase.uzatfaseFechaIn}" />
                                 </p:column>
-                                <p:column headerText="Fecha Inicial">
-                                    <h:outputText value="#{DetailCaso.fechaActual}" />
+                                <p:column headerText="Fecha Salida">
+                                    <h:outputText value="#{ComtFase.uzatfase.uzatfaseFechaOut}" />
                                 </p:column>
-                                <p:column headerText="Fecha Final">
-                                    <h:outputText value="#{DetailCaso.fechaActual}" />
-                                </p:column>
-                                <p:column headerText="Documentación">
-                                    <h:outputText value="#{DetailCaso.estado}" />
-                                </p:column>
+
+                                <p:rowExpansion>
+                                    <p:panelGrid  columns="2">
+                                        
+                                    <h:outputText value="Fecha" style="font-weight:bold"/>
+                                    <h:outputText value="Descripción" style="font-weight:bold"/>
+                                    
+                                    <h:outputText value="#{ComtFase.uzatcomtFecha}" />
+                                    <h:outputText value="#{ComtFase.uzatcomtDescripcion}" />
+                                    
+                                    </p:panelGrid>
+                                </p:rowExpansion>
 
                             </p:dataTable>
                         </h:panelGrid>

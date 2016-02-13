@@ -12,6 +12,7 @@ import org.primefaces.event.SelectEvent;
 import procuradoria.crud.ProcuradoriaMethods;
 import procuradoria.map.Uzatasign;
 import procuradoria.map.Uzatcaso;
+import procuradoria.map.Uzatcomt;
 import procuradoria.map.Uzatfunci;
 
 /**
@@ -30,6 +31,8 @@ public class ConsultarCasosBean {
     private ArrayList<Uzatcaso> ListCasos;
     
     private Uzatasign Asignar;
+    
+    private ArrayList<Uzatcomt> ListComtFases;
 
     public ConsultarCasosBean() {
         this.init();
@@ -37,9 +40,10 @@ public class ConsultarCasosBean {
 
     private void init() {
         this.setCaso(new Uzatcaso());
-        this.SlectedCaso =  new Uzatcaso();
+        this.setSlectedCaso ( new Uzatcaso());
         this.setAsignar(new Uzatasign());
         this.setListCasos(new ArrayList<Uzatcaso>());
+        this.setListComtFases(new ArrayList<Uzatcomt>());
         this.loadlistCasos();
     }
     
@@ -51,7 +55,7 @@ public class ConsultarCasosBean {
     public void onRowSelectCaso(SelectEvent event) {
         this.SlectedCaso = (Uzatcaso) event.getObject();
         this.Asignar =  ProcuradoriaMethods.GetActiveAbogadosByIdCaso(this.SlectedCaso.getUzatcasoId());
-        
+        this.ListComtFases = ProcuradoriaMethods.GetFasesComentByIdCaso(this.SlectedCaso.getUzatcasoId());
     }
 
     public Uzatcaso getCaso() {
@@ -84,5 +88,13 @@ public class ConsultarCasosBean {
 
     public void setAsignar(Uzatasign Asignar) {
         this.Asignar = Asignar;
+    }
+
+    public ArrayList<Uzatcomt> getListComtFases() {
+        return ListComtFases;
+    }
+
+    public void setListComtFases(ArrayList<Uzatcomt> ListComtFases) {
+        this.ListComtFases = ListComtFases;
     }
 }
