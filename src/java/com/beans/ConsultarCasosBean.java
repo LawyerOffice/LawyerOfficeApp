@@ -5,6 +5,7 @@
  */
 package com.beans;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -49,7 +50,7 @@ public class ConsultarCasosBean {
     
     public void loadlistCasos() {
         this.ListCasos.clear();
-        this.ListCasos = ProcuradoriaMethods.GetActiveCasos();
+        this.ListCasos = ProcuradoriaMethods.ListCasosByFlag(BigDecimal.ONE);
     }
 
     public void onRowSelectCaso(SelectEvent event) {
