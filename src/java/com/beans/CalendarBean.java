@@ -55,10 +55,10 @@ public class CalendarBean {
 
     public void loadData() {
         this.ListCitas.clear();
-        this.ListCitas = ProcuradoriaMethods.GetCitasCalendar();
+        this.ListCitas = ProcuradoriaMethods.GetCitasCalendar(StringToday());
         
         for (int i = 0; i < ListCitas.size(); i++) {
-            eventModel.addEvent(new DefaultScheduleEvent(ListCitas.get(i).getUzatfase().getUzatcaso().getUzatcasoNumcausa(), previousDay8Pm(), previousDay11Pm()));
+            eventModel.addEvent(new DefaultScheduleEvent(ListCitas.get(i).getUzatfase().getUzatcaso().getUzatcasoNumcausa(), previousDay8Pm(), previousDay11Pm(),"Materia: " +ListCitas.get(i).getUzatfase().getUzatcaso().getUzatjudi().getUzatmateri().getUzatmateriaDescripcion() + ", Judicatura: "+ListCitas.get(i).getUzatfase().getUzatcaso().getUzatjudi().getUzatjudiDescripcion() + ", Sala: "+ListCitas.get(i).getUzatcitaSala()));
         }
 
     }
@@ -70,8 +70,17 @@ public class CalendarBean {
     private Calendar today() {
         Calendar calendar = Calendar.getInstance();
         calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DATE), 0, 0, 0);
-
+        System.out.println(calendar.toString());
         return calendar;
+    }
+    
+    private String StringToday() {
+        Calendar calendar = Calendar.getInstance();
+        String fechaActual="";
+        calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DATE), 0, 0, 0);
+        fechaActual=calendar.get(Calendar.DATE)+"/"+(calendar.get(Calendar.MONTH)+1)+"/"+calendar.get(Calendar.YEAR)+" "+"00:00:00";
+        System.out.println(fechaActual);
+        return fechaActual;
     }
 
     private Date previousDay8Pm() {

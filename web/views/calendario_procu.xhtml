@@ -23,17 +23,18 @@
 
                         <p:dialog widgetVar="eventDialog" header="Cita" showEffect="clip" hideEffect="clip" resizable="false" modal="true">
                             <h:panelGrid id="eventDetails" columns="2">
-                                <p:outputLabel for="causa" value="Núm. Causa:" />
-                                <p:inputText id="causa" value="#{calendarBean.event.id}" required="true" />
                                 
-                                <p:outputLabel for="title" value="Titles:" />
-                                <p:inputText id="title" value="#{calendarBean.event.title}" required="true" />
+                                <p:outputLabel for="causa" value="Núm. Causa :" />
+                                <p:outputLabel id="causa" value="#{calendarBean.event.title}" />
 
                                 <p:outputLabel for="from" value="From:" />
-                                <p:calendar id="from" value="#{calendarBean.event.startDate}" timeZone="GMT-5" pattern="dd/MM/yyyy HH:mm"/>
+                                <p:calendar id="from" value="#{calendarBean.event.startDate}" timeZone="GMT-5" pattern="dd/MM/yyyy HH:mm" disabled="true"/>
 
                                 <p:outputLabel for="to" value="To:" /> 
-                                <p:calendar id="to" value="#{calendarBean.event.endDate}" timeZone="GMT-5" pattern="dd/MM/yyyy HH:mm"/>
+                                <p:calendar id="to" value="#{calendarBean.event.endDate}" timeZone="GMT-5" pattern="dd/MM/yyyy HH:mm" disabled="true"/>
+                                
+                                <p:outputLabel value="" /> 
+                                <p:outputLabel id="description" value="#{calendarBean.event.styleClass}" />
 
                                 <p:commandButton value="Regresar" />
                             </h:panelGrid>
