@@ -3,44 +3,64 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.test;
+package com.beans;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
-import org.primefaces.event.ScheduleEntryMoveEvent;
-import org.primefaces.event.ScheduleEntryResizeEvent;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.model.DefaultScheduleEvent;
 import org.primefaces.model.DefaultScheduleModel;
 import org.primefaces.model.ScheduleEvent;
 import org.primefaces.model.ScheduleModel;
+import procuradoria.crud.ProcuradoriaMethods;
+import procuradoria.map.Uzatcaso;
+import procuradoria.map.Uzatcita;
 
 /**
  *
- * @author Ivan
+ * @author FANNY
  */
 @ManagedBean
 @ViewScoped
-public class ScheduleView {
+public class CalendarBean {
 
+    /**
+     * Creates a new instance of CalendarBean
+     */
     private ScheduleModel eventModel;
+    private ArrayList<Uzatcita> ListCitas;
+    private ScheduleEvent event = new DefaultScheduleEvent();
 
-    private DefaultScheduleEvent event = new DefaultScheduleEvent();
-
-    public ScheduleView() {
+    public CalendarBean() {
+//        eventModel = new DefaultScheduleModel();
+//        eventModel.addEvent(new DefaultScheduleEvent("Champions League Match", previousDay8Pm(), previousDay11Pm()));
+//        eventModel.addEvent(new DefaultScheduleEvent("Birthday Party", today1Pm(), today6Pm()));
+//        eventModel.addEvent(new DefaultScheduleEvent("Breakfast at Tiffanys", nextDay9Am(), nextDay11Am()));
+//        eventModel.addEvent(new DefaultScheduleEvent("Daniel", nextDay9Am(), nextDay11Am()));
+//        eventModel.addEvent(new DefaultScheduleEvent("Alejandro", nextDay9Am(), nextDay11Am()));
+//        eventModel.addEvent(new DefaultScheduleEvent("Galarza", nextDay9Am(), nextDay11Am()));
+//        eventModel.addEvent(new DefaultScheduleEvent("Plant the new garden stuff", theDayAfter3Pm(), fourDaysLater3pm()));
         eventModel = new DefaultScheduleModel();
-        eventModel.addEvent(new DefaultScheduleEvent("Champions League Match", previousDay8Pm(), previousDay11Pm()));
-        eventModel.addEvent(new DefaultScheduleEvent("Birthday Party", today1Pm(), today6Pm()));
-        eventModel.addEvent(new DefaultScheduleEvent("Breakfast at Tiffanys", nextDay9Am(), nextDay11Am()));
-        eventModel.addEvent(new DefaultScheduleEvent("Daniel", nextDay9Am(), nextDay11Am()));
-        eventModel.addEvent(new DefaultScheduleEvent("Alejandro", nextDay9Am(), nextDay11Am()));
-        eventModel.addEvent(new DefaultScheduleEvent("Galarza", nextDay9Am(), nextDay11Am()));
-        eventModel.addEvent(new DefaultScheduleEvent("Plant the new garden stuff", theDayAfter3Pm(), fourDaysLater3pm()));
+        this.init();
+    }
+
+    public void init() {
+        this.setListCitas(new ArrayList<Uzatcita>());
+        this.loadData();
+    }
+
+    public void loadData() {
+        this.ListCitas.clear();
+        this.ListCitas = ProcuradoriaMethods.GetCitasCalendar();
+        
+        for (int i = 0; i < ListCitas.size(); i++) {
+            eventModel.addEvent(new DefaultScheduleEvent(ListCitas.get(i).getUzatfase().getUzatcaso().getUzatcasoNumcausa(), previousDay8Pm(), previousDay11Pm()));
+        }
+
     }
 
     public ScheduleModel getEventModel() {
@@ -143,27 +163,15 @@ public class ScheduleView {
     }
 
     public void onEventSelect(SelectEvent selectEvent) {
-        event = (DefaultScheduleEvent) selectEvent.getObject();
+        event = (ScheduleEvent) selectEvent.getObject();
     }
 
-    public void onDateSelect(SelectEvent selectEvent) {
-        event = new DefaultScheduleEvent("", (Date) selectEvent.getObject(), (Date) selectEvent.getObject());
+    public ArrayList<Uzatcita> getListCitas() {
+        return ListCitas;
     }
 
-    public void onEventMove(ScheduleEntryMoveEvent event) {
-        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Event moved", "Day delta:" + event.getDayDelta() + ", Minute delta:" + event.getMinuteDelta());
-
-        addMessage(message);
-    }
-
-    public void onEventResize(ScheduleEntryResizeEvent event) {
-        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Event resized", "Day delta:" + event.getDayDelta() + ", Minute delta:" + event.getMinuteDelta());
-
-        addMessage(message);
-    }
-
-    private void addMessage(FacesMessage message) {
-        FacesContext.getCurrentInstance().addMessage(null, message);
+    public void setListCitas(ArrayList<Uzatcita> ListCitas) {
+        this.ListCitas = ListCitas;
     }
 
 }
