@@ -5,9 +5,13 @@
  */
 package com.beans;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.event.ActionEvent;
@@ -36,14 +40,6 @@ public class CalendarBean {
     private ScheduleEvent event = new DefaultScheduleEvent();
 
     public CalendarBean() {
-//        eventModel = new DefaultScheduleModel();
-//        eventModel.addEvent(new DefaultScheduleEvent("Champions League Match", previousDay8Pm(), previousDay11Pm()));
-//        eventModel.addEvent(new DefaultScheduleEvent("Birthday Party", today1Pm(), today6Pm()));
-//        eventModel.addEvent(new DefaultScheduleEvent("Breakfast at Tiffanys", nextDay9Am(), nextDay11Am()));
-//        eventModel.addEvent(new DefaultScheduleEvent("Daniel", nextDay9Am(), nextDay11Am()));
-//        eventModel.addEvent(new DefaultScheduleEvent("Alejandro", nextDay9Am(), nextDay11Am()));
-//        eventModel.addEvent(new DefaultScheduleEvent("Galarza", nextDay9Am(), nextDay11Am()));
-//        eventModel.addEvent(new DefaultScheduleEvent("Plant the new garden stuff", theDayAfter3Pm(), fourDaysLater3pm()));
         eventModel = new DefaultScheduleModel();
         this.init();
     }
@@ -53,12 +49,16 @@ public class CalendarBean {
         this.loadData();
     }
 
-    public void loadData() {
+    public void loadData(){
         this.ListCitas.clear();
         this.ListCitas = ProcuradoriaMethods.GetCitasCalendar(StringToday());
-        
+
         for (int i = 0; i < ListCitas.size(); i++) {
-            eventModel.addEvent(new DefaultScheduleEvent(ListCitas.get(i).getUzatfase().getUzatcaso().getUzatcasoNumcausa(), previousDay8Pm(), previousDay11Pm(),"Materia: " +ListCitas.get(i).getUzatfase().getUzatcaso().getUzatjudi().getUzatmateri().getUzatmateriaDescripcion() + ", Judicatura: "+ListCitas.get(i).getUzatfase().getUzatcaso().getUzatjudi().getUzatjudiDescripcion() + ", Sala: "+ListCitas.get(i).getUzatcitaSala()));
+            eventModel.addEvent(new DefaultScheduleEvent(ListCitas.get(i).getUzatfase().getUzatcaso().getUzatcasoNumcausa(),
+                    dateBegin(ListCitas.get(i).getUzatcitaFecha()), dateFinish(ListCitas.get(i).getUzatcitaFecha()),
+                    "Materia: " + ListCitas.get(i).getUzatfase().getUzatcaso().getUzatjudi().getUzatmateri().getUzatmateriaDescripcion()
+                            + ", Judicatura: " + ListCitas.get(i).getUzatfase().getUzatcaso().getUzatjudi().getUzatjudiDescripcion() + ", Sala: "
+                            + ListCitas.get(i).getUzatcitaSala()));
         }
 
     }
@@ -73,84 +73,43 @@ public class CalendarBean {
         System.out.println(calendar.toString());
         return calendar;
     }
-    
+
     private String StringToday() {
         Calendar calendar = Calendar.getInstance();
-        String fechaActual="";
+        String fechaActual = "";
         calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DATE), 0, 0, 0);
-        fechaActual=calendar.get(Calendar.DATE)+"/"+(calendar.get(Calendar.MONTH)+1)+"/"+calendar.get(Calendar.YEAR)+" "+"00:00:00";
+        fechaActual = calendar.get(Calendar.DATE) + "/" + (calendar.get(Calendar.MONTH) + 1) + "/" + calendar.get(Calendar.YEAR) + " " + "00:00:00";
         System.out.println(fechaActual);
         return fechaActual;
     }
 
-    private Date previousDay8Pm() {
-        Calendar t = (Calendar) today().clone();
-        t.set(Calendar.AM_PM, Calendar.PM);
-        t.set(Calendar.DATE, t.get(Calendar.DATE) - 1);
-        t.set(Calendar.HOUR, 8);
+    private Date dateBegin(String FechaInicio){
 
-        return t.getTime();
+            Calendar cal = Calendar.getInstance();
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
+        try {
+            cal.setTime(sdf.parse(FechaInicio));
+        } catch (ParseException ex) {
+            Logger.getLogger(CalendarBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+            
+            return cal.getTime();
+
     }
 
-    private Date previousDay11Pm() {
-        Calendar t = (Calendar) today().clone();
-        t.set(Calendar.AM_PM, Calendar.PM);
-        t.set(Calendar.DATE, t.get(Calendar.DATE) - 1);
-        t.set(Calendar.HOUR, 11);
+    private Date dateFinish(String FechaInicio) {
 
-        return t.getTime();
-    }
+        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
+        try {
+            cal.setTime(sdf.parse(FechaInicio));
+        } catch (ParseException ex) {
+            Logger.getLogger(CalendarBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
-    private Date today1Pm() {
-        Calendar t = (Calendar) today().clone();
-        t.set(Calendar.AM_PM, Calendar.PM);
-        t.set(Calendar.HOUR, 1);
-
-        return t.getTime();
-    }
-
-    private Date theDayAfter3Pm() {
-        Calendar t = (Calendar) today().clone();
-        t.set(Calendar.DATE, t.get(Calendar.DATE) + 2);
-        t.set(Calendar.AM_PM, Calendar.PM);
-        t.set(Calendar.HOUR, 3);
-
-        return t.getTime();
-    }
-
-    private Date today6Pm() {
-        Calendar t = (Calendar) today().clone();
-        t.set(Calendar.AM_PM, Calendar.PM);
-        t.set(Calendar.HOUR, 6);
-
-        return t.getTime();
-    }
-
-    private Date nextDay9Am() {
-        Calendar t = (Calendar) today().clone();
-        t.set(Calendar.AM_PM, Calendar.AM);
-        t.set(Calendar.DATE, t.get(Calendar.DATE) + 1);
-        t.set(Calendar.HOUR, 9);
-
-        return t.getTime();
-    }
-
-    private Date nextDay11Am() {
-        Calendar t = (Calendar) today().clone();
-        t.set(Calendar.AM_PM, Calendar.AM);
-        t.set(Calendar.DATE, t.get(Calendar.DATE) + 1);
-        t.set(Calendar.HOUR, 11);
-
-        return t.getTime();
-    }
-
-    private Date fourDaysLater3pm() {
-        Calendar t = (Calendar) today().clone();
-        t.set(Calendar.AM_PM, Calendar.PM);
-        t.set(Calendar.DATE, t.get(Calendar.DATE) + 4);
-        t.set(Calendar.HOUR, 3);
-
-        return t.getTime();
+        cal.set(Calendar.HOUR, cal.get(Calendar.HOUR) + 2);
+        
+        return cal.getTime();
     }
 
     public ScheduleEvent getEvent() {
