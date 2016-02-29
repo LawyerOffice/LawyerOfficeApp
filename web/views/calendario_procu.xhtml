@@ -27,12 +27,9 @@
                                 <p:outputLabel for="causa" value="Núm. Causa :" />
                                 <p:outputLabel id="causa" value="#{calendarBean.event.title}" />
 
-                                <p:outputLabel for="from" value="From:" />
-                                <p:calendar id="from" value="#{calendarBean.event.startDate}" timeZone="GMT-5" pattern="dd/MM/yyyy HH:mm" disabled="true"/>
-
-                                <p:outputLabel for="to" value="To:" /> 
-                                <p:calendar id="to" value="#{calendarBean.event.endDate}" timeZone="GMT-5" pattern="dd/MM/yyyy HH:mm" disabled="true"/>
-                                
+                                <p:outputLabel for="horaInicial" value="Agendado:" />
+                                <p:calendar id="horaInicial" value="#{calendarBean.event.startDate}" timeZone="GMT-5" pattern="dd/MM/yyyy HH:mm" disabled="true"/>
+                              
                                 <p:outputLabel value="" /> 
                                 <p:outputLabel id="description" value="#{calendarBean.event.styleClass}" />
 
