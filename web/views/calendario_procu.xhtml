@@ -8,12 +8,11 @@
     <body>
 
         <ui:composition template="./menu_procu.xhtml">
-
+            
             <ui:define name="content">
                 <div align="center">
                     <h:form id="form">
                         <p:growl id="messages" showDetail="true" />
-
                         <h:panelGrid columnClasses="value">
                             <h3>Calendario</h3>
                             <p:schedule id="schedule" draggable="false" resizable="false" value="#{calendarBean.eventModel}" widgetVar="myschedule" timeZone="GMT-5" locale="es">
@@ -28,10 +27,17 @@
                                 <p:outputLabel id="causa" value="#{calendarBean.event.title}" />
 
                                 <p:outputLabel for="horaInicial" value="Agendado:" />
-                                <p:calendar id="horaInicial" value="#{calendarBean.event.startDate}" timeZone="GMT-5" pattern="dd/MM/yyyy HH:mm" disabled="true"/>
+                                <p:calendar id="horaInicial" value="#{calendarBean.event.startDate}" 
+                                            timeZone="GMT-5" pattern="dd/MM/yyyy HH:mm" disabled="true"/>
                               
-                                <p:outputLabel value="" /> 
-                                <p:outputLabel id="description" value="#{calendarBean.event.styleClass}" />
+                                <p:outputLabel value="Materia:" /> 
+                                <p:outputLabel id="Materia" value="#{calendarBean.event.styleClass}" />
+                                
+                                <p:outputLabel value="Judicatura:" /> 
+                                <p:outputLabel id="Judicatura" value="#{calendarBean.event.styleClass}" />
+                                
+                                <p:outputLabel value="Sala:" /> 
+                                <p:outputLabel id="Sala" value="#{calendarBean.event.styleClass}" />
 
                                 <p:commandButton value="Regresar" />
                             </h:panelGrid>

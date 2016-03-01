@@ -5,6 +5,7 @@
  */
 package com.beans;
 
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -21,7 +22,6 @@ import org.primefaces.model.DefaultScheduleModel;
 import org.primefaces.model.ScheduleEvent;
 import org.primefaces.model.ScheduleModel;
 import procuradoria.crud.ProcuradoriaMethods;
-import procuradoria.map.Uzatcaso;
 import procuradoria.map.Uzatcita;
 
 /**
@@ -37,6 +37,7 @@ public class CalendarBean {
      */
     private ScheduleModel eventModel;
     private ArrayList<Uzatcita> ListCitas;
+    private Uzatcita selectedCita;
     private ScheduleEvent event = new DefaultScheduleEvent();
 
     public CalendarBean() {
@@ -45,55 +46,57 @@ public class CalendarBean {
     }
 
     public void init() {
+        this.selectedCita = new Uzatcita();
         this.setListCitas(new ArrayList<Uzatcita>());
         this.loadData();
     }
 
-    public void loadData(){
+    public void loadData() {
         this.ListCitas.clear();
         this.ListCitas = ProcuradoriaMethods.GetCitasCalendar(StringToday());
 
         for (int i = 0; i < ListCitas.size(); i++) {
             eventModel.addEvent(new DefaultScheduleEvent(ListCitas.get(i).getUzatfase().getUzatcaso().getUzatcasoNumcausa(),
-                    dateBegin(ListCitas.get(i).getUzatcitaFecha()), dateFinish(ListCitas.get(i).getUzatcitaFecha()),
-                    "Materia: " + ListCitas.get(i).getUzatfase().getUzatcaso().getUzatjudi().getUzatmateri().getUzatmateriaDescripcion()
-                            + ", Judicatura: " + ListCitas.get(i).getUzatfase().getUzatcaso().getUzatjudi().getUzatjudiDescripcion() + ", Sala: "
-                            + ListCitas.get(i).getUzatcitaSala()));
-        }
+                    dateBegin(ListCitas.get(i).getUzatcitaFecha()), 
+                    dateFinish(ListCitas.get(i).getUzatcitaFecha()),ListCitas.get(i).getId().getUzatcitaId().toString()));
+                    }
 
+    }
+    
+    public Uzatcita getSelectedCita(BigDecimal uzatcitaId){
+        Uzatcita cita = new Uzatcita();
+        for(Uzatcita cta : this.ListCitas){
+            if(cta.getId().getUzatcitaId() == uzatcitaId){
+                cita = cta;
+                break;
+            }
+        }
+        return cita;
     }
 
     public ScheduleModel getEventModel() {
         return eventModel;
     }
 
-    private Calendar today() {
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DATE), 0, 0, 0);
-        System.out.println(calendar.toString());
-        return calendar;
-    }
-
     private String StringToday() {
         Calendar calendar = Calendar.getInstance();
         String fechaActual = "";
-        calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DATE), 0, 0, 0);
-        fechaActual = calendar.get(Calendar.DATE) + "/" + (calendar.get(Calendar.MONTH) + 1) + "/" + calendar.get(Calendar.YEAR) + " " + "00:00:00";
-        System.out.println(fechaActual);
+        SimpleDateFormat f1 = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        fechaActual = f1.format(calendar.getTime());
         return fechaActual;
     }
 
-    private Date dateBegin(String FechaInicio){
+    private Date dateBegin(String FechaInicio) {
 
-            Calendar cal = Calendar.getInstance();
-            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
+        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
         try {
             cal.setTime(sdf.parse(FechaInicio));
         } catch (ParseException ex) {
-            Logger.getLogger(CalendarBean.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println(">> "+ex.getMessage());
         }
-            
-            return cal.getTime();
+
+        return cal.getTime();
 
     }
 
@@ -108,7 +111,7 @@ public class CalendarBean {
         }
 
         cal.set(Calendar.HOUR, cal.get(Calendar.HOUR) + 2);
-        
+
         return cal.getTime();
     }
 
@@ -132,6 +135,10 @@ public class CalendarBean {
 
     public void onEventSelect(SelectEvent selectEvent) {
         event = (ScheduleEvent) selectEvent.getObject();
+        String id = event.getStyleClass();
+        BigDecimal uzatcitaId = new BigDecimal(id);
+        this.selectedCita = getSelectedCita(uzatcitaId);
+        
     }
 
     public ArrayList<Uzatcita> getListCitas() {
@@ -140,6 +147,14 @@ public class CalendarBean {
 
     public void setListCitas(ArrayList<Uzatcita> ListCitas) {
         this.ListCitas = ListCitas;
+    }
+
+    public Uzatcita getSelectedCita() {
+        return selectedCita;
+    }
+
+    public void setSelectedCita(Uzatcita selectedCita) {
+        this.selectedCita = selectedCita;
     }
 
 }
