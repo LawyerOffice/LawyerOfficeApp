@@ -5,6 +5,7 @@
  */
 package com.util;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -12,6 +13,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortOrder;
+import procuradoria.crud.ProcuradoriaMethods;
 import procuradoria.map.Uzatcaso;
 
 /**
@@ -50,7 +52,9 @@ public class LazyCasoDataModel extends LazyDataModel<Uzatcaso> {
         @Override
     public List<Uzatcaso> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String,Object> filters) {
         List<Uzatcaso> data = new ArrayList<Uzatcaso>();
- 
+        
+        datasource = ProcuradoriaMethods.FindCasosLazy(BigDecimal.ONE, first, pageSize);
+        
         //filter
         for(Uzatcaso caso : datasource) {
             boolean match = true;
