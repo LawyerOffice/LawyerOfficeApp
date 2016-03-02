@@ -28,7 +28,7 @@ public class LazyCasoDataModel extends LazyDataModel<Uzatcaso> {
     public LazyCasoDataModel(List<Uzatcaso> datasource) {
         this.datasource = datasource;
     }
-    
+
     public LazyCasoDataModel() {
         this.datasource = new ArrayList<Uzatcaso>();
     }
@@ -49,62 +49,59 @@ public class LazyCasoDataModel extends LazyDataModel<Uzatcaso> {
         return caso.getUzatcasoId();
     }
 
-        @Override
-    public List<Uzatcaso> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String,Object> filters) {
+    @Override
+    public List<Uzatcaso> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String, Object> filters) {
         List<Uzatcaso> data = new ArrayList<Uzatcaso>();
-        
+
         datasource = ProcuradoriaMethods.FindCasosLazy(BigDecimal.ONE, first, pageSize);
-        
+
         //filter
-        for(Uzatcaso caso : datasource) {
+        for (Uzatcaso caso : datasource) {
             boolean match = true;
- 
+
             if (filters != null) {
                 for (Iterator<String> it = filters.keySet().iterator(); it.hasNext();) {
                     try {
                         String filterProperty = it.next();
                         Object filterValue = filters.get(filterProperty);
                         String fieldValue = String.valueOf(caso.getClass().getField(filterProperty).get(caso));
- 
-                        if(filterValue == null || fieldValue.startsWith(filterValue.toString())) {
+
+                        if (filterValue == null || fieldValue.startsWith(filterValue.toString())) {
                             match = true;
-                    }
-                    else {
+                        } else {
                             match = false;
                             break;
                         }
-                    } catch(Exception e) {
+                    } catch (Exception e) {
                         match = false;
                     }
                 }
             }
- 
-            if(match) {
+
+            if (match) {
                 data.add(caso);
             }
         }
- 
+
         //sort
-        if(sortField != null) {
+        if (sortField != null) {
             Collections.sort(data, new LazySorterCaso(sortField, sortOrder));
         }
- 
+
         //rowCount
         int dataSize = data.size();
         this.setRowCount(dataSize);
- 
+
         //paginate
-        if(dataSize > pageSize) {
+        if (dataSize > pageSize) {
             try {
                 return data.subList(first, first + pageSize);
-            }
-            catch(IndexOutOfBoundsException e) {
+            } catch (IndexOutOfBoundsException e) {
                 return data.subList(first, first + (dataSize % pageSize));
             }
-        }
-        else {
+        } else {
             return data;
         }
     }
-    
+
 }
