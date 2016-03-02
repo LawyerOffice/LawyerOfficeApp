@@ -97,7 +97,7 @@ public class AsignarPermisoBean {
     public void genratedPermiso(ActionEvent event) {
 
         GregorianCalendar g1 = new GregorianCalendar();
-        SimpleDateFormat s1 = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat s1 = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         this.newRol.setUzatrolFechaIn(s1.format(g1.getTime()));
         this.newRol.setUzatrolFlag(BigDecimal.ONE);
         this.newRol.getId().setUzatfuncionarioId(this.newFuncionario.getUzatfuncionarioId());
@@ -177,7 +177,7 @@ public class AsignarPermisoBean {
     }
 
     private void loadlistRolesAsignados() {
-        this.rolsAsignandos = ProcuradoriaMethods.FindRolsAndFuciByFlag(BigDecimal.ONE);
+        this.rolsAsignandos = ProcuradoriaMethods.GetAsigFunciRol(BigDecimal.ONE);
     }
 
     private int getIdUserAssigned() {

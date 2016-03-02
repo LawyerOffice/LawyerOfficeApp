@@ -57,16 +57,16 @@ public class CalendarBean {
 
         for (int i = 0; i < ListCitas.size(); i++) {
             eventModel.addEvent(new DefaultScheduleEvent(ListCitas.get(i).getUzatfase().getUzatcaso().getUzatcasoNumcausa(),
-                    dateBegin(ListCitas.get(i).getUzatcitaFecha()), 
-                    dateFinish(ListCitas.get(i).getUzatcitaFecha()),ListCitas.get(i).getId().getUzatcitaId().toString()));
-                    }
+                    dateBegin(ListCitas.get(i).getUzatcitaFecha()),
+                    dateFinish(ListCitas.get(i).getUzatcitaFecha()), ListCitas.get(i).getId().getUzatcitaId().toString()));
+        }
 
     }
-    
-    public Uzatcita getSelectedCita(BigDecimal uzatcitaId){
+
+    public Uzatcita getSelectedCita(BigDecimal uzatcitaId) {
         Uzatcita cita = new Uzatcita();
-        for(Uzatcita cta : this.ListCitas){
-            if(cta.getId().getUzatcitaId() == uzatcitaId){
+        for (Uzatcita cta : this.ListCitas) {
+            if (cta.getId().getUzatcitaId() == uzatcitaId) {
                 cita = cta;
                 break;
             }
@@ -93,7 +93,7 @@ public class CalendarBean {
         try {
             cal.setTime(sdf.parse(FechaInicio));
         } catch (ParseException ex) {
-            System.out.println(">> "+ex.getMessage());
+            System.out.println(">> " + ex.getMessage());
         }
 
         return cal.getTime();
@@ -138,7 +138,7 @@ public class CalendarBean {
         String id = event.getStyleClass();
         BigDecimal uzatcitaId = new BigDecimal(id);
         this.selectedCita = getSelectedCita(uzatcitaId);
-        
+
     }
 
     public ArrayList<Uzatcita> getListCitas() {

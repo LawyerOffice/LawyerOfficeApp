@@ -50,7 +50,7 @@
 
                         <f:facet name="footer">
                             <p:commandButton value="Nuevo Permiso" id="btnAsigarNuevoPermiso"  
-                                             icon="ui-icon-check"
+                                             icon="ui-icon-check" update=":form_PA:dlgNuevoPermiso"
                                              oncomplete="PF('dlgNewPermits').show();"
                                              actionListener="#{asignarPermisoBean.loadAisgnarPermiso(event)}"/>
 
