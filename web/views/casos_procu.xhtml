@@ -15,8 +15,10 @@
                 <h:form id="form">
 
                     <p:dataTable var="caso" 
-                                 value="#{consultarCasosBean.listCasos}" 
-                                 rows="10" paginator="true"
+                                 value="#{consultarCasosBean.lazyModelCasosActivos}" 
+                                 paginator="true" rows="10"
+                                 paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                                 rowsPerPageTemplate="10" lazy="true"
                                  widgetVar="aboTable" 
                                  emptyMessage="No se ha econtrado casos disponibles" 
                                  selection="#{consultarCasosBean.slectedCaso}" 
@@ -30,7 +32,7 @@
                             LISTA DE CASOS
                         </f:facet>
 
-                        <p:column headerText="Número de Causa" filterBy="#{caso.uzatcasoNumcausa}" >
+                        <p:column headerText="Número de Causa" >
                             <h:outputText value="#{caso.uzatcasoNumcausa}" />
                         </p:column>
                         <p:column headerText="Motivo">

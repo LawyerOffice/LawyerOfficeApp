@@ -24,7 +24,11 @@
                             <p:accordionPanel>
                                 
                                 <p:tab title="Casos Inactivos">
-                                    <p:dataTable id="dataTableInactivos" var="casoI" value="#{resumenProcuBean.lazyModelCasosInactivos}" paginator="true" rows="10"
+                                    <p:dataTable id="dataTableInactivos" 
+                                                 var="casoI" 
+                                                 value="#{resumenProcuBean.lazyModelCasosInactivos}" 
+                                                 paginator="true" rows="10"
+                                                 emptyMessage="No se ha econtrado casos inactivos disponibles"
                                                  paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
                                                  rowsPerPageTemplate="10" lazy="true">
 
@@ -50,6 +54,7 @@
                                     <h:panelGrid columns="1" cellpadding="10">
                                         <p:dataTable id="dataTableActivos" var="casoA" value="#{resumenProcuBean.lazyModelCasosActivos}" paginator="true" rows="10"
                                                      paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                                                     emptyMessage="No se ha econtrado casos activos disponibles"
                                                      rowsPerPageTemplate="10" lazy="true">
 
                                             <p:column headerText="Núm. Causa" >

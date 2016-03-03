@@ -5,11 +5,13 @@
  */
 package com.beans;
 
+import com.util.LazyCasoDataModel;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import org.primefaces.event.SelectEvent;
+import org.primefaces.model.LazyDataModel;
 import procuradoria.crud.ProcuradoriaMethods;
 import procuradoria.map.Uzatasign;
 import procuradoria.map.Uzatcaso;
@@ -31,6 +33,8 @@ public class ConsultarCasosBean {
     private Uzatcaso SlectedCaso;
     private ArrayList<Uzatcaso> ListCasos;
     
+    private LazyDataModel<Uzatcaso> lazyModelCasosActivos;
+    
     private Uzatasign Asignar;
     
     private ArrayList<Uzatcomt> ListComtFases;
@@ -40,12 +44,13 @@ public class ConsultarCasosBean {
     }
 
     private void init() {
+        setLazyModelCasosActivos(new LazyCasoDataModel(BigDecimal.ONE));
         this.setCaso(new Uzatcaso());
         this.setSlectedCaso ( new Uzatcaso());
         this.setAsignar(new Uzatasign());
         this.setListCasos(new ArrayList<Uzatcaso>());
         this.setListComtFases(new ArrayList<Uzatcomt>());
-        this.loadlistCasos();
+        //this.loadlistCasos();
     }
     
     public void loadlistCasos() {
@@ -97,5 +102,13 @@ public class ConsultarCasosBean {
 
     public void setListComtFases(ArrayList<Uzatcomt> ListComtFases) {
         this.ListComtFases = ListComtFases;
+    }
+
+    public LazyDataModel<Uzatcaso> getLazyModelCasosActivos() {
+        return lazyModelCasosActivos;
+    }
+
+    public void setLazyModelCasosActivos(LazyDataModel<Uzatcaso> lazyModelCasosActivos) {
+        this.lazyModelCasosActivos = lazyModelCasosActivos;
     }
 }
