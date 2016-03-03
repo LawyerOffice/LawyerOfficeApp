@@ -8,6 +8,7 @@ package com.beans;
 
 import com.util.LazyCasoDataModel;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import org.primefaces.model.LazyDataModel;
@@ -25,20 +26,14 @@ public class ResumenProcuBean implements Serializable{
      * Creates a new instance of ResumenProcuBean
      */
     
-    private LazyDataModel<Uzatcaso> lazyModel;
+    private LazyDataModel<Uzatcaso> lazyModelCasosActivos;
+    private LazyDataModel<Uzatcaso> lazyModelCasosInactivos;
      
     private Uzatcaso selectedCaso;
     
     public ResumenProcuBean() {
-        lazyModel = new LazyCasoDataModel();
-    }
-
-    public LazyDataModel<Uzatcaso> getLazyModel() {
-        return lazyModel;
-    }
-
-    public void setLazyModel(LazyDataModel<Uzatcaso> lazyModel) {
-        this.lazyModel = lazyModel;
+        lazyModelCasosActivos = new LazyCasoDataModel(BigDecimal.ONE);
+        lazyModelCasosInactivos = new LazyCasoDataModel(BigDecimal.ZERO);
     }
 
     public Uzatcaso getSelectedCaso() {
@@ -48,5 +43,22 @@ public class ResumenProcuBean implements Serializable{
     public void setSelectedCaso(Uzatcaso selectedCaso) {
         this.selectedCaso = selectedCaso;
     }
+
+    public LazyDataModel<Uzatcaso> getLazyModelCasosActivos() {
+        return lazyModelCasosActivos;
+    }
+
+    public void setLazyModelCasosActivos(LazyDataModel<Uzatcaso> lazyModelCasosActivos) {
+        this.lazyModelCasosActivos = lazyModelCasosActivos;
+    }
+
+    public LazyDataModel<Uzatcaso> getLazyModelCasosInactivos() {
+        return lazyModelCasosInactivos;
+    }
+
+    public void setLazyModelCasosInactivos(LazyDataModel<Uzatcaso> lazyModelCasosInactivos) {
+        this.lazyModelCasosInactivos = lazyModelCasosInactivos;
+    }
     
 }
+
