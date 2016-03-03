@@ -3,12 +3,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <body>
 
         <ui:composition template="./menu_procu.xhtml">
-            
+
             <ui:define name="content">
                 <div align="center">
                     <h:form id="form">
@@ -22,25 +23,30 @@
 
                         <p:dialog widgetVar="eventDialog" header="Cita" showEffect="clip" hideEffect="clip" resizable="false" modal="true">
                             <h:panelGrid id="eventDetails" columns="2">
-                                
+
                                 <p:outputLabel for="causa" value="Núm. Causa :" />
                                 <p:outputLabel id="causa" value="#{calendarBean.event.title}" />
 
                                 <p:outputLabel for="horaInicial" value="Agendado:" />
                                 <p:calendar id="horaInicial" value="#{calendarBean.event.startDate}" 
                                             timeZone="GMT-5" pattern="dd/MM/yyyy HH:mm:ss" disabled="true"/>
-                              
+
                                 <p:outputLabel value="Materia:" /> 
                                 <p:outputLabel id="Materia" value="#{calendarBean.event.styleClass}" />
-                                
+
                                 <p:outputLabel value="Judicatura:" /> 
                                 <p:outputLabel id="Judicatura" value="#{calendarBean.event.styleClass}" />
-                                
+
                                 <p:outputLabel value="Sala:" /> 
                                 <p:outputLabel id="Sala" value="#{calendarBean.event.styleClass}" />
 
-                                <p:commandButton value="Regresar" />
                             </h:panelGrid>
+
+                            <f:facet name="footer">
+                                <p:commandButton value="Regresar" oncomplete="PF('eventDialog').hide();"/>
+                            </f:facet>
+
+
                         </p:dialog>    
                     </h:form>
                 </div>

@@ -100,7 +100,7 @@
                                          value="#{consultarCasosBean.listComtFases}" 
                                          rows="5" paginator="true"
                                          widgetVar="casoTable" 
-                                         emptyMessage="No se ha econtrado casos disponibles" 
+                                         emptyMessage="No se han econtrado fases disponibles" 
                                          id="dtCaso">
                                 <!--<h:outputLabel value=""/>  Tomar encuenta siempre la varibale que se este manejando en cada tabla debido al javascript interno que maneja-->
                                 <f:facet name="header">
@@ -126,13 +126,13 @@
 
                                 <p:rowExpansion>
                                     <p:panelGrid  columns="2">
-                                        
-                                    <h:outputText value="Fecha" style="font-weight:bold"/>
-                                    <h:outputText value="Descripción" style="font-weight:bold"/>
-                                    
-                                    <h:outputText value="#{ComtFase.uzatcomtFecha}" />
-                                    <h:outputText value="#{ComtFase.uzatcomtDescripcion}" />
-                                    
+
+                                        <h:outputText value="Fecha" style="font-weight:bold"/>
+                                        <h:outputText value="Descripción" style="font-weight:bold"/>
+
+                                        <h:outputText value="#{ComtFase.uzatcomtFecha}" />
+                                        <h:outputText value="#{ComtFase.uzatcomtDescripcion}" />
+
                                     </p:panelGrid>
                                 </p:rowExpansion>
 
@@ -143,7 +143,6 @@
                             <p:commandButton value="Regresar" id="btnAsigarNuevoCasoRegresar"  
                                              oncomplete="PF('carDialog').hide();" ><!-- action ="" -->
                             </p:commandButton>
-
                         </f:facet> 
 
                     </p:dialog>
