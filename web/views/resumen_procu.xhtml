@@ -24,7 +24,7 @@
                             <p:dataTable id="dataTable" var="caso" value="#{resumenProcuBean.lazyModel}" paginator="true" rows="10"
                                          paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
                                          rowsPerPageTemplate="10" lazy="true">
-                            
+
                                 <p:column headerText="Núm. Causa" >
                                     <h:outputText value="#{caso.uzatcasoNumcausa}" />
                                 </p:column>
@@ -41,30 +41,6 @@
                                     <h:outputText value="#{caso.uzatcasoFechaIn}" />
                                 </p:column>
                             </p:dataTable>
-
-
-                            <!--
-                                    <p:dataScroller value="#{dataScrollerView.notiService.notifs}" var="noti" chunkSize="10" mode="inline" scrollHeight="500">
-                                        <f:facet name="header">
-                                            Notificaciones
-                                        </f:facet>
-                                        <h:panelGrid columns="2" style="width:100%" columnClasses="logo,detail">
-        
-                                            <p:outputPanel>
-                                                <h:panelGrid columns="2" cellpadding="5">
-                                                    <h:outputText value="Abogado:" />
-                                                    <h:outputText value="#{noti.abogado}" style="font-weight: bold"/>
-        
-                                                    <h:outputText value="Caso:" />
-                                                    <h:outputText value="#{noti.caso}" style="font-weight: bold"/>
-        
-                                                    <h:outputText value="Detalle:" />
-                                                    <h:outputText value="#{noti.detalle}" style="font-weight: bold"/>
-                                                </h:panelGrid>
-                                            </p:outputPanel>
-                                        </h:panelGrid>
-                                    </p:dataScroller>
-                            -->
                         </p:layoutUnit>
 
                     </p:layout>
