@@ -66,7 +66,7 @@ public class CalendarBean {
     public Uzatcita getSelectedCita(BigDecimal uzatcitaId) {
         Uzatcita cita = new Uzatcita();
         for (Uzatcita cta : this.ListCitas) {
-            if (cta.getId().getUzatcitaId() == uzatcitaId) {
+            if (cta.getId().getUzatcitaId().equals(uzatcitaId)) {
                 cita = cta;
                 break;
             }

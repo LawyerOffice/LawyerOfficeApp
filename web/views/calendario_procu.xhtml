@@ -32,21 +32,15 @@
                                             timeZone="GMT-5" pattern="dd/MM/yyyy HH:mm:ss" disabled="true"/>
 
                                 <p:outputLabel value="Materia:" /> 
-                                <p:outputLabel id="Materia" value="#{calendarBean.event.styleClass}" />
+                                <p:outputLabel id="Materia" value="#{calendarBean.selectedCita.uzatfase.uzatcaso.uzatjudi.uzatmateri.uzatmateriaDescripcion}" />
 
                                 <p:outputLabel value="Judicatura:" /> 
-                                <p:outputLabel id="Judicatura" value="#{calendarBean.event.styleClass}" />
+                                <p:outputLabel id="Judicatura" value="#{calendarBean.selectedCita.uzatfase.uzatcaso.uzatjudi.uzatjudiDescripcion}" />
 
                                 <p:outputLabel value="Sala:" /> 
-                                <p:outputLabel id="Sala" value="#{calendarBean.event.styleClass}" />
+                                <p:outputLabel id="Sala" value="#{calendarBean.selectedCita.uzatcitaSala}" />
 
                             </h:panelGrid>
-
-                            <f:facet name="footer">
-                                <p:commandButton value="Regresar" oncomplete="PF('eventDialog').hide();"/>
-                            </f:facet>
-
-
                         </p:dialog>    
                     </h:form>
                 </div>
