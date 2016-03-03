@@ -21,10 +21,10 @@
 
                         <p:layoutUnit position="center">
 
-                            <p:dataTable var="caso" value="#{resumenProcuBean.lazyModel}" paginator="true" rows="10"
-                                         paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
-                                         rowsPerPageTemplate="10" id="carTable" lazy="true">
-
+                            <p:dataTable id="dataTable" var="caso" value="#{resumenProcuBean.lazyModel}" paginator="true" rows="10"
+                                         paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                                         rowsPerPageTemplate="10" lazy="true">
+                            
                                 <p:column headerText="Núm. Causa" >
                                     <h:outputText value="#{caso.uzatcasoNumcausa}" />
                                 </p:column>
