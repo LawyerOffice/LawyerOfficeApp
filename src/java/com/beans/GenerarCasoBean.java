@@ -52,6 +52,7 @@ public class GenerarCasoBean {
     private String tipoCaso = "";
     public BigDecimal idFunci;
     public BigDecimal idCaso;
+    public String motivo;
     
     private Uzatcaso newCaso;
     private Uzatfunci newFuncionario;
@@ -207,6 +208,8 @@ public class GenerarCasoBean {
         newCaso.setUzatjudi(newJuzgado);
         newCaso.setUzatcasoTipo(tipoCaso);
         newCaso.setUzatcasoNumcausa(numCausa);
+        newCaso.setUzatcasoFechaIn(getDate());
+        newCaso.setUzatcasoMotivo("Por asignar");
         ProcuradoriaMethods.InsertCaso(newCaso);
     }
     
@@ -222,18 +225,24 @@ public class GenerarCasoBean {
         Uzatasign asign = new Uzatasign();
         asign.setId(new UzatasignId(idFunci,ProcuradoriaMethods.FindCasobyNumCausa(numCausa).getUzatcasoId()));
         asign.setUzatasignarFlag(BigDecimal.ONE);
-        
+        asign.setUzatasignarMotivo(motivo);
         asign.setUzatasignarFechaIn(getDate());
-        asign.setUzatasignarMotivo("");
+        
         ProcuradoriaMethods.InsertNuevaAsignacion(asign);
     }
     
     public void grabarnuevoCaso(ActionEvent event)
     {
-
-        grabarFuncionarios();
-        grabarCaso();
-        AsignarCasoAbogado();
+        try{
+            grabarFuncionarios();
+            grabarCaso();
+            AsignarCasoAbogado();
+            generateMessage(FacesMessage.SEVERITY_INFO, "Éxito", "Se ha generado un nuevo caso satisfactoriamente");
+        }catch(Exception ex)
+        {
+            generateMessage(FacesMessage.SEVERITY_FATAL, "ERROR no se ha grabado nuevo caso", ex.getMessage());
+        }
+        
     }
     
     // <editor-fold defaultstate="collapsed" desc=" Getters and Setters ">
@@ -328,7 +337,17 @@ public class GenerarCasoBean {
     public void setTipoCaso(String tipoCaso) {
         this.tipoCaso = tipoCaso;
     }
+    
+    
 // </editor-fold>
+
+    public String getMotivo() {
+        return motivo;
+    }
+
+    public void setMotivo(String motivo) {
+        this.motivo = motivo;
+    }
 
 
 }

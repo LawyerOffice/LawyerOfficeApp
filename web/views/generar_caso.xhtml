@@ -16,7 +16,7 @@
                     <p:growl id="growl" showDetail="true" life="3000" />
 
                     <p:panel id="panelCaso" header="Nuevo Caso">
-                        <h:panelGrid id="cantar" columns="2" cellpadding="10">
+                        <h:panelGrid columns="2" cellpadding="10">
                             <h:outputText value="Numero de Causa"/>
                             <p:inputText value="#{generarCasoBean.numCausa}"/>
                             
@@ -27,46 +27,12 @@
                             <h:outputText value="Tipo de Caso"/>
                             <p:inputText value="#{generarCasoBean.tipoCaso}"/>
                             
-                            <h:outputText value="Materia:"/>
-                            
-                            <p:selectOneMenu id="Materia" value="#{generarCasoBean.idMateria}">
-                                <f:selectItem itemLabel="Seleccione Materia" itemValue="100" />
-                                <f:selectItems  value="#{generarCasoBean.itemsMaterias}"
-                                                var="model" itemLabel="#{model.description}" 
-                                                itemValue="#{model.value}" />
-                                <p:ajax update="Judicatura"  listener="#{generarCasoBean.loadlistJudi()}" />
-                                
-                            </p:selectOneMenu>
-                            
-                            <h:outputText value="Judicatura:"/>
-                            <p:selectOneMenu id="Judicatura" value="#{generarCasoBean.idJudicatura}">
-                                <f:selectItem itemLabel="Seleccione Judicatura" itemValue="100" />
-                                <f:selectItems  value="#{generarCasoBean.itemsJudicaturas}"
-                                                var="model2" itemLabel="#{model2.description}" 
-                                                itemValue="#{model2.value}" />
-                               
-                            </p:selectOneMenu>     
-                            <!-- 
-                            <h:form id="funcidatos">
-                                <h:outputText value="Funcionario Grabado: "/>
-                                <br/>
-                                <h:outputText value="#{generarCasoBean.newFuncionario.uzatfuncionarioId}" />
-                                <br/>
-                                <h:outputText value="#{generarCasoBean.newFuncionario.uzatfuncionarioNombres}" />
-                                <br/>
-                                <h:outputText value="#{generarCasoBean.newFuncionario.uzatfuncionarioApellidos}" />
-                                <br/>
-                                <h:outputText value="#{generarCasoBean.newFuncionario.uzatfuncionarioEmail}" />
-                                <br/>
-                                <h:outputText value="#{generarCasoBean.newFuncionario.uzatfuncionarioIdbanner}" />
-                                <br/>
-                                <h:outputText value="#{generarCasoBean.newFuncionario.uzatfuncionarioMovil}" />
-                            </h:form>
-                            -->
+                            <h:outputText value="Motivo:"/>
+                            <p:inputText value="#{generarCasoBean.motivo}"/>
 
                         </h:panelGrid>
                         <f:facet name="footer">
-                            <p:commandButton value="Crear" style="width:170px" actionListener="#{generarCasoBean.grabarnuevoCaso(event)}"/>
+                            <p:commandButton value="Crear" style="width:170px" update=":growl" actionListener="#{generarCasoBean.grabarnuevoCaso(event)}"/>
                         </f:facet>
                     </p:panel>
                     
