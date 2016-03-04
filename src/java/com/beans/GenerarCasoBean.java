@@ -225,6 +225,7 @@ public class GenerarCasoBean {
         Uzatasign asign = new Uzatasign();
         asign.setId(new UzatasignId(idFunci,ProcuradoriaMethods.FindCasobyNumCausa(numCausa).getUzatcasoId()));
         asign.setUzatasignarFlag(BigDecimal.ONE);
+        asign.setUzatasignarId(idAsignador);
         asign.setUzatasignarMotivo(motivo);
         asign.setUzatasignarFechaIn(getDate());
         
