@@ -45,6 +45,7 @@ public class AsignarPermisoBean {
     private ArrayList<SelectItem> ItemsRoles;
 
     private List<Uzatrol> rolsAsignandos;
+    private List<Uzatasign> asgsFunciCasos;
     private Uzatrol selectedRol;
     private Uzatrol newRol;
 
@@ -65,6 +66,7 @@ public class AsignarPermisoBean {
         this.setPatterRoles("");
         this.newFuncionario = new Uzatfunci();
         this.rolsAsignandos = new ArrayList<Uzatrol>();
+        this.asgsFunciCasos = new ArrayList<Uzatasign>();
         this.selectedRol = new Uzatrol();
         this.newRol = new Uzatrol();
         this.setNewRol(new Uzatrol());
@@ -122,6 +124,10 @@ public class AsignarPermisoBean {
             generateMessage(FacesMessage.SEVERITY_INFO, "Por favor", "Seleciona un campo.");
         }
 
+    }
+    
+    public void loadCasosAsigandos(ActionEvent event){
+        this.asgsFunciCasos = ProcuradoriaMethods.GetCasosAsigFunciByIdAsig(this.selectedRol.getUzatfunci().getUzatfuncionarioId());
     }
 
     private Boolean ValidateFuncionario(String claveFuncionario, int type) {
@@ -279,6 +285,14 @@ public class AsignarPermisoBean {
 
     public void setNewFuncionario(Uzatfunci newFuncionario) {
         this.newFuncionario = newFuncionario;
+    }
+
+    public List<Uzatasign> getAsgsFunciCasos() {
+        return asgsFunciCasos;
+    }
+
+    public void setAsgsFunciCasos(List<Uzatasign> asgsFunciCasos) {
+        this.asgsFunciCasos = asgsFunciCasos;
     }
 
 }

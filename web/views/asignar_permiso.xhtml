@@ -45,6 +45,12 @@
                             <p:column headerText="Fecha Asignacion">
                                 <h:outputText value="#{DetailPermisoAsig.uzatrolFechaIn}" />
                             </p:column>
+                            <p:column style="width:32px;text-align: center">
+                                <p:commandButton update=":form_PA:casAsgid" actionListener="#{asignarPermisoBean.loadCasosAsigandos(event)}" 
+                                                 oncomplete="PF('listAsgCas').show()" icon="ui-icon-search" title="View">
+                                    <f:setPropertyActionListener value="#{DetailPermisoAsig}" target="#{asignarPermisoBean.selectedRol}" />
+                                </p:commandButton>
+                            </p:column>
 
                         </p:dataTable>
 
@@ -122,6 +128,50 @@
                                              oncomplete="PF('dlgNewRespMSG').hide(); PF('dlgNewPermits').hide();" > <!-- action ="" -->
                             </p:commandButton>
                         </f:facet> 
+                    </p:dialog>
+
+                    <p:dialog id="casAsgid" header="Casos Asigandos" widgetVar="listAsgCas" modal="true" 
+                              showEffect="fade" hideEffect="fade" resizable="false">
+
+                        <p:outputLabel><h2><strong>Resposable Autorizado</strong></h2></p:outputLabel>
+
+                        <h:panelGrid columns="4" cellpadding="1">
+                            <p:outputLabel><strong>Nombre :</strong></p:outputLabel>
+                            <h:outputLabel value="#{asignarPermisoBean.selectedRol.uzatfunci.uzatfuncionarioApellidos} #{asignarPermisoBean.selectedRol.uzatfunci.uzatfuncionarioNombres}"/>
+                            <p:outputLabel><strong>ID :</strong></p:outputLabel>
+                            <h:outputLabel value="#{asignarPermisoBean.selectedRol.uzatfunci.uzatfuncionarioIdbanner}"/>
+                            <p:outputLabel><strong>Cedula :</strong></p:outputLabel>
+                            <h:outputLabel value="#{asignarPermisoBean.selectedRol.uzatfunci.uzatfuncionarioCedula}"/>
+                            <p:outputLabel><strong>Permiso :</strong></p:outputLabel>
+                            <h:outputLabel value="#{asignarPermisoBean.selectedRol.uzattrol.uzattiporolDescripcion}"/>
+                        </h:panelGrid>
+                        <br/>
+                        <p:dataTable var="caso" value="#{asignarPermisoBean.asgsFunciCasos}"
+                                     rows="5"
+                                     paginator="true"
+                                     emptyMessage="No se ha econtrado."
+                                     paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                     rowsPerPageTemplate="5,10,15">
+
+                            <f:facet name="header">
+                                Casos Asignados
+                            </f:facet>
+                            <p:column headerText="Nombres:">
+                                <h:outputText value="#{caso.uzatfunci.uzatfuncionarioNombres}" />
+                            </p:column>
+
+                            <p:column headerText="Apellidos:">
+                                <h:outputText value="#{caso.uzatfunci.uzatfuncionarioApellidos}" />
+                            </p:column>
+
+                            <p:column headerText="Numero de Causa:">
+                                <h:outputText value="#{caso.uzatcaso.uzatcasoNumcausa}" />
+                            </p:column>
+
+                            <p:column headerText="Fecha de Ingreso:">
+                                <h:outputText value="#{caso.uzatasignarFechaIn}" />
+                            </p:column>
+                        </p:dataTable>
                     </p:dialog>
 
 
