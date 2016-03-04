@@ -46,7 +46,7 @@
                                 <h:outputText value="#{DetailPermisoAsig.uzatrolFechaIn}" />
                             </p:column>
                             <p:column style="width:32px;text-align: center">
-                                <p:commandButton update=":form_PA:casAsgid" actionListener="#{asignarPermisoBean.loadCasosAsigandos(event)}" 
+                                <p:commandButton update=":form_PA:casAsgid , :form_PA:casoTable" actionListener="#{asignarPermisoBean.loadCasosAsigandos(event)}" 
                                                  oncomplete="PF('listAsgCas').show()" icon="ui-icon-search" title="View">
                                     <f:setPropertyActionListener value="#{DetailPermisoAsig}" target="#{asignarPermisoBean.selectedRol}" />
                                 </p:commandButton>
@@ -151,7 +151,8 @@
                                      paginator="true"
                                      emptyMessage="No se ha econtrado."
                                      paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                     rowsPerPageTemplate="5,10,15">
+                                     rowsPerPageTemplate="5,10,15"
+                                     id="casoTable">
 
                             <f:facet name="header">
                                 Casos Asignados

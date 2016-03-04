@@ -127,7 +127,7 @@ public class AsignarPermisoBean {
     }
     
     public void loadCasosAsigandos(ActionEvent event){
-        this.asgsFunciCasos = ProcuradoriaMethods.GetCasosAsigFunciByIdAsig(this.selectedRol.getUzatfunci().getUzatfuncionarioId());
+        this.asgsFunciCasos = ProcuradoriaMethods.GetCasosAsigFunciByIdAsig(this.selectedRol.getId().getUzatfuncionarioId());
     }
 
     private Boolean ValidateFuncionario(String claveFuncionario, int type) {

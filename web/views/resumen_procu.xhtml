@@ -27,10 +27,10 @@
                                     <p:dataTable id="dataTableInactivos" 
                                                  var="casoI" 
                                                  value="#{resumenProcuBean.lazyModelCasosInactivos}" 
-                                                 paginator="true" rows="10"
+                                                 paginator="true" rows="5"
                                                  emptyMessage="No se ha econtrado casos inactivos disponibles"
                                                  paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
-                                                 rowsPerPageTemplate="10" lazy="true">
+                                                 rowsPerPageTemplate="5" lazy="true">
 
                                         <p:column headerText="Núm. Causa" >
                                             <h:outputText value="#{casoI.uzatcasoNumcausa}" />
@@ -52,10 +52,10 @@
 
                                 <p:tab title="Casos Activos">
                                     <h:panelGrid columns="1" cellpadding="10">
-                                        <p:dataTable id="dataTableActivos" var="casoA" value="#{resumenProcuBean.lazyModelCasosActivos}" paginator="true" rows="10"
+                                        <p:dataTable id="dataTableActivos" var="casoA" value="#{resumenProcuBean.lazyModelCasosActivos}" paginator="true" rows="5"
                                                      paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
                                                      emptyMessage="No se ha econtrado casos activos disponibles"
-                                                     rowsPerPageTemplate="10" lazy="true">
+                                                     rowsPerPageTemplate="5" lazy="true">
 
                                             <p:column headerText="Núm. Causa" >
                                                 <h:outputText value="#{casoA.uzatcasoNumcausa}" />
