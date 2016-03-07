@@ -1,14 +1,71 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <body>
 
         <ui:composition template="./menu_abo.xhtml">
 
             <ui:define name="content">
-                
+                <h:form id="form_admin_casos">
+
+                    <p:layout>
+                        <p:layoutUnit position="west" size="240" resizable="true">
+                            <p:calendar id="inline" mode="inline"/>
+                        </p:layoutUnit> 
+
+                        <p:layoutUnit position="center">
+
+                            <p:panel id="panel_find_caso" header="Buscar Casos">
+                                <h:panelGrid columns="3" cellpadding="10">
+                                    <h:outputLabel value="Buscar por:"/>
+
+                                    <p:selectOneMenu id="casos_cbx" value="#{selectOneMenuView.console}" style="width:125px">
+                                        <f:selectItem itemLabel="Select One" itemValue="" />
+                                        <f:selectItem itemLabel="Xbox One" itemValue="Xbox One" />
+                                        <f:selectItem itemLabel="PS4" itemValue="PS4" />
+                                        <f:selectItem itemLabel="Wii U" itemValue="Wii U" />
+                                    </p:selectOneMenu>
+
+                                    <p:inputText/>
+                                </h:panelGrid>
+                            </p:panel>
+
+                            <p:panel id="find_panel_caso" header="Casos">
+                                <p:dataTable id="dataTableInactivos" 
+                                             var="casoI" 
+                                             value="#{resumenProcuBean.lazyModelCasosInactivos}" 
+                                             paginator="true" rows="5"
+                                             emptyMessage="No se ha econtrado casos inactivos disponibles"
+                                             paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                                             rowsPerPageTemplate="5" lazy="true">
+
+                                    <p:column headerText="Núm. Causa" >
+                                        <h:outputText value="#{casoI.uzatcasoNumcausa}" />
+                                    </p:column>
+                                    <p:column headerText="Motivo">
+                                        <h:outputText value="#{casoI.uzatcasoMotivo}" />
+                                    </p:column>
+                                    <p:column headerText="Detalle">
+                                        <h:outputText value="#{casoI.uzatcasoDetalle}" />
+                                    </p:column>
+                                    <p:column headerText="Tipo">
+                                        <h:outputText value="#{casoI.uzatcasoTipo}" />
+                                    </p:column>
+                                    <p:column headerText="Fecha Inicial">
+                                        <h:outputText value="#{casoI.uzatcasoFechaIn}" />
+                                    </p:column>
+                                </p:dataTable>
+                            </p:panel>
+                        </p:layoutUnit>
+                        
+                    </p:layout> 
+
+                </h:form>
             </ui:define>
 
         </ui:composition>
