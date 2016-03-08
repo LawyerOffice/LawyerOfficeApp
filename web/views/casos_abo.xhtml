@@ -21,7 +21,7 @@
                         <p:layoutUnit position="center">
 
                             <p:panel id="panel_find_caso" header="Buscar Casos">
-                                <h:panelGrid columns="3" cellpadding="10">
+                                <h:panelGrid columns="4" cellpadding="10">
                                     <h:outputLabel value="Buscar por:"/>
 
                                     <p:selectOneMenu id="casos_cbx" value="#{selectOneMenuView.console}" style="width:125px">
@@ -32,6 +32,8 @@
                                     </p:selectOneMenu>
 
                                     <p:inputText/>
+                                    
+                                    <p:commandButton value="Buscar"/>
                                 </h:panelGrid>
                             </p:panel>
 
