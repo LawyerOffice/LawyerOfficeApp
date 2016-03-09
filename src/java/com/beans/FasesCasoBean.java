@@ -7,12 +7,19 @@ package com.beans;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
+import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
+import org.primefaces.event.TabChangeEvent;
+import org.primefaces.event.ToggleEvent;
+import org.primefaces.model.Visibility;
 import procuradoria.crud.ProcuradoriaMethods;
 import procuradoria.map.Uzatcaso;
 import procuradoria.map.Uzatcomt;
+import procuradoria.map.Uzatfase;
 
 /**
  *
@@ -25,39 +32,59 @@ public class FasesCasoBean {
     /**
      * Creates a new instance of FasesCasoBean
      */
-    private Uzatcaso SelectedCaso;
-    private ArrayList<Uzatcomt> ListComtFases;
+    private ArrayList<Uzatfase> ListFases;
+    private ArrayList<Uzatcomt> ListComtFasesById;
+    private Uzatfase SelectedFase;
 
     public FasesCasoBean() {
-        this.setSelectedCaso(new Uzatcaso());
-        this.setListComtFases(new ArrayList<Uzatcomt>());
+        SelectedFase=new Uzatfase();
+        this.setListFases(new ArrayList<Uzatfase>());
+        this.setListComtFasesById(new ArrayList<Uzatcomt>());
         this.init();
     }
 
     private void init() {
-        this.ListComtFases = ProcuradoriaMethods.GetFasesComentByIdCaso(BigDecimal.valueOf(100));
+        this.ListFases = ProcuradoriaMethods.listFasesByIdCaso(BigDecimal.valueOf(100));
     }
 
-    public void onRowSelectCaso(SelectEvent event) {
-        this.SelectedCaso = (Uzatcaso) event.getObject();
-        //DETALLES DEL ABOGADO //this.Asignar =  ProcuradoriaMethods.GetActiveAbogadosByIdCaso(this.SelectedCaso.getUzatcasoId());
-        //AQUI VIENE EL ID DEL CASO//this.ListComtFases = ProcuradoriaMethods.GetFasesComentByIdCaso(this.SelectedCaso.getUzatcasoId());
+    public void onRowSelectCmt(SelectEvent event) {
+        this.SelectedFase = (Uzatfase) event.getObject();
     }
 
-    public Uzatcaso getSelectedCaso() {
-        return SelectedCaso;
+    public ArrayList<Uzatfase> getListFases() {
+        return ListFases;
     }
 
-    public void setSelectedCaso(Uzatcaso SelectedCaso) {
-        this.SelectedCaso = SelectedCaso;
+    public void setListFases(ArrayList<Uzatfase> ListComtFases) {
+        this.ListFases = ListComtFases;
     }
 
-    public ArrayList<Uzatcomt> getListComtFases() {
-        return ListComtFases;
+    public Uzatfase getSelectedFase() {
+        return SelectedFase;
     }
 
-    public void setListComtFases(ArrayList<Uzatcomt> ListComtFases) {
-        this.ListComtFases = ListComtFases;
+    public void setSelectedFase(Uzatfase Selectedfase) {
+        this.SelectedFase = Selectedfase;
     }
 
+    public ArrayList<Uzatcomt> getListComtFasesById() {
+        return ListComtFasesById;
+    }
+
+    public void setListComtFasesById(ArrayList<Uzatcomt> ListComtFasesById) {
+        this.ListComtFasesById = ListComtFasesById;
+    }
+    
+    public void onTabChange(TabChangeEvent event) {
+        FacesMessage msg = new FacesMessage("Tab Changed", "Active Tab: " + event.getTab().getId()+ event.getTab().getId());
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
+
+    public void onRowToggle(ToggleEvent event) {
+        this.SelectedFase = (Uzatfase) event.getData();
+    if (event.getVisibility() == Visibility.VISIBLE) {
+        this.ListComtFasesById = ProcuradoriaMethods.GetFasesComentByIdCasoAndIdFase(BigDecimal.valueOf(100),SelectedFase.getId().getUzatfaseId());
+    }
+}
+    
 }

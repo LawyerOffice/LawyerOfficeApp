@@ -15,69 +15,79 @@
             </ui:define>
 
             <ui:define name="content">
-                <p:dataTable var="ComtFase" 
-                             value="#{FasesCasoBean.listComtFases}" 
-                             rows="5" paginator="true"
-                             widgetVar="casoTable" 
-                             emptyMessage="No se han econtrado fases disponibles" 
-                             id="dtCaso">
-                    <!--<h:outputLabel value=""/>  Tomar encuenta siempre la varibale que se este manejando en cada tabla debido al javascript interno que maneja-->
-                    <f:facet name="header">
-                        FASES ACTUALES
-                    </f:facet>
+                <h:form id="form">
+                    <p:dataTable var="ComtFase" 
+                                 value="#{fasesCasoBean.listFases}" 
+                                 widgetVar="casoTable" 
+                                 emptyMessage="No se han encontrado fases disponibles."
+                                 id="dtCaso">
 
-                    <p:column style="width:16px">
-                        <p:rowToggler />
-                    </p:column>
+                        <f:facet name="header">
+                            FASES ACTUALES
+                        </f:facet>
 
-                    <p:column headerText="Número">
-                        <h:outputText value="#{ComtFase.uzatfase.uzatfaseNumfase}" />
-                    </p:column>
-                    <p:column headerText="Nombre">
-                        <h:outputText value="#{ComtFase.uzatfase.uzatfaseNombre}" />
-                    </p:column>
-                    <p:column headerText="Fecha Inicio">
-                        <h:outputText value="#{ComtFase.uzatfase.uzatfaseFechaIn}" />
-                    </p:column>
-                    <p:column headerText="Fecha Salida">
-                        <h:outputText value="#{ComtFase.uzatfase.uzatfaseFechaOut}" />
-                    </p:column>
+                        <p:ajax event="rowToggle" listener="#{fasesCasoBean.onRowToggle}" />
+                        
+                        <p:column style="width:16px">
+                            <p:rowToggler/>
+                        </p:column>
 
-                    <p:rowExpansion>
+                        <p:column headerText="Número">
+                            <h:outputText value="#{ComtFase.uzatfaseNumfase}" />
+                        </p:column>
+                        <p:column headerText="Nombre">
+                            <h:outputText value="#{ComtFase.uzatfaseNombre}" />
+                        </p:column>
+                        <p:column headerText="Fecha Inicio">
+                            <h:outputText value="#{ComtFase.uzatfaseFechaIn}" />
+                        </p:column>
+                        <p:column headerText="Fecha Salida">
+                            <h:outputText value="#{ComtFase.uzatfaseFechaOut}" />
+                        </p:column>
 
-                        <h3 style="margin-top:0">Basic</h3>
-                        <p:tabView>
-                            
-                            <p:tab title="Comentarios">
-                                <p:panelGrid  columns="2">
+                        <p:rowExpansion >
+                                <p:tabView dynamic="true" cache="true">
+                                    <p:ajax event="tabChange" listener="#{fasesCasoBean.onTabChange}"/>
 
-                                    <h:outputText value="Fecha" style="font-weight:bold"/>
-                                    <h:outputText value="Descripción" style="font-weight:bold"/>
+                                    <p:tab title="Comentarios">
 
-                                    <h:outputText value="#{ComtFase.uzatcomtFecha}" />
-                                    <h:outputText value="#{ComtFase.uzatcomtDescripcion}" />
+                                        <p:panelGrid  columns="1">
+                                            <p:commandButton value="Nuevo Comentario" style="float: right" actionListener="#{buttonView.buttonAction}" id="iconOnly" icon="ui-icon-disk" title="Nuevo" />
+                                        </p:panelGrid>
 
-                                </p:panelGrid>
-                            </p:tab>
-                            
-                            <p:tab title="Documentos">
-                                <h:panelGrid columns="2" cellpadding="10">
-                                    <p:graphicImage name="demo/images/godfather/godfather2.jpg" />
-                                    <h:outputText value="Francis Ford Coppola's legendary..." />
-                                </h:panelGrid>
-                            </p:tab>
-                            <p:tab title="Citas">
-                                <h:panelGrid columns="2" cellpadding="10">
-                                    <p:graphicImage name="demo/images/godfather/godfather3.jpg" />
-                                    <h:outputText value="After a break of more than 15 years..." />
-                                </h:panelGrid>
-                            </p:tab>
-                        </p:tabView>
+                                        <p:dataTable var="ComtById" id="ComtFaseId" 
+                                                     value="#{fasesCasoBean.listComtFasesById}"
+                                                     emptyMessage="No se han encontrado comentarios disponibles.">
+                                            <p:column headerText="Fecha">
+                                                <h:outputText value="#{ComtById.uzatcomtFecha}" />
+                                            </p:column>
 
+                                            <p:column headerText="Descripción">
+                                                <h:outputText value="#{ComtById.uzatcomtDescripcion}" />
+                                            </p:column>
 
-                    </p:rowExpansion>
+                                        </p:dataTable>
 
-                </p:dataTable>
+                                    </p:tab>
+
+                                    <p:tab title="Documentos">
+                                        <h:panelGrid columns="2" cellpadding="10">
+                                            <p:graphicImage name="demo/images/godfather/godfather2.jpg" />
+                                            <h:outputText value="Francis Ford Coppola's legendary..." />
+                                        </h:panelGrid>
+                                    </p:tab>
+                                    <p:tab title="Citas">
+                                        <h:panelGrid columns="2" cellpadding="10">
+                                            <p:graphicImage name="demo/images/godfather/godfather3.jpg" />
+                                            <h:outputText value="After a break of more than 15 years..." />
+                                        </h:panelGrid>
+                                    </p:tab>
+                                </p:tabView>
+
+                        </p:rowExpansion>
+
+                    </p:dataTable>
+                </h:form>
             </ui:define>
 
         </ui:composition>
