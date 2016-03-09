@@ -210,6 +210,7 @@ public class GenerarCasoBean {
         newCaso.setUzatcasoNumcausa(numCausa);
         newCaso.setUzatcasoFechaIn(getDate());
         newCaso.setUzatcasoMotivo("Por asignar");
+        newCaso.setUzatcasoFlag(new BigDecimal(2));
         ProcuradoriaMethods.InsertCaso(newCaso);
     }
     

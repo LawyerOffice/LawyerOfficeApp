@@ -1,31 +1,95 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <body>
 
         <ui:composition template="./menu_abo.xhtml">
-
-            <ui:define name="top">
-                top
-            </ui:define>
-
-            <ui:define name="left">
-                left
-            </ui:define>
-
-            <ui:define name="right">
-                right
-            </ui:define>
-
+            
             <ui:define name="content">
-                content
+                <p:growl id="growl" showDetail="true" life="3000" />
+                    <h:form id="form_noti">
+                        <p:growl id="growl" showDetail="true" life="3000" />
+                        <p:layoutUnit position="center">
+                            <p:accordionPanel>
+                                
+                                <p:tab title="Casos Asignados">
+                                    <h:panelGrid columns="1" cellpadding="10">
+                                        <p:dataTable id="dataTableAsignados" var="casoA" value="#{resumenAboBean.lazyModelCasosAsignados}" paginator="true" rows="5"
+                                                     paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                                                     emptyMessage="No se ha econtrado casos activos disponibles"
+                                                     rowsPerPageTemplate="5" lazy="true">
+
+                                            <p:column headerText="Núm. Causa" >
+                                                <h:outputText value="#{casoA.uzatcasoNumcausa}" />
+                                            </p:column>
+                                            <p:column headerText="Motivo">
+                                                <h:outputText value="#{casoA.uzatcasoMotivo}" />
+                                            </p:column>
+                                            <p:column headerText="Detalle">
+                                                <h:outputText value="#{casoA.uzatcasoDetalle}" />
+                                            </p:column>
+                                            <p:column headerText="Tipo">
+                                                <h:outputText value="#{casoA.uzatcasoTipo}" />
+                                            </p:column>
+                                            <p:column headerText="Fecha Inicial">
+                                                <h:outputText value="#{casoA.uzatcasoFechaIn}" />
+                                            </p:column>
+                                            <p:column style="width:32px;text-align: center">
+                                                <p:commandButton icon="ui-icon-search" title="View">
+                                                </p:commandButton>
+                                            </p:column>
+                                        </p:dataTable>
+                                    </h:panelGrid>
+                                </p:tab>
+
+                                <p:tab title="Casos Activos">
+                                    <h:panelGrid columns="1" cellpadding="10">
+                                        <p:dataTable id="dataTableActivos" var="casoA" value="#{resumenAboBean.lazyModelCasosActivos}" paginator="true" rows="5"
+                                                     paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                                                     emptyMessage="No se ha econtrado casos activos disponibles"
+                                                     rowsPerPageTemplate="5" lazy="true">
+
+                                            <p:column headerText="Núm. Causa" >
+                                                <h:outputText value="#{casoA.uzatcasoNumcausa}" />
+                                            </p:column>
+                                            <p:column headerText="Motivo">
+                                                <h:outputText value="#{casoA.uzatcasoMotivo}" />
+                                            </p:column>
+                                            <p:column headerText="Detalle">
+                                                <h:outputText value="#{casoA.uzatcasoDetalle}" />
+                                            </p:column>
+                                            <p:column headerText="Tipo">
+                                                <h:outputText value="#{casoA.uzatcasoTipo}" />
+                                            </p:column>
+                                            <p:column headerText="Fecha Inicial">
+                                                <h:outputText value="#{casoA.uzatcasoFechaIn}" />
+                                            </p:column>
+                                            <p:column style="width:32px;text-align: center">
+                                                <p:commandButton icon="ui-icon-search" title="Edit">
+                                                </p:commandButton>
+                                            </p:column>
+                                        </p:dataTable>
+                                    </h:panelGrid>
+                                </p:tab>
+                                
+                                
+
+
+                            </p:accordionPanel>
+                        </p:layoutUnit>
+                        
+                        
+                        
+
+
+                </h:form> 
             </ui:define>
 
-            <ui:define name="bottom">
-                bottom
-            </ui:define>
 
         </ui:composition>
 
