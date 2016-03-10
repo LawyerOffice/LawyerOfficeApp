@@ -19,6 +19,7 @@
                     <p:dataTable var="ComtFase" 
                                  value="#{fasesCasoBean.listFases}" 
                                  widgetVar="casoTable" 
+                                 sortBy="#{ComtFase.uzatfaseNumfase}"
                                  emptyMessage="No se han encontrado fases disponibles."
                                  id="dtCaso">
 
@@ -27,7 +28,7 @@
                         </f:facet>
 
                         <p:ajax event="rowToggle" listener="#{fasesCasoBean.onRowToggle}" />
-                        
+
                         <p:column style="width:16px">
                             <p:rowToggler/>
                         </p:column>
@@ -46,43 +47,85 @@
                         </p:column>
 
                         <p:rowExpansion >
-                                <p:tabView dynamic="true" cache="true">
-                                    <p:ajax event="tabChange" listener="#{fasesCasoBean.onTabChange}"/>
+                            <p:tabView dynamic="true" cache="true">
+                                <p:ajax event="tabChange" listener="#{fasesCasoBean.onTabChange}"/>
 
-                                    <p:tab title="Comentarios">
+                                <p:tab title="Comentarios" id="TabComentarios">
 
-                                        <p:panelGrid  columns="1">
-                                            <p:commandButton value="Nuevo Comentario" style="float: right" actionListener="#{buttonView.buttonAction}" id="iconOnly" icon="ui-icon-disk" title="Nuevo" />
-                                        </p:panelGrid>
+                                    <p:panelGrid  columns="1">
+                                        <p:commandButton value="Nuevo Comentario" style="float: right" actionListener="#{buttonView.buttonAction}" id="NewComent" icon="ui-icon-disk" title="Nuevo" />
+                                    </p:panelGrid>
 
-                                        <p:dataTable var="ComtById" id="ComtFaseId" 
-                                                     value="#{fasesCasoBean.listComtFasesById}"
-                                                     emptyMessage="No se han encontrado comentarios disponibles.">
-                                            <p:column headerText="Fecha">
-                                                <h:outputText value="#{ComtById.uzatcomtFecha}" />
-                                            </p:column>
+                                    <p:dataTable var="ComtById" id="ComtFaseId" 
+                                                 value="#{fasesCasoBean.listComtFasesById}"
+                                                 emptyMessage="No se han encontrado comentarios disponibles.">
+                                        <p:column headerText="Fecha">
+                                            <h:outputText value="#{ComtById.uzatcomtFecha}" />
+                                        </p:column>
 
-                                            <p:column headerText="Descripción">
-                                                <h:outputText value="#{ComtById.uzatcomtDescripcion}" />
-                                            </p:column>
+                                        <p:column headerText="Descripción">
+                                            <h:outputText value="#{ComtById.uzatcomtDescripcion}" />
+                                        </p:column>
 
-                                        </p:dataTable>
+                                    </p:dataTable>
 
-                                    </p:tab>
+                                </p:tab>
 
-                                    <p:tab title="Documentos">
-                                        <h:panelGrid columns="2" cellpadding="10">
-                                            <p:graphicImage name="demo/images/godfather/godfather2.jpg" />
-                                            <h:outputText value="Francis Ford Coppola's legendary..." />
-                                        </h:panelGrid>
-                                    </p:tab>
-                                    <p:tab title="Citas">
-                                        <h:panelGrid columns="2" cellpadding="10">
-                                            <p:graphicImage name="demo/images/godfather/godfather3.jpg" />
-                                            <h:outputText value="After a break of more than 15 years..." />
-                                        </h:panelGrid>
-                                    </p:tab>
-                                </p:tabView>
+                                <p:tab title="Documentos" id="TabDocumentos">
+
+                                    <p:panelGrid  columns="1">
+                                        <p:commandButton value="Nuevo Documento" style="float: right" actionListener="#{buttonView.buttonAction}" id="NewDoc" icon="ui-icon-disk" title="Nuevo" />
+                                    </p:panelGrid>
+
+                                    <p:dataTable var="DocById" id="DocFaseId" 
+                                                 value="#{fasesCasoBean.listDocsFasesById}"
+                                                 emptyMessage="No se han encontrado documentos disponibles.">
+                                        <p:column headerText="Casilla">
+
+                                            <h:outputText value="#{DocById.uzatdocsCasilla}" />
+                                        </p:column>
+
+                                        <p:column headerText="Fecha">
+                                            <h:outputText value="#{DocById.uzatdocsFecha}" />
+                                        </p:column>
+
+                                        <p:column headerText="Compromiso">
+                                            <h:outputText value="#{DocById.uzatdocsCompromiso}" />
+                                        </p:column>
+
+                                        <p:column headerText="Archivo">
+
+                                        </p:column>
+
+                                    </p:dataTable>
+
+                                </p:tab>
+
+                                <p:tab title="Citas" id="TabCitas">
+                                    
+                                    <p:panelGrid  columns="1">
+                                        <p:commandButton value="Nueva Cita" style="float: right" actionListener="#{buttonView.buttonAction}" id="NewCita" icon="ui-icon-disk" title="Nuevo" />
+                                    </p:panelGrid>
+
+                                    <p:dataTable var="CitaById" id="CitaFaseId" 
+                                                 value="#{fasesCasoBean.listCitaFasesById}"
+                                                 emptyMessage="No se han encontrado citas disponibles.">
+                                        
+                                        <p:column headerText="Sala">
+                                            <h:outputText value="#{CitaById.uzatcitaSala}" />
+                                        </p:column>
+
+                                        <p:column headerText="Fecha">
+                                            <h:outputText value="#{CitaById.uzatcitaFecha}" />
+                                        </p:column>
+
+                                        <p:column headerText="Activo">
+                                            <h:outputText value="#{CitaById.uzatcitaFlag}" />
+                                        </p:column>
+
+                                    </p:dataTable>
+                                </p:tab>
+                            </p:tabView>
 
                         </p:rowExpansion>
 

@@ -11,14 +11,14 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
-import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.event.TabChangeEvent;
 import org.primefaces.event.ToggleEvent;
 import org.primefaces.model.Visibility;
 import procuradoria.crud.ProcuradoriaMethods;
-import procuradoria.map.Uzatcaso;
+import procuradoria.map.Uzatcita;
 import procuradoria.map.Uzatcomt;
+import procuradoria.map.Uzatdocs;
 import procuradoria.map.Uzatfase;
 
 /**
@@ -34,17 +34,23 @@ public class FasesCasoBean {
      */
     private ArrayList<Uzatfase> ListFases;
     private ArrayList<Uzatcomt> ListComtFasesById;
+    private ArrayList<Uzatdocs> ListDocsFasesById;
+    private ArrayList<Uzatcita> ListCitaFasesById;
     private Uzatfase SelectedFase;
+    private BigDecimal CodCaso;
 
     public FasesCasoBean() {
-        SelectedFase=new Uzatfase();
+        CodCaso=BigDecimal.valueOf(100);
+        this.setSelectedFase(new Uzatfase());
         this.setListFases(new ArrayList<Uzatfase>());
         this.setListComtFasesById(new ArrayList<Uzatcomt>());
+        this.setListDocsFasesById(new ArrayList<Uzatdocs>());
+        this.setListCitaFasesById(new ArrayList<Uzatcita>());
         this.init();
     }
 
     private void init() {
-        this.ListFases = ProcuradoriaMethods.listFasesByIdCaso(BigDecimal.valueOf(100));
+        this.ListFases = ProcuradoriaMethods.listFasesByIdCaso(CodCaso);
     }
 
     public void onRowSelectCmt(SelectEvent event) {
@@ -74,17 +80,38 @@ public class FasesCasoBean {
     public void setListComtFasesById(ArrayList<Uzatcomt> ListComtFasesById) {
         this.ListComtFasesById = ListComtFasesById;
     }
-    
+
+    public ArrayList<Uzatdocs> getListDocsFasesById() {
+        return ListDocsFasesById;
+    }
+
+    public void setListDocsFasesById(ArrayList<Uzatdocs> ListDocsFasesById) {
+        this.ListDocsFasesById = ListDocsFasesById;
+    }
+
+    public ArrayList<Uzatcita> getListCitaFasesById() {
+        return ListCitaFasesById;
+    }
+
+    public void setListCitaFasesById(ArrayList<Uzatcita> ListCitaFasesById) {
+        this.ListCitaFasesById = ListCitaFasesById;
+    }
+
     public void onTabChange(TabChangeEvent event) {
-        FacesMessage msg = new FacesMessage("Tab Changed", "Active Tab: " + event.getTab().getId()+ event.getTab().getId());
-        FacesContext.getCurrentInstance().addMessage(null, msg);
+        if (event.getTab().getId().equals("TabDocumentos")) {
+            this.ListDocsFasesById = ProcuradoriaMethods.FindDocsbyCaso_Fase(CodCaso, SelectedFase.getId().getUzatfaseId());
+        } else {
+            if (event.getTab().getId().equals("TabCitas")) {
+                this.ListCitaFasesById = ProcuradoriaMethods.FindCitasbyCaso_Fase(CodCaso, SelectedFase.getId().getUzatfaseId());
+            }
+        }
     }
 
     public void onRowToggle(ToggleEvent event) {
         this.SelectedFase = (Uzatfase) event.getData();
-    if (event.getVisibility() == Visibility.VISIBLE) {
-        this.ListComtFasesById = ProcuradoriaMethods.GetFasesComentByIdCasoAndIdFase(BigDecimal.valueOf(100),SelectedFase.getId().getUzatfaseId());
+        if (event.getVisibility() == Visibility.VISIBLE) {
+            this.ListComtFasesById = ProcuradoriaMethods.GetFasesComentByIdCasoAndIdFase(CodCaso, SelectedFase.getId().getUzatfaseId());
+        }
     }
-}
-    
+
 }
