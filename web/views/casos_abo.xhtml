@@ -24,48 +24,98 @@
                                 <h:panelGrid columns="4" cellpadding="10">
                                     <h:outputLabel value="Buscar por:"/>
 
-                                    <p:selectOneMenu id="casos_cbx" value="#{selectOneMenuView.console}" style="width:125px">
+                                    <p:selectOneMenu id="casos_cbx" value="#{adminCasosBean.patterFindCaso}" style="width:125px">
                                         <f:selectItem itemLabel="Seleccionar" itemValue="" />
                                         <f:selectItem itemLabel="Numero Causa" itemValue="Numero Causa" />
-                                        <f:selectItem itemLabel="_" itemValue="_" />
-                                        <f:selectItem itemLabel="_" itemValue="_" />
                                     </p:selectOneMenu>
 
-                                    <p:inputText/>
-                                    
+                                    <p:inputText value="#{adminCasosBean.valueFindCaso}"/>
+
                                     <p:commandButton value="Buscar"/>
                                 </h:panelGrid>
                             </p:panel>
 
-                            <p:panel id="find_panel_caso" header="Casos">
-                                <p:dataTable id="dataTableInactivos" 
-                                             var="casoI" 
-                                             value="#{resumenProcuBean.lazyModelCasosInactivos}" 
-                                             paginator="true" rows="5"
-                                             emptyMessage="No se ha econtrado casos inactivos disponibles"
-                                             paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
-                                             rowsPerPageTemplate="5" lazy="true">
+                            <p:panel header="Casos">
+                                <div align="center">
+                                    <p:dataTable var="caso" value="#{adminCasosBean.casosAsigandos}" tableStyle="width:auto">
 
-                                    <p:column headerText="Núm. Causa" >
-                                        <h:outputText value="#{casoI.uzatcasoNumcausa}" />
-                                    </p:column>
-                                    <p:column headerText="Motivo">
-                                        <h:outputText value="#{casoI.uzatcasoMotivo}" />
-                                    </p:column>
-                                    <p:column headerText="Detalle">
-                                        <h:outputText value="#{casoI.uzatcasoDetalle}" />
-                                    </p:column>
-                                    <p:column headerText="Tipo">
-                                        <h:outputText value="#{casoI.uzatcasoTipo}" />
-                                    </p:column>
-                                    <p:column headerText="Fecha Inicial">
-                                        <h:outputText value="#{casoI.uzatcasoFechaIn}" />
-                                    </p:column>
-                                </p:dataTable>
+                                        <p:column style="width:16px">
+                                            <p:rowToggler />
+                                        </p:column>
+
+                                        <p:column headerText="Num. Causa">
+                                            <h:outputText value="#{caso.uzatcaso.uzatcasoNumcausa}" />
+                                        </p:column>
+
+                                        <p:column headerText="Fecha Asignacion">
+                                            <h:outputText value="#{caso.uzatasignarFechaIn}" />
+                                        </p:column>
+
+                                        <p:column headerText="Fecha Caso">
+                                            <h:outputText value="#{caso.uzatcaso.uzatcasoFechaIn}" />
+                                        </p:column>
+
+                                        <p:column headerText="Num. Fase Actual">
+                                            <h:outputText value="#{caso.ultimaFaseActual.uzatfaseNumfase}" />
+                                        </p:column>
+
+                                        <p:column headerText="Fase Actual">
+                                            <h:outputText value="#{caso.ultimaFaseActual.uzatfaseNombre}" />
+                                        </p:column>
+
+                                        <p:column headerText="Estado">
+                                            <p:selectBooleanCheckbox value="#{adminCasosBean.StateFlagOnOff(caso.uzatcaso.uzatcasoFlag)}"/>
+                                        </p:column>
+
+                                        <p:rowExpansion>
+                                            <p:panel>
+                                                <h:panelGrid id="expGrid"  columns="4" styleClass="outerpanelgrid" cellpadding="5">
+                                                    <h:outputText value="Materia:" />
+                                                    <h:outputText value="#{caso.uzatcaso.uzatjudi.uzatmateri.uzatmateriaDescripcion}" />
+
+                                                    <h:outputText value="Judicatura:" />
+                                                    <h:outputText value="#{caso.uzatcaso.uzatjudi.uzatjudiDescripcion}" />
+
+                                                    <h:outputText value="Motivo:" />
+                                                    <h:outputText value="#{caso.uzatcaso.uzatcasoMotivo}"/>
+
+                                                    <h:outputText value="Detalle:" />
+                                                    <h:outputText value="#{caso.uzatcaso.uzatcasoDetalle}" />
+                                                </h:panelGrid>
+                                                <f:facet name="footer">
+                                                    <p:commandButton value="Ver" icon="ui-icon-search"/>  
+                                                </f:facet>
+                                            </p:panel>
+                                        </p:rowExpansion>
+
+                                    </p:dataTable>
+                                </div>
                             </p:panel>
                         </p:layoutUnit>
-                        
+
                     </p:layout> 
+                    <style>
+                        #form_admin_casos\:expGrid td{
+                            border: none !important;
+                        }
+
+                        #form_admin_casos\:expGrid tr{
+                            border: none !important;
+                        }
+                        .outerpanelgrid>tbody>tr{
+                            border: none !important;
+                        }
+                        .outerpanelgrid>tbody>tr>td{
+                            border: none !important;
+                        }
+
+                        .outerpanelgrid tbody tr, .outerpanelgrid tbody td{  
+                            border: none;
+                        }
+                        .innerpanelgrid tbody tr, .innerpanelgrid tbody td{
+                            border: 1px solid red ;
+                        }
+                    </style>
 
                 </h:form>
             </ui:define>
