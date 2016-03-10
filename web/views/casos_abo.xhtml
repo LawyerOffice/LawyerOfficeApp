@@ -25,8 +25,8 @@
                                     <h:outputLabel value="Buscar por:"/>
 
                                     <p:selectOneMenu id="casos_cbx" value="#{adminCasosBean.patterFindCaso}" style="width:125px">
-                                        <f:selectItem itemLabel="Seleccionar" itemValue="" />
-                                        <f:selectItem itemLabel="Numero Causa" itemValue="Numero Causa" />
+                                        <f:selectItem itemLabel="Seleccionar" itemValue="" noSelectionOption="true"/>
+                                        <f:selectItem itemLabel="Num.Causa" itemValue="Num.Causa" />
                                     </p:selectOneMenu>
 
                                     <p:inputText value="#{adminCasosBean.valueFindCaso}"/>
