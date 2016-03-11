@@ -26,36 +26,76 @@ public class LoginBean {
     /**
      * Creates a new instance of LoginBean
      */
+    private String mUsuario;
+    private String mPassword;
+    
     HttpServletRequest origRequest
             = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
     private String urlRequest;
 
     public LoginBean() {
         this.urlRequest = origRequest.getRequestURL().toString();
-//        this.setUrlRequest(this.urlRequest = this.urlRequest.replace("faces/views/u_cliente.xhtml", ""));
-//        this.setUrlRequest(this.urlRequest = this.urlRequest.replace("faces/views/r_cliente.xhtml", ""));
-//        this.setUrlRequest(this.urlRequest = this.urlRequest.replace("faces/views/inicio.xhtml", ""));
-//        this.setUrlRequest(this.urlRequest = this.urlRequest.replace("faces/resources/js/jquery.jsresources/", ""));
-//        this.setUrlRequest(this.urlRequest = this.urlRequest.replace("faces/index.xhtml", ""));
-//        this.setUrlRequest(this.urlRequest = this.urlRequest.replace("faces/loginPage", ""));
+        this.setUrlRequest(this.urlRequest = this.urlRequest.replace("faces/views/abogados_procu.xhtml", ""));
+        this.setUrlRequest(this.urlRequest = this.urlRequest.replace("faces/views/asignar_permiso.xhtml", ""));
+        this.setUrlRequest(this.urlRequest = this.urlRequest.replace("faces/views/calendario_abo.xhtml", ""));
+
+        this.setUrlRequest(this.urlRequest = this.urlRequest.replace("faces/views/calendario_procu.xhtml", ""));
+        this.setUrlRequest(this.urlRequest = this.urlRequest.replace("faces/views/casos_abo.xhtml", ""));
+        this.setUrlRequest(this.urlRequest = this.urlRequest.replace("faces/views/casos_procu.xhtml", ""));
+
+        this.setUrlRequest(this.urlRequest = this.urlRequest.replace("faces/views/faces_caso.xhtml", ""));
+        this.setUrlRequest(this.urlRequest = this.urlRequest.replace("faces/views/faces_caso_ui.xhtml", ""));
+        this.setUrlRequest(this.urlRequest = this.urlRequest.replace("faces/views/generar_caso.xhtml", ""));
+
+        this.setUrlRequest(this.urlRequest = this.urlRequest.replace("faces/views/inicio_abo.xhtml", ""));
+        this.setUrlRequest(this.urlRequest = this.urlRequest.replace("faces/views/inicio_procu.xhtml", ""));
+        this.setUrlRequest(this.urlRequest = this.urlRequest.replace("faces/views/menu_abo.xhtml", ""));
+
+        this.setUrlRequest(this.urlRequest = this.urlRequest.replace("faces/views/menu_procu.xhtml", ""));
+        this.setUrlRequest(this.urlRequest = this.urlRequest.replace("faces/views/resumen_abo.xhtml", ""));
+        this.setUrlRequest(this.urlRequest = this.urlRequest.replace("faces/views/resumen_procu.xhtml", ""));
+
+        this.setUrlRequest(this.urlRequest = this.urlRequest.replace("faces/resources/js/jquery.jsresources/", ""));
+        this.setUrlRequest(this.urlRequest = this.urlRequest.replace("faces/index.xhtml", ""));
+        this.setUrlRequest(this.urlRequest = this.urlRequest.replace("faces/loginPage", ""));
     }
 
     public void login(ActionEvent event) {
         RequestContext context = RequestContext.getCurrentInstance();
-        boolean loggedIn =false;
-        String ruta = "";
-        String rutaDemo = LawyerOfficeUtil.getURL_Login()+"views/resumen_abo.xhtml";
-        loggedIn = true;
-        context.addCallbackParam("loggedIn", loggedIn);
-        context.addCallbackParam("ruta", rutaDemo);
+        FacesMessage message = null;
+        boolean LoggedIn = false;
+        String uzatfunci_id = "";
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("id",uzatfunci_id);
+
+        
+        
+        String ruta = LawyerOfficeUtil.getURL_Login() + "views/resumen_abo.xhtml";
+        LoggedIn = true;
+        context.addCallbackParam("loggedIn", LoggedIn);
+        context.addCallbackParam("ruta", ruta);
+    }
+
+    private String getUserAttribute() {
+        String UserAttribute = "";
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        HttpSession session = (HttpSession) facesContext.getExternalContext().getSession(false);
+        if (session == null) {
+        } else {
+            Object IdBanner = session.getAttribute("IdBanner");
+            UserAttribute = IdBanner.toString();
+        }
+        return UserAttribute;
     }
 
     public void logout(java.awt.event.ActionEvent event) {
+        String ruta = LawyerOfficeUtil.getURL_Login() + "index.xhtml";
         RequestContext context = RequestContext.getCurrentInstance();
         FacesContext facesContext = FacesContext.getCurrentInstance();
         HttpSession session = (HttpSession) facesContext.getExternalContext().getSession(false);
+        session.removeAttribute(this.getUserAttribute());
         session.invalidate();
         context.addCallbackParam("loggerOut", true);
+        context.addCallbackParam("ruta", ruta);
     }
 
     public void generateMessage(FacesMessage.Severity Tipo, String Header, String Mensaje) {
@@ -69,6 +109,22 @@ public class LoginBean {
 
     public void setUrlRequest(String urlRequest) {
         this.urlRequest = urlRequest;
+    }
+
+    public String getmUsuario() {
+        return mUsuario;
+    }
+
+    public void setmUsuario(String mUsuario) {
+        this.mUsuario = mUsuario;
+    }
+
+    public String getmPassword() {
+        return mPassword;
+    }
+
+    public void setmPassword(String mPassword) {
+        this.mPassword = mPassword;
     }
 
 }
