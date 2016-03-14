@@ -6,6 +6,7 @@
 package com.beans;
 
 import com.util.LawyerOfficeUtil;
+import java.math.BigDecimal;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -14,6 +15,8 @@ import javax.faces.event.ActionEvent;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import org.primefaces.context.RequestContext;
+import procuradoria.crud.ProcuradoriaMethods;
+import procuradoria.map.Uzatfunci;
 
 /**
  *
@@ -64,12 +67,18 @@ public class LoginBean {
         RequestContext context = RequestContext.getCurrentInstance();
         FacesMessage message = null;
         boolean LoggedIn = false;
-        String uzatfunci_id = "";
-        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("id",uzatfunci_id);
-
+        String ruta = "";
+              
+        Uzatfunci usuario  = ProcuradoriaMethods.FindByIdFunciByCedFunci(this.mUsuario, this.mPassword, BigDecimal.ONE);      
+        if(usuario != null){
+            
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("uzatfuncionarioId",usuario.getUzatfuncionarioId());
+            
+            ruta = LawyerOfficeUtil.getURL_Login() + "views/resumen_abo.xhtml";
+            
+        }
         
         
-        String ruta = LawyerOfficeUtil.getURL_Login() + "views/resumen_abo.xhtml";
         LoggedIn = true;
         context.addCallbackParam("loggedIn", LoggedIn);
         context.addCallbackParam("ruta", ruta);
