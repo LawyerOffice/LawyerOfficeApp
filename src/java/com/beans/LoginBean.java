@@ -40,6 +40,7 @@ public class LoginBean {
         this.urlRequest = origRequest.getRequestURL().toString();
         this.setUrlRequest(this.urlRequest = this.urlRequest.replace("faces/views/abogados_procu.xhtml", ""));
         this.setUrlRequest(this.urlRequest = this.urlRequest.replace("faces/views/asignar_permiso.xhtml", ""));
+        this.setUrlRequest(this.urlRequest = this.urlRequest.replace("faces/views/reasignar_caso.xhtml", ""));
         this.setUrlRequest(this.urlRequest = this.urlRequest.replace("faces/views/calendario_abo.xhtml", ""));
 
         this.setUrlRequest(this.urlRequest = this.urlRequest.replace("faces/views/calendario_procu.xhtml", ""));
