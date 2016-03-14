@@ -17,6 +17,7 @@ import javax.servlet.http.HttpSession;
 import org.primefaces.context.RequestContext;
 import procuradoria.crud.ProcuradoriaMethods;
 import procuradoria.map.Uzatfunci;
+import procuradoria.map.Uzatrol;
 
 /**
  *
@@ -37,6 +38,16 @@ public class LoginBean {
     private String urlRequest;
 
     public LoginBean() {
+        this.urls_LawyerOffice();
+        this.init();
+    }
+    
+    private void init(){
+        this.mPassword = "";
+        this.mUsuario = "";
+    }
+    
+    private void urls_LawyerOffice(){
         this.urlRequest = origRequest.getRequestURL().toString();
         this.setUrlRequest(this.urlRequest = this.urlRequest.replace("faces/views/abogados_procu.xhtml", ""));
         this.setUrlRequest(this.urlRequest = this.urlRequest.replace("faces/views/asignar_permiso.xhtml", ""));
@@ -70,10 +81,10 @@ public class LoginBean {
         boolean LoggedIn = false;
         String ruta = "";
               
-        Uzatfunci usuario  = ProcuradoriaMethods.FindByIdFunciByCedFunci(this.mUsuario, this.mPassword, BigDecimal.ONE);      
+        Uzatrol usuario  = ProcuradoriaMethods.FindByIdFunciByCedFunci(this.mUsuario, this.mPassword, BigDecimal.ONE,BigDecimal.ONE);
         if(usuario != null){
             
-            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("uzatfuncionarioId",usuario.getUzatfuncionarioId());
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("uzatfuncionarioId",usuario.getUzatfunci().getUzatfuncionarioId());
             
             ruta = LawyerOfficeUtil.getURL_Login() + "views/resumen_abo.xhtml";
             

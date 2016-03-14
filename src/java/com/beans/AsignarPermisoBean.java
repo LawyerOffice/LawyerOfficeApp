@@ -125,8 +125,8 @@ public class AsignarPermisoBean {
         }
 
     }
-    
-    public void loadCasosAsigandos(ActionEvent event){
+
+    public void loadCasosAsigandos(ActionEvent event) {
         this.asgsFunciCasos = ProcuradoriaMethods.GetCasosAsigFunciByIdAsig(this.selectedRol.getId().getUzatfuncionarioId());
     }
 
@@ -254,6 +254,9 @@ public class AsignarPermisoBean {
         if (this.selectedRol != null) {
             this.rolsAsignandos.remove(this.selectedRol);
             this.selectedRol.setUzatrolFlag(BigDecimal.ZERO);
+            GregorianCalendar g1 = new GregorianCalendar();
+            SimpleDateFormat s1 = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+            this.selectedRol.setUzatrolFechaOut(s1.format(g1.getTime()));
             ProcuradoriaMethods.UpdateRol(this.selectedRol);
             this.selectedRol = new Uzatrol();
         } else {
