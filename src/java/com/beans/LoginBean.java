@@ -85,6 +85,7 @@ public class LoginBean {
         if(usuario != null){
             
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("uzatfuncionarioId",usuario.getUzatfunci().getUzatfuncionarioId());
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("uzatfuncionarioId",usuario.getUzatfunci().getUzatfuncionarioId());
             
             ruta = LawyerOfficeUtil.getURL_Login() + "views/resumen_abo.xhtml";
             
