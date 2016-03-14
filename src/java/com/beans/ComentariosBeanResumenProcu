@@ -61,3 +61,44 @@ citas creara nuevas citas que tiene una fecha limite, estas son reflejadas en el
 personal del abogado y seran las encargadas de las notificaciones y correos al abogado.
 Al crear una nueva fase se pedira una descripcion general.
 Las fases tienen un boton para cambiar el estado de una fase (creada, en curso, terminada).
+
+
+create or replace FUNCTION UZAFGFRTR(UZAT_IDBANNER IN VARCHAR2, 
+                                      UZAT_CEDULA IN VARCHAR2,
+                                      UZAT_FLAG_F IN NUMBER,
+                                      UZAT_FLAG_R IN NUMBER)
+                                               RETURN SYS_REFCURSOR
+--GET FUNCIONARIO BY IDBANNER AND CEDULA AND FLAH ROL TROL
+AS rt_report SYS_REFCURSOR;
+F_FLAG NUMBER := 0;
+R_FLAG NUMBER := 0;
+FUN_IDBANNER VARCHAR2(25) := '';
+FUN_CEDULA VARCHAR2(15) := '';
+BEGIN
+  FUN_IDBANNER := UZAT_IDBANNER;
+  FUN_CEDULA := UZAT_CEDULA;
+  F_FLAG := UZAT_FLAG_F;
+  R_FLAG := UZAT_FLAG_R;
+  OPEN rt_report FOR
+    SELECT fun.UZATFUNCIONARIO_ID,
+           fun.UZATFUNCIONARIO_NOMBRES, 
+           fun.UZATFUNCIONARIO_APELLIDOS, 
+           fun.UZATFUNCIONARIO_CEDULA,
+           fun.UZATFUNCIONARIO_IDBANNER,
+           fun.UZATFUNCIONARIO_EMAIL,
+           fun.UZATFUNCIONARIO_FLAG,
+           rol.UZATROL_FECHA_IN,
+           rol.UZATROL_FECHA_OUT,
+           rol.UZATROL_FLAG,
+           trol.UZATTIPOROL_ID,
+           trol.UZATTIPOROL_DESCRIPCION
+           FROM UZATFUNCI fun INNER JOIN UZATROL rol
+           ON fun.UZATFUNCIONARIO_ID = rol.UZATFUNCIONARIO_ID
+           INNER JOIN UZATTROL trol
+           ON rol.UZATTIPOROL_ID = trol.UZATTIPOROL_ID
+           WHERE fun.UZATFUNCIONARIO_IDBANNER = FUN_IDBANNER 
+           AND fun.UZATFUNCIONARIO_CEDULA = FUN_CEDULA
+           AND fun.UZATFUNCIONARIO_FLAG = F_FLAG 
+           AND rol.UZATROL_FLAG = R_FLAG;  
+  RETURN rt_report;
+END UZAFGFRTR;
