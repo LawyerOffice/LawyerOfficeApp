@@ -28,10 +28,10 @@
                 <h:form id="formLogin">
                     <p:outputLabel value="Usuario:"/>
                     <br/>
-                    <p:inputText id="Username" value="#{loginBean.getmUsuario}"/>
+                    <p:inputText id="Username" value="#{loginBean.usuario}"/>
                     <p:outputLabel value="Contraseña:"/>
                     <br/>
-                    <p:password id="Password" value="#{loginBean.getmPassword}"/>  
+                    <p:password id="Password" value="#{loginBean.password}"/>  
                     
                     <p:commandButton id="loginButto" value="Entrar" 
                                      actionListener="#{loginBean.login(event)}" 

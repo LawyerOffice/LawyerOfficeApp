@@ -16,7 +16,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import org.primefaces.context.RequestContext;
 import procuradoria.crud.ProcuradoriaMethods;
-import procuradoria.map.Uzatfunci;
 import procuradoria.map.Uzatrol;
 
 /**
@@ -30,8 +29,8 @@ public class LoginBean {
     /**
      * Creates a new instance of LoginBean
      */
-    private String mUsuario;
-    private String mPassword;
+    private String Usuario;
+    private String Password;
     
     HttpServletRequest origRequest
             = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
@@ -43,8 +42,8 @@ public class LoginBean {
     }
     
     private void init(){
-        this.mPassword = "";
-        this.mUsuario = "";
+        this.setPassword("");
+        this.setUsuario("");
     }
     
     private void urls_LawyerOffice(){
@@ -81,11 +80,13 @@ public class LoginBean {
         boolean LoggedIn = false;
         String ruta = "";
               
-        Uzatrol usuario  = ProcuradoriaMethods.FindByIdFunciByCedFunci(this.mUsuario, this.mPassword, BigDecimal.ONE,BigDecimal.ONE);
+        Uzatrol usuario  = ProcuradoriaMethods.FindByIdFunciByCedFunci(this.getUsuario(), this.getPassword(), BigDecimal.ONE,BigDecimal.ONE);
         if(usuario != null){
             
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("uzatfuncionarioId",usuario.getUzatfunci().getUzatfuncionarioId());
-            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("uzatfuncionarioId",usuario.getUzatfunci().getUzatfuncionarioId());
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("uzatfuncionarioIdbanner",usuario.getUzatfunci().getUzatfuncionarioIdbanner());
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("uzatfuncionarioCedula",usuario.getUzatfunci().getUzatfuncionarioCedula());
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("uzatfuncionarioEmail",usuario.getUzatfunci().getUzatfuncionarioCedula());
             
             ruta = LawyerOfficeUtil.getURL_Login() + "views/resumen_abo.xhtml";
             
@@ -133,20 +134,21 @@ public class LoginBean {
         this.urlRequest = urlRequest;
     }
 
-    public String getmUsuario() {
-        return mUsuario;
+    public String getUsuario() {
+        return Usuario;
     }
 
-    public void setmUsuario(String mUsuario) {
-        this.mUsuario = mUsuario;
+    public void setUsuario(String Usuario) {
+        this.Usuario = Usuario;
     }
 
-    public String getmPassword() {
-        return mPassword;
+    public String getPassword() {
+        return Password;
     }
 
-    public void setmPassword(String mPassword) {
-        this.mPassword = mPassword;
+    public void setPassword(String Password) {
+        this.Password = Password;
     }
+
 
 }
