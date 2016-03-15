@@ -5,6 +5,7 @@
  */
 package com.web;
 
+import com.util.Views;
 import javax.faces.application.NavigationHandler;
 import javax.faces.context.FacesContext;
 import javax.faces.event.PhaseEvent;
@@ -27,52 +28,80 @@ public class AuthorizationListener implements PhaseListener {
         boolean isLoginPage = (currentPage.lastIndexOf("index.xhtml") > -1);
         HttpSession session = (HttpSession) facesContext.getExternalContext().getSession(false);
 
-        HttpServletRequest origRequest
-                = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-        String urlRequest = origRequest.getRequestURL().toString();
         if (session == null) {
             NavigationHandler nh = facesContext.getApplication().getNavigationHandler();
             nh.handleNavigation(facesContext, null, "loginPage");
         } else {
             Object currentUser = session.getAttribute("uzatfuncionarioId");
-            Object currentUserRol = session.getAttribute("uzatfuncionarioId");
-            String UserRol = currentUserRol.toString().trim();
-            UserRol = UserRol.toUpperCase();
+            Object currentUserRol = session.getAttribute("uzattiporolDescripcion");
 
             if (!isLoginPage && (currentUser == null || currentUser == "")) {
                 NavigationHandler nh = facesContext.getApplication().getNavigationHandler();
                 nh.handleNavigation(facesContext, null, "loginPage");
-            }
+            } else if (!isLoginPage && currentUserRol != null) {
 
-            if (isLoginPage && currentUser != null && UserRol.equals("ABOGADO")) {
-                NavigationHandler nh = facesContext.getApplication().getNavigationHandler();
-                nh.handleNavigation(facesContext, null, "loginPage");
-            }
-            
-            if (isLoginPage && currentUser != null && UserRol.equals("PROCURADOR")) {
-                NavigationHandler nh = facesContext.getApplication().getNavigationHandler();
-                nh.handleNavigation(facesContext, null, "loginPage");
-            }
-            
-            if (isLoginPage && currentUser != null && UserRol.equals("SECRETARIA")) {
-                NavigationHandler nh = facesContext.getApplication().getNavigationHandler();
-                nh.handleNavigation(facesContext, null, "loginPage");
+                String UserRol = currentUserRol.toString();
+                UserRol = UserRol.toUpperCase();
+                UserRol = UserRol.trim();
+                HttpServletRequest origRequest
+                        = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+                String urlRequest = origRequest.getRequestURL().toString();
+                urlRequest = urlRequest.replace("http://localhost:8081/LawyerOfficeApp/", "");
+                urlRequest = urlRequest.replace("http://localhost:8080/LawyerOfficeApp/", "");
+
+                if (currentUser != null && UserRol.equals("ABOGADO")
+                        && !views_abo(urlRequest)) {
+                    NavigationHandler nh = facesContext.getApplication().getNavigationHandler();
+                    nh.handleNavigation(facesContext, null, "menuAbo");
+                }
+
+                if (currentUser != null && UserRol.equals("PROCURADOR")
+                        && !views_procu(urlRequest)) {
+                    NavigationHandler nh = facesContext.getApplication().getNavigationHandler();
+                    nh.handleNavigation(facesContext, null, "menuProcu");
+                }
+
+//                if (currentUser != null && UserRol.equals("SECRETARIA")) {
+//                    NavigationHandler nh = facesContext.getApplication().getNavigationHandler();
+//                    nh.handleNavigation(facesContext, null, "menuSecre");
+//                }
             }
         }
     }
 
-    public Boolean views_abo() {
+    public Boolean views_abo(String url) {
         Boolean exito = false;
+        Views abo = new Views();
+        for(String view_abo : abo.getViews_abo()){
+            if(view_abo.equals(url)){
+                exito = true;
+                break;
+            }
+        }
         return exito;
     }
-    
-    public Boolean views_procu() {
+
+    public Boolean views_procu(String url) {
         Boolean exito = false;
+        Views procu = new Views();
+        for(String view_procu : procu.getViews_procu()){
+            if(view_procu.equals(url)){
+                exito = true;
+                break;
+            }
+        }
         return exito;
     }
-    
-    public Boolean views_secretaria() {
+
+    public Boolean views_secretaria(String url) {
         Boolean exito = false;
+        Views secre = new Views();
+        for(String view_secre : secre.getViews_secre()){
+            if(view_secre.equals(url)){
+                exito = true;
+                break;
+            }
+        }
         return exito;
     }
 

@@ -61,10 +61,7 @@ public class LoginBean {
         this.setUrlRequest(this.urlRequest = this.urlRequest.replace("faces/views/faces_caso_ui.xhtml", ""));
         this.setUrlRequest(this.urlRequest = this.urlRequest.replace("faces/views/generar_caso.xhtml", ""));
 
-        this.setUrlRequest(this.urlRequest = this.urlRequest.replace("faces/views/inicio_abo.xhtml", ""));
-        this.setUrlRequest(this.urlRequest = this.urlRequest.replace("faces/views/inicio_procu.xhtml", ""));
         this.setUrlRequest(this.urlRequest = this.urlRequest.replace("faces/views/menu_abo.xhtml", ""));
-
         this.setUrlRequest(this.urlRequest = this.urlRequest.replace("faces/views/menu_procu.xhtml", ""));
         this.setUrlRequest(this.urlRequest = this.urlRequest.replace("faces/views/resumen_abo.xhtml", ""));
         this.setUrlRequest(this.urlRequest = this.urlRequest.replace("faces/views/resumen_procu.xhtml", ""));
