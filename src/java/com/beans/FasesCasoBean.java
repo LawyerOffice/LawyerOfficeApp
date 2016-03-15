@@ -9,6 +9,8 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import org.jdom.Document;
+import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.event.TabChangeEvent;
 import org.primefaces.event.ToggleEvent;
@@ -36,9 +38,11 @@ public class FasesCasoBean {
     private ArrayList<Uzatcita> ListCitaFasesById;
     private Uzatfase SelectedFase;
     private BigDecimal CodCaso;
+    private Boolean StateFase;
 
     public FasesCasoBean() {
-        CodCaso=BigDecimal.valueOf(100);
+        CodCaso = BigDecimal.valueOf(100);
+        this.setStateFase(false);
         this.setSelectedFase(new Uzatfase());
         this.setListFases(new ArrayList<Uzatfase>());
         this.setListComtFasesById(new ArrayList<Uzatcomt>());
@@ -95,6 +99,14 @@ public class FasesCasoBean {
         this.ListCitaFasesById = ListCitaFasesById;
     }
 
+    public Boolean getStateFase() {
+        return StateFase;
+    }
+
+    public void setStateFase(Boolean StateFase) {
+        this.StateFase = StateFase;
+    }
+
     public void onTabChange(TabChangeEvent event) {
         if (event.getTab().getId().equals("TabDocumentos")) {
             this.ListDocsFasesById = ProcuradoriaMethods.FindDocsbyCaso_Fase(CodCaso, SelectedFase.getId().getUzatfaseId());
@@ -110,6 +122,11 @@ public class FasesCasoBean {
         if (event.getVisibility() == Visibility.VISIBLE) {
             this.ListComtFasesById = ProcuradoriaMethods.GetFasesComentByIdCasoAndIdFase(CodCaso, SelectedFase.getId().getUzatfaseId());
         }
+    }
+
+    public void estadoFase() {
+        if(SelectedFase.getUzatfaseFlag()==BigDecimal.ZERO) 
+            setStateFase(true);
     }
 
 }
