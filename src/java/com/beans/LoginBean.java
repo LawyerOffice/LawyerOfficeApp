@@ -31,7 +31,7 @@ public class LoginBean {
      */
     private String Usuario;
     private String Password;
-    
+
     HttpServletRequest origRequest
             = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
     private String urlRequest;
@@ -40,13 +40,13 @@ public class LoginBean {
         this.urls_LawyerOffice();
         this.init();
     }
-    
-    private void init(){
+
+    private void init() {
         this.setPassword("");
         this.setUsuario("");
     }
-    
-    private void urls_LawyerOffice(){
+
+    private void urls_LawyerOffice() {
         this.urlRequest = origRequest.getRequestURL().toString();
         this.setUrlRequest(this.urlRequest = this.urlRequest.replace("faces/views/abogados_procu.xhtml", ""));
         this.setUrlRequest(this.urlRequest = this.urlRequest.replace("faces/views/asignar_permiso.xhtml", ""));
@@ -79,30 +79,39 @@ public class LoginBean {
         FacesMessage message = null;
         boolean LoggedIn = false;
         String ruta = "";
-              
-        Uzatrol usuario  = ProcuradoriaMethods.FindByIdFunciByCedFunci(this.getUsuario(), this.getPassword(), BigDecimal.ONE,BigDecimal.ONE);
-        if(usuario != null){
-            
-            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("uzatfuncionarioId",usuario.getUzatfunci().getUzatfuncionarioId());
-            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("uzatfuncionarioIdbanner",usuario.getUzatfunci().getUzatfuncionarioIdbanner());
-            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("uzatfuncionarioCedula",usuario.getUzatfunci().getUzatfuncionarioCedula());
-            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("uzatfuncionarioEmail",usuario.getUzatfunci().getUzatfuncionarioCedula());
-            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("uzatfuncionarioEmail",usuario.getUzatfunci().getUzatfuncionarioCedula());
+
+        Uzatrol usuario = ProcuradoriaMethods.FindByIdFunciByCedFunci(this.getUsuario(), this.getPassword(), BigDecimal.ONE, BigDecimal.ONE);
+        if (usuario != null) {
+
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().
+                    put("uzatfuncionarioId", usuario.getUzatfunci().getUzatfuncionarioId());
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().
+                    put("uzatfuncionarioIdbanner", usuario.getUzatfunci().getUzatfuncionarioIdbanner());
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().
+                    put("uzatfuncionarioCedula", usuario.getUzatfunci().getUzatfuncionarioCedula());
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().
+                    put("uzatfuncionarioEmail", usuario.getUzatfunci().getUzatfuncionarioEmail());
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap()
+                    .put("uzatfuncionarioNombres", usuario.getUzatfunci().getUzatfuncionarioNombres());
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().
+                    put("uzatfuncionarioApellidos", usuario.getUzatfunci().getUzatfuncionarioApellidos());
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().
+                    put("uzattiporolId", usuario.getUzattrol().getUzattiporolId());
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().
+                    put("uzattiporolDescripcion", usuario.getUzattrol().getUzattiporolDescripcion());
             String tipoRol = usuario.getUzattrol().getUzattiporolDescripcion().trim();
             tipoRol = tipoRol.toUpperCase();
-            
-            if(tipoRol.equals("PROCURADOR")){
+
+            if (tipoRol.equals("PROCURADOR")) {
                 ruta = LawyerOfficeUtil.getURL_Login() + "views/resumen_procu.xhtml";
-            }else if(tipoRol.equals("ABOGADO")){
+            } else if (tipoRol.equals("ABOGADO")) {
                 ruta = LawyerOfficeUtil.getURL_Login() + "views/resumen_abo.xhtml";
-            }else if(tipoRol.equals("SECRETARIA")){
+            } else if (tipoRol.equals("SECRETARIA")) {
                 ruta = LawyerOfficeUtil.getURL_Login() + "views/resumen_abo.xhtml";
             }
-            
-            
+
         }
-        
-        
+
         LoggedIn = true;
         context.addCallbackParam("loggedIn", LoggedIn);
         context.addCallbackParam("ruta", ruta);
@@ -114,7 +123,7 @@ public class LoginBean {
         HttpSession session = (HttpSession) facesContext.getExternalContext().getSession(false);
         if (session == null) {
         } else {
-            Object IdBanner = session.getAttribute("IdBanner");
+            Object IdBanner = session.getAttribute("uzatfuncionarioId");
             UserAttribute = IdBanner.toString();
         }
         return UserAttribute;
@@ -127,6 +136,8 @@ public class LoginBean {
         HttpSession session = (HttpSession) facesContext.getExternalContext().getSession(false);
         session.removeAttribute(this.getUserAttribute());
         session.invalidate();
+        this.Usuario = "";
+        this.Password = "";
         context.addCallbackParam("loggerOut", true);
         context.addCallbackParam("ruta", ruta);
     }
@@ -159,6 +170,5 @@ public class LoginBean {
     public void setPassword(String Password) {
         this.Password = Password;
     }
-
 
 }

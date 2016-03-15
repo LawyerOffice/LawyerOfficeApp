@@ -9,7 +9,21 @@
             <from-outcome>loginPage</from-outcome>
             <to-view-id>/index.xhtml</to-view-id>
         </navigation-case>
-    </navigation-rule>   
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>*</from-view-id>
+        <navigation-case>
+            <from-outcome>menuProcu</from-outcome>
+            <to-view-id>/views/resumen_procu.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>*</from-view-id>
+        <navigation-case>
+            <from-outcome>menuAbo</from-outcome>
+            <to-view-id>/views/resumen_abo.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>    
     <lifecycle>
         <phase-listener>com.web.AuthorizationListener</phase-listener>
     </lifecycle>

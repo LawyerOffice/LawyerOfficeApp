@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpSession;
 import procuradoria.crud.ProcuradoriaMethods;
 import procuradoria.map.Uzatasign;
 
@@ -43,10 +45,16 @@ public class AdminCasosBean {
         this.casosAsigandos = ProcuradoriaMethods.FindCasosAdminLazy(new BigDecimal(112), BigDecimal.ONE, BigDecimal.ONE);
     }
 
-    private BigDecimal getUserSession() {
-        BigDecimal id = new BigDecimal(BigInteger.ONE);
-        id = new BigDecimal(112);
-        return id;
+    private String getUserAttribute() {
+        String UserAttribute = "";
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        HttpSession session = (HttpSession) facesContext.getExternalContext().getSession(false);
+        if (session == null) {
+        } else {
+            Object IdBanner = session.getAttribute("uzatfuncionarioId");
+            UserAttribute = IdBanner.toString();
+        }
+        return UserAttribute;
     }
 
     public Boolean StateFlagOnOff(BigDecimal flag) {

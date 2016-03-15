@@ -102,3 +102,5 @@ BEGIN
            AND rol.UZATROL_FLAG = R_FLAG;  
   RETURN rt_report;
 END UZAFGFRTR;
+
+/faces/views/resumen_abo.xhtml
