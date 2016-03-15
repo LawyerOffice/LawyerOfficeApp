@@ -87,8 +87,18 @@ public class LoginBean {
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("uzatfuncionarioIdbanner",usuario.getUzatfunci().getUzatfuncionarioIdbanner());
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("uzatfuncionarioCedula",usuario.getUzatfunci().getUzatfuncionarioCedula());
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("uzatfuncionarioEmail",usuario.getUzatfunci().getUzatfuncionarioCedula());
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("uzatfuncionarioEmail",usuario.getUzatfunci().getUzatfuncionarioCedula());
+            String tipoRol = usuario.getUzattrol().getUzattiporolDescripcion().trim();
+            tipoRol = tipoRol.toUpperCase();
             
-            ruta = LawyerOfficeUtil.getURL_Login() + "views/resumen_abo.xhtml";
+            if(tipoRol.equals("PROCURADOR")){
+                ruta = LawyerOfficeUtil.getURL_Login() + "views/resumen_procu.xhtml";
+            }else if(tipoRol.equals("ABOGADO")){
+                ruta = LawyerOfficeUtil.getURL_Login() + "views/resumen_abo.xhtml";
+            }else if(tipoRol.equals("SECRETARIA")){
+                ruta = LawyerOfficeUtil.getURL_Login() + "views/resumen_abo.xhtml";
+            }
+            
             
         }
         
