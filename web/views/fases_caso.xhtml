@@ -10,13 +10,9 @@
 
         <ui:composition template="./menu_abo.xhtml">
 
-            <ui:define name="left">
-                left
-            </ui:define>
-
             <ui:define name="content">
                 <h:form id="form">
-
+                    
                     <p:dataTable var="ComtFase" 
                                  value="#{fasesCasoBean.listFases}" 
                                  widgetVar="casoTable" 
@@ -26,6 +22,8 @@
 
                         <f:facet name="header">
                             FASES ACTUALES
+                            
+                            <p:commandButton value="Nueva Fase" style="float: right" actionListener="#{buttonView.buttonAction}" id="NewFase" icon="ui-icon-disk" title="Nuevo" />
                         </f:facet>
 
                         <p:ajax event="rowToggle" listener="#{fasesCasoBean.onRowToggle}"/>
@@ -54,7 +52,7 @@
                                 <p:tab title="Comentarios" id="TabComentarios">
 
                                     <p:panelGrid  columns="1">
-                                        <p:commandButton value="Nuevo Comentario" style="float: right" disabled="#{ComtFase.stateFaseDisabled}" actionListener="#{buttonView.buttonAction}" id="NewComent" icon="ui-icon-disk" title="Nuevo" />
+                                        <p:commandButton value="Nuevo Comentario" style="float: right" disabled="#{fasesCasoBean.estadoFaseDisabled()}" actionListener="#{buttonView.buttonAction}" id="NewComent" icon="ui-icon-disk" title="Nuevo" />
                                     </p:panelGrid>
 
                                     <p:dataTable var="ComtById" id="ComtFaseId" 
@@ -75,7 +73,7 @@
                                 <p:tab title="Documentos" id="TabDocumentos">
 
                                     <p:panelGrid  columns="1">
-                                        <p:commandButton value="Nuevo Documento" style="float: right" disabled="#{ComtFase.stateFaseDisabled}" actionListener="#{buttonView.buttonAction}" id="NewDoc" icon="ui-icon-disk" title="Nuevo" />
+                                        <p:commandButton value="Nuevo Documento" style="float: right" disabled="#{fasesCasoBean.estadoFaseDisabled()}" actionListener="#{buttonView.buttonAction}" id="NewDoc" icon="ui-icon-disk" title="Nuevo" />
                                     </p:panelGrid>
 
                                     <p:dataTable var="DocById" id="DocFaseId" 
@@ -105,7 +103,7 @@
                                 <p:tab title="Citas" id="TabCitas">
 
                                     <p:panelGrid  columns="1">
-                                        <p:commandButton value="Nueva Cita" style="float: right" disabled="#{ComtFase.stateFaseDisabled}" actionListener="#{buttonView.buttonAction}" id="NewCita" icon="ui-icon-disk" title="Nuevo" />
+                                        <p:commandButton value="Nueva Cita" style="float: right" disabled="#{fasesCasoBean.estadoFaseDisabled()}" actionListener="#{buttonView.buttonAction}" id="NewCita" icon="ui-icon-disk" title="Nuevo" />
                                     </p:panelGrid>
 
                                     <p:dataTable var="CitaById" id="CitaFaseId" 

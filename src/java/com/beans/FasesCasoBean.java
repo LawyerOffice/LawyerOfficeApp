@@ -38,11 +38,11 @@ public class FasesCasoBean {
     private ArrayList<Uzatcita> ListCitaFasesById;
     private Uzatfase SelectedFase;
     private BigDecimal CodCaso;
-    private Boolean StateFase;
+    private Boolean StateFaseDisabled;
 
     public FasesCasoBean() {
         CodCaso = BigDecimal.valueOf(100);
-        this.setStateFase(false);
+        this.setStateFaseDisabled(false);
         this.setSelectedFase(new Uzatfase());
         this.setListFases(new ArrayList<Uzatfase>());
         this.setListComtFasesById(new ArrayList<Uzatcomt>());
@@ -99,12 +99,12 @@ public class FasesCasoBean {
         this.ListCitaFasesById = ListCitaFasesById;
     }
 
-    public Boolean getStateFase() {
-        return StateFase;
+    public Boolean getStateFaseDisabled() {
+        return StateFaseDisabled;
     }
 
-    public void setStateFase(Boolean StateFase) {
-        this.StateFase = StateFase;
+    public void setStateFaseDisabled(Boolean StateFaseDisabled) {
+        this.StateFaseDisabled = StateFaseDisabled;
     }
 
     public void onTabChange(TabChangeEvent event) {
@@ -124,9 +124,13 @@ public class FasesCasoBean {
         }
     }
 
-    public void estadoFase() {
-        if(SelectedFase.getUzatfaseFlag()==BigDecimal.ZERO) 
-            setStateFase(true);
+    public Boolean estadoFaseDisabled() {
+        if (SelectedFase.getUzatfaseFlag() == BigDecimal.ZERO) {
+            setStateFaseDisabled(true);
+        } else {
+            setStateFaseDisabled(false);
+        }
+        return getStateFaseDisabled();
     }
 
 }
