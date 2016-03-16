@@ -5,6 +5,7 @@
  */
 package com.beans;
 
+import com.util.LawyerOfficeUtil;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -12,7 +13,9 @@ import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 import javax.servlet.http.HttpSession;
+import org.primefaces.context.RequestContext;
 import procuradoria.crud.ProcuradoriaMethods;
 import procuradoria.map.Uzatasign;
 
@@ -42,7 +45,7 @@ public class AdminCasosBean {
     }
 
     public void loadCasosAsignados() {
-        this.casosAsigandos = ProcuradoriaMethods.FindCasosAdminLazy(new BigDecimal(112), BigDecimal.ONE, BigDecimal.ONE);
+        this.casosAsigandos = ProcuradoriaMethods.FindCasosAdminLazy(this.getUserIdAttribute(), BigDecimal.ONE, BigDecimal.ONE);
     }
 
     private String getUserAttribute() {
@@ -55,6 +58,29 @@ public class AdminCasosBean {
             UserAttribute = IdBanner.toString();
         }
         return UserAttribute;
+    }
+
+    private BigDecimal getUserIdAttribute() {
+        String UserAttribute = "";
+        BigDecimal id = new BigDecimal(BigInteger.ZERO);
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        HttpSession session = (HttpSession) facesContext.getExternalContext().getSession(false);
+        if (session == null) {
+        } else {
+            Object IdBanner = session.getAttribute("uzatfuncionarioId");
+            UserAttribute = IdBanner.toString();
+            id = new BigDecimal(UserAttribute);
+        }
+        return id;
+    }
+
+    public void openfase(ActionEvent event,BigDecimal uzatcasoId) {
+        RequestContext context = RequestContext.getCurrentInstance();
+        String ruta = LawyerOfficeUtil.getURL_Login()+"views/fases_caso.xhtml";
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().
+                    put("uzatcasoId",uzatcasoId);
+        context.addCallbackParam("loggedIn", true);
+        context.addCallbackParam("ruta", ruta);
     }
 
     public Boolean StateFlagOnOff(BigDecimal flag) {

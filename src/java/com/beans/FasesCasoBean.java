@@ -6,9 +6,12 @@
 package com.beans;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpSession;
 import org.jdom.Document;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
@@ -41,7 +44,7 @@ public class FasesCasoBean {
     private Boolean StateFaseDisabled;
 
     public FasesCasoBean() {
-        CodCaso = BigDecimal.valueOf(100);
+        CodCaso = this.getCasoIdAttribute();
         this.setStateFaseDisabled(false);
         this.setSelectedFase(new Uzatfase());
         this.setListFases(new ArrayList<Uzatfase>());
@@ -49,6 +52,32 @@ public class FasesCasoBean {
         this.setListDocsFasesById(new ArrayList<Uzatdocs>());
         this.setListCitaFasesById(new ArrayList<Uzatcita>());
         this.init();
+    }
+    
+    private String getUserAttribute() {
+        String UserAttribute = "";
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        HttpSession session = (HttpSession) facesContext.getExternalContext().getSession(false);
+        if (session == null) {
+        } else {
+            Object IdBanner = session.getAttribute("uzatfuncionarioId");
+            UserAttribute = IdBanner.toString();
+        }
+        return UserAttribute;
+    }
+
+    private BigDecimal getCasoIdAttribute() {
+        String UserAttribute = "";
+        BigDecimal id = new BigDecimal(BigInteger.ZERO);
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        HttpSession session = (HttpSession) facesContext.getExternalContext().getSession(false);
+        if (session == null) {
+        } else {
+            Object IdBanner = session.getAttribute("uzatcasoId");
+            UserAttribute = IdBanner.toString();
+            id = new BigDecimal(UserAttribute);
+        }
+        return id;
     }
 
     private void init() {

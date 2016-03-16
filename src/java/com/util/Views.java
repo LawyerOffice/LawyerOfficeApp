@@ -28,10 +28,12 @@ public class Views {
     private void loadLists(){
         this.views_abo.add("faces/views/calendario_abo.xhtml");
         this.views_abo.add("faces/views/casos_abo.xhtml");
-        this.views_abo.add("faces/views/faces_caso.xhtml");
-        this.views_abo.add("faces/views/faces_caso_ui.xhtml");
+        this.views_abo.add("faces/views/fases_caso.xhtml");
+        this.views_abo.add("faces/views/fases_caso_ui.xhtml");
         this.views_abo.add("faces/views/menu_abo.xhtml");
         this.views_abo.add("faces/views/resumen_abo.xhtml");
+        this.views_abo.add("faces/index.xhtml");
+        this.views_abo.add("faces/loginPage");
         
         this.views_procu.add("faces/views/abogados_procu.xhtml");
         this.views_procu.add("faces/views/asignar_permiso.xhtml");
@@ -40,10 +42,15 @@ public class Views {
         this.views_procu.add("faces/views/casos_procu.xhtml");
         this.views_procu.add("faces/views/menu_procu.xhtml");
         this.views_procu.add("faces/views/resumen_procu.xhtml");
+        this.views_procu.add("faces/views/generar_caso.xhtml");
+        this.views_procu.add("faces/index.xhtml");
+        this.views_procu.add("faces/loginPage");
         
         this.views_secre.add("faces/views/generar_caso_secre.xhtml");
         this.views_secre.add("faces/views/asignar_permiso_secre.xhtml");
         this.views_secre.add("faces/views/reasignar_caso_secre.xhtml");
+        this.views_secre.add("faces/index.xhtml");
+        this.views_secre.add("faces/loginPage");
     }
     public ArrayList<String> getViews_abo() {
         return views_abo;

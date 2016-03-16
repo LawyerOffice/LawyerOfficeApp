@@ -63,10 +63,6 @@
                                             <h:outputText value="#{caso.ultimaFaseActual.uzatfaseNombre}" />
                                         </p:column>
 
-                                        <p:column headerText="Estado">
-                                            <p:selectBooleanCheckbox value="#{adminCasosBean.StateFlagOnOff(caso.uzatcaso.uzatcasoFlag)}"/>
-                                        </p:column>
-
                                         <p:rowExpansion>
                                             <p:panel>
                                                 <h:panelGrid id="expGrid"  columns="4" styleClass="outerpanelgrid" cellpadding="5">
@@ -83,7 +79,10 @@
                                                     <h:outputText value="#{caso.uzatcaso.uzatcasoDetalle}" />
                                                 </h:panelGrid>
                                                 <f:facet name="footer">
-                                                    <p:commandButton value="Ver" icon="ui-icon-search"/>  
+                                                    <p:commandButton id="loadfaces_abo" value="Ver" 
+                                                                     icon="ui-icon-search" update=":form_admin_casos"
+                                                                     actionListener="#{adminCasosBean.openfase(event, caso.id.uzatcasoId)}"
+                                                                     oncomplete="handleLoginRequest(xhr, status, args)"/>  
                                                 </f:facet>
                                             </p:panel>
                                         </p:rowExpansion>
@@ -93,7 +92,17 @@
                             </p:panel>
                         </p:layoutUnit>
 
-                    </p:layout> 
+                    </p:layout>
+                    <script type="text/javascript">
+                        function handleLoginRequest(xhr, status, args) {
+                            if (args.validationFailed || !args.loggedIn) {
+                                jQuery('#formLogin').effect("shake", {times: 5}, 100);
+                            }
+                            else {
+                                location.href = args.ruta;
+                            }
+                        }
+                    </script>
                     <style>
                         #form_admin_casos\:expGrid td{
                             border: none !important;

@@ -12,7 +12,9 @@
 
             <ui:define name="content">
                 <h:form id="form">
-                    
+                    <p:panel>
+                        <p:commandButton value="Nueva Fase" style="float: right" actionListener="#{buttonView.buttonAction}" id="NewFase" icon="ui-icon-disk" title="Nuevo" />
+                    </p:panel>
                     <p:dataTable var="ComtFase" 
                                  value="#{fasesCasoBean.listFases}" 
                                  widgetVar="casoTable" 
@@ -22,8 +24,6 @@
 
                         <f:facet name="header">
                             FASES ACTUALES
-                            
-                            <p:commandButton value="Nueva Fase" style="float: right" actionListener="#{buttonView.buttonAction}" id="NewFase" icon="ui-icon-disk" title="Nuevo" />
                         </f:facet>
 
                         <p:ajax event="rowToggle" listener="#{fasesCasoBean.onRowToggle}"/>
