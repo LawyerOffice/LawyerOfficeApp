@@ -18,9 +18,9 @@
                             <p:calendar id="inline" mode="inline"/>
                         </p:layoutUnit> 
 
-                        <p:layoutUnit position="center">
+                        <p:layoutUnit position="center" resizable="false">
 
-                            <p:panel id="panel_find_caso" header="Buscar Casos">
+                            <p:panel id="panel_find_caso" header="CASOS ACTUALES">
                                 <h:panelGrid columns="4" cellpadding="10">
                                     <h:outputLabel value="Buscar por:"/>
 
@@ -35,61 +35,59 @@
                                 </h:panelGrid>
                             </p:panel>
 
-                            <p:panel header="Casos">
-                                <div align="center">
-                                    <p:dataTable var="caso" value="#{adminCasosBean.casosAsigandos}" tableStyle="width:auto">
+                            <div align="center">
+                                <p:dataTable var="caso" value="#{adminCasosBean.casosAsigandos}" tableStyle="width:auto">
 
-                                        <p:column style="width:16px">
-                                            <p:rowToggler />
-                                        </p:column>
+                                    <p:column style="width:16px">
+                                        <p:rowToggler />
+                                    </p:column>
 
-                                        <p:column headerText="Num. Causa">
-                                            <h:outputText value="#{caso.uzatcaso.uzatcasoNumcausa}" />
-                                        </p:column>
+                                    <p:column headerText="Num. Causa">
+                                        <h:outputText value="#{caso.uzatcaso.uzatcasoNumcausa}" />
+                                    </p:column>
 
-                                        <p:column headerText="Fecha Asignacion">
-                                            <h:outputText value="#{caso.uzatasignarFechaIn}" />
-                                        </p:column>
+                                    <p:column headerText="Fecha Asignacion">
+                                        <h:outputText value="#{caso.uzatasignarFechaIn}" />
+                                    </p:column>
 
-                                        <p:column headerText="Fecha Caso">
-                                            <h:outputText value="#{caso.uzatcaso.uzatcasoFechaIn}" />
-                                        </p:column>
+                                    <p:column headerText="Fecha Caso">
+                                        <h:outputText value="#{caso.uzatcaso.uzatcasoFechaIn}" />
+                                    </p:column>
 
-                                        <p:column headerText="Num. Fase Actual">
-                                            <h:outputText value="#{caso.ultimaFaseActual.uzatfaseNumfase}" />
-                                        </p:column>
+                                    <p:column headerText="Num. Fase Actual">
+                                        <h:outputText value="#{caso.ultimaFaseActual.uzatfaseNumfase}" />
+                                    </p:column>
 
-                                        <p:column headerText="Fase Actual">
-                                            <h:outputText value="#{caso.ultimaFaseActual.uzatfaseNombre}" />
-                                        </p:column>
+                                    <p:column headerText="Fase Actual">
+                                        <h:outputText value="#{caso.ultimaFaseActual.uzatfaseNombre}" />
+                                    </p:column>
 
-                                        <p:rowExpansion>
-                                            <p:panel>
-                                                <h:panelGrid id="expGrid"  columns="4" styleClass="outerpanelgrid" cellpadding="5">
-                                                    <h:outputText value="Materia:" />
-                                                    <h:outputText value="#{caso.uzatcaso.uzatjudi.uzatmateri.uzatmateriaDescripcion}" />
+                                    <p:rowExpansion>
+                                        <p:panel>
+                                            <h:panelGrid id="expGrid"  columns="4" styleClass="outerpanelgrid" cellpadding="5">
+                                                <h:outputText value="Materia:" />
+                                                <h:outputText value="#{caso.uzatcaso.uzatjudi.uzatmateri.uzatmateriaDescripcion}" />
 
-                                                    <h:outputText value="Judicatura:" />
-                                                    <h:outputText value="#{caso.uzatcaso.uzatjudi.uzatjudiDescripcion}" />
+                                                <h:outputText value="Judicatura:" />
+                                                <h:outputText value="#{caso.uzatcaso.uzatjudi.uzatjudiDescripcion}" />
 
-                                                    <h:outputText value="Motivo:" />
-                                                    <h:outputText value="#{caso.uzatcaso.uzatcasoMotivo}"/>
+                                                <h:outputText value="Motivo:" />
+                                                <h:outputText value="#{caso.uzatcaso.uzatcasoMotivo}"/>
 
-                                                    <h:outputText value="Detalle:" />
-                                                    <h:outputText value="#{caso.uzatcaso.uzatcasoDetalle}" />
-                                                </h:panelGrid>
-                                                <f:facet name="footer">
-                                                    <p:commandButton id="loadfaces_abo" value="Ver" 
-                                                                     icon="ui-icon-search" update=":form_admin_casos"
-                                                                     actionListener="#{adminCasosBean.openfase(event, caso.id.uzatcasoId)}"
-                                                                     oncomplete="handleLoginRequest(xhr, status, args)"/>  
-                                                </f:facet>
-                                            </p:panel>
-                                        </p:rowExpansion>
+                                                <h:outputText value="Detalle:" />
+                                                <h:outputText value="#{caso.uzatcaso.uzatcasoDetalle}" />
+                                            </h:panelGrid>
+                                            <f:facet name="footer">
+                                                <p:commandButton id="loadfaces_abo" value="Ver" 
+                                                                 icon="ui-icon-search" update=":form_admin_casos"
+                                                                 actionListener="#{adminCasosBean.openfase(event, caso.id.uzatcasoId)}"
+                                                                 oncomplete="handleLoginRequest(xhr, status, args)"/>  
+                                            </f:facet>
+                                        </p:panel>
+                                    </p:rowExpansion>
 
-                                    </p:dataTable>
-                                </div>
-                            </p:panel>
+                                </p:dataTable>
+                            </div>
                         </p:layoutUnit>
 
                     </p:layout>
