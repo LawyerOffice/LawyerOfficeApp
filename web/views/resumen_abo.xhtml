@@ -11,83 +11,108 @@
         <ui:composition template="./menu_abo.xhtml">
             
             <ui:define name="content">
-                <p:growl id="growl" showDetail="true" life="3000" />
-                    <h:form id="form_noti">
-                        <p:growl id="growl" showDetail="true" life="3000" />
-                        <p:layoutUnit position="center">
-                            <p:accordionPanel>
+                <h:form id="principal">
+                    <p:growl id="growl" life="2000" />
+
+                    <p:tab title="Casos Asignados">
+                           <h:panelGrid columns="1" cellpadding="10">
+                               <p:dataTable id="dataTableAsignados" var="casoA" value="#{resumenAboBean.lazyModelCasosAsignados}" paginator="true" rows="5"
+                                            paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                                            emptyMessage="No se ha econtrado casos activos disponibles"
+                                            rowsPerPageTemplate="5" lazy="true">
+
+                                   <p:column headerText="Núm. Causa" >
+                                       <h:outputText value="#{casoA.uzatcasoNumcausa}" />
+                                   </p:column>
+                                   <p:column headerText="Motivo">
+                                       <h:outputText value="#{casoA.uzatcasoMotivo}" />
+                                   </p:column>
+                                   <p:column headerText="Detalle">
+                                       <h:outputText value="#{casoA.uzatcasoDetalle}" />
+                                   </p:column>
+                                   <p:column headerText="Tipo">
+                                       <h:outputText value="#{casoA.uzatcasoTipo}" />
+                                   </p:column>
+                                   <p:column headerText="Fecha Inicial">
+                                       <h:outputText value="#{casoA.uzatcasoFechaIn}" />
+                                   </p:column>
+                                   <p:column style="width:32px;text-align: center">
+                                       <p:commandButton icon="ui-icon-search" update=":principal:dabogados" actionListener="#{resumenAboBean.getCaso(casoA.uzatcasoId)}" oncomplete="PF('wdialog').show();" ></p:commandButton>                   
+                                   </p:column>
+                               </p:dataTable>
+                           </h:panelGrid>
+                       </p:tab>
+                    
+                    <p:dialog id="dabogados" widgetVar="wdialog" header="Editar Detalles"  
+                              modal="true" showEffect="fade" resizable="false" position="center center">
+                            <h2> Editar Detalles del Caso</h2>
+                            <p:panel id="panelFunc" header="Detalles del Caso" style="border-style: none !important">
+                                <p:panelGrid columns="4" style="border-style: none !important">
+                                    <h:outputText value="Id Caso:" />  
+                                    <p:inputText value="#{resumenAboBean.gotCaso}"/>
+                                    
+                                    <h:outputText value="Numero de Causa:"/>
+                                    <p:inputText value="#{resumenAboBean.selectedCaso.uzatcasoNumcausa}" />
+                                    <h:outputText value="Motivo:"/>
+                                    <p:inputText value="#{resumenAboBean.selectedCaso.uzatcasoMotivo}" />
+                                    <h:outputText value="Detalle:"/>
+                                    <p:inputTextarea value="#{resumenAboBean.selectedCaso.uzatcasoDetalle}" />
+                                    <h:outputText value="Tipo:"/>
+                                    <p:inputText value="#{resumenAboBean.selectedCaso.uzatcasoTipo}" />
+                                    <h:outputText value="Fecha Creación:"/>
+                                    <p:inputText value="#{resumenAboBean.selectedCaso.uzatcasoFechaIn}" />
+                                    
+                                </p:panelGrid>  
+ 
+                            </p:panel> 
+                            
+                            <p:panel id="panelActor" header="Seleccione el Actor" style="border-style: none !important">
+                                <p:panelGrid columns="4" style="border-style: none !important">
+                                    <h:outputText value="Seleccione Actor:"/>
+				    <h:outputText value="                "/>
+                                    <h:outputText value="Tipo de Actor:"/>
+                                    <p:selectOneMenu id="patter" required="false" value="#{resumenAboBean.tipoActor}">
+                                        <f:selectItem itemLabel="Seleccionar" itemValue="" noSelectionOption="true"/>
+                                        <f:selectItem itemLabel="Demandado" itemValue="1" noSelectionOption="true"/>
+                                        <f:selectItem itemLabel="Demandante" itemValue="2" noSelectionOption="true"/>
+                                    </p:selectOneMenu>
+                                    
+                                    <h:outputText value="Seleccione Actor:"/>
+                                    <p:commandButton value="Seleccionar" update=":principal:selectactor, :principal:selectactor" oncomplete="PF('wactor').show();" ></p:commandButton>
+
+                                    
+                                </p:panelGrid>
                                 
-                                <p:tab title="Casos Asignados">
-                                    <h:panelGrid columns="1" cellpadding="10">
-                                        <p:dataTable id="dataTableAsignados" var="casoA" value="#{resumenAboBean.lazyModelCasosAsignados}" paginator="true" rows="5"
-                                                     paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
-                                                     emptyMessage="No se ha econtrado casos activos disponibles"
-                                                     rowsPerPageTemplate="5" lazy="true">
-
-                                            <p:column headerText="Núm. Causa" >
-                                                <h:outputText value="#{casoA.uzatcasoNumcausa}" />
-                                            </p:column>
-                                            <p:column headerText="Motivo">
-                                                <h:outputText value="#{casoA.uzatcasoMotivo}" />
-                                            </p:column>
-                                            <p:column headerText="Detalle">
-                                                <h:outputText value="#{casoA.uzatcasoDetalle}" />
-                                            </p:column>
-                                            <p:column headerText="Tipo">
-                                                <h:outputText value="#{casoA.uzatcasoTipo}" />
-                                            </p:column>
-                                            <p:column headerText="Fecha Inicial">
-                                                <h:outputText value="#{casoA.uzatcasoFechaIn}" />
-                                            </p:column>
-                                            <p:column style="width:32px;text-align: center">
-                                                <p:commandButton icon="ui-icon-search" title="View">
-                                                </p:commandButton>
-                                            </p:column>
-                                        </p:dataTable>
-                                    </h:panelGrid>
-                                </p:tab>
-
-                                <p:tab title="Casos Activos">
-                                    <h:panelGrid columns="1" cellpadding="10">
-                                        <p:dataTable id="dataTableActivos" var="casoA" value="#{resumenAboBean.lazyModelCasosActivos}" paginator="true" rows="5"
-                                                     paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
-                                                     emptyMessage="No se ha econtrado casos activos disponibles"
-                                                     rowsPerPageTemplate="5" lazy="true">
-
-                                            <p:column headerText="Núm. Causa" >
-                                                <h:outputText value="#{casoA.uzatcasoNumcausa}" />
-                                            </p:column>
-                                            <p:column headerText="Motivo">
-                                                <h:outputText value="#{casoA.uzatcasoMotivo}" />
-                                            </p:column>
-                                            <p:column headerText="Detalle">
-                                                <h:outputText value="#{casoA.uzatcasoDetalle}" />
-                                            </p:column>
-                                            <p:column headerText="Tipo">
-                                                <h:outputText value="#{casoA.uzatcasoTipo}" />
-                                            </p:column>
-                                            <p:column headerText="Fecha Inicial">
-                                                <h:outputText value="#{casoA.uzatcasoFechaIn}" />
-                                            </p:column>
-                                            <p:column style="width:32px;text-align: center">
-                                                <p:commandButton icon="ui-icon-search" title="Edit">
-                                                </p:commandButton>
-                                            </p:column>
-                                        </p:dataTable>
-                                    </h:panelGrid>
-                                </p:tab>
-                                
-                                
-
-
-                            </p:accordionPanel>
-                        </p:layoutUnit>
-                        
-                        
-                        
-
-
-                </h:form> 
+                            </p:panel>
+                    </p:dialog>
+                    
+                     <p:dialog id="selectactor" widgetVar="wactor" header="Seleccione Actor"  
+                               modal="true" showEffect="fade" resizable="false" position="center center">
+                            <h2> Asignar Actor</h2>
+                            
+                            <p:panel id="panelCedulaActor" header="Ingrese Numero de Cedula" >
+                                <h:panelGrid columns="3" cellpadding="10">
+                                    <h:outputText value="Cedula:" />  
+                                    <p:inputText/>
+                                    <p:commandButton value="Buscar" update=":principal:panelDatosActor"></p:commandButton>
+                                </h:panelGrid>    
+                            </p:panel>
+                            <p:panel id="panelDatosActor" header="Detalles Actor" >
+                                <h:panelGrid columns="2" cellpadding="10">
+                                    <h:outputText value="Nombre:" />
+                                    <p:inputText></p:inputText>
+                                    <h:outputText value="Correo:" />
+                                    <p:inputText></p:inputText>
+                                    <h:outputText value="Celular:" />
+                                    <p:inputText></p:inputText>
+                                    <h:outputText value="Sexo:" />
+                                    <p:inputText></p:inputText>
+                                    <h:outputText value="Dirección:" />
+                                    <p:inputText></p:inputText>
+                                </h:panelGrid>    
+                            </p:panel>
+                     </p:dialog>       
+                </h:form>
             </ui:define>
 
 

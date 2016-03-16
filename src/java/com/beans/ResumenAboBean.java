@@ -9,10 +9,14 @@ package com.beans;
 import com.util.LazyCasoDataModel;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 import org.primefaces.model.LazyDataModel;
 import procuradoria.map.Uzatcaso;
+import procuradoria.crud.ProcuradoriaMethods;
 
 /**
  *
@@ -25,17 +29,19 @@ public class ResumenAboBean implements Serializable{
     /**
      * Creates a new instance of ResumenProcuBean
      */
-    
-    private LazyDataModel<Uzatcaso> lazyModelCasosActivos;
-    private LazyDataModel<Uzatcaso> lazyModelCasosInactivos;
+    private String gotCaso;
+    private String tipoActor;
+            
     private LazyDataModel<Uzatcaso> lazyModelCasosAsignados;        
-     
+    
     private Uzatcaso selectedCaso;
     
+    
     public ResumenAboBean() {
-        lazyModelCasosActivos = new LazyCasoDataModel(BigDecimal.ONE);
-        lazyModelCasosInactivos = new LazyCasoDataModel(BigDecimal.ZERO);
+        
         lazyModelCasosAsignados = new LazyCasoDataModel(new BigDecimal(2));
+        selectedCaso = new Uzatcaso();
+        this.gotCaso = "no entro";
     }
 
     public Uzatcaso getSelectedCaso() {
@@ -46,28 +52,49 @@ public class ResumenAboBean implements Serializable{
         this.selectedCaso = selectedCaso;
     }
 
-    public LazyDataModel<Uzatcaso> getLazyModelCasosActivos() {
-        return lazyModelCasosActivos;
+    private BigDecimal getUserSession(){
+        BigDecimal id = new BigDecimal(112);
+        return id;
     }
-
-    public void setLazyModelCasosActivos(LazyDataModel<Uzatcaso> lazyModelCasosActivos) {
-        this.lazyModelCasosActivos = lazyModelCasosActivos;
+    
+    public void getCaso(String entro)
+    {
+        this.gotCaso = entro ;
+        this.selectedCaso = ProcuradoriaMethods.findCasobyId(new BigDecimal(gotCaso));
     }
-
-    public LazyDataModel<Uzatcaso> getLazyModelCasosInactivos() {
-        return lazyModelCasosInactivos;
-    }
-
-    public void setLazyModelCasosInactivos(LazyDataModel<Uzatcaso> lazyModelCasosInactivos) {
-        this.lazyModelCasosInactivos = lazyModelCasosInactivos;
-    }
-
+    
     public LazyDataModel<Uzatcaso> getLazyModelCasosAsignados() {
         return lazyModelCasosAsignados;
     }
 
     public void setLazyModelCasosAsignados(LazyDataModel<Uzatcaso> lazyModelCasosAsignados) {
         this.lazyModelCasosAsignados = lazyModelCasosAsignados;
+    }
+
+    public String getGotCaso() {
+        return gotCaso;
+    }
+
+    public void setGotCaso(String gotCaso) {
+        this.gotCaso = gotCaso;
+    }
+    
+    
+    public void buttonAction(ActionEvent actionEvent) {
+        addMessage("Welcome to Primefaces!!");
+    }
+     
+    public void addMessage(String summary) {
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary,  null);
+        FacesContext.getCurrentInstance().addMessage(null, message);
+    }
+
+    public String getTipoActor() {
+        return tipoActor;
+    }
+
+    public void setTipoActor(String tipoActor) {
+        this.tipoActor = tipoActor;
     }
     
 }
