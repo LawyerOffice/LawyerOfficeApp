@@ -41,9 +41,9 @@ public class Views {
         this.views_procu.add("faces/views/menu_procu.xhtml");
         this.views_procu.add("faces/views/resumen_procu.xhtml");
         
-        this.views_secre.add("faces/views/generar_caso.xhtml");
-        this.views_secre.add("faces/views/asignar_permiso.xhtml");
-        this.views_secre.add("faces/views/reasignar_caso.xhtml");
+        this.views_secre.add("faces/views/generar_caso_secre.xhtml");
+        this.views_secre.add("faces/views/asignar_permiso_secre.xhtml");
+        this.views_secre.add("faces/views/reasignar_caso_secre.xhtml");
     }
     public ArrayList<String> getViews_abo() {
         return views_abo;

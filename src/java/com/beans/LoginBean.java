@@ -104,7 +104,7 @@ public class LoginBean {
             } else if (tipoRol.equals("ABOGADO")) {
                 ruta = LawyerOfficeUtil.getURL_Login() + "views/resumen_abo.xhtml";
             } else if (tipoRol.equals("SECRETARIA")) {
-                ruta = LawyerOfficeUtil.getURL_Login() + "views/resumen_abo.xhtml";
+                ruta = LawyerOfficeUtil.getURL_Login() + "views/menu_secre.xhtml";
             }
 
         }

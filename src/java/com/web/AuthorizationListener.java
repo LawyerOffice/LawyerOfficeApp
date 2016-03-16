@@ -61,10 +61,11 @@ public class AuthorizationListener implements PhaseListener {
                     nh.handleNavigation(facesContext, null, "menuProcu");
                 }
 
-//                if (currentUser != null && UserRol.equals("SECRETARIA")) {
-//                    NavigationHandler nh = facesContext.getApplication().getNavigationHandler();
-//                    nh.handleNavigation(facesContext, null, "menuSecre");
-//                }
+                if (currentUser != null && UserRol.equals("SECRETARIA")
+                        && !views_secretaria(urlRequest)) {
+                    NavigationHandler nh = facesContext.getApplication().getNavigationHandler();
+                    nh.handleNavigation(facesContext, null, "menuSecre");
+                }
             }
         }
     }
