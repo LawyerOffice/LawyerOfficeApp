@@ -90,7 +90,7 @@
                                                                  oncomplete="PF('dlgNewComentario').show();"
                                                                  id="NewComent" icon="ui-icon-disk" 
                                                                  title="Nuevo" />
-                                                
+
                                             </p:panelGrid>
 
                                             <div align="center">
@@ -114,7 +114,13 @@
                                         <p:tab title="Documentos" id="TabDocumentos">
 
                                             <p:panelGrid  columns="1">
-                                                <p:commandButton value="Nuevo Documento" style="float: right" disabled="#{fasesCasoBean.estadoFaseDisabled()}" actionListener="#{buttonView.buttonAction}" id="NewDoc" icon="ui-icon-disk" title="Nuevo" />
+                                                <p:commandButton value="Nuevo Documento" 
+                                                                 style="float: right" 
+                                                                 disabled="#{fasesCasoBean.estadoFaseDisabled()}" 
+                                                                 update=":form:dlgNuevoDocumento"
+                                                                 oncomplete="PF('dlgNewDocumento').show();" 
+                                                                 id="NewDoc" icon="ui-icon-disk" 
+                                                                 title="Nuevo" />
                                             </p:panelGrid>
 
                                             <div align="center">
@@ -272,7 +278,7 @@
 
                         <h:panelGrid columns="2" cellpadding="6">
                             <p:outputLabel for="datetime" value="Fecha de agenda:" />
-                            <p:calendar id="datetime" value="#{fasesCasoBean.fechaCita}" pattern="dd/MM/yyyy HH:mm:ss" mindate="4/1/01" maxdate="3/17/16" />
+                            <p:calendar id="datetime" value="#{fasesCasoBean.fechaCita}" pattern="dd/MM/yyyy HH:mm:ss" mindate="4/1/15" maxdate="3/17/16" />
 
                             <h:outputLabel for="name3" value="Descripción:"/>
                             <p:inputText id="name3" required="true" value="#{fasesCasoBean.newCita.uzatcitaSala}"/>
@@ -298,6 +304,49 @@
                             <p:commandButton value="Aceptar" id="btnAsigarNuevaCitaMSG"
                                              update=":form:dtCaso"
                                              oncomplete="PF('dlgNewCitaMSG').hide(); PF('dlgNewCita').hide();" > <!-- action ="" -->
+                            </p:commandButton>
+                        </f:facet> 
+                    </p:dialog>
+
+                    <!--NUEVO DOCUMENTO-->
+
+                    <p:dialog id="dlgNuevoDocumento" widgetVar="dlgNewDocumento" header="Nuevo Documento" minHeight="40" modal="true" visible="false" 
+                              showEffect="fade" hideEffect="fade" resizable="false">
+
+                        <h:panelGrid columns="2" cellpadding="6">
+                            <h:outputLabel for="patter4" value="Fecha de creación:"/>
+                            <p:clock id="patter4" pattern="dd/MM/yyyy HH:mm:ss"/>
+
+                            <h:outputLabel for="casilla" value="Casilla:"/>
+                            <p:inputText id="casilla" required="true" value="#{fasesCasoBean.newDocumento.uzatdocsCasilla}"/>
+
+                            <h:outputLabel for="compromiso" value="Compromiso:"/>
+                            <p:inputText id="compromiso" required="true" value="#{fasesCasoBean.newDocumento.uzatdocsCompromiso}"/>
+
+                            <h:outputLabel for="doc" value="Cargar Documento:"/>
+
+                        </h:panelGrid>
+
+                        <f:facet name="footer">
+                            <p:commandButton value="Crear" id="btnConfirmarNewDocumento"
+                                             actionListener="#{fasesCasoBean.genratedDocumento(event)}"
+                                             icon="ui-icon-check"/> <!-- action ="" -->
+                        </f:facet> 
+
+                    </p:dialog>
+
+                    <p:dialog id="dlgNuevoDocumentoMSG" widgetVar="dlgNewDocumentoMSG" header="Nuevo Documento" modal="true"  
+                              showEffect="fade" hideEffect="fade" resizable="false">
+                        <h2><strong>Éxito</strong></h2>
+                        <h:panelGrid id="panelNuevoDocumentoMSG" columns="1" cellpadding="1">
+
+                            <h:outputLabel value="Nuevo documento añadido satisfactoriamente!"/>
+                        </h:panelGrid>
+
+                        <f:facet name="footer">
+                            <p:commandButton value="Aceptar" id="btnAsigarNuevoDocumentoMSG"
+                                             update=":form:dtCaso"
+                                             oncomplete="PF('dlgNewDocumentoMSG').hide(); PF('dlgNewDocumento').hide();" > <!-- action ="" -->
                             </p:commandButton>
                         </f:facet> 
                     </p:dialog>

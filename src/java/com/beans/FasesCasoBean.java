@@ -20,6 +20,7 @@ import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.event.TabChangeEvent;
 import org.primefaces.event.ToggleEvent;
+import org.primefaces.model.UploadedFile;
 import org.primefaces.model.Visibility;
 import procuradoria.crud.ProcuradoriaMethods;
 import procuradoria.map.Uzatcaso;
@@ -27,6 +28,7 @@ import procuradoria.map.Uzatcita;
 import procuradoria.map.Uzatcomt;
 import procuradoria.map.Uzatdocs;
 import procuradoria.map.Uzatfase;
+import procuradoria.pdf.util.DocumentsPdf;
 
 /**
  *
@@ -43,20 +45,27 @@ public class FasesCasoBean {
     private ArrayList<Uzatcomt> ListComtFasesById;
     private ArrayList<Uzatdocs> ListDocsFasesById;
     private ArrayList<Uzatcita> ListCitaFasesById;
-    private BigDecimal CodCaso;
-    private Boolean StateFaseDisabled;
-
-    private Uzatfase SelectedFase;
+    
     private Uzatcaso SelectedCaso;
-
+    private BigDecimal CodCaso;
+    
+    private Uzatfase SelectedFase;
+    private Boolean StateFaseDisabled;
+    
     private Uzatfase NewFase;
     private Uzatcomt NewComentario;
+    
+    private Uzatdocs NewDocumento;
+    private String DirecURLDoc;
+    private UploadedFile file;
+    
     private Uzatcita NewCita;
     private Date FechaCita;
 
     public FasesCasoBean() {
         CodCaso = this.getCasoIdAttribute();
         FechaCita= new Date();
+        DirecURLDoc="";
         this.setSelectedCaso(ProcuradoriaMethods.CasoByIdCaso(CodCaso));
         this.setStateFaseDisabled(false);
         this.setSelectedFase(new Uzatfase());
@@ -67,6 +76,7 @@ public class FasesCasoBean {
         this.setListCitaFasesById(new ArrayList<Uzatcita>());
         this.setNewComentario(new Uzatcomt());
         this.setNewCita(new Uzatcita());
+        this.setNewDocumento(new Uzatdocs());
         this.init();
     }
 
@@ -107,7 +117,11 @@ public class FasesCasoBean {
     private void initCitas() {
         this.ListCitaFasesById = ProcuradoriaMethods.FindCitasbyCaso_Fase(SelectedCaso.getUzatcasoId(), SelectedFase.getId().getUzatfaseId());
     }
-
+    
+    private void initDocumentos() {
+        this.ListDocsFasesById = ProcuradoriaMethods.FindDocsbyCaso_Fase(SelectedCaso.getUzatcasoId(), SelectedFase.getId().getUzatfaseId());
+    }
+    
     public void onRowSelectCmt(SelectEvent event) {
         this.SelectedFase = (Uzatfase) event.getObject();
     }
@@ -196,9 +210,25 @@ public class FasesCasoBean {
         return FechaCita;
     }
 
+    public Uzatdocs getNewDocumento() {
+        return NewDocumento;
+    }
+
+    public void setNewDocumento(Uzatdocs NewDocumento) {
+        this.NewDocumento = NewDocumento;
+    }
+
+    public UploadedFile getFile() {
+        return file;
+    }
+
+    public void setFile(UploadedFile file) {
+        this.file = file;
+    }
+
     public void onTabChange(TabChangeEvent event) {
         if (event.getTab().getId().equals("TabDocumentos")) {
-            this.ListDocsFasesById = ProcuradoriaMethods.FindDocsbyCaso_Fase(SelectedCaso.getUzatcasoId(), SelectedFase.getId().getUzatfaseId());
+            
         } else {
             if (event.getTab().getId().equals("TabCitas")) {
                 this.initCitas();
@@ -262,6 +292,18 @@ public class FasesCasoBean {
         if (exito) {
             RequestContext.getCurrentInstance().execute("PF('dlgNewCitaMSG').show();");
             this.initCitas();
+        }
+    }
+        
+        public void genratedDocumento(ActionEvent event) {
+        this.NewDocumento.getId().setUzatcasoId(SelectedCaso.getUzatcasoId());
+        this.NewDocumento.getId().setUzatfaseId(SelectedFase.getId().getUzatfaseId());
+        this.NewDocumento.setUzatdocsFecha(FechaHoraActual());
+
+        Boolean exito = DocumentsPdf.CovertPdfToByteArray(NewDocumento,DirecURLDoc,"");
+        if (exito) {
+            RequestContext.getCurrentInstance().execute("PF('dlgNewDocumentoMSG').show();");
+            this.initDocumentos();
         }
     }
 
