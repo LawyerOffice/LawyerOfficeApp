@@ -6,19 +6,22 @@
 package com.beans;
 
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.event.ActionEvent;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
-import org.jdom.Document;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.event.TabChangeEvent;
 import org.primefaces.event.ToggleEvent;
 import org.primefaces.model.Visibility;
 import procuradoria.crud.ProcuradoriaMethods;
+import procuradoria.map.Uzatcaso;
 import procuradoria.map.Uzatcita;
 import procuradoria.map.Uzatcomt;
 import procuradoria.map.Uzatdocs;
@@ -40,17 +43,24 @@ public class FasesCasoBean {
     private ArrayList<Uzatdocs> ListDocsFasesById;
     private ArrayList<Uzatcita> ListCitaFasesById;
     private Uzatfase SelectedFase;
+    private Uzatcaso SelectedCaso;
     private BigDecimal CodCaso;
     private Boolean StateFaseDisabled;
 
+    private Uzatfase NewFase;
+    private Uzatcomt NewComentario;
+
     public FasesCasoBean() {
         CodCaso = this.getCasoIdAttribute();
+        this.setSelectedCaso(ProcuradoriaMethods.CasoByIdCaso(CodCaso));
         this.setStateFaseDisabled(false);
         this.setSelectedFase(new Uzatfase());
+        this.setNewFase(new Uzatfase());
         this.setListFases(new ArrayList<Uzatfase>());
         this.setListComtFasesById(new ArrayList<Uzatcomt>());
         this.setListDocsFasesById(new ArrayList<Uzatdocs>());
         this.setListCitaFasesById(new ArrayList<Uzatcita>());
+        this.setNewComentario(new Uzatcomt());
         this.init();
     }
     
@@ -81,7 +91,11 @@ public class FasesCasoBean {
     }
 
     private void init() {
-        this.ListFases = ProcuradoriaMethods.listFasesByIdCaso(CodCaso);
+        this.ListFases = ProcuradoriaMethods.listFasesByIdCaso(SelectedCaso.getUzatcasoId());
+    }
+
+    private void initComentarios() {
+        this.ListComtFasesById = ProcuradoriaMethods.GetFasesComentByIdCasoAndIdFase(SelectedCaso.getUzatcasoId(), SelectedFase.getId().getUzatfaseId());
     }
 
     public void onRowSelectCmt(SelectEvent event) {
@@ -136,12 +150,36 @@ public class FasesCasoBean {
         this.StateFaseDisabled = StateFaseDisabled;
     }
 
+    public Uzatfase getNewFase() {
+        return NewFase;
+    }
+
+    public void setNewFase(Uzatfase NewFase) {
+        this.NewFase = NewFase;
+    }
+
+    public Uzatcaso getSelectedCaso() {
+        return SelectedCaso;
+    }
+
+    public void setSelectedCaso(Uzatcaso SelectedCaso) {
+        this.SelectedCaso = SelectedCaso;
+    }
+
+    public Uzatcomt getNewComentario() {
+        return NewComentario;
+    }
+
+    public void setNewComentario(Uzatcomt NewComentario) {
+        this.NewComentario = NewComentario;
+    }
+
     public void onTabChange(TabChangeEvent event) {
         if (event.getTab().getId().equals("TabDocumentos")) {
-            this.ListDocsFasesById = ProcuradoriaMethods.FindDocsbyCaso_Fase(CodCaso, SelectedFase.getId().getUzatfaseId());
+            this.ListDocsFasesById = ProcuradoriaMethods.FindDocsbyCaso_Fase(SelectedCaso.getUzatcasoId(), SelectedFase.getId().getUzatfaseId());
         } else {
             if (event.getTab().getId().equals("TabCitas")) {
-                this.ListCitaFasesById = ProcuradoriaMethods.FindCitasbyCaso_Fase(CodCaso, SelectedFase.getId().getUzatfaseId());
+                this.ListCitaFasesById = ProcuradoriaMethods.FindCitasbyCaso_Fase(SelectedCaso.getUzatcasoId(), SelectedFase.getId().getUzatfaseId());
             }
         }
     }
@@ -149,7 +187,7 @@ public class FasesCasoBean {
     public void onRowToggle(ToggleEvent event) {
         this.SelectedFase = (Uzatfase) event.getData();
         if (event.getVisibility() == Visibility.VISIBLE) {
-            this.ListComtFasesById = ProcuradoriaMethods.GetFasesComentByIdCasoAndIdFase(CodCaso, SelectedFase.getId().getUzatfaseId());
+            this.initComentarios();
         }
     }
 
@@ -160,6 +198,38 @@ public class FasesCasoBean {
             setStateFaseDisabled(false);
         }
         return getStateFaseDisabled();
+    }
+
+    public void genratedFase(ActionEvent event) {
+
+        this.NewFase.getId().setUzatcasoId(SelectedCaso.getUzatcasoId());
+        this.NewFase.setUzatfaseFechaIn(FechaHoraActual());
+        this.NewFase.setUzatfaseFlag(BigDecimal.ONE);
+
+        Boolean exito = ProcuradoriaMethods.InsertFase(this.NewFase);
+        if (exito) {
+            RequestContext.getCurrentInstance().execute("PF('dlgNewFaseMSG').show();");
+            this.init();
+        }
+    }
+
+    public String FechaHoraActual() {
+        GregorianCalendar g1 = new GregorianCalendar();
+        SimpleDateFormat s1 = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        return s1.format(g1.getTime());
+    }
+
+    public void genratedComentario(ActionEvent event) {
+
+        this.NewComentario.getId().setUzatcasoId(SelectedCaso.getUzatcasoId());
+        this.NewComentario.getId().setUzatfaseId(SelectedFase.getId().getUzatfaseId());
+        this.NewComentario.setUzatcomtFecha(FechaHoraActual());
+
+        Boolean exito = ProcuradoriaMethods.InsertComentario(this.NewComentario);
+        if (exito) {
+            RequestContext.getCurrentInstance().execute("PF('dlgNewComentarioMSG').show();");
+            this.initComentarios();
+        }
     }
 
 }
