@@ -90,6 +90,7 @@
                                                                  oncomplete="PF('dlgNewComentario').show();"
                                                                  id="NewComent" icon="ui-icon-disk" 
                                                                  title="Nuevo" />
+                                                
                                             </p:panelGrid>
 
                                             <div align="center">
@@ -146,7 +147,13 @@
                                         <p:tab title="Citas" id="TabCitas">
 
                                             <p:panelGrid  columns="1">
-                                                <p:commandButton value="Nueva Cita" style="float: right" disabled="#{fasesCasoBean.estadoFaseDisabled()}" actionListener="#{buttonView.buttonAction}" id="NewCita" icon="ui-icon-disk" title="Nuevo" />
+                                                <p:commandButton value="Nueva Cita" 
+                                                                 style="float: right" 
+                                                                 disabled="#{fasesCasoBean.estadoFaseDisabled()}" 
+                                                                 update=":form:dlgNuevaCita"
+                                                                 oncomplete="PF('dlgNewCita').show();"
+                                                                 id="NewCita" icon="ui-icon-disk" 
+                                                                 title="Nuevo" />
                                             </p:panelGrid>
 
                                             <div align="center">
@@ -254,6 +261,43 @@
                             <p:commandButton value="Aceptar" id="btnAsigarNuevoComentarioMSG"
                                              update=":form:dtCaso"
                                              oncomplete="PF('dlgNewComentarioMSG').hide(); PF('dlgNewComentario').hide();" > <!-- action ="" -->
+                            </p:commandButton>
+                        </f:facet> 
+                    </p:dialog>
+
+                    <!--NUEVA CITA-->
+
+                    <p:dialog id="dlgNuevaCita" widgetVar="dlgNewCita" header="Nueva Cita" minHeight="40" modal="true" visible="false" 
+                              showEffect="fade" hideEffect="fade" resizable="false">
+
+                        <h:panelGrid columns="2" cellpadding="6">
+                            <p:outputLabel for="datetime" value="Fecha de agenda:" />
+                            <p:calendar id="datetime" value="#{fasesCasoBean.fechaCita}" pattern="dd/MM/yyyy HH:mm:ss" mindate="4/1/01" maxdate="3/17/16" />
+
+                            <h:outputLabel for="name3" value="Descripción:"/>
+                            <p:inputText id="name3" required="true" value="#{fasesCasoBean.newCita.uzatcitaSala}"/>
+                        </h:panelGrid>
+
+                        <f:facet name="footer">
+                            <p:commandButton value="Crear" id="btnConfirmarNewCita"
+                                             actionListener="#{fasesCasoBean.genratedCita(event)}"
+                                             icon="ui-icon-check"/> <!-- action ="" -->
+                        </f:facet> 
+
+                    </p:dialog>
+
+                    <p:dialog id="dlgNuevaCitaMSG" widgetVar="dlgNewCitaMSG" header="Nueva Cita" modal="true"  
+                              showEffect="fade" hideEffect="fade" resizable="false">
+                        <h2><strong>Éxito</strong></h2>
+                        <h:panelGrid id="panelNuevaCitaMSG" columns="1" cellpadding="1">
+
+                            <h:outputLabel value="Nueva cita añadida satisfactoriamente!"/>
+                        </h:panelGrid>
+
+                        <f:facet name="footer">
+                            <p:commandButton value="Aceptar" id="btnAsigarNuevaCitaMSG"
+                                             update=":form:dtCaso"
+                                             oncomplete="PF('dlgNewCitaMSG').hide(); PF('dlgNewCita').hide();" > <!-- action ="" -->
                             </p:commandButton>
                         </f:facet> 
                     </p:dialog>

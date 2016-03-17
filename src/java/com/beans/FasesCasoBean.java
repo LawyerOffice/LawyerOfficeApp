@@ -9,6 +9,7 @@ import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -42,16 +43,20 @@ public class FasesCasoBean {
     private ArrayList<Uzatcomt> ListComtFasesById;
     private ArrayList<Uzatdocs> ListDocsFasesById;
     private ArrayList<Uzatcita> ListCitaFasesById;
-    private Uzatfase SelectedFase;
-    private Uzatcaso SelectedCaso;
     private BigDecimal CodCaso;
     private Boolean StateFaseDisabled;
 
+    private Uzatfase SelectedFase;
+    private Uzatcaso SelectedCaso;
+
     private Uzatfase NewFase;
     private Uzatcomt NewComentario;
+    private Uzatcita NewCita;
+    private Date FechaCita;
 
     public FasesCasoBean() {
         CodCaso = this.getCasoIdAttribute();
+        FechaCita= new Date();
         this.setSelectedCaso(ProcuradoriaMethods.CasoByIdCaso(CodCaso));
         this.setStateFaseDisabled(false);
         this.setSelectedFase(new Uzatfase());
@@ -61,9 +66,10 @@ public class FasesCasoBean {
         this.setListDocsFasesById(new ArrayList<Uzatdocs>());
         this.setListCitaFasesById(new ArrayList<Uzatcita>());
         this.setNewComentario(new Uzatcomt());
+        this.setNewCita(new Uzatcita());
         this.init();
     }
-    
+
     private String getUserAttribute() {
         String UserAttribute = "";
         FacesContext facesContext = FacesContext.getCurrentInstance();
@@ -96,6 +102,10 @@ public class FasesCasoBean {
 
     private void initComentarios() {
         this.ListComtFasesById = ProcuradoriaMethods.GetFasesComentByIdCasoAndIdFase(SelectedCaso.getUzatcasoId(), SelectedFase.getId().getUzatfaseId());
+    }
+    
+    private void initCitas() {
+        this.ListCitaFasesById = ProcuradoriaMethods.FindCitasbyCaso_Fase(SelectedCaso.getUzatcasoId(), SelectedFase.getId().getUzatfaseId());
     }
 
     public void onRowSelectCmt(SelectEvent event) {
@@ -174,12 +184,24 @@ public class FasesCasoBean {
         this.NewComentario = NewComentario;
     }
 
+    public Uzatcita getNewCita() {
+        return NewCita;
+    }
+
+    public void setNewCita(Uzatcita NewCita) {
+        this.NewCita = NewCita;
+    }
+
+    public Date getFechaCita() {
+        return FechaCita;
+    }
+
     public void onTabChange(TabChangeEvent event) {
         if (event.getTab().getId().equals("TabDocumentos")) {
             this.ListDocsFasesById = ProcuradoriaMethods.FindDocsbyCaso_Fase(SelectedCaso.getUzatcasoId(), SelectedFase.getId().getUzatfaseId());
         } else {
             if (event.getTab().getId().equals("TabCitas")) {
-                this.ListCitaFasesById = ProcuradoriaMethods.FindCitasbyCaso_Fase(SelectedCaso.getUzatcasoId(), SelectedFase.getId().getUzatfaseId());
+                this.initCitas();
             }
         }
     }
@@ -205,7 +227,7 @@ public class FasesCasoBean {
         SimpleDateFormat s1 = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         return s1.format(g1.getTime());
     }
-    
+
     public void genratedFase(ActionEvent event) {
         this.NewFase.getId().setUzatcasoId(SelectedCaso.getUzatcasoId());
         this.NewFase.setUzatfaseFechaIn(FechaHoraActual());
@@ -217,7 +239,7 @@ public class FasesCasoBean {
             this.init();
         }
     }
-    
+
     public void genratedComentario(ActionEvent event) {
         this.NewComentario.getId().setUzatcasoId(SelectedCaso.getUzatcasoId());
         this.NewComentario.getId().setUzatfaseId(SelectedFase.getId().getUzatfaseId());
@@ -227,6 +249,19 @@ public class FasesCasoBean {
         if (exito) {
             RequestContext.getCurrentInstance().execute("PF('dlgNewComentarioMSG').show();");
             this.initComentarios();
+        }
+    }
+    
+        public void genratedCita(ActionEvent event) {
+        this.NewCita.getId().setUzatcasoId(SelectedCaso.getUzatcasoId());
+        this.NewCita.getId().setUzatfaseId(SelectedFase.getId().getUzatfaseId());
+        this.NewCita.setUzatcitaFlag(BigDecimal.ONE);
+        this.NewCita.setUzatcitaFecha(getFechaCita().toString());
+
+        Boolean exito = ProcuradoriaMethods.InsertCita(this.NewCita);
+        if (exito) {
+            RequestContext.getCurrentInstance().execute("PF('dlgNewCitaMSG').show();");
+            this.initCitas();
         }
     }
 
