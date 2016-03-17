@@ -48,6 +48,7 @@ public class AuthorizationListener implements PhaseListener {
                 String urlRequest = origRequest.getRequestURL().toString();
                 urlRequest = urlRequest.replace("http://localhost:8081/LawyerOfficeApp/", "");
                 urlRequest = urlRequest.replace("http://localhost:8080/LawyerOfficeApp/", "");
+                urlRequest = urlRequest.replace("http://localhost:8084/LawyerOfficeApp/", "");
 
                 if (currentUser != null && UserRol.equals("ABOGADO")
                         && !views_abo(urlRequest)) {
