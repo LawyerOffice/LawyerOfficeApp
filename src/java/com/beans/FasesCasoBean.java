@@ -200,8 +200,13 @@ public class FasesCasoBean {
         return getStateFaseDisabled();
     }
 
+    public String FechaHoraActual() {
+        GregorianCalendar g1 = new GregorianCalendar();
+        SimpleDateFormat s1 = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        return s1.format(g1.getTime());
+    }
+    
     public void genratedFase(ActionEvent event) {
-
         this.NewFase.getId().setUzatcasoId(SelectedCaso.getUzatcasoId());
         this.NewFase.setUzatfaseFechaIn(FechaHoraActual());
         this.NewFase.setUzatfaseFlag(BigDecimal.ONE);
@@ -212,15 +217,8 @@ public class FasesCasoBean {
             this.init();
         }
     }
-
-    public String FechaHoraActual() {
-        GregorianCalendar g1 = new GregorianCalendar();
-        SimpleDateFormat s1 = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-        return s1.format(g1.getTime());
-    }
-
+    
     public void genratedComentario(ActionEvent event) {
-
         this.NewComentario.getId().setUzatcasoId(SelectedCaso.getUzatcasoId());
         this.NewComentario.getId().setUzatfaseId(SelectedFase.getId().getUzatfaseId());
         this.NewComentario.setUzatcomtFecha(FechaHoraActual());
