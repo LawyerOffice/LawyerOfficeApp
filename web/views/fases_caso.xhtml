@@ -16,12 +16,12 @@
                     <p:panel id="CasoDetails" >
 
                         <f:facet name="header">
-                            Detalles del Caso
+                            DETALLES DEL CASO
                         </f:facet>
 
                         <h:panelGrid columns="6" cellpadding="5"> 
 
-                            <h:outputText value="Numero de Causa: " style="font-weight:bold;text-decoration:underline"/>
+                            <h:outputText value="Número de Causa: " style="font-weight:bold;text-decoration:underline"/>
                             <h:outputText value="#{fasesCasoBean.selectedCaso.uzatcasoNumcausa}" />
 
                             <h:outputText value="Tipo de caso: " style="font-weight:bold;text-decoration:underline"/>
@@ -37,6 +37,9 @@
                     <p:panel id="FasesDetails" >
 
                         <f:facet name="header">
+
+                            FASES ACTUALES
+
                             <p:commandButton value="Nueva Fase" 
                                              style="float: right" 
                                              id="NewFase"
@@ -45,127 +48,134 @@
                                              icon="ui-icon-disk" title="Nuevo" />
                         </f:facet>
 
+                        <div align="center">
+                            <p:dataTable var="ComtFase" 
+                                         value="#{fasesCasoBean.listFases}" 
+                                         widgetVar="casoTable" 
+                                         tableStyle="width:auto"
+                                         sortBy="#{ComtFase.uzatfaseNumfase}"
+                                         emptyMessage="No se han encontrado fases disponibles."
+                                         id="dtCaso">
 
-                        <p:dataTable var="ComtFase" 
-                                     value="#{fasesCasoBean.listFases}" 
-                                     widgetVar="casoTable" 
-                                     sortBy="#{ComtFase.uzatfaseNumfase}"
-                                     emptyMessage="No se han encontrado fases disponibles."
-                                     id="dtCaso">
+                                <p:ajax event="rowToggle" listener="#{fasesCasoBean.onRowToggle}"/>
 
-                            <f:facet name="header">
-                                FASES ACTUALES
-                            </f:facet>
+                                <p:column style="width:16px">
+                                    <p:rowToggler/>
+                                </p:column>
 
-                            <p:ajax event="rowToggle" listener="#{fasesCasoBean.onRowToggle}"/>
+                                <p:column headerText="Número">
+                                    <h:outputText value="#{ComtFase.uzatfaseNumfase}" />
+                                </p:column>
+                                <p:column headerText="Nombre">
+                                    <h:outputText value="#{ComtFase.uzatfaseNombre}" />
+                                </p:column>
+                                <p:column headerText="Fecha Inicio">
+                                    <h:outputText value="#{ComtFase.uzatfaseFechaIn}" />
+                                </p:column>
+                                <p:column headerText="Fecha Salida">
+                                    <h:outputText value="#{ComtFase.uzatfaseFechaOut}" />
+                                </p:column>
 
-                            <p:column style="width:16px">
-                                <p:rowToggler/>
-                            </p:column>
+                                <p:rowExpansion >
+                                    <p:tabView dynamic="true" cache="true">
+                                        <p:ajax event="tabChange" listener="#{fasesCasoBean.onTabChange}"/>
 
-                            <p:column headerText="Número">
-                                <h:outputText value="#{ComtFase.uzatfaseNumfase}" />
-                            </p:column>
-                            <p:column headerText="Nombre">
-                                <h:outputText value="#{ComtFase.uzatfaseNombre}" />
-                            </p:column>
-                            <p:column headerText="Fecha Inicio">
-                                <h:outputText value="#{ComtFase.uzatfaseFechaIn}" />
-                            </p:column>
-                            <p:column headerText="Fecha Salida">
-                                <h:outputText value="#{ComtFase.uzatfaseFechaOut}" />
-                            </p:column>
+                                        <p:tab title="Comentarios" id="TabComentarios">
 
-                            <p:rowExpansion >
-                                <p:tabView dynamic="true" cache="true">
-                                    <p:ajax event="tabChange" listener="#{fasesCasoBean.onTabChange}"/>
+                                            <p:panelGrid  columns="1">
+                                                <p:commandButton value="Nuevo Comentario" 
+                                                                 style="float: right" 
+                                                                 disabled="#{fasesCasoBean.estadoFaseDisabled()}" 
+                                                                 update=":form:dlgNuevoComentario"
+                                                                 oncomplete="PF('dlgNewComentario').show();"
+                                                                 id="NewComent" icon="ui-icon-disk" 
+                                                                 title="Nuevo" />
+                                            </p:panelGrid>
 
-                                    <p:tab title="Comentarios" id="TabComentarios">
+                                            <div align="center">
+                                                <p:dataTable var="ComtById" id="ComtFaseId" 
+                                                             value="#{fasesCasoBean.listComtFasesById}"
+                                                             tableStyle="width:auto"
+                                                             emptyMessage="No se han encontrado comentarios disponibles.">
+                                                    <p:column headerText="Fecha">
+                                                        <h:outputText value="#{ComtById.uzatcomtFecha}" />
+                                                    </p:column>
 
-                                        <p:panelGrid  columns="1">
-                                            <p:commandButton value="Nuevo Comentario" 
-                                                             style="float: right" 
-                                                             disabled="#{fasesCasoBean.estadoFaseDisabled()}" 
-                                                             update=":form:dlgNuevoComentario"
-                                                             oncomplete="PF('dlgNewComentario').show();"
-                                                             id="NewComent" icon="ui-icon-disk" 
-                                                             title="Nuevo" />
-                                        </p:panelGrid>
+                                                    <p:column headerText="Descripción">
+                                                        <h:outputText value="#{ComtById.uzatcomtDescripcion}" />
+                                                    </p:column>
 
-                                        <p:dataTable var="ComtById" id="ComtFaseId" 
-                                                     value="#{fasesCasoBean.listComtFasesById}"
-                                                     emptyMessage="No se han encontrado comentarios disponibles.">
-                                            <p:column headerText="Fecha">
-                                                <h:outputText value="#{ComtById.uzatcomtFecha}" />
-                                            </p:column>
+                                                </p:dataTable>
+                                            </div>
 
-                                            <p:column headerText="Descripción">
-                                                <h:outputText value="#{ComtById.uzatcomtDescripcion}" />
-                                            </p:column>
+                                        </p:tab>
 
-                                        </p:dataTable>
+                                        <p:tab title="Documentos" id="TabDocumentos">
 
-                                    </p:tab>
+                                            <p:panelGrid  columns="1">
+                                                <p:commandButton value="Nuevo Documento" style="float: right" disabled="#{fasesCasoBean.estadoFaseDisabled()}" actionListener="#{buttonView.buttonAction}" id="NewDoc" icon="ui-icon-disk" title="Nuevo" />
+                                            </p:panelGrid>
 
-                                    <p:tab title="Documentos" id="TabDocumentos">
+                                            <div align="center">
+                                                <p:dataTable var="DocById" id="DocFaseId" 
+                                                             value="#{fasesCasoBean.listDocsFasesById}"
+                                                             tableStyle="width:auto"
+                                                             emptyMessage="No se han encontrado documentos disponibles.">
+                                                    <p:column headerText="Casilla">
 
-                                        <p:panelGrid  columns="1">
-                                            <p:commandButton value="Nuevo Documento" style="float: right" disabled="#{fasesCasoBean.estadoFaseDisabled()}" actionListener="#{buttonView.buttonAction}" id="NewDoc" icon="ui-icon-disk" title="Nuevo" />
-                                        </p:panelGrid>
+                                                        <h:outputText value="#{DocById.uzatdocsCasilla}" />
+                                                    </p:column>
 
-                                        <p:dataTable var="DocById" id="DocFaseId" 
-                                                     value="#{fasesCasoBean.listDocsFasesById}"
-                                                     emptyMessage="No se han encontrado documentos disponibles.">
-                                            <p:column headerText="Casilla">
+                                                    <p:column headerText="Fecha">
+                                                        <h:outputText value="#{DocById.uzatdocsFecha}" />
+                                                    </p:column>
 
-                                                <h:outputText value="#{DocById.uzatdocsCasilla}" />
-                                            </p:column>
+                                                    <p:column headerText="Compromiso">
+                                                        <h:outputText value="#{DocById.uzatdocsCompromiso}" />
+                                                    </p:column>
 
-                                            <p:column headerText="Fecha">
-                                                <h:outputText value="#{DocById.uzatdocsFecha}" />
-                                            </p:column>
+                                                    <p:column headerText="Archivo">
 
-                                            <p:column headerText="Compromiso">
-                                                <h:outputText value="#{DocById.uzatdocsCompromiso}" />
-                                            </p:column>
+                                                    </p:column>
 
-                                            <p:column headerText="Archivo">
+                                                </p:dataTable>
+                                            </div>
 
-                                            </p:column>
+                                        </p:tab>
 
-                                        </p:dataTable>
+                                        <p:tab title="Citas" id="TabCitas">
 
-                                    </p:tab>
+                                            <p:panelGrid  columns="1">
+                                                <p:commandButton value="Nueva Cita" style="float: right" disabled="#{fasesCasoBean.estadoFaseDisabled()}" actionListener="#{buttonView.buttonAction}" id="NewCita" icon="ui-icon-disk" title="Nuevo" />
+                                            </p:panelGrid>
 
-                                    <p:tab title="Citas" id="TabCitas">
+                                            <div align="center">
+                                                <p:dataTable var="CitaById" id="CitaFaseId" 
+                                                             value="#{fasesCasoBean.listCitaFasesById}"
+                                                             tableStyle="width:auto"
+                                                             emptyMessage="No se han encontrado citas disponibles.">
 
-                                        <p:panelGrid  columns="1">
-                                            <p:commandButton value="Nueva Cita" style="float: right" disabled="#{fasesCasoBean.estadoFaseDisabled()}" actionListener="#{buttonView.buttonAction}" id="NewCita" icon="ui-icon-disk" title="Nuevo" />
-                                        </p:panelGrid>
+                                                    <p:column headerText="Sala">
+                                                        <h:outputText value="#{CitaById.uzatcitaSala}" />
+                                                    </p:column>
 
-                                        <p:dataTable var="CitaById" id="CitaFaseId" 
-                                                     value="#{fasesCasoBean.listCitaFasesById}"
-                                                     emptyMessage="No se han encontrado citas disponibles.">
+                                                    <p:column headerText="Fecha">
+                                                        <h:outputText value="#{CitaById.uzatcitaFecha}" />
+                                                    </p:column>
 
-                                            <p:column headerText="Sala">
-                                                <h:outputText value="#{CitaById.uzatcitaSala}" />
-                                            </p:column>
+                                                    <p:column headerText="Activo">
+                                                        <h:outputText value="#{CitaById.uzatcitaFlag}" />
+                                                    </p:column>
 
-                                            <p:column headerText="Fecha">
-                                                <h:outputText value="#{CitaById.uzatcitaFecha}" />
-                                            </p:column>
+                                                </p:dataTable>
+                                            </div>
+                                        </p:tab>
+                                    </p:tabView>
 
-                                            <p:column headerText="Activo">
-                                                <h:outputText value="#{CitaById.uzatcitaFlag}" />
-                                            </p:column>
+                                </p:rowExpansion>
 
-                                        </p:dataTable>
-                                    </p:tab>
-                                </p:tabView>
-
-                            </p:rowExpansion>
-
-                        </p:dataTable>
+                            </p:dataTable>
+                        </div>
                     </p:panel>
 
                     <!--NUEVA FASE-->
@@ -213,9 +223,15 @@
                         <h:panelGrid columns="2" cellpadding="6">
                             <h:outputLabel for="patter2" value="Fecha de creación:"/>
                             <p:clock id="patter2" pattern="dd/MM/yyyy HH:mm:ss"/>
-
+                        </h:panelGrid>
+                        <h:panelGrid columns="1" cellpadding="6">
                             <h:outputLabel for="name2" value="Descripción:"/>
-                            <p:inputText id="name2" required="true" value="#{fasesCasoBean.newComentario.uzatcomtDescripcion}"/>
+                            <p:inputTextarea id="name2" rows="5" cols="40" 
+                                             counter="display" maxlength="499" 
+                                             counterTemplate="{0} caracteres restantes." 
+                                             value="#{fasesCasoBean.newComentario.uzatcomtDescripcion}"
+                                             autoResize="false" />
+                            <h:outputText id="display" />
                         </h:panelGrid>
 
                         <f:facet name="footer">
