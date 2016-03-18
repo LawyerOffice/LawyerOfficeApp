@@ -37,7 +37,7 @@
                                        <h:outputText value="#{casoA.uzatcasoFechaIn}" />
                                    </p:column>
                                    <p:column style="width:32px;text-align: center">
-                                       <p:commandButton icon="ui-icon-search" update=":principal:dabogados" actionListener="#{resumenAboBean.getCaso(casoA.uzatcasoId)}" oncomplete="PF('wdialog').show();" ></p:commandButton>                   
+                                       <p:commandButton icon="ui-icon-search" update=":principal:dabogados" actionListener="#{resumenAboBean.findCasobyid(casoA.uzatcasoId)}" oncomplete="PF('wdialog').show();" ></p:commandButton>                   
                                    </p:column>
                                </p:dataTable>
                            </h:panelGrid>
@@ -49,7 +49,7 @@
                             <p:panel id="panelFunc" header="Detalles del Caso" style="border-style: none !important">
                                 <p:panelGrid columns="4" style="border-style: none !important">
                                     <h:outputText value="Id Caso:" />  
-                                    <p:inputText value="#{resumenAboBean.gotCaso}"/>
+                                    <p:inputText value="#{resumenAboBean.idCaso}"/>
                                     
                                     <h:outputText value="Numero de Causa:"/>
                                     <p:inputText value="#{resumenAboBean.selectedCaso.uzatcasoNumcausa}" />
@@ -73,8 +73,8 @@
                                     <h:outputText value="Tipo de Actor:"/>
                                     <p:selectOneMenu id="patter" required="false" value="#{resumenAboBean.tipoActor}">
                                         <f:selectItem itemLabel="Seleccionar" itemValue="" noSelectionOption="true"/>
-                                        <f:selectItem itemLabel="Demandado" itemValue="1" noSelectionOption="true"/>
-                                        <f:selectItem itemLabel="Demandante" itemValue="2" noSelectionOption="true"/>
+                                        <f:selectItem itemLabel="Demandado" itemValue="1"/>
+                                        <f:selectItem itemLabel="Demandante" itemValue="2"/>
                                     </p:selectOneMenu>
                                     
                                     <h:outputText value="Seleccione Actor:"/>
@@ -93,22 +93,26 @@
                             <p:panel id="panelCedulaActor" header="Ingrese Numero de Cedula" >
                                 <h:panelGrid columns="3" cellpadding="10">
                                     <h:outputText value="Cedula:" />  
-                                    <p:inputText/>
-                                    <p:commandButton value="Buscar" update=":principal:panelDatosActor"></p:commandButton>
+                                    <p:inputText value="#{resumenAboBean.cedulaActor}"/>
+                                    <p:commandButton value="Buscar" update=":principal:panelDatosActor" actionListener="#{resumenAboBean.findActorbycedula()}"></p:commandButton>
                                 </h:panelGrid>    
                             </p:panel>
+                            
                             <p:panel id="panelDatosActor" header="Detalles Actor" >
                                 <h:panelGrid columns="2" cellpadding="10">
-                                    <h:outputText value="Nombre:" />
-                                    <p:inputText></p:inputText>
-                                    <h:outputText value="Correo:" />
-                                    <p:inputText></p:inputText>
-                                    <h:outputText value="Celular:" />
-                                    <p:inputText></p:inputText>
-                                    <h:outputText value="Sexo:" />
-                                    <p:inputText></p:inputText>
+                                    <h:outputText value="Nombres:" />
+                                    <p:inputText value="#{resumenAboBean.selectedActor.uzatactorNombres}"></p:inputText>
+                                    <h:outputText value="Apellidos:" />
+                                    <p:inputText value="#{resumenAboBean.selectedActor.uzatactorApellidos}"></p:inputText>
+                                    <h:outputText value="Cedula:" />
+                                    <p:inputText value="#{resumenAboBean.selectedActor.uzatactorCedula}"></p:inputText>
                                     <h:outputText value="Dirección:" />
-                                    <p:inputText></p:inputText>
+                                    <p:inputTextarea value="#{resumenAboBean.selectedActor.uzatactorDireccion}"></p:inputTextarea>
+                                    <h:outputText value="Celular:" />
+                                    <p:inputText value="#{resumenAboBean.selectedActor.uzatactorMovil}"></p:inputText>
+                                    <h:outputText value="Institución:" />
+                                    <p:inputText value="#{resumenAboBean.selectedActor.uzatactorInstitutcion}"></p:inputText>
+                                    <p:commandButton value="Agregar" ></p:commandButton>
                                 </h:panelGrid>    
                             </p:panel>
                      </p:dialog>       

@@ -17,6 +17,7 @@ import javax.faces.event.ActionEvent;
 import org.primefaces.model.LazyDataModel;
 import procuradoria.map.Uzatcaso;
 import procuradoria.crud.ProcuradoriaMethods;
+import procuradoria.map.Uzatactor;
 
 /**
  *
@@ -29,27 +30,22 @@ public class ResumenAboBean implements Serializable{
     /**
      * Creates a new instance of ResumenProcuBean
      */
-    private String gotCaso;
+    private String idCaso;
+    private String cedulaActor;
     private String tipoActor;
             
     private LazyDataModel<Uzatcaso> lazyModelCasosAsignados;        
     
     private Uzatcaso selectedCaso;
-    
+    private Uzatactor selectedActor;
     
     public ResumenAboBean() {
         
         lazyModelCasosAsignados = new LazyCasoDataModel(new BigDecimal(2));
         selectedCaso = new Uzatcaso();
-        this.gotCaso = "no entro";
-    }
-
-    public Uzatcaso getSelectedCaso() {
-        return selectedCaso;
-    }
-
-    public void setSelectedCaso(Uzatcaso selectedCaso) {
-        this.selectedCaso = selectedCaso;
+        this.selectedActor = new Uzatactor();
+        this.idCaso = "vacio";
+        this.cedulaActor= "vacio";
     }
 
     private BigDecimal getUserSession(){
@@ -57,29 +53,17 @@ public class ResumenAboBean implements Serializable{
         return id;
     }
     
-    public void getCaso(String entro)
+    public void findCasobyid(String id)
     {
-        this.gotCaso = entro ;
-        this.selectedCaso = ProcuradoriaMethods.findCasobyId(new BigDecimal(gotCaso));
+        this.idCaso = id ;
+        this.selectedCaso = ProcuradoriaMethods.findCasobyId(new BigDecimal(idCaso));
     }
     
-    public LazyDataModel<Uzatcaso> getLazyModelCasosAsignados() {
-        return lazyModelCasosAsignados;
+    public void findActorbycedula()
+    {
+        this.selectedActor = ProcuradoriaMethods.findActorbyCedula(this.cedulaActor);
     }
-
-    public void setLazyModelCasosAsignados(LazyDataModel<Uzatcaso> lazyModelCasosAsignados) {
-        this.lazyModelCasosAsignados = lazyModelCasosAsignados;
-    }
-
-    public String getGotCaso() {
-        return gotCaso;
-    }
-
-    public void setGotCaso(String gotCaso) {
-        this.gotCaso = gotCaso;
-    }
-    
-    
+       
     public void buttonAction(ActionEvent actionEvent) {
         addMessage("Welcome to Primefaces!!");
     }
@@ -89,13 +73,57 @@ public class ResumenAboBean implements Serializable{
         FacesContext.getCurrentInstance().addMessage(null, message);
     }
 
+// <editor-fold defaultstate="collapsed" desc=" Getters and Setters ">
+    public Uzatcaso getSelectedCaso() {
+        return selectedCaso;
+    }
+    
+    public void setSelectedCaso(Uzatcaso selectedCaso) {
+        this.selectedCaso = selectedCaso;
+    }
+    
+    public LazyDataModel<Uzatcaso> getLazyModelCasosAsignados() {
+        return lazyModelCasosAsignados;
+    }
+    
+    public void setLazyModelCasosAsignados(LazyDataModel<Uzatcaso> lazyModelCasosAsignados) {
+        this.lazyModelCasosAsignados = lazyModelCasosAsignados;
+    }
+    
+    public String getIdCaso() {
+        return idCaso;
+    }
+    
+    public void setIdCaso(String idCaso) {
+        this.idCaso = idCaso;
+    }
+    
     public String getTipoActor() {
         return tipoActor;
     }
-
+    
     public void setTipoActor(String tipoActor) {
         this.tipoActor = tipoActor;
     }
+    
+    public Uzatactor getSelectedActor() {
+        return selectedActor;
+    }
+    
+    public void setSelectedActor(Uzatactor selectedActor) {
+        this.selectedActor = selectedActor;
+    }
+    
+    public String getCedulaActor() {
+        return cedulaActor;
+    }
+    
+    public void setCedulaActor(String cedulaActor) {
+        this.cedulaActor = cedulaActor;
+    }
+
+// </editor-fold>
+    
     
 }
 
