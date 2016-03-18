@@ -11,6 +11,7 @@
         <ui:composition template="./menu_abo.xhtml">
 
             <ui:define name="content">
+                <p:growl id="growl" showDetail="true" life="3000" /> 
                 <h:form id="form">
 
                     <p:panel id="CasoDetails" >
@@ -193,7 +194,7 @@
 
                     <!--NUEVA FASE-->
 
-                    <p:dialog id="dlgNuevaFase" widgetVar="dlgNewFase" header="Nueva Fase" minHeight="40" modal="true" visible="false" 
+                    <p:dialog id="dlgNuevaFase" widgetVar="dlgNewFase" header="Nueva Fase" minHeight="40" modal="true"
                               showEffect="fade" hideEffect="fade" resizable="false">
 
                         <h:panelGrid columns="2" cellpadding="6">
