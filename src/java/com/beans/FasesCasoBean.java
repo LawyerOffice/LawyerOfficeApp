@@ -45,27 +45,27 @@ public class FasesCasoBean {
     private ArrayList<Uzatcomt> ListComtFasesById;
     private ArrayList<Uzatdocs> ListDocsFasesById;
     private ArrayList<Uzatcita> ListCitaFasesById;
-    
+
     private Uzatcaso SelectedCaso;
     private BigDecimal CodCaso;
-    
+
     private Uzatfase SelectedFase;
     private Boolean StateFaseDisabled;
-    
+
     private Uzatfase NewFase;
     private Uzatcomt NewComentario;
-    
+
     private Uzatdocs NewDocumento;
     private String DirecURLDoc;
     private UploadedFile file;
-    
+
     private Uzatcita NewCita;
     private Date FechaCita;
 
     public FasesCasoBean() {
         CodCaso = this.getCasoIdAttribute();
-        FechaCita= new Date();
-        DirecURLDoc="";
+        FechaCita = new Date();
+        DirecURLDoc = "";
         this.setSelectedCaso(ProcuradoriaMethods.CasoByIdCaso(CodCaso));
         this.setStateFaseDisabled(false);
         this.setSelectedFase(new Uzatfase());
@@ -80,16 +80,18 @@ public class FasesCasoBean {
         this.init();
     }
 
-    private String getUserAttribute() {
+    private BigDecimal getUserAttribute() {
         String UserAttribute = "";
+        BigDecimal id = new BigDecimal(BigInteger.ZERO);
         FacesContext facesContext = FacesContext.getCurrentInstance();
         HttpSession session = (HttpSession) facesContext.getExternalContext().getSession(false);
         if (session == null) {
         } else {
             Object IdBanner = session.getAttribute("uzatfuncionarioId");
             UserAttribute = IdBanner.toString();
+            id = new BigDecimal(UserAttribute);
         }
-        return UserAttribute;
+        return id;
     }
 
     private BigDecimal getCasoIdAttribute() {
@@ -113,15 +115,15 @@ public class FasesCasoBean {
     private void initComentarios() {
         this.ListComtFasesById = ProcuradoriaMethods.GetFasesComentByIdCasoAndIdFase(SelectedCaso.getUzatcasoId(), SelectedFase.getId().getUzatfaseId());
     }
-    
+
     private void initCitas() {
         this.ListCitaFasesById = ProcuradoriaMethods.FindCitasbyCaso_Fase(SelectedCaso.getUzatcasoId(), SelectedFase.getId().getUzatfaseId());
     }
-    
+
     private void initDocumentos() {
         this.ListDocsFasesById = ProcuradoriaMethods.FindDocsbyCaso_Fase(SelectedCaso.getUzatcasoId(), SelectedFase.getId().getUzatfaseId());
     }
-    
+
     public void onRowSelectCmt(SelectEvent event) {
         this.SelectedFase = (Uzatfase) event.getObject();
     }
@@ -228,7 +230,7 @@ public class FasesCasoBean {
 
     public void onTabChange(TabChangeEvent event) {
         if (event.getTab().getId().equals("TabDocumentos")) {
-            
+
         } else {
             if (event.getTab().getId().equals("TabCitas")) {
                 this.initCitas();
@@ -274,6 +276,7 @@ public class FasesCasoBean {
         this.NewComentario.getId().setUzatcasoId(SelectedCaso.getUzatcasoId());
         this.NewComentario.getId().setUzatfaseId(SelectedFase.getId().getUzatfaseId());
         this.NewComentario.setUzatcomtFecha(FechaHoraActual());
+        this.NewComentario.setUzatfuncionarioId(this.getUserAttribute());
 
         Boolean exito = ProcuradoriaMethods.InsertComentario(this.NewComentario);
         if (exito) {
@@ -281,12 +284,13 @@ public class FasesCasoBean {
             this.initComentarios();
         }
     }
-    
-        public void genratedCita(ActionEvent event) {
+
+    public void genratedCita(ActionEvent event) {
         this.NewCita.getId().setUzatcasoId(SelectedCaso.getUzatcasoId());
         this.NewCita.getId().setUzatfaseId(SelectedFase.getId().getUzatfaseId());
         this.NewCita.setUzatcitaFlag(BigDecimal.ONE);
         this.NewCita.setUzatcitaFecha(getFechaCita().toString());
+        this.NewCita.setUzatfuncionarioId(this.getUserAttribute());
 
         Boolean exito = ProcuradoriaMethods.InsertCita(this.NewCita);
         if (exito) {
@@ -294,13 +298,14 @@ public class FasesCasoBean {
             this.initCitas();
         }
     }
-        
-        public void genratedDocumento(ActionEvent event) {
+
+    public void genratedDocumento(ActionEvent event) {
         this.NewDocumento.getId().setUzatcasoId(SelectedCaso.getUzatcasoId());
         this.NewDocumento.getId().setUzatfaseId(SelectedFase.getId().getUzatfaseId());
         this.NewDocumento.setUzatdocsFecha(FechaHoraActual());
+        this.NewDocumento.setUzatfuncionarioId(this.getUserAttribute());
 
-        Boolean exito = DocumentsPdf.CovertPdfToByteArray(NewDocumento,DirecURLDoc,"");
+        Boolean exito = DocumentsPdf.CovertPdfToByteArray(NewDocumento, DirecURLDoc, "");
         if (exito) {
             RequestContext.getCurrentInstance().execute("PF('dlgNewDocumentoMSG').show();");
             this.initDocumentos();
