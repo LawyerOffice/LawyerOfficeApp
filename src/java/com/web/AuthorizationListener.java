@@ -45,10 +45,8 @@ public class AuthorizationListener implements PhaseListener {
                 UserRol = UserRol.trim();
                 HttpServletRequest origRequest
                         = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-                String urlRequest = origRequest.getRequestURL().toString();
-                urlRequest = urlRequest.replace("http://localhost:8081/LawyerOfficeApp/", "");
-                urlRequest = urlRequest.replace("http://localhost:8080/LawyerOfficeApp/", "");
-                urlRequest = urlRequest.replace("http://localhost:8084/LawyerOfficeApp/", "");
+                String urlRequest = origRequest.getRequestURI().toString();
+                urlRequest = urlRequest.replace("/LawyerOfficeApp/", "");
 
                 if (currentUser != null && UserRol.equals("ABOGADO")
                         && !views_abo(urlRequest)) {
@@ -74,8 +72,8 @@ public class AuthorizationListener implements PhaseListener {
     public Boolean views_abo(String url) {
         Boolean exito = false;
         Views abo = new Views();
-        for(String view_abo : abo.getViews_abo()){
-            if(view_abo.equals(url)){
+        for (String view_abo : abo.getViews_abo()) {
+            if (view_abo.equals(url)) {
                 exito = true;
                 break;
             }
@@ -86,8 +84,8 @@ public class AuthorizationListener implements PhaseListener {
     public Boolean views_procu(String url) {
         Boolean exito = false;
         Views procu = new Views();
-        for(String view_procu : procu.getViews_procu()){
-            if(view_procu.equals(url)){
+        for (String view_procu : procu.getViews_procu()) {
+            if (view_procu.equals(url)) {
                 exito = true;
                 break;
             }
@@ -98,8 +96,8 @@ public class AuthorizationListener implements PhaseListener {
     public Boolean views_secretaria(String url) {
         Boolean exito = false;
         Views secre = new Views();
-        for(String view_secre : secre.getViews_secre()){
-            if(view_secre.equals(url)){
+        for (String view_secre : secre.getViews_secre()) {
+            if (view_secre.equals(url)) {
                 exito = true;
                 break;
             }
