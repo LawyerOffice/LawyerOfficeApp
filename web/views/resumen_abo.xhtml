@@ -47,7 +47,7 @@
                               modal="true" showEffect="fade" resizable="false" position="center center">
                             <h2> Editar Detalles del Caso</h2>
                             <p:panel id="panelFunc" header="Detalles del Caso" style="border-style: none !important">
-                                <p:panelGrid columns="4" style="border-style: none !important">
+                                <h:panelGrid columns="4" cellpadding="10">
 
                                     
                                     <h:outputText value="Numero de Causa:"/>
@@ -60,12 +60,12 @@
                                     <p:inputText value="#{resumenAboBean.selectedCaso.uzatcasoTipo}" />
 
 
-                                </p:panelGrid>  
+                                </h:panelGrid>  
  
                             </p:panel> 
                             <h:outputText value="                       "/>
                             <p:panel id="panelActor" header="Seleccione el Actor" style="border-style: none !important">
-                                <p:panelGrid columns="4" style="border-style: none !important">
+                                <h:panelGrid columns="4" cellpadding="10">
                                     <h:outputText value="Seleccione Actor:"/>
                                     <h:outputText value="#{resumenAboBean.selectedActor.uzatactorNombres} #{resumenAboBean.selectedActor.uzatactorApellidos}"/>
                                     <h:outputText value="Tipo de Actor:"/>
@@ -79,7 +79,7 @@
                                     <p:commandButton value="#{resumenAboBean.botonAgregarActor}" update=":principal:selectactor, :principal:selectactor" oncomplete="PF('wactor').show();" ></p:commandButton>
   
                                     
-                                </p:panelGrid>
+                                </h:panelGrid>
                                 
                             </p:panel>
                             
