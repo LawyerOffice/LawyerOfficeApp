@@ -9,6 +9,8 @@ package com.beans;
 import com.util.LazyCasoDataModel;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -18,6 +20,10 @@ import org.primefaces.model.LazyDataModel;
 import procuradoria.map.Uzatcaso;
 import procuradoria.crud.ProcuradoriaMethods;
 import procuradoria.map.Uzatactor;
+import procuradoria.map.UzatinvCa;
+import procuradoria.map.UzatinvCaId;
+import procuradoria.map.UzatinvFf;
+import procuradoria.map.UzatinvFfId;
 
 /**
  *
@@ -33,7 +39,8 @@ public class ResumenAboBean implements Serializable{
     private String idCaso;
     private String cedulaActor;
     private String tipoActor;
-            
+    private String cajaTextoSeleccionarActor="Por favor, Seleccione un actor";
+    private String botonAgregarActor = "Agregar Actor";         
     private LazyDataModel<Uzatcaso> lazyModelCasosAsignados;        
     
     private Uzatcaso selectedCaso;
@@ -45,7 +52,7 @@ public class ResumenAboBean implements Serializable{
         selectedCaso = new Uzatcaso();
         this.selectedActor = new Uzatactor();
         this.idCaso = "vacio";
-        this.cedulaActor= "vacio";
+        this.cedulaActor= "Ingrese número de cédula";
     }
 
     private BigDecimal getUserSession(){
@@ -61,9 +68,25 @@ public class ResumenAboBean implements Serializable{
     
     public void findActorbycedula()
     {
-        this.selectedActor = ProcuradoriaMethods.findActorbyCedula(this.cedulaActor);
+        if(!cedulaActor.equals("Ingrese número de cédula")){
+            this.selectedActor = ProcuradoriaMethods.findActorbyCedula(this.cedulaActor);
+            this.botonAgregarActor = "Ver Datos Actor";
+            this.cajaTextoSeleccionarActor = this.selectedActor.getUzatactorNombres() + " " + this.selectedActor.getUzatactorApellidos();
+        }
     }
-       
+    
+    public void botonActualizarActor()
+    {
+        updateActor();      
+        
+    }
+    
+    public void botonActualizarCaso()
+    {
+        updateCaso();
+        asignarActoraCaso();
+    }
+    
     public void buttonAction(ActionEvent actionEvent) {
         addMessage("Welcome to Primefaces!!");
     }
@@ -72,6 +95,8 @@ public class ResumenAboBean implements Serializable{
         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary,  null);
         FacesContext.getCurrentInstance().addMessage(null, message);
     }
+    
+    
 
 // <editor-fold defaultstate="collapsed" desc=" Getters and Setters ">
     public Uzatcaso getSelectedCaso() {
@@ -122,7 +147,66 @@ public class ResumenAboBean implements Serializable{
         this.cedulaActor = cedulaActor;
     }
 
+    public String getBotonAgregarActor() {
+        return botonAgregarActor;
+    }
+
+    public void setBotonAgregarActor(String botonAgregarActor) {
+        this.botonAgregarActor = botonAgregarActor;
+    }
+    
+    public String getCajaTextoSeleccionarActor() {
+        return cajaTextoSeleccionarActor;
+    }
+
+    public void setCajaTextoSeleccionarActor(String cajaTextoSeleccionarActor) {
+        this.cajaTextoSeleccionarActor = cajaTextoSeleccionarActor;
+    }
 // </editor-fold>
+
+    private void updateActor() {
+        if(ProcuradoriaMethods.UpdateActor(selectedActor))
+        {
+            addMessage("Se han actualizado los Datos de Actor");
+        }
+    }
+
+    private void updateCaso() {
+        if(ProcuradoriaMethods.UpdateCaso(selectedCaso))
+        {
+            addMessage("Se han actualizado los Datos del Caso");
+        }else
+        {
+            addMessage("Ha ocurrido un error");
+        }
+    }
+
+    private void asignarActoraCaso() {
+         UzatinvCa involucrado = new UzatinvCa();
+         UzatinvCaId idinvolucrado = new UzatinvCaId(this.selectedActor.getUzatactorId(), this.selectedCaso.getUzatcasoId());
+         involucrado.setId(idinvolucrado);
+         involucrado.setUzatinvTipo(tipoActor);
+         involucrado.setUzatinvolCa(getDate());
+         involucrado.setUzatcaso(selectedCaso);
+         involucrado.setUzatactor(selectedActor);
+         System.out.println("");
+         if(ProcuradoriaMethods.InsertInvolCa(involucrado))
+         {
+            addMessage("Se ha asignado corretamente el caso");
+         }else
+         {
+             addMessage("Ha ocurrido un error");
+         }
+    }
+
+    public static String getDate() {
+        SimpleDateFormat sdfDate = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");//dd/MM/yyyy
+        Date now = new Date();
+        String strDate = sdfDate.format(now);
+        return strDate;
+    }
+
+    
     
     
 }

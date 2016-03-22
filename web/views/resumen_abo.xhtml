@@ -48,8 +48,7 @@
                             <h2> Editar Detalles del Caso</h2>
                             <p:panel id="panelFunc" header="Detalles del Caso" style="border-style: none !important">
                                 <p:panelGrid columns="4" style="border-style: none !important">
-                                    <h:outputText value="Id Caso:" />  
-                                    <p:inputText value="#{resumenAboBean.idCaso}"/>
+
                                     
                                     <h:outputText value="Numero de Causa:"/>
                                     <p:inputText value="#{resumenAboBean.selectedCaso.uzatcasoNumcausa}" />
@@ -59,17 +58,16 @@
                                     <p:inputTextarea value="#{resumenAboBean.selectedCaso.uzatcasoDetalle}" />
                                     <h:outputText value="Tipo:"/>
                                     <p:inputText value="#{resumenAboBean.selectedCaso.uzatcasoTipo}" />
-                                    <h:outputText value="Fecha Creación:"/>
-                                    <p:inputText value="#{resumenAboBean.selectedCaso.uzatcasoFechaIn}" />
-                                    
+
+
                                 </p:panelGrid>  
  
                             </p:panel> 
-                            
+                            <h:outputText value="                       "/>
                             <p:panel id="panelActor" header="Seleccione el Actor" style="border-style: none !important">
                                 <p:panelGrid columns="4" style="border-style: none !important">
                                     <h:outputText value="Seleccione Actor:"/>
-				    <h:outputText value="                "/>
+                                    <h:outputText value="#{resumenAboBean.selectedActor.uzatactorNombres} #{resumenAboBean.selectedActor.uzatactorApellidos}"/>
                                     <h:outputText value="Tipo de Actor:"/>
                                     <p:selectOneMenu id="patter" required="false" value="#{resumenAboBean.tipoActor}">
                                         <f:selectItem itemLabel="Seleccionar" itemValue="" noSelectionOption="true"/>
@@ -77,13 +75,15 @@
                                         <f:selectItem itemLabel="Demandante" itemValue="2"/>
                                     </p:selectOneMenu>
                                     
-                                    <h:outputText value="Seleccione Actor:"/>
-                                    <p:commandButton value="Seleccionar" update=":principal:selectactor, :principal:selectactor" oncomplete="PF('wactor').show();" ></p:commandButton>
-
+                                    <h:outputText value="Seleccionar:"/>
+                                    <p:commandButton value="#{resumenAboBean.botonAgregarActor}" update=":principal:selectactor, :principal:selectactor" oncomplete="PF('wactor').show();" ></p:commandButton>
+  
                                     
                                 </p:panelGrid>
                                 
                             </p:panel>
+                            
+                            <p:commandButton value="Actualizar e Iniciar Caso" update=":principal:dataTableAsignados, :principal:dabogados  , growl" actionListener="#{resumenAboBean.botonActualizarCaso()}"></p:commandButton>
                     </p:dialog>
                     
                      <p:dialog id="selectactor" widgetVar="wactor" header="Seleccione Actor"  
@@ -112,7 +112,7 @@
                                     <p:inputText value="#{resumenAboBean.selectedActor.uzatactorMovil}"></p:inputText>
                                     <h:outputText value="Institución:" />
                                     <p:inputText value="#{resumenAboBean.selectedActor.uzatactorInstitutcion}"></p:inputText>
-                                    <p:commandButton value="Agregar" ></p:commandButton>
+                                    <p:commandButton value="Agregar" update=":principal:selectactor, :principal:panelActor , growl" actionListener="#{resumenAboBean.botonActualizarActor()}"></p:commandButton>
                                 </h:panelGrid>    
                             </p:panel>
                      </p:dialog>       
