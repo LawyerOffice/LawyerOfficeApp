@@ -1,14 +1,82 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
 
     <body>
 
         <ui:composition template="./menu_procu.xhtml">
 
             <ui:define name="content">
-                
+                <h:form id="principal">
+                    <p:growl id="growl" life="2000" />
+                    <p:panel id="panelNumerodeCausa" header="Buscar Caso por Numero de Causa" >
+                        <h:panelGrid columns="3" cellpadding="10">
+                            <h:outputText value="Número de Causa" />
+                            <p:inputText value="#{reasignarCasoBean.numCausa}"/>  
+                            <p:commandButton value="Buscar" update=":principal:panelDatosCaso" actionListener="#{reasignarCasoBean.cargarCaso()}"></p:commandButton>
+
+                        </h:panelGrid>  
+                    </p:panel>
+
+                    <p:panel id="panelDatosCaso" header="Detalles del Caso" >
+                        <h:panelGrid columns="2" cellpadding="10">
+                            <h:outputText value="Numero de Causa:"/>
+                            <h:outputText value="#{reasignarCasoBean.selectedCaso.uzatcasoNumcausa}" />
+                            <h:outputText value="Motivo:"/>
+                            <h:outputText value="#{reasignarCasoBean.selectedCaso.uzatcasoMotivo}" />
+                            <h:outputText value="Detalle:"/>
+                            <h:inputTextarea disabled="true" value="#{reasignarCasoBean.selectedCaso.uzatcasoDetalle}" />
+                            <h:outputText value="Tipo:"/>
+                            <h:outputText value="#{reasignarCasoBean.selectedCaso.uzatcasoTipo}" /> 
+                            <h:outputText value="Funcionario Asignado:"/>
+                            <h:outputText value="#{reasignarCasoBean.asignold.uzatfunci.uzatfuncionarioNombres} #{reasignarCasoBean.asignold.uzatfunci.uzatfuncionarioApellidos}" /> 
+
+                            <p:commandButton value="Reasignar Caso" oncomplete="PF('wabo').show();" ></p:commandButton>
+
+                        </h:panelGrid>  
+                    </p:panel>
+                    
+                    
+                    <p:dialog id="reasignarabo" widgetVar="wabo" header="Seleccione Nuevo Abogado"  
+                               modal="true" showEffect="fade" resizable="false" position="center center">
+                            <h2> Asignar Abogado</h2>
+                            
+                            <p:panel id="panelCedulaAbogado" header="Ingrese Numero de Cedula de Abogado" >
+                                <h:panelGrid columns="3" cellpadding="10">
+                                    <h:outputText value="Cedula:" />  
+                                    <p:inputText value="#{reasignarCasoBean.cedulaAbo}"/>
+                                    <p:commandButton value="Buscar" actionListener="#{reasignarCasoBean.findAbobyCedula()}" update=":principal:panelDatosAbo"></p:commandButton>
+                                </h:panelGrid>    
+                            </p:panel>
+                            
+                            <p:panel id="panelDatosAbo" header="Detalles Abogado" >
+                                <h:panelGrid columns="2" cellpadding="10">
+                                    <h:outputText value="Nombres:" />
+                                    <h:outputText value="#{reasignarCasoBean.nuevofunci.uzatfuncionarioNombres}"/>
+                                    <h:outputText value="Apellidos:" />
+                                    <h:outputText value="#{reasignarCasoBean.nuevofunci.uzatfuncionarioApellidos}"/>
+                                    <h:outputText value="Cedula:" />
+                                    <h:outputText value="#{reasignarCasoBean.nuevofunci.uzatfuncionarioCedula}"/>
+                                    <h:outputText value="ID Banner:" />
+                                    <h:outputText value="#{reasignarCasoBean.nuevofunci.uzatfuncionarioIdbanner}"/>
+                                    <h:outputText value="e-mail:" />
+                                    <h:outputText value="#{reasignarCasoBean.nuevofunci.uzatfuncionarioEmail}"/>
+                                    <h:outputText value="Celular:" />
+                                    <h:outputText value="#{reasignarCasoBean.nuevofunci.uzatfuncionarioMovil}"/>
+                                    
+                                    <h:outputText value=" " />
+                                    <h:outputText value=" " />
+                                    <h:outputText value="Motivo:" />
+                                    <p:inputTextarea value="#{reasignarCasoBean.motivo}"></p:inputTextarea>
+                                    
+                                    <p:commandButton value="Reasignar Caso" update=":principal:reasignarabo, :principal:panelDatosCaso, growl" actionListener="#{reasignarCasoBean.asignarcaso()}"></p:commandButton>
+                                </h:panelGrid>    
+                            </p:panel>
+                     </p:dialog>
+               </h:form>
             </ui:define>
 
         </ui:composition>
