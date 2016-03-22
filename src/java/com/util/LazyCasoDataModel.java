@@ -24,6 +24,7 @@ public class LazyCasoDataModel extends LazyDataModel<Uzatcaso> {
 
     private List<Uzatcaso> datasource;
     private BigDecimal Flag;
+    private BigDecimal uzatfuncionarioId;
 
     //TOMAR EN CUENTA EL CONSTRUCTOR
     public LazyCasoDataModel(List<Uzatcaso> datasource) {
@@ -32,7 +33,13 @@ public class LazyCasoDataModel extends LazyDataModel<Uzatcaso> {
 
     public LazyCasoDataModel(BigDecimal Flag) {
         this.datasource = new ArrayList<Uzatcaso>();
-        this.Flag=Flag;
+        this.Flag = Flag;
+    }
+
+    public LazyCasoDataModel(BigDecimal uzatfuncionarioId, BigDecimal Flag) {
+        this.datasource = new ArrayList<Uzatcaso>();
+        this.Flag = Flag;
+        this.uzatfuncionarioId = uzatfuncionarioId;
     }
 
     @Override
@@ -54,8 +61,12 @@ public class LazyCasoDataModel extends LazyDataModel<Uzatcaso> {
     @Override
     public List<Uzatcaso> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String, Object> filters) {
         List<Uzatcaso> data = new ArrayList<Uzatcaso>();
-
-        datasource = ProcuradoriaMethods.FindCasosLazy(Flag, first, pageSize);
+        
+        if(Flag != null && uzatfuncionarioId != null){
+            datasource = ProcuradoriaMethods.FindCasosLazy(uzatfuncionarioId, Flag, first, pageSize);
+        }else if(Flag != null){
+            datasource = ProcuradoriaMethods.FindCasosLazy(Flag, first, pageSize);
+        }
 
         //filter
         for (Uzatcaso caso : datasource) {

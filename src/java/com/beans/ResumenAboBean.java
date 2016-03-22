@@ -9,6 +9,7 @@ package com.beans;
 import com.util.LazyCasoDataModel;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.faces.application.FacesMessage;
@@ -16,6 +17,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import javax.servlet.http.HttpSession;
 import org.primefaces.model.LazyDataModel;
 import procuradoria.map.Uzatcaso;
 import procuradoria.crud.ProcuradoriaMethods;
@@ -48,15 +50,24 @@ public class ResumenAboBean implements Serializable{
     
     public ResumenAboBean() {
         
-        lazyModelCasosAsignados = new LazyCasoDataModel(new BigDecimal(2));
+        lazyModelCasosAsignados = new LazyCasoDataModel(this.getUserAttribute(), new BigDecimal(2));
         selectedCaso = new Uzatcaso();
         this.selectedActor = new Uzatactor();
         this.idCaso = "vacio";
         this.cedulaActor= "Ingrese número de cédula";
     }
 
-    private BigDecimal getUserSession(){
-        BigDecimal id = new BigDecimal(112);
+    private BigDecimal getUserAttribute() {
+        String UserAttribute = "";
+        BigDecimal id = new BigDecimal(BigInteger.ZERO);
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        HttpSession session = (HttpSession) facesContext.getExternalContext().getSession(false);
+        if (session == null) {
+        } else {
+            Object IdBanner = session.getAttribute("uzatfuncionarioId");
+            UserAttribute = IdBanner.toString();
+            id = new BigDecimal(UserAttribute);
+        }
         return id;
     }
     
