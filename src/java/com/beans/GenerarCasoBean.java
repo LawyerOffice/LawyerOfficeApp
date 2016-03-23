@@ -9,6 +9,7 @@ package com.beans;
 import banner.crud.BannerMethos;
 import banner.map.PersonaBanner;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -18,6 +19,7 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.model.SelectItem;
+import javax.servlet.http.HttpSession;
 import procuradoria.crud.ProcuradoriaMethods;
 import procuradoria.map.Uzatasign;
 import procuradoria.map.UzatasignId;
@@ -69,7 +71,7 @@ public class GenerarCasoBean {
         
         newCaso = new Uzatcaso();
         newFuncionario = new Uzatfunci();
-        idAsignador = getAsignadorSesion();
+        idAsignador = getUserAttribute();
         newJuzgado = new Uzatjudi();
         
         this.loadlistMaterias();
@@ -180,9 +182,19 @@ public class GenerarCasoBean {
     
     
     //Obtener el funcionario que en ese momento esta asignando
-    public BigDecimal getAsignadorSesion()
-    {
-        return new BigDecimal(122);
+    
+    private BigDecimal getUserAttribute() {
+        String UserAttribute = "";
+        BigDecimal id = new BigDecimal(BigInteger.ZERO);
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        HttpSession session = (HttpSession) facesContext.getExternalContext().getSession(false);
+        if (session == null) {
+        } else {
+            Object IdBanner = session.getAttribute("uzatfuncionarioId");
+            UserAttribute = IdBanner.toString();
+            id = new BigDecimal(UserAttribute);
+        }
+        return id;
     }
     
     public void grabarFuncionarios()
@@ -340,9 +352,6 @@ public class GenerarCasoBean {
         this.tipoCaso = tipoCaso;
     }
     
-    
-// </editor-fold>
-
     public String getMotivo() {
         return motivo;
     }
@@ -350,6 +359,10 @@ public class GenerarCasoBean {
     public void setMotivo(String motivo) {
         this.motivo = motivo;
     }
+    
+// </editor-fold>
+
+    
 
 
 }
