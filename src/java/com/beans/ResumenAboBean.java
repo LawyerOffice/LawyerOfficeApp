@@ -6,6 +6,8 @@
 
 package com.beans;
 
+import banner.crud.BannerMethos;
+import banner.map.PersonaBanner;
 import com.util.LazyCasoDataModel;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -43,7 +45,8 @@ public class ResumenAboBean implements Serializable{
     private String tipoActor;
     private String cajaTextoSeleccionarActor="Por favor, Seleccione un actor";
     private String botonAgregarActor = "Agregar Actor";         
-    private LazyDataModel<Uzatcaso> lazyModelCasosAsignados;        
+    private LazyDataModel<Uzatcaso> lazyModelCasosAsignados;   
+    private String idocedula;
     
     private Uzatcaso selectedCaso;
     private Uzatactor selectedActor;
@@ -54,6 +57,7 @@ public class ResumenAboBean implements Serializable{
         selectedCaso = new Uzatcaso();
         this.selectedActor = new Uzatactor();
         this.idCaso = "vacio";
+        this.idocedula = "vacio";
         this.cedulaActor= "Ingrese número de cédula";
     }
 
@@ -80,7 +84,8 @@ public class ResumenAboBean implements Serializable{
     public void findActorbycedula()
     {
         if(!cedulaActor.equals("Ingrese número de cédula")){
-            this.selectedActor = ProcuradoriaMethods.findActorbyCedula(this.cedulaActor);
+            ValidateFuncionario(cedulaActor);
+            System.out.println(this.selectedActor.getUzatactorNombres());
             this.botonAgregarActor = "Ver Datos Actor";
             this.cajaTextoSeleccionarActor = this.selectedActor.getUzatactorNombres() + " " + this.selectedActor.getUzatactorApellidos();
         }
@@ -94,6 +99,7 @@ public class ResumenAboBean implements Serializable{
     
     public void botonActualizarCaso()
     {
+        
         updateCaso();
         asignarActoraCaso();
     }
@@ -173,6 +179,16 @@ public class ResumenAboBean implements Serializable{
     public void setCajaTextoSeleccionarActor(String cajaTextoSeleccionarActor) {
         this.cajaTextoSeleccionarActor = cajaTextoSeleccionarActor;
     }
+
+    public String getIdocedula() {
+        return idocedula;
+    }
+
+    public void setIdocedula(String idocedula) {
+        this.idocedula = idocedula;
+    }
+    
+    
 // </editor-fold>
 
     private void updateActor() {
@@ -183,6 +199,8 @@ public class ResumenAboBean implements Serializable{
     }
 
     private void updateCaso() {
+        this.selectedCaso.setUzatcasoFlag(new BigDecimal(1));
+        
         if(ProcuradoriaMethods.UpdateCaso(selectedCaso))
         {
             addMessage("Se han actualizado los Datos del Caso");
@@ -218,6 +236,70 @@ public class ResumenAboBean implements Serializable{
     }
 
     
+    //Busqueda de actor en banner
+    
+    private Boolean ValidateFuncionario(String claveFuncionario) {
+        Boolean exito = false;
+        PersonaBanner find = null;
+        String mdatoCli = claveFuncionario.trim();
+        claveFuncionario = mdatoCli.toUpperCase();
+        if (!findFuncionarioProcuaradoria(claveFuncionario)) {
+                if(idocedula.equals("0")){
+                    find = BannerMethos.FindPersonBannerByCedula(claveFuncionario);
+                }else if(idocedula.equals("1"))
+                {
+                    find = BannerMethos.FindPersonBannerByIdBanner(claveFuncionario);
+                    this.selectedActor = ProcuradoriaMethods.findActorbyCedula(find.getCedula());
+                    if(this.selectedActor != null)
+                    {
+                        exito = true;
+                        return exito;
+                    }
+                }
+            
+            if (find != null) {
+                SendDataFuncionario(find);
+                addMessage("Se ha ingresado Actor en Base de Datos");
+                exito = true;
+            }
+            
+        }else
+        {
+            addMessage("Se ha encontrado Actor en Base de Datos");
+        }
+        return exito;
+    }
+
+    public Boolean findFuncionarioProcuaradoria(String claveFuncionario) {
+        Boolean exito = false;
+        this.selectedActor = ProcuradoriaMethods.findActorbyCedula(claveFuncionario);
+        if (this.selectedActor != null) {           
+            exito = true;
+        } else {
+            this.selectedActor = new Uzatactor();
+        }
+        return exito;
+    }
+
+    public void SendDataFuncionario(PersonaBanner Funcionario) {
+        this.selectedActor.setUzatactorApellidos(Funcionario.getApellidos());
+        this.selectedActor.setUzatactorCedula(Funcionario.getCedula());
+        this.selectedActor.setUzatactorEmail(Funcionario.getEmail());
+        this.selectedActor.setUzatactorNombres(Funcionario.getNombres());
+        this.selectedActor.setUzatactorInstitutcion(Funcionario.getIdBanner());
+        this.selectedActor.setUzatactorId(new BigDecimal(1111));
+        
+        
+        Boolean exito = ProcuradoriaMethods.insertActor(this.selectedActor);
+        if (exito) {
+            this.selectedActor = ProcuradoriaMethods.findActorbyCedula(this.selectedActor.getUzatactorCedula());
+        }
+        else
+        {
+            addMessage("A ocurrido un error, no se han Grabado los Datos en el Registro");
+        }
+        
+    }
     
     
 }

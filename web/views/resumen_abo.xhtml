@@ -14,8 +14,10 @@
                 <h:form id="principal">
                     <p:growl id="growl" life="2000" />
 
-                    <p:tab title="Casos Asignados">
+                    <p:tab title="Casos Nuevos Asignados">
+                        
                            <h:panelGrid columns="1" cellpadding="10">
+                               <h2>Se le han asignado los siguientes Casos</h2>
                                <p:dataTable id="dataTableAsignados" var="casoA" value="#{resumenAboBean.lazyModelCasosAsignados}" paginator="true" rows="5"
                                             paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
                                             emptyMessage="No se ha econtrado casos activos disponibles"
@@ -69,7 +71,7 @@
                                     <h:outputText value="Seleccione Actor:"/>
                                     <h:outputText value="#{resumenAboBean.selectedActor.uzatactorNombres} #{resumenAboBean.selectedActor.uzatactorApellidos}"/>
                                     <h:outputText value="Tipo de Actor:"/>
-                                    <p:selectOneMenu id="patter" required="false" value="#{resumenAboBean.tipoActor}">
+                                    <p:selectOneMenu id="patron" required="false" value="#{resumenAboBean.tipoActor}">
                                         <f:selectItem itemLabel="Seleccionar" itemValue="" noSelectionOption="true"/>
                                         <f:selectItem itemLabel="Demandado" itemValue="1"/>
                                         <f:selectItem itemLabel="Demandante" itemValue="2"/>
@@ -86,15 +88,22 @@
                             <p:commandButton value="Actualizar e Iniciar Caso" update=":principal:dataTableAsignados, :principal:dabogados  , growl" actionListener="#{resumenAboBean.botonActualizarCaso()}"></p:commandButton>
                     </p:dialog>
                     
-                     <p:dialog id="selectactor" widgetVar="wactor" header="Seleccione Actor"  
+                    <p:dialog id="selectactor" widgetVar="wactor" header="Seleccione Actor"  
                                modal="true" showEffect="fade" resizable="false" position="center center">
                             <h2> Asignar Actor</h2>
                             
-                            <p:panel id="panelCedulaActor" header="Ingrese Numero de Cedula" >
-                                <h:panelGrid columns="3" cellpadding="10">
-                                    <h:outputText value="Cedula:" />  
+                            <p:panel id="panelCedulaActor" header="Ingrese Numero de Cedula o ID UFA ESPE" >
+                                <h:panelGrid columns="4" cellpadding="10">
+                                    <h:outputText value="Seleccione:" />
+                                    <p:selectOneMenu id="patter" required="false" value="#{resumenAboBean.idocedula}">
+                                        <f:selectItem itemLabel="Seleccionar" itemValue="" noSelectionOption="true"/>
+                                        <f:selectItem itemLabel="Cédula" itemValue="0"/>
+                                        <f:selectItem itemLabel="ID UFA ESPE" itemValue="1"/>
+                                    </p:selectOneMenu>
                                     <p:inputText value="#{resumenAboBean.cedulaActor}"/>
                                     <p:commandButton value="Buscar" update=":principal:panelDatosActor" actionListener="#{resumenAboBean.findActorbycedula()}"></p:commandButton>
+                                    
+                                    
                                 </h:panelGrid>    
                             </p:panel>
                             
@@ -115,7 +124,7 @@
                                     <p:commandButton value="Agregar" update=":principal:selectactor, :principal:panelActor , growl" actionListener="#{resumenAboBean.botonActualizarActor()}"></p:commandButton>
                                 </h:panelGrid>    
                             </p:panel>
-                     </p:dialog>       
+                    </p:dialog>       
                 </h:form>
             </ui:define>
 
