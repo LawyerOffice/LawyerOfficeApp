@@ -23,11 +23,7 @@ import org.primefaces.event.ToggleEvent;
 import org.primefaces.model.UploadedFile;
 import org.primefaces.model.Visibility;
 import procuradoria.crud.ProcuradoriaMethods;
-import procuradoria.map.Uzatcaso;
-import procuradoria.map.Uzatcita;
-import procuradoria.map.Uzatcomt;
-import procuradoria.map.Uzatdocs;
-import procuradoria.map.Uzatfase;
+import procuradoria.map.*;
 import procuradoria.pdf.util.DocumentsPdf;
 
 /**
@@ -62,10 +58,13 @@ public class FasesCasoBean {
     private Uzatcita NewCita;
     private Date FechaCita;
 
+    private Boolean EnableNewFase;
+
     public FasesCasoBean() {
         CodCaso = this.getCasoIdAttribute();
         FechaCita = new Date();
         DirecURLDoc = "";
+        this.EnableNewFase = true;
         this.setSelectedCaso(ProcuradoriaMethods.CasoByIdCaso(CodCaso));
         this.setStateFaseDisabled(false);
         this.setSelectedFase(new Uzatfase());
@@ -245,6 +244,26 @@ public class FasesCasoBean {
         }
     }
 
+    public Boolean estadoFaseDisabled(Uzatfase fasesCaso) {
+        if (fasesCaso.getUzatfaseFlag() == BigDecimal.ZERO) {
+            setStateFaseDisabled(true);
+        } else {
+            setStateFaseDisabled(false);
+        }
+        return getStateFaseDisabled();
+    }
+
+    public Boolean disableFase(ActionEvent event, Uzatfase faseClose) {
+        Boolean disable = true;
+        faseClose.setUzatfaseFechaOut(FechaHoraActual());
+        faseClose.setUzatfaseFlag(BigDecimal.ZERO);
+        disable = ProcuradoriaMethods.UpdateFase(faseClose);
+        if (disable) {
+            disable = false;
+        }
+        return disable;
+    }
+
     public Boolean estadoFaseDisabled() {
         if (SelectedFase.getUzatfaseFlag() == BigDecimal.ZERO) {
             setStateFaseDisabled(true);
@@ -264,6 +283,7 @@ public class FasesCasoBean {
         this.NewFase.getId().setUzatcasoId(SelectedCaso.getUzatcasoId());
         this.NewFase.setUzatfaseFechaIn(FechaHoraActual());
         this.NewFase.setUzatfaseFlag(BigDecimal.ONE);
+        ///INSERTAR DATOS EN LA TABLA FF CUADO CRE AUNA FASE
 
         Boolean exito = ProcuradoriaMethods.InsertFase(this.NewFase);
         if (exito) {
@@ -280,7 +300,7 @@ public class FasesCasoBean {
 
         Boolean exito = ProcuradoriaMethods.InsertComentario(this.NewComentario);
         if (exito) {
-            RequestContext.getCurrentInstance().execute("PF('dlgNewComentarioMSG').show();");
+            //RequestContext.getCurrentInstance().execute("PF('dlgNewComentarioMSG').show();");
             this.initComentarios();
         }
     }
@@ -310,6 +330,14 @@ public class FasesCasoBean {
             RequestContext.getCurrentInstance().execute("PF('dlgNewDocumentoMSG').show();");
             this.initDocumentos();
         }
+    }
+
+    public Boolean getEnableNewFase() {
+        return EnableNewFase;
+    }
+
+    public void setEnableNewFase(Boolean EnableNewFase) {
+        this.EnableNewFase = EnableNewFase;
     }
 
 }
