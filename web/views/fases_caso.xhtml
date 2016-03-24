@@ -210,15 +210,18 @@
 
                             <h:outputLabel for="name" value="Nombre:"/>
                             <p:inputText id="name" value="#{fasesCasoBean.newFase.uzatfaseNombre}" style="width:170px"/>
-
-                            <h:outputLabel value="La Fase:"/>
-                            <h:outputText value="XXXXX"/>
                         </h:panelGrid>
 
 
                         <f:facet name="footer">
-                            <p:commandButton value="Cerrar Fase"/>
-                            <p:commandButton value="Crear Fase" id="btnConfirmarNewFase" style="float: right"
+                            <p:commandButton value="Cerrar Fase Anterior" 
+                                             id="btnCerrarFaseAteriror" 
+                                             update=":form:btnConfirmarNewFase , :form:btnCerrarFaseAteriror"
+                                             disabled="#{!fasesCasoBean.enableNewFase}"
+                                             actionListener="#{fasesCasoBean.closeFaseTrigger(event)}"/>
+                            <p:commandButton value="Crear Nueva Fase" 
+                                             id="btnConfirmarNewFase" 
+                                             style="float: right"
                                              update=":growl , :form"
                                              actionListener="#{fasesCasoBean.genratedFase(event)}"
                                              icon="ui-icon-check" disabled="#{fasesCasoBean.enableNewFase}"/> <!-- action ="" -->

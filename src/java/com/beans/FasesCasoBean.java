@@ -106,6 +106,10 @@ public class FasesCasoBean {
         }
         return id;
     }
+    
+    public void closeFaseTrigger(ActionEvent event){
+        this.EnableNewFase = false;
+    }
 
     private void init() {
         this.ListFases = ProcuradoriaMethods.listFasesByIdCaso(SelectedCaso.getUzatcasoId());
@@ -287,7 +291,7 @@ public class FasesCasoBean {
 
         Boolean exito = ProcuradoriaMethods.InsertFase(this.NewFase);
         if (exito) {
-            RequestContext.getCurrentInstance().execute("PF('dlgNewFaseMSG').show();");
+            //RequestContext.getCurrentInstance().execute("PF('dlgNewFaseMSG').show();");
             this.init();
         }
     }
