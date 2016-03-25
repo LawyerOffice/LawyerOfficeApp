@@ -264,6 +264,7 @@ public class FasesCasoBean {
         disable = ProcuradoriaMethods.UpdateFase(faseClose);
         if (disable) {
             disable = false;
+            this.EnableNewFase = false;
         }
         return disable;
     }
