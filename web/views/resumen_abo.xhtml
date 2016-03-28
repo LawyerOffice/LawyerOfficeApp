@@ -60,7 +60,24 @@
                                     <p:inputTextarea value="#{resumenAboBean.selectedCaso.uzatcasoDetalle}" />
                                     <h:outputText value="Tipo:"/>
                                     <p:inputText value="#{resumenAboBean.selectedCaso.uzatcasoTipo}" />
+                                    <h:outputText value="Materia:"/>
+                          
+                                    <p:selectOneMenu id="Materia" value="#{resumenAboBean.idMateria}">
+                                        <f:selectItem itemLabel="Seleccione Materia" noSelectionOption="true" />
+                                        <f:selectItems  value="#{resumenAboBean.itemsMaterias}"
+                                                         var="model" itemLabel="#{model.description}" 
+                                                         itemValue="#{model.value}" />
+                                        <p:ajax update="Judicatura"  listener="#{resumenAboBean.loadlistJudi()}" />
 
+                                     </p:selectOneMenu>
+
+                                    <h:outputText value="Judicatura:"/>                           
+                                    <p:selectOneMenu id="Judicatura" value="#{resumenAboBean.idJudicatura}">
+                                        <f:selectItem itemLabel="Seleccione Judicatura" noSelectionOption="true" />
+                                        <f:selectItems  value="#{resumenAboBean.itemsJudicaturas}"
+                                                        var="model2" itemLabel="#{model2.description}" 
+                                                        itemValue="#{model2.value}" />
+                                    </p:selectOneMenu>
 
                                 </h:panelGrid>  
  
