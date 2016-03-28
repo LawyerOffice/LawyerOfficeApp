@@ -6,6 +6,7 @@
 package com.beans;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -15,7 +16,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import javax.servlet.http.HttpSession;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.model.DefaultScheduleEvent;
 import org.primefaces.model.DefaultScheduleModel;
@@ -56,11 +59,38 @@ public class CalendarBean {
         this.ListCitas = ProcuradoriaMethods.GetCitasCalendar(StringToday());
 
         for (int i = 0; i < ListCitas.size(); i++) {
-            eventModel.addEvent(new DefaultScheduleEvent(ListCitas.get(i).getUzatfase().getUzatcaso().getUzatcasoNumcausa(),
-                    dateBegin(ListCitas.get(i).getUzatcitaFecha()),
-                    dateFinish(ListCitas.get(i).getUzatcitaFecha()), ListCitas.get(i).getId().getUzatcitaId().toString()));
+
+            DefaultScheduleEvent obj;
+
+            if (ListCitas.get(i).getUzatfuncionarioId().equals(this.getUserAttribute())) {
+                obj = new DefaultScheduleEvent(ListCitas.get(i).getUzatfase().getUzatcaso().getUzatcasoNumcausa(),
+                        dateBegin(ListCitas.get(i).getUzatcitaFecha()),
+                        dateFinish(ListCitas.get(i).getUzatcitaFecha()), "color");
+
+            } else {
+                obj = new DefaultScheduleEvent(ListCitas.get(i).getUzatfase().getUzatcaso().getUzatcasoNumcausa(),
+                        dateBegin(ListCitas.get(i).getUzatcitaFecha()),
+                        dateFinish(ListCitas.get(i).getUzatcitaFecha()));
+            }
+
+            obj.setDescription(ListCitas.get(i).getId().getUzatcitaId().toString());
+            eventModel.addEvent(obj);
         }
 
+    }
+
+    private BigDecimal getUserAttribute() {
+        String UserAttribute = "";
+        BigDecimal id = new BigDecimal(BigInteger.ZERO);
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        HttpSession session = (HttpSession) facesContext.getExternalContext().getSession(false);
+        if (session == null) {
+        } else {
+            Object IdBanner = session.getAttribute("uzatfuncionarioId");
+            UserAttribute = IdBanner.toString();
+            id = new BigDecimal(UserAttribute);
+        }
+        return id;
     }
 
     public Uzatcita getSelectedCita(BigDecimal uzatcitaId) {
@@ -135,7 +165,7 @@ public class CalendarBean {
 
     public void onEventSelect(SelectEvent selectEvent) {
         event = (ScheduleEvent) selectEvent.getObject();
-        String id = event.getStyleClass();
+        String id = event.getDescription();
         BigDecimal uzatcitaId = new BigDecimal(id);
         this.selectedCita = getSelectedCita(uzatcitaId);
 
