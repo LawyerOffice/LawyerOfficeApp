@@ -12,7 +12,8 @@
 
             <ui:define name="content">
                 <p:growl id="growl" showDetail="true" life="3000" /> 
-                <h:form id="form">
+                <h:form id="form_FC">
+                    <p:growl id="growl" showDetail="true" life="3000" /> 
 
                     <p:panel id="CasoDetails" >
 
@@ -44,7 +45,7 @@
                             <p:commandButton value="Nueva Fase" 
                                              style="float: right" 
                                              id="btnNewFase"
-                                             update=":form:pdgNuevafase"
+                                             update=":form_FC:pdgNuevafase"
                                              oncomplete="PF('dlgNewFase').show();"
                                              icon="ui-icon-disk"/>
                         </f:facet>
@@ -78,7 +79,7 @@
                                 </p:column>
 
                                 <p:rowExpansion >
-                                    <p:tabView dynamic="true" cache="true">
+                                    <p:tabView id="tabFasesCaso" dynamic="true" cache="true">
                                         <p:ajax event="tabChange" listener="#{fasesCasoBean.onTabChange}"/>
 
                                         <p:tab title="Comentarios" id="TabComentarios">
@@ -86,6 +87,7 @@
                                             <p:panelGrid  columns="1">
                                                 <p:commandButton value="Nuevo Comentario" 
                                                                  style="float: right" 
+                                                                 update=":form_FC:pdgNuevoCometario"
                                                                  disabled="#{fasesCasoBean.estadoFaseDisabled()}"
                                                                  oncomplete="PF('dlgNewComentario').show();"
                                                                  id="NewComent" icon="ui-icon-disk"/>
@@ -153,7 +155,7 @@
                                                 <p:commandButton value="Nueva Cita" 
                                                                  style="float: right" 
                                                                  disabled="#{fasesCasoBean.estadoFaseDisabled()}"
-                                                                 update=":form:pdgNuevaCita"
+                                                                 update=":form_FC:pdgNuevaCita"
                                                                  oncomplete="PF('dlgNewCita').show();"
                                                                  id="NewCita" icon="ui-icon-disk"/>
                                             </p:panelGrid>
@@ -187,7 +189,7 @@
                                     <p:commandButton id="btnBlockFase" 
                                                      icon="ui-icon-check" 
                                                      disabled="#{fasesCasoBean.estadoFaseDisabled(ComtFase)}"
-                                                     update=":growl , :form , :form:dtCaso"
+                                                     update=":growl , :form_FC , :form_FC:dtCaso"
                                                      actionListener="#{fasesCasoBean.disableFase(event,ComtFase)}">
                                     </p:commandButton>
                                 </p:column>
@@ -212,13 +214,13 @@
                         <f:facet name="footer">
                             <p:commandButton value="Cerrar Fase Anterior" 
                                              id="btnCerrarFaseAteriror" 
-                                             update=":form:btnConfirmarNewFase , :form:btnCerrarFaseAteriror"
+                                             update=":form_FC:btnConfirmarNewFase , :form_FC:btnCerrarFaseAteriror"
                                              disabled="#{!fasesCasoBean.enableNewFase}"
                                              actionListener="#{fasesCasoBean.closeFaseTrigger(event)}"/>
                             <p:commandButton value="Crear Nueva Fase" 
                                              id="btnConfirmarNewFase" 
                                              style="float: right"
-                                             update=":growl , :form"
+                                             update=":growl , :form_FC:dtCaso , :form_FC:dlgNuevaFase"
                                              actionListener="#{fasesCasoBean.genratedFase(event)}"
                                              icon="ui-icon-check" disabled="#{fasesCasoBean.enableNewFase}"/>
                         </f:facet> 
@@ -244,28 +246,54 @@
                         <f:facet name="footer">
                             <p:commandButton value="Añadir" 
                                              id="btnGuardarCoemtario"
-                                             update=":growl , :form"
+                                             update=":growl , :form_FC:dtCaso , :form_FC:dlgNuevoComentario"
                                              actionListener="#{fasesCasoBean.genratedComentario(event)}"
                                              icon="ui-icon-check"/>
                         </f:facet> 
 
                     </p:dialog>
-                    
+
+                    <p:dialog id="dlgNuevoDocumento" widgetVar="dlgNewDocumento" header="Nuevo Documento" minHeight="40" modal="true"
+                              showEffect="fade" hideEffect="fade" resizable="false">
+
+                        <h:panelGrid columns="2" cellpadding="6">
+                            <h:outputLabel value="Fecha de creación:"/>
+                            <p:clock id="patter4" pattern="dd/MM/yyyy HH:mm:ss"/>
+
+                            <h:outputLabel value="Casilla:"/>
+                            <p:inputText id="casilla" value="#{fasesCasoBean.newDocumento.uzatdocsCasilla}"/>
+
+                            <h:outputLabel value="Compromiso:"/>
+                            <p:inputText id="compromiso" value="#{fasesCasoBean.newDocumento.uzatdocsCompromiso}"/>
+
+                            <h:outputLabel for="doc" value="Cargar Documento:"/>
+
+                        </h:panelGrid>
+
+                        <f:facet name="footer">
+                            <p:commandButton value="Añadir" id="btnConfirmarNewDocumento"
+                                             update=":growl , :form_FC:dtCaso , :form_FC:dlgNuevoDocumento"
+                                             actionListener="#{fasesCasoBean.genratedDocumento(event)}"
+                                             icon="ui-icon-check"/>
+                        </f:facet> 
+
+                    </p:dialog>
+
                     <p:dialog id="dlgNuevaCita" widgetVar="dlgNewCita" header="Nueva Cita" minHeight="40" modal="true" 
                               showEffect="fade" hideEffect="fade" resizable="false">
 
                         <h:panelGrid id="pdgNuevaCita" columns="2" cellpadding="6">
-                            <p:outputLabel  value="Fecha de agenda:" />
-                            <p:calendar id="datetime" value="#{fasesCasoBean.fechaCita}" pattern="dd/MM/yyyy HH:mm:ss" mindate="4/1/15" maxdate="3/17/16" />
+                            <h:outputLabel  value="Fecha de agenda:" />
+                            <p:calendar id="datetimeCita" value="#{fasesCasoBean.newCita.uzatcitaFecha}" pattern="dd/MM/yyyy HH:mm:ss" />
 
                             <h:outputLabel  value="Descripción:"/>
-                            <p:inputText required="true" value="#{fasesCasoBean.newCita.uzatcitaSala}"/>
+                            <p:inputText value="#{fasesCasoBean.newCita.uzatcitaSala}"/>
                         </h:panelGrid>
 
                         <f:facet name="footer">
-                            <p:commandButton value="Crear" 
+                            <p:commandButton value="Añadir" 
                                              id="btnConfirmarNewCita" 
-                                             update=":growl , :form"
+                                             update=":growl , :form_FC:dtCaso , :form_FC:pdgNuevaCita"
                                              actionListener="#{fasesCasoBean.genratedCita(event)}"
                                              icon="ui-icon-check"/>
                         </f:facet> 

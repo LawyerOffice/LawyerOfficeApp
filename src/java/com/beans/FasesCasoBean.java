@@ -63,11 +63,11 @@ public class FasesCasoBean {
     private Boolean EnableNewFase;
 
     public FasesCasoBean() {
-        CodCaso = this.getCasoIdAttribute();
-        FechaCita = new Date();
-        DirecURLDoc = "";
+        this.CodCaso = this.getCasoIdAttribute();
+        this.FechaCita = new Date();
+        this.DirecURLDoc = "";
         this.EnableNewFase = true;
-        this.setSelectedCaso(ProcuradoriaMethods.CasoByIdCaso(CodCaso));
+        this.setSelectedCaso(ProcuradoriaMethods.CasoByIdCaso(this.CodCaso));
         this.setStateFaseDisabled(false);
         this.setSelectedFase(new Uzatfase());
         this.setNewFase(new Uzatfase());
