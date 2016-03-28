@@ -46,7 +46,7 @@
                                              id="btnNewFase"
                                              update=":form:pdgNuevafase"
                                              oncomplete="PF('dlgNewFase').show();"
-                                             icon="ui-icon-disk" title="Nuevo" />
+                                             icon="ui-icon-disk"/>
                         </f:facet>
 
                         <div align="center">
@@ -88,8 +88,7 @@
                                                                  style="float: right" 
                                                                  disabled="#{fasesCasoBean.estadoFaseDisabled()}"
                                                                  oncomplete="PF('dlgNewComentario').show();"
-                                                                 id="NewComent" icon="ui-icon-disk" 
-                                                                 title="Nuevo" />
+                                                                 id="NewComent" icon="ui-icon-disk"/>
 
                                             </p:panelGrid>
 
@@ -118,8 +117,7 @@
                                                                  style="float: right" 
                                                                  disabled="#{fasesCasoBean.estadoFaseDisabled()}"
                                                                  oncomplete="PF('dlgNewDocumento').show();" 
-                                                                 id="NewDoc" icon="ui-icon-disk" 
-                                                                 title="Nuevo" />
+                                                                 id="NewDoc" icon="ui-icon-disk"/>
                                             </p:panelGrid>
 
                                             <div align="center">
@@ -155,9 +153,9 @@
                                                 <p:commandButton value="Nueva Cita" 
                                                                  style="float: right" 
                                                                  disabled="#{fasesCasoBean.estadoFaseDisabled()}"
+                                                                 update=":form:pdgNuevaCita"
                                                                  oncomplete="PF('dlgNewCita').show();"
-                                                                 id="NewCita" icon="ui-icon-disk" 
-                                                                 title="Nuevo" />
+                                                                 id="NewCita" icon="ui-icon-disk"/>
                                             </p:panelGrid>
 
                                             <div align="center">
@@ -199,14 +197,12 @@
                         </div>
                     </p:panel>
 
-                    <!--NUEVA FASE-->
-
                     <p:dialog id="dlgNuevaFase" widgetVar="dlgNewFase" header="Nueva Fase" minHeight="40" modal="true"
                               showEffect="fade" hideEffect="fade" resizable="false">
 
                         <h:panelGrid id="pdgNuevafase" columns="2" cellpadding="6">
                             <h:outputLabel for="patter" value="Fecha de creación:"/>
-                            <p:clock id="patter" pattern="dd/MM/yyyy HH:mm:ss"/>
+                            <p:clock id="patterFase" pattern="dd/MM/yyyy HH:mm:ss"/>
 
                             <h:outputLabel for="name" value="Nombre:"/>
                             <p:inputText id="name" value="#{fasesCasoBean.newFase.uzatfaseNombre}" style="width:170px"/>
@@ -224,7 +220,54 @@
                                              style="float: right"
                                              update=":growl , :form"
                                              actionListener="#{fasesCasoBean.genratedFase(event)}"
-                                             icon="ui-icon-check" disabled="#{fasesCasoBean.enableNewFase}"/> <!-- action ="" -->
+                                             icon="ui-icon-check" disabled="#{fasesCasoBean.enableNewFase}"/>
+                        </f:facet> 
+
+                    </p:dialog>
+
+                    <p:dialog id="dlgNuevoComentario" widgetVar="dlgNewComentario" header="Nuevo Comentario" minHeight="40" modal="true"
+                              showEffect="fade" hideEffect="fade" resizable="false">
+
+                        <h:panelGrid id="pdgNuevoCometario" columns="1" cellpadding="6">
+                            <h:outputLabel value="Fecha de creación:"/>
+                            <p:clock id="patterCometario" pattern="dd/MM/yyyy HH:mm:ss"/>
+                            <p:inputTextarea rows="5" cols="30" 
+                                             counter="display" 
+                                             maxlength="499" 
+                                             counterTemplate="{0} characters remaining." 
+                                             autoResize="false"
+                                             value="#{fasesCasoBean.newComentario.uzatcomtDescripcion}"/>
+                            <h:outputText id="display" />
+                        </h:panelGrid>
+
+
+                        <f:facet name="footer">
+                            <p:commandButton value="Añadir" 
+                                             id="btnGuardarCoemtario"
+                                             update=":growl , :form"
+                                             actionListener="#{fasesCasoBean.genratedComentario(event)}"
+                                             icon="ui-icon-check"/>
+                        </f:facet> 
+
+                    </p:dialog>
+                    
+                    <p:dialog id="dlgNuevaCita" widgetVar="dlgNewCita" header="Nueva Cita" minHeight="40" modal="true" 
+                              showEffect="fade" hideEffect="fade" resizable="false">
+
+                        <h:panelGrid id="pdgNuevaCita" columns="2" cellpadding="6">
+                            <p:outputLabel  value="Fecha de agenda:" />
+                            <p:calendar id="datetime" value="#{fasesCasoBean.fechaCita}" pattern="dd/MM/yyyy HH:mm:ss" mindate="4/1/15" maxdate="3/17/16" />
+
+                            <h:outputLabel  value="Descripción:"/>
+                            <p:inputText required="true" value="#{fasesCasoBean.newCita.uzatcitaSala}"/>
+                        </h:panelGrid>
+
+                        <f:facet name="footer">
+                            <p:commandButton value="Crear" 
+                                             id="btnConfirmarNewCita" 
+                                             update=":growl , :form"
+                                             actionListener="#{fasesCasoBean.genratedCita(event)}"
+                                             icon="ui-icon-check"/>
                         </f:facet> 
 
                     </p:dialog>
