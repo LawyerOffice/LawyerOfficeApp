@@ -5,7 +5,6 @@
  */
 package com.beans;
 
-import com.sun.org.apache.bcel.internal.generic.AALOAD;
 import com.util.LazyCasoDataModel;
 import java.math.BigDecimal;
 import java.util.ArrayList;
