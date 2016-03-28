@@ -99,43 +99,52 @@
                         <h:panelGrid columns="1" cellpadding="8">
 
                             <p:dataTable var="ComtFase" 
-                                         value="#{consultarCasosBean.listComtFases}" 
+                                         value="#{consultarCasosBean.listFases}" 
                                          rows="5" paginator="true"
                                          widgetVar="casoTable" 
+                                         sortBy="#{ComtFase.uzatfaseNumfase}"
                                          emptyMessage="No se han econtrado fases disponibles" 
                                          id="dtCaso">
                                 <!--<h:outputLabel value=""/>  Tomar encuenta siempre la varibale que se este manejando en cada tabla debido al javascript interno que maneja-->
                                 <f:facet name="header">
                                     FASES ACTUALES
                                 </f:facet>
+                                
+                                <p:ajax event="rowToggle" listener="#{consultarCasosBean.onRowToggle}"/>
 
                                 <p:column style="width:16px">
                                     <p:rowToggler />
                                 </p:column>
 
                                 <p:column headerText="Número">
-                                    <h:outputText value="#{ComtFase.uzatfase.uzatfaseNumfase}" />
+                                    <h:outputText value="#{ComtFase.uzatfaseNumfase}" />
                                 </p:column>
                                 <p:column headerText="Nombre">
-                                    <h:outputText value="#{ComtFase.uzatfase.uzatfaseNombre}" />
+                                    <h:outputText value="#{ComtFase.uzatfaseNombre}" />
                                 </p:column>
                                 <p:column headerText="Fecha Inicio">
-                                    <h:outputText value="#{ComtFase.uzatfase.uzatfaseFechaIn}" />
+                                    <h:outputText value="#{ComtFase.uzatfaseFechaIn}" />
                                 </p:column>
                                 <p:column headerText="Fecha Salida">
-                                    <h:outputText value="#{ComtFase.uzatfase.uzatfaseFechaOut}" />
+                                    <h:outputText value="#{ComtFase.uzatfaseFechaOut}" />
                                 </p:column>
 
                                 <p:rowExpansion>
-                                    <p:panelGrid  columns="2">
+                                    <div align="center">
+                                                <p:dataTable var="ComtById" id="ComtFaseId" 
+                                                             value="#{consultarCasosBean.listComtFasesById}"
+                                                             tableStyle="width:auto"
+                                                             emptyMessage="No se han encontrado comentarios disponibles.">
+                                                    <p:column headerText="Fecha">
+                                                        <h:outputText value="#{ComtById.uzatcomtFecha}" />
+                                                    </p:column>
 
-                                        <h:outputText value="Fecha" style="font-weight:bold"/>
-                                        <h:outputText value="Descripción" style="font-weight:bold"/>
+                                                    <p:column headerText="Descripción">
+                                                        <h:outputText value="#{ComtById.uzatcomtDescripcion}" />
+                                                    </p:column>
 
-                                        <h:outputText value="#{ComtFase.uzatcomtFecha}" />
-                                        <h:outputText value="#{ComtFase.uzatcomtDescripcion}" />
-
-                                    </p:panelGrid>
+                                                </p:dataTable>
+                                            </div>
                                 </p:rowExpansion>
 
                             </p:dataTable>

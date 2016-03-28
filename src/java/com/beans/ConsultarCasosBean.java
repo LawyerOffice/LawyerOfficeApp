@@ -5,18 +5,21 @@
  */
 package com.beans;
 
+import com.sun.org.apache.bcel.internal.generic.AALOAD;
 import com.util.LazyCasoDataModel;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import org.primefaces.event.SelectEvent;
+import org.primefaces.event.ToggleEvent;
 import org.primefaces.model.LazyDataModel;
+import org.primefaces.model.Visibility;
 import procuradoria.crud.ProcuradoriaMethods;
 import procuradoria.map.Uzatasign;
 import procuradoria.map.Uzatcaso;
 import procuradoria.map.Uzatcomt;
-import procuradoria.map.Uzatfunci;
+import procuradoria.map.Uzatfase;
 
 /**
  *
@@ -38,6 +41,11 @@ public class ConsultarCasosBean {
     private Uzatasign Asignar;
     
     private ArrayList<Uzatcomt> ListComtFases;
+    
+    private ArrayList<Uzatfase> ListFases;
+    private Uzatfase SelectedFase;
+    
+    private ArrayList<Uzatcomt> ListComtFasesById;
 
     public ConsultarCasosBean() {
         this.init();
@@ -47,9 +55,11 @@ public class ConsultarCasosBean {
         setLazyModelCasosActivos(new LazyCasoDataModel(BigDecimal.ONE));
         this.setCaso(new Uzatcaso());
         this.setSlectedCaso ( new Uzatcaso());
+        this.setSelectedFase ( new Uzatfase());
         this.setAsignar(new Uzatasign());
         this.setListCasos(new ArrayList<Uzatcaso>());
         this.setListComtFases(new ArrayList<Uzatcomt>());
+        this.setListFases(new ArrayList<Uzatfase>());
         //this.loadlistCasos();
     }
     
@@ -61,7 +71,7 @@ public class ConsultarCasosBean {
     public void onRowSelectCaso(SelectEvent event) {
         this.SlectedCaso = (Uzatcaso) event.getObject();
         this.Asignar =  ProcuradoriaMethods.GetActiveAbogadosByIdCaso(this.SlectedCaso.getUzatcasoId());
-        this.ListComtFases = ProcuradoriaMethods.GetFasesComentByIdCaso(this.SlectedCaso.getUzatcasoId());
+        this.ListFases = ProcuradoriaMethods.listFasesByIdCaso(this.SlectedCaso.getUzatcasoId());
     }
 
     public Uzatcaso getCaso() {
@@ -110,5 +120,36 @@ public class ConsultarCasosBean {
 
     public void setLazyModelCasosActivos(LazyDataModel<Uzatcaso> lazyModelCasosActivos) {
         this.lazyModelCasosActivos = lazyModelCasosActivos;
+    }
+
+    public ArrayList<Uzatfase> getListFases() {
+        return ListFases;
+    }
+
+    public void setListFases(ArrayList<Uzatfase> ListFases) {
+        this.ListFases = ListFases;
+    }
+
+    public Uzatfase getSelectedFase() {
+        return SelectedFase;
+    }
+
+    public void setSelectedFase(Uzatfase SelectedFase) {
+        this.SelectedFase = SelectedFase;
+    }
+
+    public ArrayList<Uzatcomt> getListComtFasesById() {
+        return ListComtFasesById;
+    }
+
+    public void setListComtFasesById(ArrayList<Uzatcomt> ListComtFasesById) {
+        this.ListComtFasesById = ListComtFasesById;
+    }
+    
+    public void onRowToggle(ToggleEvent event) {
+        this.setSelectedFase((Uzatfase) event.getData());
+        if (event.getVisibility() == Visibility.VISIBLE) {
+            this.setListComtFasesById(ProcuradoriaMethods.GetFasesComentByIdCasoAndIdFase(SlectedCaso.getUzatcasoId(), SelectedFase.getId().getUzatfaseId()));
+        }
     }
 }
