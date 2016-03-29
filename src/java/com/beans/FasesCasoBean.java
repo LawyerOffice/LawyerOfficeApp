@@ -18,7 +18,6 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.event.ActionEvent;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
-import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.event.TabChangeEvent;
 import org.primefaces.event.ToggleEvent;
@@ -118,14 +117,18 @@ public class FasesCasoBean {
     }
 
     private void initComentarios() {
+        this.NewComentario = new Uzatcomt();
         this.ListComtFasesById = ProcuradoriaMethods.GetFasesComentByIdCasoAndIdFase(SelectedCaso.getUzatcasoId(), SelectedFase.getId().getUzatfaseId());
     }
 
     private void initCitas() {
+        this.FechaCita = new Date();
+        this.NewCita = new Uzatcita();
         this.ListCitaFasesById = ProcuradoriaMethods.FindCitasbyCaso_Fase(SelectedCaso.getUzatcasoId(), SelectedFase.getId().getUzatfaseId());
     }
 
     private void initDocumentos() {
+        this.NewDocumento = new Uzatdocs();
         this.ListDocsFasesById = ProcuradoriaMethods.FindDocsbyCaso_Fase(SelectedCaso.getUzatcasoId(), SelectedFase.getId().getUzatfaseId());
     }
 
@@ -213,9 +216,7 @@ public class FasesCasoBean {
         this.NewCita = NewCita;
     }
 
-    public Date getFechaCita() {
-        return FechaCita;
-    }
+
 
     public Uzatdocs getNewDocumento() {
         return NewDocumento;
@@ -285,6 +286,11 @@ public class FasesCasoBean {
         SimpleDateFormat s1 = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         return s1.format(g1.getTime());
     }
+    
+    public String FechaHora(Date fecha) {
+        SimpleDateFormat s1 = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        return s1.format(fecha);
+    }
 
     public void genratedFase(ActionEvent event) {
         this.NewFase.getId().setUzatcasoId(SelectedCaso.getUzatcasoId());
@@ -333,8 +339,8 @@ public class FasesCasoBean {
     public void genratedCita(ActionEvent event) {
         this.NewCita.getId().setUzatcasoId(SelectedCaso.getUzatcasoId());
         this.NewCita.getId().setUzatfaseId(SelectedFase.getId().getUzatfaseId());
+        this.NewCita.setUzatcitaFecha(FechaHora(this.getFechaCita()));
         this.NewCita.setUzatcitaFlag(BigDecimal.ONE);
-        this.NewCita.setUzatcitaFecha(getFechaCita().toString());
         this.NewCita.setUzatfuncionarioId(this.getUserAttribute());
 
         Boolean exito = ProcuradoriaMethods.InsertCita(this.NewCita);
@@ -350,7 +356,7 @@ public class FasesCasoBean {
         this.NewDocumento.setUzatdocsFecha(FechaHoraActual());
         this.NewDocumento.setUzatfuncionarioId(this.getUserAttribute());
 
-        Boolean exito = DocumentsPdf.CovertPdfToByteArray(NewDocumento, DirecURLDoc, "");
+        Boolean exito = DocumentsPdf.CovertPdfToByteArray(NewDocumento, getDirecURLDoc(), "");
         if (exito) {
             generateMessage(FacesMessage.SEVERITY_INFO, "Nuevo Documento", "Guardado exitosamente.");
             this.initDocumentos();
@@ -363,6 +369,22 @@ public class FasesCasoBean {
 
     public void setEnableNewFase(Boolean EnableNewFase) {
         this.EnableNewFase = EnableNewFase;
+    }
+
+    public Date getFechaCita() {
+        return FechaCita;
+    }
+
+    public void setFechaCita(Date FechaCita) {
+        this.FechaCita = FechaCita;
+    }
+
+    public String getDirecURLDoc() {
+        return DirecURLDoc;
+    }
+
+    public void setDirecURLDoc(String DirecURLDoc) {
+        this.DirecURLDoc = DirecURLDoc;
     }
 
 }

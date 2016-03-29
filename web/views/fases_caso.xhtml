@@ -166,6 +166,10 @@
                                                              tableStyle="width:auto"
                                                              emptyMessage="No se han encontrado citas disponibles.">
 
+                                                    <p:column headerText="Descripción">
+                                                        <h:outputText value="#{CitaById.uzatcitaDescripcion}" />
+                                                    </p:column>
+                                                    
                                                     <p:column headerText="Sala">
                                                         <h:outputText value="#{CitaById.uzatcitaSala}" />
                                                     </p:column>
@@ -282,18 +286,27 @@
                     <p:dialog id="dlgNuevaCita" widgetVar="dlgNewCita" header="Nueva Cita" minHeight="40" modal="true" 
                               showEffect="fade" hideEffect="fade" resizable="false">
 
-                        <h:panelGrid id="pdgNuevaCita" columns="2" cellpadding="6">
+                        <h:panelGrid id="pdgNuevaCita" columns="1" cellpadding="6">
                             <h:outputLabel  value="Fecha de agenda:" />
-                            <p:calendar id="datetimeCita" value="#{fasesCasoBean.newCita.uzatcitaFecha}" pattern="dd/MM/yyyy HH:mm:ss" />
+                            <p:calendar id="datetimeCita" value="#{fasesCasoBean.fechaCita}" pattern="dd/MM/yyyy HH:mm:ss" />
 
-                            <h:outputLabel  value="Descripción:"/>
+                            <h:outputText value="Sala:"/>
                             <p:inputText value="#{fasesCasoBean.newCita.uzatcitaSala}"/>
+                            
+                            <h:outputLabel  value="Descripción:"/>
+                            <p:inputTextarea rows="5" cols="30" 
+                                             counter="displayCita" 
+                                             maxlength="499" 
+                                             counterTemplate="{0} characters remaining." 
+                                             autoResize="false"
+                                             value="#{fasesCasoBean.newCita.uzatcitaDescripcion}"/>
+                            <h:outputText id="displayCita" />
                         </h:panelGrid>
 
                         <f:facet name="footer">
                             <p:commandButton value="Añadir" 
                                              id="btnConfirmarNewCita" 
-                                             update=":growl , :form_FC:dtCaso , :form_FC:pdgNuevaCita"
+                                             update=":growl , :form_FC:dtCaso , :form_FC:dlgNuevaCita"
                                              actionListener="#{fasesCasoBean.genratedCita(event)}"
                                              icon="ui-icon-check"/>
                         </f:facet> 
