@@ -43,6 +43,7 @@ public class Views {
         this.views_procu.add("faces/views/menu_procu.xhtml");
         this.views_procu.add("faces/views/resumen_procu.xhtml");
         this.views_procu.add("faces/views/generar_caso.xhtml");
+        this.views_procu.add("faces/views/judi_procu.xhtml");
         this.views_procu.add("faces/index.xhtml");
         this.views_procu.add("faces/loginPage");
         
