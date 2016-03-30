@@ -12,7 +12,7 @@
 
             <ui:define name="content">
                 <p:growl id="growl" showDetail="true" life="3000" /> 
-                <h:form id="form_FC">
+                <h:form id="form_FC" enctype="multipart/form-data">
                     <p:growl id="growl" showDetail="true" life="3000" /> 
 
                     <p:panel id="CasoDetails" >
@@ -265,17 +265,18 @@
                             <p:clock id="patter4" pattern="dd/MM/yyyy HH:mm:ss"/>
 
                             <h:outputLabel value="Casilla:"/>
-                            <p:inputText id="casilla" value="#{fasesCasoBean.newDocumento.uzatdocsCasilla}"/>
+                            <p:inputText id="casilla" value="#{fasesCasoBean.newDocumento.uzatdocsCasilla}"  style="width:170px"/>
 
                             <h:outputLabel value="Compromiso:"/>
-                            <p:inputText id="compromiso" value="#{fasesCasoBean.newDocumento.uzatdocsCompromiso}"/>
+                            <p:inputText id="compromiso" value="#{fasesCasoBean.newDocumento.uzatdocsCompromiso}"  style="width:170px"/>
 
-                            <h:outputLabel for="doc" value="Cargar Documento:"/>
+                            <h:outputLabel value="Documento:"/>
+                            <p:fileUpload value="#{fasesCasoBean.file}" mode="simple"/>
 
                         </h:panelGrid>
 
                         <f:facet name="footer">
-                            <p:commandButton value="Añadir" id="btnConfirmarNewDocumento"
+                            <p:commandButton value="Añadir" id="btnConfirmarNewDocumento" ajax="false"
                                              update=":growl , :form_FC:dtCaso , :form_FC:dlgNuevoDocumento"
                                              actionListener="#{fasesCasoBean.genratedDocumento(event)}"
                                              icon="ui-icon-check"/>

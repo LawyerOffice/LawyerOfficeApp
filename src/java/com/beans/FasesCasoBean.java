@@ -6,18 +6,26 @@
  */
 package com.beans;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.event.ActionEvent;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
+import org.primefaces.event.FileUploadEvent;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.event.TabChangeEvent;
 import org.primefaces.event.ToggleEvent;
@@ -216,8 +224,6 @@ public class FasesCasoBean {
         this.NewCita = NewCita;
     }
 
-
-
     public Uzatdocs getNewDocumento() {
         return NewDocumento;
     }
@@ -286,7 +292,7 @@ public class FasesCasoBean {
         SimpleDateFormat s1 = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         return s1.format(g1.getTime());
     }
-    
+
     public String FechaHora(Date fecha) {
         SimpleDateFormat s1 = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         return s1.format(fecha);
@@ -351,16 +357,78 @@ public class FasesCasoBean {
     }
 
     public void genratedDocumento(ActionEvent event) {
-        this.NewDocumento.getId().setUzatcasoId(SelectedCaso.getUzatcasoId());
-        this.NewDocumento.getId().setUzatfaseId(SelectedFase.getId().getUzatfaseId());
-        this.NewDocumento.setUzatdocsFecha(FechaHoraActual());
-        this.NewDocumento.setUzatfuncionarioId(this.getUserAttribute());
+        if (this.file != null) {
+            this.NewDocumento.getId().setUzatcasoId(SelectedCaso.getUzatcasoId());
+            this.NewDocumento.getId().setUzatfaseId(SelectedFase.getId().getUzatfaseId());
+            this.NewDocumento.setUzatdocsFecha(FechaHoraActual());
+            this.NewDocumento.setUzatfuncionarioId(this.getUserAttribute());
+            try {
+                //            Boolean exito = DocumentsPdf.SaveDocument(this.NewDocumento, FiletoByteArray(this.file));
+                // write the inputStream to a FileOutputStream
+                InputStream in = this.file.getInputstream();
+                OutputStream out = new FileOutputStream(new File("D:\\tmp\\"+this.file.getFileName()));
 
-        Boolean exito = DocumentsPdf.CovertPdfToByteArray(NewDocumento, getDirecURLDoc(), "");
-        if (exito) {
-            generateMessage(FacesMessage.SEVERITY_INFO, "Nuevo Documento", "Guardado exitosamente.");
-            this.initDocumentos();
+                int read = 0;
+                byte[] bytes = new byte[1024];
+
+                while ((read = in.read(bytes)) != -1) {
+                    out.write(bytes, 0, read);
+                }
+
+                in.close();
+                out.flush();
+                out.close();
+                Boolean exito = DocumentsPdf.SaveDocument(this.NewDocumento, bytes);
+                if (exito) {
+                    generateMessage(FacesMessage.SEVERITY_INFO, "Nuevo Documento", "Guardado exitosamente.");
+                    this.initDocumentos();
+                }
+            } catch (IOException ex) {
+                //Logger.getLogger(FasesCasoBean.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
         }
+    }
+
+    public void copyFile(InputStream in) {
+        try {
+
+            // write the inputStream to a FileOutputStream
+            OutputStream out = new FileOutputStream("temp");
+
+            int read = 0;
+            byte[] bytes = new byte[1024];
+
+            while ((read = in.read(bytes)) != -1) {
+                out.write(bytes, 0, read);
+            }
+
+            in.close();
+            out.flush();
+            out.close();
+            DocumentsPdf.SaveDocument(this.NewDocumento, bytes);
+
+            //System.out.println("New file created!");
+        } catch (IOException e) {
+            //System.out.println(e.getMessage());
+        }
+    }
+
+    public byte[] FiletoByteArray(UploadedFile document) {
+        byte[] file = new byte[1024];
+        try {
+            file = document.getContents();
+            long size = document.getSize();
+            InputStream stream = document.getInputstream();
+            byte[] buffer = new byte[(int) size];
+            stream.read(buffer, 0, (int) size);
+            stream.close();
+            file = buffer;
+        } catch (IOException ex) {
+
+        }
+
+        return file;
     }
 
     public Boolean getEnableNewFase() {
