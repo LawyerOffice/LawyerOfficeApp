@@ -20,7 +20,7 @@ import procuradoria.map.Uzatcaso;
  */
 @ManagedBean
 @ViewScoped
-public class ResumenProcuBean implements Serializable{
+public class ResumenProcuBean{
 
     /**
      * Creates a new instance of ResumenProcuBean

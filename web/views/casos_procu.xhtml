@@ -17,7 +17,7 @@
                     <p:dataTable var="caso" 
                                  value="#{consultarCasosBean.lazyModelCasosActivos}" 
                                  paginator="true" rows="10"
-                                 paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                  rowsPerPageTemplate="10" lazy="true"
                                  widgetVar="aboTable" 
                                  emptyMessage="No se ha econtrado casos disponibles" 

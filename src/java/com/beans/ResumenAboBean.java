@@ -39,7 +39,7 @@ import procuradoria.map.Uzatmateri;
  */
 @ManagedBean
 @ViewScoped
-public class ResumenAboBean implements Serializable{
+public class ResumenAboBean{
 
     /**
      * Creates a new instance of ResumenProcuBean

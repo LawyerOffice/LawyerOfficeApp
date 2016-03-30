@@ -6,9 +6,6 @@
 
 package com.beans;
 
-import banner.crud.BannerMethos;
-import banner.map.PersonaBanner;
-import com.util.LazyCasoDataModel;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -20,19 +17,9 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
-import javax.faces.event.ActionEvent;
-import javax.faces.model.SelectItem;
 import javax.servlet.http.HttpSession;
-import org.primefaces.model.LazyDataModel;
-import procuradoria.map.Uzatcaso;
 import procuradoria.crud.ProcuradoriaMethods;
-import procuradoria.map.Uzatactor;
-import procuradoria.map.UzatinvCa;
-import procuradoria.map.UzatinvCaId;
-import procuradoria.map.UzatinvFf;
-import procuradoria.map.UzatinvFfId;
 import procuradoria.map.Uzatjudi;
-import procuradoria.map.UzatjudiId;
 import procuradoria.map.Uzatmateri;
 
 /**
@@ -41,7 +28,7 @@ import procuradoria.map.Uzatmateri;
  */
 @ManagedBean
 @ViewScoped
-public class Judi_procuBean implements Serializable{
+public class Judi_procuBean{
 
     /**
      * Creates a new instance of ResumenProcuBean
