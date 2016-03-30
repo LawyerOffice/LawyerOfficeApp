@@ -68,17 +68,12 @@ public class ResumenAboBean implements Serializable{
         this.selectedActor = new Uzatactor();
         this.idCaso = "vacio";
         this.idocedula = "vacio";
-        this.cedulaActor= "Ingrese número de cédula";
+        this.cedulaActor= "";
         this.ItemsJudicaturas = new ArrayList<SelectItem>();
         this.ItemsMaterias = new ArrayList<SelectItem>(); 
 
         this.loadlistMaterias();
         this.ItemsJudicaturas.clear();
-        
-        SelectItem  si;
-        si = new SelectItem("100","Seleccione Materia");
-        this.ItemsJudicaturas.add(si); 
-        
     }
 
     private BigDecimal getUserAttribute() {

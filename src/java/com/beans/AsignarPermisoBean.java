@@ -80,8 +80,8 @@ public class AsignarPermisoBean {
 
     public void loadlistFuncionarios() {
         ArrayList<String> selectItemsCli = new ArrayList<String>();
-        selectItemsCli.add("Id Banner");
-        selectItemsCli.add("Cedula");
+        selectItemsCli.add("ID ESPE");
+        selectItemsCli.add("Cédula");
         this.ItemsFuncionarios.clear();
         for (String Item : selectItemsCli) {
             this.ItemsFuncionarios.add(new SelectItem(Item, Item));

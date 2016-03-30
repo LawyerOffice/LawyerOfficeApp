@@ -12,9 +12,9 @@
 
             <ui:define name="content">
                 <p:growl id="growl" showDetail="true" life="3000" /> 
-                <h:form id="form_FC" enctype="multipart/form-data">
-                    <p:growl id="growl" showDetail="true" life="3000" /> 
-
+                <h:form id="form_FC">
+                    <p:growl id="growl" showDetail="true" life="3000" />
+                    
                     <p:panel id="CasoDetails" >
 
                         <f:facet name="header">
@@ -169,7 +169,7 @@
                                                     <p:column headerText="Descripción">
                                                         <h:outputText value="#{CitaById.uzatcitaDescripcion}" />
                                                     </p:column>
-                                                    
+
                                                     <p:column headerText="Sala">
                                                         <h:outputText value="#{CitaById.uzatcitaSala}" />
                                                     </p:column>
@@ -207,7 +207,7 @@
                               showEffect="fade" hideEffect="fade" resizable="false">
 
                         <h:panelGrid id="pdgNuevafase" columns="2" cellpadding="6">
-                            <h:outputLabel for="patter" value="Fecha de creación:"/>
+                            <h:outputLabel value="Fecha de creación:"/>
                             <p:clock id="patterFase" pattern="dd/MM/yyyy HH:mm:ss"/>
 
                             <h:outputLabel for="name" value="Nombre:"/>
@@ -221,6 +221,7 @@
                                              update=":form_FC:btnConfirmarNewFase , :form_FC:btnCerrarFaseAteriror"
                                              disabled="#{!fasesCasoBean.enableNewFase}"
                                              actionListener="#{fasesCasoBean.closeFaseTrigger(event)}"/>
+
                             <p:commandButton value="Crear Nueva Fase" 
                                              id="btnConfirmarNewFase" 
                                              style="float: right"
@@ -271,7 +272,6 @@
                             <p:inputText id="compromiso" value="#{fasesCasoBean.newDocumento.uzatdocsCompromiso}"  style="width:170px"/>
 
                             <h:outputLabel value="Documento:"/>
-                            <p:fileUpload value="#{fasesCasoBean.file}" mode="simple"/>
 
                         </h:panelGrid>
 
@@ -293,7 +293,7 @@
 
                             <h:outputText value="Sala:"/>
                             <p:inputText value="#{fasesCasoBean.newCita.uzatcitaSala}"/>
-                            
+
                             <h:outputLabel  value="Descripción:"/>
                             <p:inputTextarea rows="5" cols="30" 
                                              counter="displayCita" 

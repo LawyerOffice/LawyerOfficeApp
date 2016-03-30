@@ -14,18 +14,13 @@
                 <h:form id="form_admin_casos">
 
                     <p:panel id="panel_find_caso" header="CASOS ACTUALES">
-                        <h:panelGrid columns="4" cellpadding="10">
-                            <h:outputLabel value="Buscar por:"/>
-
-                            <p:selectOneMenu id="casos_cbx" value="#{adminCasosBean.patterFindCaso}" style="width:125px">
-                                <f:selectItem itemLabel="Seleccionar" itemValue="" noSelectionOption="true"/>
-                                <f:selectItem itemLabel="Num.Causa" itemValue="Num.Causa" />
-                            </p:selectOneMenu>
-
-                            <p:inputText value="#{adminCasosBean.valueFindCaso}"/>
-
-                            <p:commandButton value="Buscar"/>
-                        </h:panelGrid>
+                        <div align="center">
+                            <h:panelGrid columns="3" cellpadding="10">
+                                <h:outputLabel value="Ingrese Num. Causa:"/>
+                                <p:inputText value="#{adminCasosBean.valueFindCaso}"/>
+                                <p:commandButton value="Buscar"/>
+                            </h:panelGrid>
+                        </div>
                     </p:panel>
 
                     <div align="center">
