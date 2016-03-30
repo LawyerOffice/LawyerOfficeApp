@@ -14,14 +14,15 @@
                 <h:form id="form_admin_casos">
 
                     <p:panel id="panel_find_caso" header="CASOS ACTUALES">
-                        <h:panelGrid columns="4" cellpadding="10">
-                            <h:outputLabel value="Buscar por Núm. Causa:"/>
+                        <div align="center">
+                            <h:panelGrid columns="4" cellpadding="10">
+                                <h:outputLabel value="Ingrese el Núm. Causa:"/>
 
-                            <p:inputText value="#{adminCasosBean.valueFindCaso}"/>
+                                <p:inputText value="#{adminCasosBean.valueFindCaso}"/>
 
-                            <p:commandButton value="Buscar" actionListener="#{adminCasosBean.buscarCasoByNumCausa}" update=":form_admin_casos:tablaCasos"/>
-                        </h:panelGrid>
-
+                                <p:commandButton value="Buscar" actionListener="#{adminCasosBean.buscarCasoByNumCausa}" update=":form_admin_casos:tablaCasos"/>
+                            </h:panelGrid>
+                        </div>
                     </p:panel>
 
                     <div align="center">
