@@ -74,11 +74,11 @@ public class AdminCasosBean {
         return id;
     }
 
-    public void openfase(ActionEvent event,BigDecimal uzatcasoId) {
+    public void openfase(ActionEvent event, BigDecimal uzatcasoId) {
         RequestContext context = RequestContext.getCurrentInstance();
-        String ruta = LawyerOfficeUtil.getURL_Login()+"views/fases_caso.xhtml";
+        String ruta = LawyerOfficeUtil.getURL_Login() + "views/fases_caso.xhtml";
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().
-                    put("uzatcasoId",uzatcasoId);
+                put("uzatcasoId", uzatcasoId);
         context.addCallbackParam("loggedIn", true);
         context.addCallbackParam("ruta", ruta);
     }
@@ -89,6 +89,14 @@ public class AdminCasosBean {
             State = true;
         }
         return State;
+    }
+
+    public void buscarCasoByNumCausa(ActionEvent actionEvent) {
+        if (valueFindCaso.equals("")) {
+            this.loadCasosAsignados();
+        } else {
+            this.casosAsigandos = ProcuradoriaMethods.FindCasosAdminLazyByNumCausa(this.getUserIdAttribute(), BigDecimal.ONE, BigDecimal.ONE,valueFindCaso);
+        }
     }
 
     public List<Uzatasign> getCasosAsigandos() {
