@@ -32,6 +32,7 @@ public class Views {
         this.views_abo.add("faces/views/fases_caso_ui.xhtml");
         this.views_abo.add("faces/views/menu_abo.xhtml");
         this.views_abo.add("faces/views/resumen_abo.xhtml");
+        this.views_abo.add("faces/views/ver_caso_abo.xhtml");
         this.views_abo.add("faces/index.xhtml");
         this.views_abo.add("faces/loginPage");
         
@@ -44,6 +45,7 @@ public class Views {
         this.views_procu.add("faces/views/resumen_procu.xhtml");
         this.views_procu.add("faces/views/generar_caso.xhtml");
         this.views_procu.add("faces/views/judi_procu.xhtml");
+        this.views_procu.add("faces/views/ver_caso_procu.xhtml");
         this.views_procu.add("faces/index.xhtml");
         this.views_procu.add("faces/loginPage");
         

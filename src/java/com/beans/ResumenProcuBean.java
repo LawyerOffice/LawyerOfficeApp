@@ -7,7 +7,6 @@
 package com.beans;
 
 import com.util.LazyCasoDataModel;
-import java.io.Serializable;
 import java.math.BigDecimal;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -25,15 +24,13 @@ public class ResumenProcuBean{
     /**
      * Creates a new instance of ResumenProcuBean
      */
-    
-    private LazyDataModel<Uzatcaso> lazyModelCasosActivos;
+
     private LazyDataModel<Uzatcaso> lazyModelCasosInactivos;
      
     private Uzatcaso selectedCaso;
     
     public ResumenProcuBean() {
-        lazyModelCasosActivos = new LazyCasoDataModel(BigDecimal.ONE);
-        lazyModelCasosInactivos = new LazyCasoDataModel(BigDecimal.ZERO);
+        lazyModelCasosInactivos = new LazyCasoDataModel(new BigDecimal(2));
     }
 
     public Uzatcaso getSelectedCaso() {
@@ -42,14 +39,6 @@ public class ResumenProcuBean{
 
     public void setSelectedCaso(Uzatcaso selectedCaso) {
         this.selectedCaso = selectedCaso;
-    }
-
-    public LazyDataModel<Uzatcaso> getLazyModelCasosActivos() {
-        return lazyModelCasosActivos;
-    }
-
-    public void setLazyModelCasosActivos(LazyDataModel<Uzatcaso> lazyModelCasosActivos) {
-        this.lazyModelCasosActivos = lazyModelCasosActivos;
     }
 
     public LazyDataModel<Uzatcaso> getLazyModelCasosInactivos() {
