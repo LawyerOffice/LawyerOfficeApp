@@ -45,13 +45,6 @@
                             <p:column headerText="Fecha Asignacion">
                                 <h:outputText value="#{DetailPermisoAsig.uzatrolFechaIn}" />
                             </p:column>
-                            <p:column style="width:32px;text-align: center">
-                                <p:commandButton update=":form_PA:casAsgid , :form_PA:casoTable" actionListener="#{asignarPermisoBean.loadCasosAsigandos(event)}" 
-                                                 oncomplete="PF('listAsgCas').show()" icon="ui-icon-search" title="View">
-                                    <f:setPropertyActionListener value="#{DetailPermisoAsig}" target="#{asignarPermisoBean.selectedRol}" />
-                                </p:commandButton>
-                            </p:column>
-
                         </p:dataTable>
 
                         <f:facet name="footer">
@@ -59,6 +52,11 @@
                                              icon="ui-icon-check" update=":form_PA:dlgNuevoPermiso"
                                              oncomplete="PF('dlgNewPermits').show();"
                                              actionListener="#{asignarPermisoBean.loadAisgnarPermiso(event)}"/>
+
+                            <p:commandButton value="Ver Casos Asigandos" 
+                                             update=":form_PA:casAsgid , :form_PA:casoTable" style="float: right" 
+                                             actionListener="#{asignarPermisoBean.loadCasosAsigandos(event)}" 
+                                             oncomplete="PF('listAsgCas').show()" icon="ui-icon-search"/>
 
                             <p:commandButton actionListener="#{asignarPermisoBean.EraseItem(event)}" 
                                              update=":form_PA, :growl" style="float: right" 
