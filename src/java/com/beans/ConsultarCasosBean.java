@@ -5,11 +5,15 @@
  */
 package com.beans;
 
+import com.util.LawyerOfficeUtil;
 import com.util.LazyCasoDataModel;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
+import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.event.ToggleEvent;
 import org.primefaces.model.LazyDataModel;
@@ -71,6 +75,15 @@ public class ConsultarCasosBean {
         this.SlectedCaso = (Uzatcaso) event.getObject();
         this.Asignar =  ProcuradoriaMethods.GetActiveAbogadosByIdCaso(this.SlectedCaso.getUzatcasoId());
         this.ListFases = ProcuradoriaMethods.listFasesByIdCaso(this.SlectedCaso.getUzatcasoId());
+    }
+    
+     public void openCaso(ActionEvent event, BigDecimal uzatcasoId) {
+        RequestContext context = RequestContext.getCurrentInstance();
+        String ruta = LawyerOfficeUtil.getURL_Login() + "views/ver_caso_procu.xhtml";
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().
+                put("uzatcasoId", uzatcasoId);
+        context.addCallbackParam("loggedIn", true);
+        context.addCallbackParam("ruta", ruta);
     }
 
     public Uzatcaso getCaso() {

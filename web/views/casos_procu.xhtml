@@ -52,111 +52,64 @@
 
                     <p:dialog id="msgar" header="Estado del caso" widgetVar="carDialog" 
                               modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+                        <p:panel>
 
-                        <p:accordionPanel multiple="true">
-                            <p:tab title="Detalles">
+                            <h3>Detalles del Caso</h3>
 
-                                <h3>Detalles del Caso</h3>
+                            <h:panelGrid columns="6" cellpadding="5"> 
 
-                                <h:panelGrid columns="6" cellpadding="5"> 
+                                <h:outputText value="Numero de Causa: " style="font-weight:bold;text-decoration:underline"/>
+                                <h:outputText value="#{consultarCasosBean.slectedCaso.uzatcasoNumcausa}" />
 
-                                    <h:outputText value="Numero de Causa: " style="font-weight:bold;text-decoration:underline"/>
-                                    <h:outputText value="#{consultarCasosBean.slectedCaso.uzatcasoNumcausa}" />
+                                <h:outputText value="Tipo de caso: " style="font-weight:bold;text-decoration:underline"/>
+                                <h:outputText value="#{consultarCasosBean.slectedCaso.uzatcasoTipo}" />
 
-                                    <h:outputText value="Tipo de caso: " style="font-weight:bold;text-decoration:underline"/>
-                                    <h:outputText value="#{consultarCasosBean.slectedCaso.uzatcasoTipo}" />
+                                <h:outputText value="Creación: " style="font-weight:bold;text-decoration:underline"/>
+                                <h:outputText value="#{consultarCasosBean.slectedCaso.uzatcasoFechaIn}" />
 
-                                    <h:outputText value="Creación: " style="font-weight:bold;text-decoration:underline"/>
-                                    <h:outputText value="#{consultarCasosBean.slectedCaso.uzatcasoFechaIn}" />
+                            </h:panelGrid>
 
-                                </h:panelGrid>
+                            <h3>Detalles del Abogado</h3>
 
-                                <h3>Detalles del Abogado</h3>
+                            <h:panelGrid columns="6" cellpadding="5">            
 
-                                <h:panelGrid columns="12" cellpadding="5">            
+                                <h:outputText value="Id Banner: " style="font-weight:bold;text-decoration:underline"/>
+                                <h:outputText value="#{consultarCasosBean.asignar.uzatfunci.uzatfuncionarioIdbanner}" />
 
-                                    <h:outputText value="Id Banner: " style="font-weight:bold;text-decoration:underline"/>
-                                    <h:outputText value="#{consultarCasosBean.asignar.uzatfunci.uzatfuncionarioIdbanner}" />
+                                <h:outputText value="Cédula: " style="font-weight:bold;text-decoration:underline"/>
+                                <h:outputText value="#{consultarCasosBean.asignar.uzatfunci.uzatfuncionarioCedula}" />
 
-                                    <h:outputText value="Cédula: " style="font-weight:bold;text-decoration:underline"/>
-                                    <h:outputText value="#{consultarCasosBean.asignar.uzatfunci.uzatfuncionarioCedula}" />
+                                <h:outputText value="Nombre: " style="font-weight:bold;text-decoration:underline"/>
+                                <h:outputText value="#{consultarCasosBean.asignar.uzatfunci.uzatfuncionarioApellidos} #{consultarCasosBean.asignar.uzatfunci.uzatfuncionarioNombres}" />
 
-                                    <h:outputText value="Nombre: " style="font-weight:bold;text-decoration:underline"/>
-                                    <h:outputText value="#{consultarCasosBean.asignar.uzatfunci.uzatfuncionarioApellidos} #{consultarCasosBean.asignar.uzatfunci.uzatfuncionarioNombres}" />
+                                <h:outputText value="E-mail: " style="font-weight:bold;text-decoration:underline"/>
+                                <h:outputText value="#{consultarCasosBean.asignar.uzatfunci.uzatfuncionarioEmail}" />
 
-                                    <h:outputText value="E-mail: " style="font-weight:bold;text-decoration:underline"/>
-                                    <h:outputText value="#{consultarCasosBean.asignar.uzatfunci.uzatfuncionarioEmail}" />
+                                <h:outputText value="Móvil: " style="font-weight:bold;text-decoration:underline"/>
+                                <h:outputText value="#{consultarCasosBean.asignar.uzatfunci.uzatfuncionarioMovil}" />
 
-                                    <h:outputText value="Móvil: " style="font-weight:bold;text-decoration:underline"/>
-                                    <h:outputText value="#{consultarCasosBean.asignar.uzatfunci.uzatfuncionarioMovil}" />
+                                <h:outputText value="Asignación: " style="font-weight:bold;text-decoration:underline"/>
+                                <h:outputText value="#{consultarCasosBean.asignar.uzatasignarFechaIn}" />
+                            </h:panelGrid>
+                            <f:facet name="footer">
 
-                                    <h:outputText value="Asignación: " style="font-weight:bold;text-decoration:underline"/>
-                                    <h:outputText value="#{consultarCasosBean.asignar.uzatasignarFechaIn}" />
-                                </h:panelGrid>
-                            </p:tab>
-                        </p:accordionPanel>
-
-                        <h:panelGrid columns="1" cellpadding="8">
-
-                            <p:dataTable var="ComtFase" 
-                                         value="#{consultarCasosBean.listFases}" 
-                                         rows="5" paginator="true"
-                                         widgetVar="casoTable" 
-                                         sortBy="#{ComtFase.uzatfaseNumfase}"
-                                         emptyMessage="No se han econtrado fases disponibles" 
-                                         id="dtCaso">
-                                <!--<h:outputLabel value=""/>  Tomar encuenta siempre la varibale que se este manejando en cada tabla debido al javascript interno que maneja-->
-                                <f:facet name="header">
-                                    FASES ACTUALES
-                                </f:facet>
-                                
-                                <p:ajax event="rowToggle" listener="#{consultarCasosBean.onRowToggle}"/>
-
-                                <p:column style="width:16px">
-                                    <p:rowToggler />
-                                </p:column>
-
-                                <p:column headerText="Número">
-                                    <h:outputText value="#{ComtFase.uzatfaseNumfase}" />
-                                </p:column>
-                                <p:column headerText="Nombre">
-                                    <h:outputText value="#{ComtFase.uzatfaseNombre}" />
-                                </p:column>
-                                <p:column headerText="Fecha Inicio">
-                                    <h:outputText value="#{ComtFase.uzatfaseFechaIn}" />
-                                </p:column>
-                                <p:column headerText="Fecha Salida">
-                                    <h:outputText value="#{ComtFase.uzatfaseFechaOut}" />
-                                </p:column>
-
-                                <p:rowExpansion>
-                                    <div align="center">
-                                                <p:dataTable var="ComtById" id="ComtFaseId" 
-                                                             value="#{consultarCasosBean.listComtFasesById}"
-                                                             tableStyle="width:auto"
-                                                             emptyMessage="No se han encontrado comentarios disponibles.">
-                                                    <p:column headerText="Fecha">
-                                                        <h:outputText value="#{ComtById.uzatcomtFecha}" />
-                                                    </p:column>
-
-                                                    <p:column headerText="Descripción">
-                                                        <h:outputText value="#{ComtById.uzatcomtDescripcion}" />
-                                                    </p:column>
-
-                                                </p:dataTable>
-                                            </div>
-                                </p:rowExpansion>
-
-                            </p:dataTable>
-                        </h:panelGrid>
-
-                        <f:facet name="footer">
-                            <p:commandButton value="Regresar" id="btnAsigarNuevoCasoRegresar"  
-                                             oncomplete="PF('carDialog').hide();" ><!-- action ="" -->
-                            </p:commandButton>
-                        </f:facet> 
-
+                                <p:commandButton id="loadCaso_procu" value="Ver" 
+                                                 icon="ui-icon-search" update=":form"
+                                                 actionListener="#{consultarCasosBean.openCaso(event, caso.id.uzatcasoId)}"
+                                                 oncomplete="handleLoginRequest(xhr, status, args)"/> 
+                            </f:facet>
+                        </p:panel>
                     </p:dialog>
+                    <script type="text/javascript">
+                        function handleLoginRequest(xhr, status, args) {
+                            if (args.validationFailed || !args.loggedIn) {
+                                jQuery('#formLogin').effect("shake", {times: 5}, 100);
+                            }
+                            else {
+                                location.href = args.ruta;
+                            }
+                        }
+                    </script>
 
                 </h:form>
 
