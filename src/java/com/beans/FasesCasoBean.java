@@ -22,6 +22,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.event.ActionEvent;
 import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.event.TabChangeEvent;
@@ -66,12 +67,33 @@ public class FasesCasoBean {
 
     private Boolean EnableNewFase;
 
+    private String valueFindCaso;
+
     public FasesCasoBean() {
-        this.CodCaso = this.getCasoIdAttribute();
+
+        HttpServletRequest origRequest
+                = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        String urlRequest = origRequest.getRequestURI().toString();
+        urlRequest = urlRequest.replace("/LawyerOfficeApp/faces/views/", "");
+
+        if (!this.getCasoIdAttribute().equals(new BigDecimal(BigInteger.ZERO))) {
+            if (!urlRequest.equals("ver_caso_abo.xhtml")) {
+                this.CodCaso = this.getCasoIdAttribute();
+                this.setSelectedCaso(ProcuradoriaMethods.CasoByIdCaso(this.CodCaso));
+            } else {
+                this.CodCaso = BigDecimal.ONE;
+                Uzatcaso SelectedCasoAux = new Uzatcaso(this.CodCaso, null);
+                this.setSelectedCaso(SelectedCasoAux);
+            }
+        } else {
+            this.CodCaso = BigDecimal.ONE;
+            Uzatcaso SelectedCasoAux = new Uzatcaso(this.CodCaso, null);
+            this.setSelectedCaso(SelectedCasoAux);
+        }
+
         this.FechaCita = new Date();
         this.DirecURLDoc = "";
         this.EnableNewFase = true;
-        this.setSelectedCaso(ProcuradoriaMethods.CasoByIdCaso(this.CodCaso));
         this.setStateFaseDisabled(false);
         this.setSelectedFase(new Uzatfase());
         this.setNewFase(new Uzatfase());
@@ -107,8 +129,10 @@ public class FasesCasoBean {
         if (session == null) {
         } else {
             Object IdBanner = session.getAttribute("uzatcasoId");
-            UserAttribute = IdBanner.toString();
-            id = new BigDecimal(UserAttribute);
+            if (IdBanner != null) {
+                UserAttribute = IdBanner.toString();
+                id = new BigDecimal(UserAttribute);
+            }
         }
         return id;
     }
@@ -275,6 +299,16 @@ public class FasesCasoBean {
         return disable;
     }
 
+    public void buscarCasoByNumCausa(ActionEvent actionEvent) {
+        if (!valueFindCaso.equals("")) {
+            this.setSelectedCaso(ProcuradoriaMethods.CasoByNumCausaFlagVisible(this.valueFindCaso, BigDecimal.valueOf(1)));
+            this.init();
+        } else {
+            this.setSelectedCaso(null);
+            this.setListFases(null);
+        }
+    }
+
     public Boolean estadoFaseDisabled() {
         if (SelectedFase.getUzatfaseFlag() == BigDecimal.ZERO) {
             setStateFaseDisabled(true);
@@ -363,7 +397,7 @@ public class FasesCasoBean {
                 //            Boolean exito = DocumentsPdf.SaveDocument(this.NewDocumento, FiletoByteArray(this.file));
                 // write the inputStream to a FileOutputStream
                 InputStream in = this.file.getInputstream();
-                OutputStream out = new FileOutputStream(new File("D:\\tmp\\"+this.file.getFileName()));
+                OutputStream out = new FileOutputStream(new File("D:\\tmp\\" + this.file.getFileName()));
 
                 int read = 0;
                 byte[] bytes = new byte[1024];
@@ -450,6 +484,14 @@ public class FasesCasoBean {
 
     public void setDirecURLDoc(String DirecURLDoc) {
         this.DirecURLDoc = DirecURLDoc;
+    }
+
+    public String getValueFindCaso() {
+        return valueFindCaso;
+    }
+
+    public void setValueFindCaso(String valueFindCaso) {
+        this.valueFindCaso = valueFindCaso;
     }
 
 }
