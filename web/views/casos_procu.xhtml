@@ -95,7 +95,7 @@
 
                                 <p:commandButton id="loadCaso_procu" value="Ver" 
                                                  icon="ui-icon-search" update=":form"
-                                                 actionListener="#{consultarCasosBean.openCaso(event, caso.id.uzatcasoId)}"
+                                                 actionListener="#{consultarCasosBean.openCaso(event, consultarCasosBean.slectedCaso.uzatcasoId)}"
                                                  oncomplete="handleLoginRequest(xhr, status, args)"/> 
                             </f:facet>
                         </p:panel>
