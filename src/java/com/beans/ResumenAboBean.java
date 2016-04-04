@@ -9,7 +9,6 @@ package com.beans;
 import banner.crud.BannerMethos;
 import banner.map.PersonaBanner;
 import com.util.LazyCasoDataModel;
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.text.SimpleDateFormat;
@@ -28,8 +27,6 @@ import procuradoria.crud.ProcuradoriaMethods;
 import procuradoria.map.Uzatactor;
 import procuradoria.map.UzatinvCa;
 import procuradoria.map.UzatinvCaId;
-import procuradoria.map.UzatinvFf;
-import procuradoria.map.UzatinvFfId;
 import procuradoria.map.Uzatjudi;
 import procuradoria.map.Uzatmateri;
 

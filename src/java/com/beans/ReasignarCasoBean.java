@@ -6,7 +6,6 @@
 
 package com.beans;
 
-import com.util.LazyCasoDataModel;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -16,19 +15,12 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
-import javax.faces.event.ActionEvent;
 import javax.servlet.http.HttpSession;
-import org.primefaces.model.LazyDataModel;
 import procuradoria.map.Uzatcaso;
 import procuradoria.crud.ProcuradoriaMethods;
-import procuradoria.map.Uzatactor;
 import procuradoria.map.Uzatasign;
 import procuradoria.map.UzatasignId;
 import procuradoria.map.Uzatfunci;
-import procuradoria.map.UzatinvCa;
-import procuradoria.map.UzatinvCaId;
-import procuradoria.map.UzatinvFf;
-import procuradoria.map.UzatinvFfId;
 
 /**
  *
@@ -36,7 +28,7 @@ import procuradoria.map.UzatinvFfId;
  */
 @ManagedBean
 @ViewScoped
-public class ReasignarCasoBean implements Serializable{
+public class ReasignarCasoBean{
 
     /**
      * Creates a new instance of ResumenProcuBean

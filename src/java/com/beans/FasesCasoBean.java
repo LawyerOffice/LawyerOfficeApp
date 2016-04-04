@@ -387,6 +387,20 @@ public class FasesCasoBean {
         }
     }
 
+    public void uploadLogo() {
+        if (file != null) {
+            if ((file.getFileName().endsWith(".pdf") || file.getFileName().endsWith(".PDF"))) {
+
+            } else {
+                generateMessage(FacesMessage.SEVERITY_WARN, "El archivo escogido es muy grande o no esta en el formato, recuerda subir archivos .png", "");
+
+            }
+        } else {
+            generateMessage(FacesMessage.SEVERITY_ERROR, "No has escogido un logo ", "");
+        }
+
+    }
+
     public void genratedDocumento(ActionEvent event) {
         if (this.file != null) {
             this.NewDocumento.getId().setUzatcasoId(SelectedCaso.getUzatcasoId());

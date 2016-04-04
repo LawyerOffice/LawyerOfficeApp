@@ -14,7 +14,7 @@
                 <p:growl id="growl" showDetail="true" life="3000" /> 
                 <h:form id="form_FC">
                     <p:growl id="growl" showDetail="true" life="3000" />
-                    
+
                     <p:panel id="CasoDetails" >
 
                         <f:facet name="header">
@@ -256,33 +256,7 @@
                                              icon="ui-icon-check"/>
                         </f:facet> 
 
-                    </p:dialog>
-
-                    <p:dialog id="dlgNuevoDocumento" widgetVar="dlgNewDocumento" header="Nuevo Documento" minHeight="40" modal="true"
-                              showEffect="fade" hideEffect="fade" resizable="false">
-
-                        <h:panelGrid columns="2" cellpadding="6">
-                            <h:outputLabel value="Fecha de creación:"/>
-                            <p:clock id="patter4" pattern="dd/MM/yyyy HH:mm:ss"/>
-
-                            <h:outputLabel value="Casilla:"/>
-                            <p:inputText id="casilla" value="#{fasesCasoBean.newDocumento.uzatdocsCasilla}"  style="width:170px"/>
-
-                            <h:outputLabel value="Compromiso:"/>
-                            <p:inputText id="compromiso" value="#{fasesCasoBean.newDocumento.uzatdocsCompromiso}"  style="width:170px"/>
-
-                            <h:outputLabel value="Documento:"/>
-
-                        </h:panelGrid>
-
-                        <f:facet name="footer">
-                            <p:commandButton value="Añadir" id="btnConfirmarNewDocumento" ajax="false"
-                                             update=":growl , :form_FC:dtCaso , :form_FC:dlgNuevoDocumento"
-                                             actionListener="#{fasesCasoBean.genratedDocumento(event)}"
-                                             icon="ui-icon-check"/>
-                        </f:facet> 
-
-                    </p:dialog>
+                    </p:dialog>   
 
                     <p:dialog id="dlgNuevaCita" widgetVar="dlgNewCita" header="Nueva Cita" minHeight="40" modal="true" 
                               showEffect="fade" hideEffect="fade" resizable="false">
@@ -315,6 +289,36 @@
                     </p:dialog>
 
                 </h:form>
+                <h:form id="form" enctype="multipart/form-data">
+                    <p:dialog id="dlgNuevoDocumento" widgetVar="dlgNewDocumento" header="Nuevo Documento" minHeight="40" modal="true"
+                              showEffect="fade" hideEffect="fade" resizable="false">
+
+                        <h:panelGrid columns="2" cellpadding="6">
+                            <h:outputLabel value="Fecha de creación:"/>
+                            <p:clock id="patter4" pattern="dd/MM/yyyy HH:mm:ss"/>
+
+                            <h:outputLabel value="Casilla:"/>
+                            <p:inputText id="casilla" value="#{fasesCasoBean.newDocumento.uzatdocsCasilla}"  style="width:170px"/>
+
+                            <h:outputLabel value="Compromiso:"/>
+                            <p:inputText id="compromiso" value="#{fasesCasoBean.newDocumento.uzatdocsCompromiso}"  style="width:170px"/>
+
+                            <h:outputLabel value="Documento:"/>
+                            <p:fileUpload value="#{fasesCasoBean.file}" mode="simple"   />
+                        </h:panelGrid>
+
+                        <f:facet name="footer">
+                            <p:commandButton id="btnSubmit" actionListener="#{fasesCasoBean.uploadLogo()}" 
+                                             ajax="false"
+                                             icon="ui-icon-check"
+                                             update=":growl , :form_FC:dtCaso , :form:dlgNuevoDocumento"
+                                             value="Añadir">
+                                <f:ajax event="click" execute="@form" render="@form"/>
+                            </p:commandButton>                         
+                        </f:facet> 
+                    </p:dialog>
+                </h:form>
+
             </ui:define>
 
         </ui:composition>
