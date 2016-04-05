@@ -51,7 +51,9 @@ public class LoginBean {
         this.setUrlRequest(this.urlRequest = this.urlRequest.replace("faces/views/abogados_procu.xhtml", ""));
         this.setUrlRequest(this.urlRequest = this.urlRequest.replace("faces/views/asignar_permiso.xhtml", ""));
         this.setUrlRequest(this.urlRequest = this.urlRequest.replace("faces/views/reasignar_caso.xhtml", ""));
+        this.setUrlRequest(this.urlRequest = this.urlRequest.replace("faces/views/reasignar_masiva.xhtml", ""));
         this.setUrlRequest(this.urlRequest = this.urlRequest.replace("faces/views/calendario_abo.xhtml", ""));
+        this.setUrlRequest(this.urlRequest = this.urlRequest.replace("faces/views/calendario_secre.xhtml", ""));
 
         this.setUrlRequest(this.urlRequest = this.urlRequest.replace("faces/views/calendario_procu.xhtml", ""));
         this.setUrlRequest(this.urlRequest = this.urlRequest.replace("faces/views/casos_abo.xhtml", ""));
@@ -60,14 +62,22 @@ public class LoginBean {
         this.setUrlRequest(this.urlRequest = this.urlRequest.replace("faces/views/fases_caso.xhtml", ""));
         this.setUrlRequest(this.urlRequest = this.urlRequest.replace("faces/views/fases_caso_ui.xhtml", ""));
         this.setUrlRequest(this.urlRequest = this.urlRequest.replace("faces/views/generar_caso.xhtml", ""));
+        this.setUrlRequest(this.urlRequest = this.urlRequest.replace("faces/views/generar_caso_secre.xhtml", ""));
 
         this.setUrlRequest(this.urlRequest = this.urlRequest.replace("faces/views/menu_abo.xhtml", ""));
         this.setUrlRequest(this.urlRequest = this.urlRequest.replace("faces/views/menu_procu.xhtml", ""));
+        this.setUrlRequest(this.urlRequest = this.urlRequest.replace("faces/views/menu_secre.xhtml", ""));
         this.setUrlRequest(this.urlRequest = this.urlRequest.replace("faces/views/resumen_abo.xhtml", ""));
         this.setUrlRequest(this.urlRequest = this.urlRequest.replace("faces/views/resumen_procu.xhtml", ""));
         this.setUrlRequest(this.urlRequest = this.urlRequest.replace("faces/views/ver_caso_procu.xhtml", ""));
         this.setUrlRequest(this.urlRequest = this.urlRequest.replace("faces/views/ver_caso_abo.xhtml", ""));
-
+        
+        this.setUrlRequest(this.urlRequest = this.urlRequest.replace("faces/views/judi_procu.xhtml", ""));
+        this.setUrlRequest(this.urlRequest = this.urlRequest.replace("faces/views/judi_secre.xhtml", ""));
+        
+        this.setUrlRequest(this.urlRequest = this.urlRequest.replace("faces/views/reasignar_caso_secre.xhtml", ""));
+        this.setUrlRequest(this.urlRequest = this.urlRequest.replace("faces/views/reasignar_masiva_secre.xhtml", ""));
+        
         this.setUrlRequest(this.urlRequest = this.urlRequest.replace("faces/resources/js/jquery.jsresources/", ""));
         this.setUrlRequest(this.urlRequest = this.urlRequest.replace("faces/index.xhtml", ""));
         this.setUrlRequest(this.urlRequest = this.urlRequest.replace("faces/loginPage", ""));

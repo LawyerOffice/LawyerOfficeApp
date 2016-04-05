@@ -389,11 +389,11 @@ public class FasesCasoBean {
                 try {
                     this.NewDocumento.getId().setUzatcasoId(SelectedCaso.getUzatcasoId());
                     this.NewDocumento.getId().setUzatfaseId(SelectedFase.getId().getUzatfaseId());
-//                    this.NewDocumento.getUzatfase().setId(new UzatfaseId(SelectedCaso.getUzatcasoId(),
-//                            SelectedFase.getId().getUzatfaseId()));
                     this.NewDocumento.setUzatdocsFecha(FechaHoraActual());
+                    this.NewDocumento.setUzatdocsPdf(this.file.getInputstream());
                     this.NewDocumento.setUzatfuncionarioId(this.getUserAttribute());
-                    Boolean exito = DocumentsPdf.SaveDocument(this.NewDocumento, this.file.getInputstream());
+                    this.NewDocumento.setUzatdocsPdfSize(this.file.getSize());
+                    Boolean exito = ProcuradoriaMethods.InsertDocumemts(this.NewDocumento);
                 } catch (IOException ex) {
                    // Logger.getLogger(FasesCasoBean.class.getName()).log(Level.SEVERE, null, ex);
                 }

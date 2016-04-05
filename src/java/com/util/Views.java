@@ -49,9 +49,12 @@ public class Views {
         this.views_procu.add("faces/index.xhtml");
         this.views_procu.add("faces/loginPage");
         
+        this.views_secre.add("faces/views/menu_secre.xhtml");
         this.views_secre.add("faces/views/generar_caso_secre.xhtml");
         this.views_secre.add("faces/views/reasignar_caso_secre.xhtml");
+        this.views_secre.add("faces/views/reasignar_masiva_secre.xhtml");
         this.views_secre.add("faces/views/calendario_secre.xhtml");
+        this.views_secre.add("faces/views/judi_secre.xhtml");
         this.views_secre.add("faces/index.xhtml");
         this.views_secre.add("faces/loginPage");
     }
