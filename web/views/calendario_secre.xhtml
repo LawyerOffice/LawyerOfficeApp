@@ -15,7 +15,6 @@
                     <h:form id="form">
                         <p:growl id="messages" showDetail="true" />
                         <h:panelGrid columnClasses="value">
-                            <h3>Calendario</h3>
                             <p:schedule id="schedule" draggable="false" resizable="false" value="#{calendarBean.eventModel}" widgetVar="myschedule" timeZone="GMT-5" locale="es">
                                 <p:ajax event="eventSelect" listener="#{calendarBean.onEventSelect}" update="eventDetails" oncomplete="PF('eventDialog').show();" />
                             </p:schedule>
