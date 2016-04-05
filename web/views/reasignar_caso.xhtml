@@ -15,8 +15,8 @@
                     <p:panel id="panelNumerodeCausa" header="Buscar Caso por Numero de Causa" >
                         <h:panelGrid columns="3" cellpadding="10">
                             <h:outputText value="Número de Causa" />
-                            <p:inputText placeholder="Ingrese el número de causa."value="#{reasignarCasoBean.numCausa}"/>  
-                            <p:commandButton value="Buscar" update=":principal:panelDatosCaso" actionListener="#{reasignarCasoBean.cargarCaso()}"></p:commandButton>
+                            <p:inputText placeholder="Ingrese número de causa." value="#{reasignarCasoBean.numCausa}"></p:inputText>  
+                            <p:commandButton value="Buscar" update=":principal:panelDatosCaso, :principal:growl" actionListener="#{reasignarCasoBean.cargarCaso(event)}"></p:commandButton>
 
                         </h:panelGrid>  
                     </p:panel>

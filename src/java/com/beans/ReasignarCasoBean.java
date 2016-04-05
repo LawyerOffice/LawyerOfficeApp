@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.beans;
 
 import java.math.BigDecimal;
@@ -14,7 +13,9 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 import javax.servlet.http.HttpSession;
+import org.primefaces.context.RequestContext;
 import procuradoria.map.Uzatcaso;
 import procuradoria.crud.ProcuradoriaMethods;
 import procuradoria.map.Uzatasign;
@@ -27,7 +28,7 @@ import procuradoria.map.Uzatfunci;
  */
 @ManagedBean
 @ViewScoped
-public class ReasignarCasoBean{
+public class ReasignarCasoBean {
 
     /**
      * Creates a new instance of ResumenProcuBean
@@ -36,47 +37,51 @@ public class ReasignarCasoBean{
     private Uzatcaso selectedCaso;
     private Uzatasign asignold;
     private String cedulaAbo;
-    private Uzatfunci nuevofunci; 
+    private Uzatfunci nuevofunci;
     private Uzatasign nuevaasign;
     private String motivo;
-    
+
     public ReasignarCasoBean() {
-        this.NumCausa = "Vacío."; 
-        this.motivo = "Vacío.";
-        this.selectedCaso=new Uzatcaso();
+        this.selectedCaso = new Uzatcaso();
         this.asignold = new Uzatasign();
         this.nuevofunci = new Uzatfunci();
         this.nuevaasign = new Uzatasign();
     }
 
-    public void cargarCaso()
-    {
+    public void cargarCaso(ActionEvent event) {
         this.selectedCaso = ProcuradoriaMethods.FindCasobyNumCausa(NumCausa);
-        this.asignold = ProcuradoriaMethods.GetActiveAbogadosByIdCaso(this.selectedCaso.getUzatcasoId());
+        if (this.selectedCaso == null) {
+            generateMessage(FacesMessage.SEVERITY_INFO, "Error", "No se ha encontrado ningún caso.");
+            this.asignold = null;
+        } else {
+            this.asignold = ProcuradoriaMethods.GetActiveAbogadosByIdCaso(this.selectedCaso.getUzatcasoId());
+        }
     }
-    
-    public void findAbobyCedula()
-    {
-        this.nuevofunci = ProcuradoriaMethods.FindFuncionarioByCedula(cedulaAbo);     
+
+    public void generateMessage(FacesMessage.Severity Tipo, String Header, String Mensaje) {
+        FacesMessage message = new FacesMessage(Tipo, Header, Mensaje);
+        FacesContext.getCurrentInstance().addMessage(null, message);
+    }
+
+    public void findAbobyCedula() {
+        this.nuevofunci = ProcuradoriaMethods.FindFuncionarioByCedula(cedulaAbo);
         System.out.println("");
     }
-    
-    public void asignarcaso()
-    {
-        nuevaasign.setId(new UzatasignId(this.nuevofunci.getUzatfuncionarioId(),this.selectedCaso.getUzatcasoId()));
+
+    public void asignarcaso() {
+        nuevaasign.setId(new UzatasignId(this.nuevofunci.getUzatfuncionarioId(), this.selectedCaso.getUzatcasoId()));
         nuevaasign.setUzatasignarFechaIn(getDate());
         nuevaasign.setUzatasignarMotivo(motivo);
         nuevaasign.setUzatasignarFlag(BigDecimal.ONE);
         nuevaasign.setUzatasignarId(getUserAttribute());
-        
-        if(ProcuradoriaMethods.insertAsign(nuevaasign))
-        {
+
+        if (ProcuradoriaMethods.insertAsign(nuevaasign)) {
             addMessage("Se ha reasignado el caso satisfactoriamente");
-        }else{
+        } else {
             addMessage("Ha ocurrido un error");
         }
     }
-    
+
     private BigDecimal getUserAttribute() {
         String UserAttribute = "";
         BigDecimal id = new BigDecimal(BigInteger.ZERO);
@@ -90,20 +95,19 @@ public class ReasignarCasoBean{
         }
         return id;
     }
-    
+
     public static String getDate() {
         SimpleDateFormat sdfDate = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");//dd/MM/yyyy
         Date now = new Date();
         String strDate = sdfDate.format(now);
         return strDate;
     }
-    
-    
+
     public void addMessage(String summary) {
-        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary,  null);
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary, null);
         FacesContext.getCurrentInstance().addMessage(null, message);
     }
-    
+
     //oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo
     public String getNumCausa() {
         return NumCausa;
@@ -160,8 +164,5 @@ public class ReasignarCasoBean{
     public void setMotivo(String motivo) {
         this.motivo = motivo;
     }
-    
-    
-    
-}
 
+}
