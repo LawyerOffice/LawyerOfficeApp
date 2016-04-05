@@ -39,6 +39,7 @@ public class Views {
         this.views_procu.add("faces/views/abogados_procu.xhtml");
         this.views_procu.add("faces/views/asignar_permiso.xhtml");
         this.views_procu.add("faces/views/reasignar_caso.xhtml");
+        this.views_procu.add("faces/views/reasignar_masiva.xhtml");
         this.views_procu.add("faces/views/calendario_procu.xhtml");
         this.views_procu.add("faces/views/casos_procu.xhtml");
         this.views_procu.add("faces/views/menu_procu.xhtml");
