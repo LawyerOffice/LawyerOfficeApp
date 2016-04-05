@@ -42,6 +42,8 @@
                                 <p:outputLabel value="Descripción:" /> 
                                 <p:inputTextarea id="Descripcion" disabled="true" rows="5" cols="20" value="#{calendarBean.selectedCita.uzatcitaDescripcion}"/>
 
+                                <p:outputLabel value="Creado por:" /> 
+                                <p:outputLabel id="Creado" value="#{calendarBean.funcionarioCreador.uzatfuncionarioApellidos} #{calendarBean.funcionarioCreador.uzatfuncionarioNombres}" />
                             </h:panelGrid>
                         </p:dialog>    
                     </h:form>

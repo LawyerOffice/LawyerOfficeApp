@@ -26,6 +26,7 @@ import org.primefaces.model.ScheduleEvent;
 import org.primefaces.model.ScheduleModel;
 import procuradoria.crud.ProcuradoriaMethods;
 import procuradoria.map.Uzatcita;
+import procuradoria.map.Uzatfunci;
 
 /**
  *
@@ -42,9 +43,12 @@ public class CalendarBean {
     private ArrayList<Uzatcita> ListCitas;
     private Uzatcita selectedCita;
     private ScheduleEvent event = new DefaultScheduleEvent();
+    
+    private Uzatfunci funcionarioCreador;
 
     public CalendarBean() {
         eventModel = new DefaultScheduleModel();
+        this.funcionarioCreador= new Uzatfunci();
         this.init();
     }
 
@@ -57,12 +61,13 @@ public class CalendarBean {
     public void loadData() {
         this.ListCitas.clear();
         this.ListCitas = ProcuradoriaMethods.GetCitasCalendar(StringToday());
-
+        BigDecimal id=this.getUserAttribute();
+        
         for (int i = 0; i < ListCitas.size(); i++) {
 
             DefaultScheduleEvent obj;
 
-            if (ListCitas.get(i).getUzatfuncionarioId().equals(this.getUserAttribute())) {
+            if (ListCitas.get(i).getUzatfase().getUzatcaso().getFuncionarioAsignado().getUzatfuncionarioId().equals(id)) {
                 obj = new DefaultScheduleEvent(ListCitas.get(i).getUzatfase().getUzatcaso().getUzatcasoNumcausa(),
                         dateBegin(ListCitas.get(i).getUzatcitaFecha()),
                         dateFinish(ListCitas.get(i).getUzatcitaFecha()), "color");
@@ -168,7 +173,7 @@ public class CalendarBean {
         String id = event.getDescription();
         BigDecimal uzatcitaId = new BigDecimal(id);
         this.selectedCita = getSelectedCita(uzatcitaId);
-
+        this.funcionarioCreador =ProcuradoriaMethods.FindFuncionarioByIdFunci(this.selectedCita.getUzatfuncionarioId());
     }
 
     public ArrayList<Uzatcita> getListCitas() {
@@ -185,6 +190,14 @@ public class CalendarBean {
 
     public void setSelectedCita(Uzatcita selectedCita) {
         this.selectedCita = selectedCita;
+    }
+
+    public Uzatfunci getFuncionarioCreador() {
+        return funcionarioCreador;
+    }
+
+    public void setFuncionarioCreador(Uzatfunci funcionarioCreador) {
+        this.funcionarioCreador = funcionarioCreador;
     }
 
 }
