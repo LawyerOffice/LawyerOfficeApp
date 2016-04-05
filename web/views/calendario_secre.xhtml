@@ -3,7 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <body>
 
@@ -26,9 +27,10 @@
                                 <p:outputLabel for="causa" value="Núm. Causa :" />
                                 <p:outputLabel id="causa" value="#{calendarBean.event.title}" />
 
-                                <p:outputLabel for="horaInicial" value="Agendado:" />
-                                <p:calendar id="horaInicial" value="#{calendarBean.event.startDate}" 
-                                            timeZone="GMT-5" pattern="dd/MM/yyyy HH:mm:ss" disabled="true"/>
+                                <p:outputLabel value="Agendado:" />
+                                <h:outputText value="#{calendarBean.event.startDate}">
+                                    <f:convertDateTime timeZone="GMT-5" pattern="dd/MM/yyyy HH:mm:ss"/>
+                                </h:outputText>
 
                                 <p:outputLabel value="Materia:" /> 
                                 <p:outputLabel id="Materia" value="#{calendarBean.selectedCita.uzatfase.uzatcaso.uzatjudi.uzatmateri.uzatmateriaDescripcion}" />
@@ -40,7 +42,7 @@
                                 <p:outputLabel id="Sala" value="#{calendarBean.selectedCita.uzatcitaSala}" />
                                 
                                 <p:outputLabel value="Descripción:" /> 
-                                <p:inputTextarea id="Descripcion" disabled="true" rows="5" cols="20" value="#{calendarBean.selectedCita.uzatcitaDescripcion}"/>
+                                <h:inputTextarea id="Descripcion" disabled="true" rows="5" cols="20" value="#{calendarBean.selectedCita.uzatcitaDescripcion}"/>
 
                                 <p:outputLabel value="Creado por:" /> 
                                 <p:outputLabel id="Creado" value="#{calendarBean.funcionarioCreador.uzatfuncionarioApellidos} #{calendarBean.funcionarioCreador.uzatfuncionarioNombres}" />
