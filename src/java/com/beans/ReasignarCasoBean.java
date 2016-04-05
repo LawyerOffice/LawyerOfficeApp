@@ -42,8 +42,8 @@ public class ReasignarCasoBean{
     private String motivo;
     
     public ReasignarCasoBean() {
-        this.NumCausa = "Vacio"; 
-        this.motivo = "Vacio";
+        this.NumCausa = "Vacío."; 
+        this.motivo = "Vacío.";
         this.selectedCaso=new Uzatcaso();
         this.asignold = new Uzatasign();
         this.nuevofunci = new Uzatfunci();
@@ -66,7 +66,7 @@ public class ReasignarCasoBean{
     {
         nuevaasign.setId(new UzatasignId(this.nuevofunci.getUzatfuncionarioId(),this.selectedCaso.getUzatcasoId()));
         nuevaasign.setUzatasignarFechaIn(getDate());
-        nuevaasign.setUzatasignarMotivo("Cambio");
+        nuevaasign.setUzatasignarMotivo(motivo);
         nuevaasign.setUzatasignarFlag(BigDecimal.ONE);
         nuevaasign.setUzatasignarId(getUserAttribute());
         
