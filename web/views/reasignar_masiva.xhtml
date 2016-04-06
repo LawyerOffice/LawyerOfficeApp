@@ -13,43 +13,44 @@
             <ui:define name="content">
 
                 <h:form id="principal">
+                    <p:growl id="growl" life="3000" />
 
-                     <p:panel id="panel_find_caso" header="CASOS ACTUALES">
+                    <p:panel id="panel_find_caso" header="CASOS ACTUALES">
                         <div align="center">
                             <h:panelGrid columns="4" cellpadding="10">
                                 <h:outputLabel value="Ingrese la cédula:"/>
 
                                 <p:inputText value="#{reasignarCasoBean.valueFindCasos}"/>
 
-                                <p:commandButton value="Buscar" actionListener="#{reasignarCasoBean.loadCasosAsignados()}" update=":principal:tablaCasos"/>
+                                <p:commandButton value="Buscar" actionListener="#{reasignarCasoBean.loadCasosAsignados()}" update=":principal:tablaCasos, :principal:growl"/>
                             </h:panelGrid>
                         </div>
                     </p:panel>
-                    
+
                     <p:dataTable id="tablaCasos" var="caso" value="#{reasignarCasoBean.casosAsigandos}" selection="#{reasignarCasoBean.casosSeleccionados}" rowKey="#{caso.id.uzatcasoId}" style="margin-bottom:0">
                         <f:facet name="header">
                             Checkbox
                         </f:facet>
                         <p:column selectionMode="multiple" style="width:16px;text-align:center"/>
                         <p:column headerText="Num. Causa">
-                                <h:outputText value="#{caso.uzatcaso.uzatcasoNumcausa}" />
-                            </p:column>
+                            <h:outputText value="#{caso.uzatcaso.uzatcasoNumcausa}" />
+                        </p:column>
 
-                            <p:column headerText="Fecha Asignacion">
-                                <h:outputText value="#{caso.uzatasignarFechaIn}" />
-                            </p:column>
+                        <p:column headerText="Fecha Asignacion">
+                            <h:outputText value="#{caso.uzatasignarFechaIn}" />
+                        </p:column>
 
-                            <p:column headerText="Fecha Caso">
-                                <h:outputText value="#{caso.uzatcaso.uzatcasoFechaIn}" />
-                            </p:column>
+                        <p:column headerText="Fecha Caso">
+                            <h:outputText value="#{caso.uzatcaso.uzatcasoFechaIn}" />
+                        </p:column>
 
-                            <p:column headerText="Num. Fase Actual">
-                                <h:outputText value="#{caso.ultimaFaseActual.uzatfaseNumfase}" />
-                            </p:column>
+                        <p:column headerText="Num. Fase Actual">
+                            <h:outputText value="#{caso.ultimaFaseActual.uzatfaseNumfase}" />
+                        </p:column>
 
-                            <p:column headerText="Fase Actual">
-                                <h:outputText value="#{caso.ultimaFaseActual.uzatfaseNombre}" />
-                            </p:column>
+                        <p:column headerText="Fase Actual">
+                            <h:outputText value="#{caso.ultimaFaseActual.uzatfaseNombre}" />
+                        </p:column>
                         <f:facet name="footer">
                             <p:commandButton process="tablaCasos" update=":principal:multiCarDetail" icon="ui-icon-search" value="View" oncomplete="PF('multiCarDialog').show()" />
                         </f:facet>

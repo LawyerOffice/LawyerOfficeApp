@@ -71,7 +71,7 @@ public class ReasignarCasoBean {
             addMessage("Ingrese la cédula del abogado que desea buscar sus casos.");
         } else {
             this.casosAsigandos = ProcuradoriaMethods.FindCasosReasignar(valueFindCasos);
-            if (this.casosAsigandos == null) {
+            if (this.casosAsigandos.isEmpty()) {
                 addMessage("No se han encontrado casos relacionados con dicha cédula.");
             }
         }
