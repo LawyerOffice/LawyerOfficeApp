@@ -49,7 +49,7 @@ public class ReasignarCasoBean {
     public ReasignarCasoBean() {
         this.selectedCaso = null;
         this.asignold = null;
-        this.nuevofunci = new Uzatfunci();
+        this.nuevofunci = null;
         this.nuevaasign = new Uzatasign();
     }
 
@@ -61,7 +61,7 @@ public class ReasignarCasoBean {
         }
     }
 
-    public void cargarCaso(ActionEvent event) {
+    public void cargarCaso() {
         if (NumCausa.equals("")) {
             addMessage("Ingrese el número de causa que desea buscar.");
             this.selectedCaso = null;
@@ -78,7 +78,15 @@ public class ReasignarCasoBean {
     }
 
     public void findAbobyCedula() {
-        this.nuevofunci = ProcuradoriaMethods.FindFuncionarioByCedula(cedulaAbo);
+        if(cedulaAbo.equals("")){
+            addMessage("Ingrese el número de cédula del abogado que desea buscar.");
+            this.nuevofunci=null;
+        }else{
+            this.nuevofunci = ProcuradoriaMethods.FindFuncionarioByCedula(cedulaAbo);
+            if(this.nuevofunci==null)
+                addMessage("No se ha encontrado ningún abogado.");
+        }
+        
     }
 
     public void loadCasosAsignados() {
@@ -106,6 +114,26 @@ public class ReasignarCasoBean {
         } else {
             addMessage("Ha ocurrido un error");
         }
+    }
+
+    public void asignarcasoMasivo() {
+        if (this.nuevofunci != null) {
+            nuevaasign.setUzatasignarMotivo(motivo);
+            nuevaasign.setUzatasignarFlag(BigDecimal.ONE);
+            nuevaasign.setUzatasignarId(getUserAttribute());
+
+            for (Uzatasign obj : this.casosSeleccionados) {
+                nuevaasign.setId(new UzatasignId(this.nuevofunci.getUzatfuncionarioId(), obj.getUzatcaso().getUzatcasoId()));
+                nuevaasign.setUzatasignarFechaIn(getDate());
+                ProcuradoriaMethods.insertAsign(nuevaasign);
+            }
+            addMessage("Se han reasignado los casos satisfactoriamente.");
+        }else
+        {
+            this.nuevofunci=null;
+            addMessage("Seleccione algún abogado para realizar la acción.");
+        }
+
     }
 
     private BigDecimal getUserAttribute() {

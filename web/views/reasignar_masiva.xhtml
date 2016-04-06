@@ -63,17 +63,48 @@
                         </p:dataTable>
                     </div>
 
-                    <p:dialog header="Reasignar" widgetVar="multiCarDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false" width="200">
-                        <p:outputPanel id="multiCarDetail">
+                    <p:dialog header="Reasignar" widgetVar="multiCarDialog" 
+                              modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+                        <p:panel id="multiCarDetail" header="Casos seleccionados">
 
-                            <p:dataList  value="#{reasignarCasoBean.casosSeleccionados}" var="car" type="ordered">
-                                <f:facet name="header">
-                                    Casos seleccionados
-                                </f:facet>
-                                #{car.uzatcaso.uzatcasoNumcausa}
-                            </p:dataList>
+                            <div align="center">
+                                <p:selectOneListbox id="advanced" 
+                                                    value="#{reasignarCasoBean.casosSeleccionados}" 
+                                                    var="car" scrollHeight="80">
+                                    <f:selectItems value="#{reasignarCasoBean.casosSeleccionados}"  />
 
-                        </p:outputPanel>
+                                    <p:column>
+                                        <h:outputText value="#{car.uzatcaso.uzatcasoNumcausa}" />
+                                    </p:column>
+
+                                </p:selectOneListbox>
+                            </div>
+                        </p:panel>
+
+                        <p:panel id="panelCedulaAbogado" header="Abogado al que se le asignarán los casos" >
+                            <div align="center">
+                                <h:panelGrid columns="3" cellpadding="5">
+                                    <h:outputText value="Cédula:" />  
+                                    <p:inputText placeholder="Ingrese la cédula." value="#{reasignarCasoBean.cedulaAbo}"/>
+                                    <p:commandButton value="Buscar" actionListener="#{reasignarCasoBean.findAbobyCedula()}" 
+                                                     update=":principal:panelDatosAbo"></p:commandButton>
+                                </h:panelGrid>  
+                            </div>
+                            <p:panel id="panelDatosAbo" header="Detalles Abogado" >
+                                <h:panelGrid columns="2" cellpadding="5">
+                                    <h:outputText value="ID Banner:" />
+                                    <h:outputText value="#{reasignarCasoBean.nuevofunci.uzatfuncionarioIdbanner}"/>
+                                    <h:outputText value="Nombre:" />
+                                    <h:outputText value="#{reasignarCasoBean.nuevofunci.uzatfuncionarioApellidos} #{reasignarCasoBean.nuevofunci.uzatfuncionarioNombres}"/> 
+
+                                    <h:outputText value="Motivo:" />
+                                    <p:inputTextarea placeholder="Ingrese el motivo." rows="4" cols="30" value="#{reasignarCasoBean.motivo}"/>
+
+                                </h:panelGrid>  
+                            </p:panel>
+                            <p:commandButton value="Reasignar" update=":principal:growl" actionListener="#{reasignarCasoBean.asignarcasoMasivo()}"></p:commandButton>
+                        </p:panel>
+
                     </p:dialog>
 
                 </h:form>
