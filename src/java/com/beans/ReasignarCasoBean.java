@@ -9,13 +9,13 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.servlet.http.HttpSession;
-import org.primefaces.context.RequestContext;
 import procuradoria.map.Uzatcaso;
 import procuradoria.crud.ProcuradoriaMethods;
 import procuradoria.map.Uzatasign;
@@ -41,6 +41,10 @@ public class ReasignarCasoBean {
     private Uzatasign nuevaasign;
     private String motivo;
 
+    private String valueFindCasos;
+    private List<Uzatasign> casosAsigandos;
+    private List<Uzatasign> casosSeleccionados;
+
     public ReasignarCasoBean() {
         this.selectedCaso = null;
         this.asignold = null;
@@ -60,7 +64,17 @@ public class ReasignarCasoBean {
 
     public void findAbobyCedula() {
         this.nuevofunci = ProcuradoriaMethods.FindFuncionarioByCedula(cedulaAbo);
-        System.out.println("");
+    }
+
+    public void loadCasosAsignados() {
+        if (this.valueFindCasos.equals("")) {
+            addMessage("Ingrese la cédula del abogado que desea buscar sus casos.");
+        } else {
+            this.casosAsigandos = ProcuradoriaMethods.FindCasosReasignar(valueFindCasos);
+            if (this.casosAsigandos == null) {
+                addMessage("No se han encontrado casos relacionados con dicha cédula.");
+            }
+        }
     }
 
     public void asignarcaso() {
@@ -103,7 +117,6 @@ public class ReasignarCasoBean {
         FacesContext.getCurrentInstance().addMessage(null, message);
     }
 
-    //oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo
     public String getNumCausa() {
         return NumCausa;
     }
@@ -158,6 +171,30 @@ public class ReasignarCasoBean {
 
     public void setMotivo(String motivo) {
         this.motivo = motivo;
+    }
+
+    public String getValueFindCasos() {
+        return valueFindCasos;
+    }
+
+    public void setValueFindCasos(String valueFindCasos) {
+        this.valueFindCasos = valueFindCasos;
+    }
+
+    public List<Uzatasign> getCasosAsigandos() {
+        return casosAsigandos;
+    }
+
+    public void setCasosAsigandos(List<Uzatasign> casosAsigandos) {
+        this.casosAsigandos = casosAsigandos;
+    }
+
+    public List<Uzatasign> getCasosSeleccionados() {
+        return casosSeleccionados;
+    }
+
+    public void setCasosSeleccionados(List<Uzatasign> casosSeleccionados) {
+        this.casosSeleccionados = casosSeleccionados;
     }
 
 }

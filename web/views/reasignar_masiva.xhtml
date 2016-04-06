@@ -1,14 +1,72 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <body>
 
         <ui:composition template="./menu_procu.xhtml">
 
             <ui:define name="content">
-                content
+
+                <h:form id="principal">
+
+                     <p:panel id="panel_find_caso" header="CASOS ACTUALES">
+                        <div align="center">
+                            <h:panelGrid columns="4" cellpadding="10">
+                                <h:outputLabel value="Ingrese la cédula:"/>
+
+                                <p:inputText value="#{reasignarCasoBean.valueFindCasos}"/>
+
+                                <p:commandButton value="Buscar" actionListener="#{reasignarCasoBean.loadCasosAsignados()}" update=":principal:tablaCasos"/>
+                            </h:panelGrid>
+                        </div>
+                    </p:panel>
+                    
+                    <p:dataTable id="tablaCasos" var="caso" value="#{reasignarCasoBean.casosAsigandos}" selection="#{reasignarCasoBean.casosSeleccionados}" rowKey="#{caso.id.uzatcasoId}" style="margin-bottom:0">
+                        <f:facet name="header">
+                            Checkbox
+                        </f:facet>
+                        <p:column selectionMode="multiple" style="width:16px;text-align:center"/>
+                        <p:column headerText="Num. Causa">
+                                <h:outputText value="#{caso.uzatcaso.uzatcasoNumcausa}" />
+                            </p:column>
+
+                            <p:column headerText="Fecha Asignacion">
+                                <h:outputText value="#{caso.uzatasignarFechaIn}" />
+                            </p:column>
+
+                            <p:column headerText="Fecha Caso">
+                                <h:outputText value="#{caso.uzatcaso.uzatcasoFechaIn}" />
+                            </p:column>
+
+                            <p:column headerText="Num. Fase Actual">
+                                <h:outputText value="#{caso.ultimaFaseActual.uzatfaseNumfase}" />
+                            </p:column>
+
+                            <p:column headerText="Fase Actual">
+                                <h:outputText value="#{caso.ultimaFaseActual.uzatfaseNombre}" />
+                            </p:column>
+                        <f:facet name="footer">
+                            <p:commandButton process="tablaCasos" update=":principal:multiCarDetail" icon="ui-icon-search" value="View" oncomplete="PF('multiCarDialog').show()" />
+                        </f:facet>
+                    </p:dataTable>
+
+
+                    <p:dialog header="Selected Cars" widgetVar="multiCarDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false" width="200">
+                        <p:outputPanel id="multiCarDetail" style="text-align:center;">
+                            <ui:repeat value="#{reasignarCasoBean.casosSeleccionados}" var="car">
+                                <h:outputText value="#{car.uzatcaso.uzatcasoNumcausa}" style="display:block"/>
+                            </ui:repeat>
+                        </p:outputPanel>
+                    </p:dialog>
+
+                </h:form>
+
+
             </ui:define>
 
         </ui:composition>
