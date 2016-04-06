@@ -27,41 +27,52 @@
                         </div>
                     </p:panel>
 
-                    <p:dataTable id="tablaCasos" var="caso" value="#{reasignarCasoBean.casosAsigandos}" selection="#{reasignarCasoBean.casosSeleccionados}" rowKey="#{caso.id.uzatcasoId}" style="margin-bottom:0">
-                        <f:facet name="header">
-                            Checkbox
-                        </f:facet>
-                        <p:column selectionMode="multiple" style="width:16px;text-align:center"/>
-                        <p:column headerText="Num. Causa">
-                            <h:outputText value="#{caso.uzatcaso.uzatcasoNumcausa}" />
-                        </p:column>
+                    <div align="center">
+                        <p:dataTable id="tablaCasos" 
+                                     var="caso" 
+                                     value="#{reasignarCasoBean.casosAsigandos}" 
+                                     tableStyle="width:auto"
+                                     emptyMessage="No se han encontrado casos relacionados."
+                                     selection="#{reasignarCasoBean.casosSeleccionados}" 
+                                     rowKey="#{caso.id.uzatcasoId}" style="margin-bottom:0">
 
-                        <p:column headerText="Fecha Asignacion">
-                            <h:outputText value="#{caso.uzatasignarFechaIn}" />
-                        </p:column>
+                            <p:column selectionMode="multiple" style="width:16px;text-align:center"/>
+                            <p:column headerText="Num. Causa">
+                                <h:outputText value="#{caso.uzatcaso.uzatcasoNumcausa}" />
+                            </p:column>
 
-                        <p:column headerText="Fecha Caso">
-                            <h:outputText value="#{caso.uzatcaso.uzatcasoFechaIn}" />
-                        </p:column>
+                            <p:column headerText="Fecha Asignacion">
+                                <h:outputText value="#{caso.uzatasignarFechaIn}" />
+                            </p:column>
 
-                        <p:column headerText="Num. Fase Actual">
-                            <h:outputText value="#{caso.ultimaFaseActual.uzatfaseNumfase}" />
-                        </p:column>
+                            <p:column headerText="Fecha Caso">
+                                <h:outputText value="#{caso.uzatcaso.uzatcasoFechaIn}" />
+                            </p:column>
 
-                        <p:column headerText="Fase Actual">
-                            <h:outputText value="#{caso.ultimaFaseActual.uzatfaseNombre}" />
-                        </p:column>
-                        <f:facet name="footer">
-                            <p:commandButton process="tablaCasos" update=":principal:multiCarDetail" icon="ui-icon-search" value="View" oncomplete="PF('multiCarDialog').show()" />
-                        </f:facet>
-                    </p:dataTable>
+                            <p:column headerText="Num. Fase Actual">
+                                <h:outputText value="#{caso.ultimaFaseActual.uzatfaseNumfase}" />
+                            </p:column>
 
+                            <p:column headerText="Fase Actual">
+                                <h:outputText value="#{caso.ultimaFaseActual.uzatfaseNombre}" />
+                            </p:column>
+                            <f:facet name="footer">
+                                <p:commandButton process="tablaCasos" update=":principal:multiCarDetail, :principal:growl" 
+                                                 icon="ui-icon-pin-s" value="Reasignar" actionListener="#{reasignarCasoBean.ReasignarValidacion(event)}" />
+                            </f:facet>
+                        </p:dataTable>
+                    </div>
 
-                    <p:dialog header="Selected Cars" widgetVar="multiCarDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false" width="200">
-                        <p:outputPanel id="multiCarDetail" style="text-align:center;">
-                            <ui:repeat value="#{reasignarCasoBean.casosSeleccionados}" var="car">
-                                <h:outputText value="#{car.uzatcaso.uzatcasoNumcausa}" style="display:block"/>
-                            </ui:repeat>
+                    <p:dialog header="Reasignar" widgetVar="multiCarDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false" width="200">
+                        <p:outputPanel id="multiCarDetail">
+
+                            <p:dataList  value="#{reasignarCasoBean.casosSeleccionados}" var="car" type="ordered">
+                                <f:facet name="header">
+                                    Casos seleccionados
+                                </f:facet>
+                                #{car.uzatcaso.uzatcasoNumcausa}
+                            </p:dataList>
+
                         </p:outputPanel>
                     </p:dialog>
 

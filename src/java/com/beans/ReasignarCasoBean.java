@@ -16,6 +16,7 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.servlet.http.HttpSession;
+import org.primefaces.context.RequestContext;
 import procuradoria.map.Uzatcaso;
 import procuradoria.crud.ProcuradoriaMethods;
 import procuradoria.map.Uzatasign;
@@ -52,13 +53,27 @@ public class ReasignarCasoBean {
         this.nuevaasign = new Uzatasign();
     }
 
+    public void ReasignarValidacion(ActionEvent event) {
+        if (this.casosSeleccionados.isEmpty()) {
+            addMessage("Seleccione los casos que desea reasignar.");
+        } else {
+            RequestContext.getCurrentInstance().execute("PF('multiCarDialog').show()");
+        }
+    }
+
     public void cargarCaso(ActionEvent event) {
-        this.selectedCaso = ProcuradoriaMethods.FindCasobyNumCausa(NumCausa);
-        if (this.selectedCaso == null) {
-            addMessage("No se ha encontrado ningún caso.");
+        if (NumCausa.equals("")) {
+            addMessage("Ingrese el número de causa que desea buscar.");
+            this.selectedCaso = null;
             this.asignold = null;
         } else {
-            this.asignold = ProcuradoriaMethods.GetActiveAbogadosByIdCaso(this.selectedCaso.getUzatcasoId());
+            this.selectedCaso = ProcuradoriaMethods.FindCasobyNumCausa(NumCausa);
+            if (this.selectedCaso == null) {
+                addMessage("No se ha encontrado ningún caso.");
+                this.asignold = null;
+            } else {
+                this.asignold = ProcuradoriaMethods.GetActiveAbogadosByIdCaso(this.selectedCaso.getUzatcasoId());
+            }
         }
     }
 
@@ -68,10 +83,12 @@ public class ReasignarCasoBean {
 
     public void loadCasosAsignados() {
         if (this.valueFindCasos.equals("")) {
+            this.casosAsigandos = null;
             addMessage("Ingrese la cédula del abogado que desea buscar sus casos.");
         } else {
             this.casosAsigandos = ProcuradoriaMethods.FindCasosReasignar(valueFindCasos);
             if (this.casosAsigandos.isEmpty()) {
+                this.casosAsigandos = null;
                 addMessage("No se han encontrado casos relacionados con dicha cédula.");
             }
         }
