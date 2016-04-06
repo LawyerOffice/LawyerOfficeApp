@@ -308,7 +308,7 @@
                         </h:panelGrid>
 
                         <f:facet name="footer">
-                            <p:commandButton id="btnSubmit" actionListener="#{fasesCasoBean.uploadPDF()}" 
+                            <p:commandButton id="btnSubmit" actionListener="#{fasesCasoBean.genratedDocumento(event)}" 
                                              ajax="false"
                                              icon="ui-icon-check"
                                              update=":growl , :form_FC:dtCaso , :form:dlgNuevoDocumento"
