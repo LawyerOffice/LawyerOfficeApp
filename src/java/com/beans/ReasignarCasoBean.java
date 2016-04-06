@@ -42,8 +42,8 @@ public class ReasignarCasoBean {
     private String motivo;
 
     public ReasignarCasoBean() {
-        this.selectedCaso = new Uzatcaso();
-        this.asignold = new Uzatasign();
+        this.selectedCaso = null;
+        this.asignold = null;
         this.nuevofunci = new Uzatfunci();
         this.nuevaasign = new Uzatasign();
     }
