@@ -51,16 +51,11 @@ public class ReasignarCasoBean {
     public void cargarCaso(ActionEvent event) {
         this.selectedCaso = ProcuradoriaMethods.FindCasobyNumCausa(NumCausa);
         if (this.selectedCaso == null) {
-            generateMessage(FacesMessage.SEVERITY_INFO, "Error", "No se ha encontrado ningún caso.");
+            addMessage("No se ha encontrado ningún caso.");
             this.asignold = null;
         } else {
             this.asignold = ProcuradoriaMethods.GetActiveAbogadosByIdCaso(this.selectedCaso.getUzatcasoId());
         }
-    }
-
-    public void generateMessage(FacesMessage.Severity Tipo, String Header, String Mensaje) {
-        FacesMessage message = new FacesMessage(Tipo, Header, Mensaje);
-        FacesContext.getCurrentInstance().addMessage(null, message);
     }
 
     public void findAbobyCedula() {
