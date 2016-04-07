@@ -142,10 +142,9 @@
 
                                                     <p:column headerText="Descargar" style="text-align: center">
                                                         <p:commandButton id="btnDesDoc" 
-                                                                         icon="icon-download"
+                                                                         icon="ui-icon-arrowthickstop-1-s"
                                                                          ajax="false"
-                                                                         actionListener="#{fasesCasoBean.GeneratePDF(event)}">
-                                                            <f:setPropertyActionListener value="#{DocById}" target="#{fasesCasoBean.selectedDocument}" />
+                                                                         actionListener="#{fasesCasoBean.GeneratePDF(event, DocById)}">
                                                             <p:fileDownload value="#{fasesCasoBean.pdfFile}" />
                                                         </p:commandButton>
                                                     </p:column>

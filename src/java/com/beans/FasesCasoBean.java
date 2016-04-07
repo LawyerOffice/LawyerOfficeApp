@@ -60,10 +60,10 @@ public class FasesCasoBean {
     private Uzatcomt NewComentario;
 
     private Uzatdocs NewDocumento;
-    private String DirecURLDoc;
-    
+
     private UploadedFile file;
     private StreamedContent pdfFile;
+    private String downloadFileName;
 
     private Uzatcita NewCita;
     private Date FechaCita;
@@ -95,8 +95,8 @@ public class FasesCasoBean {
         }
 
         this.FechaCita = new Date();
-        this.DirecURLDoc = "";
         this.EnableNewFase = true;
+        this.downloadFileName = "";
         this.setStateFaseDisabled(false);
         this.setSelectedFase(new Uzatfase());
         this.setNewFase(new Uzatfase());
@@ -267,10 +267,8 @@ public class FasesCasoBean {
     public void onTabChange(TabChangeEvent event) {
         if (event.getTab().getId().equals("TabDocumentos")) {
             this.initDocumentos();
-        } else {
-            if (event.getTab().getId().equals("TabCitas")) {
-                this.initCitas();
-            }
+        } else if (event.getTab().getId().equals("TabCitas")) {
+            this.initCitas();
         }
     }
 
@@ -419,16 +417,26 @@ public class FasesCasoBean {
             generateMessage(FacesMessage.SEVERITY_ERROR, "No has escogido un logo ", "");
         }
     }
-    
-    public void GeneratePDF(ActionEvent event){
+
+    public void GeneratePDF(ActionEvent event, Uzatdocs SelectedDocumet) {
+        this.SelectedDocument = SelectedDocumet;
         if (this.getSelectedDocument() != null) {
-            
-        }     
+            ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance()
+                    .getExternalContext().getContext();
+            String serverPath = ctx.getRealPath("/");
+            String filepath = "WEB-INF/docs/";
+            Boolean exito = DocumentsPdf.CreateFilePDF(this.SelectedDocument, serverPath + filepath);
+            if (exito) {
+                this.downloadFileName = SelectedDocument.getId().getUzatdocsId()+".pdf";
+                downloadDocsPDF(this.downloadFileName);
+                //DocumentsPdf.RemoveFilePDF(this.downloadFileName);
+            }
+        }
     }
-    
-    public void downloadCmpPDF(String fileName) {
+
+    public void downloadDocsPDF(String fileName) {
         if (this.getSelectedDocument() != null) {
-            InputStream CmpPDF = ((ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext()).getResourceAsStream("WEB-INF/cmp/" + fileName);
+            InputStream CmpPDF = ((ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext()).getResourceAsStream("WEB-INF/docs/" + fileName);
             this.setPdfFile(new DefaultStreamedContent(CmpPDF, "application/pdf", fileName));
 
         }
@@ -448,14 +456,6 @@ public class FasesCasoBean {
 
     public void setFechaCita(Date FechaCita) {
         this.FechaCita = FechaCita;
-    }
-
-    public String getDirecURLDoc() {
-        return DirecURLDoc;
-    }
-
-    public void setDirecURLDoc(String DirecURLDoc) {
-        this.DirecURLDoc = DirecURLDoc;
     }
 
     public String getValueFindCaso() {
@@ -482,6 +482,12 @@ public class FasesCasoBean {
         this.SelectedDocument = SelectedDocument;
     }
 
+    public String getDownloadFileName() {
+        return downloadFileName;
+    }
 
+    public void setDownloadFileName(String downloadFileName) {
+        this.downloadFileName = downloadFileName;
+    }
 
 }
