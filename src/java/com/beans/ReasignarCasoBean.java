@@ -78,15 +78,16 @@ public class ReasignarCasoBean {
     }
 
     public void findAbobyCedula() {
-        if(cedulaAbo.equals("")){
+        if (cedulaAbo.equals("")) {
             addMessage("Ingrese el número de cédula del abogado que desea buscar.");
-            this.nuevofunci=null;
-        }else{
+            this.nuevofunci = null;
+        } else {
             this.nuevofunci = ProcuradoriaMethods.FindFuncionarioByCedula(cedulaAbo);
-            if(this.nuevofunci==null)
+            if (this.nuevofunci == null) {
                 addMessage("No se ha encontrado ningún abogado.");
+            }
         }
-        
+
     }
 
     public void loadCasosAsignados() {
@@ -103,17 +104,31 @@ public class ReasignarCasoBean {
     }
 
     public void asignarcaso() {
-        nuevaasign.setId(new UzatasignId(this.nuevofunci.getUzatfuncionarioId(), this.selectedCaso.getUzatcasoId()));
-        nuevaasign.setUzatasignarFechaIn(getDate());
-        nuevaasign.setUzatasignarMotivo(motivo);
-        nuevaasign.setUzatasignarFlag(BigDecimal.ONE);
-        nuevaasign.setUzatasignarId(getUserAttribute());
+        if (this.nuevofunci != null) {
+            nuevaasign.setId(new UzatasignId(this.nuevofunci.getUzatfuncionarioId(), this.selectedCaso.getUzatcasoId()));
+            nuevaasign.setUzatasignarFechaIn(getDate());
+            nuevaasign.setUzatasignarMotivo(motivo);
+            nuevaasign.setUzatasignarFlag(BigDecimal.ONE);
+            nuevaasign.setUzatasignarId(getUserAttribute());
 
-        if (ProcuradoriaMethods.insertAsign(nuevaasign)) {
-            addMessage("Se ha reasignado el caso satisfactoriamente");
+            if (ProcuradoriaMethods.insertAsign(nuevaasign)) {
+                this.NumCausa="";
+                this.asignold = ProcuradoriaMethods.GetActiveAbogadosByIdCaso(this.selectedCaso.getUzatcasoId());
+                RequestContext.getCurrentInstance().execute("PF('wabo').hide();");
+                addMessage("Se ha reasignado el caso satisfactoriamente");
+            } else {
+                addMessage("Ha ocurrido un error");
+            }
         } else {
-            addMessage("Ha ocurrido un error");
+            addMessage("Seleccione el abogado al que desea hacer la reasignación.");
         }
+    }
+
+    public void inicializarReasig() {
+        this.nuevofunci = null;
+        this.cedulaAbo = "";
+        this.motivo = "";
+        RequestContext.getCurrentInstance().execute("PF('wabo').show();");
     }
 
     public void asignarcasoMasivo() {
@@ -121,7 +136,7 @@ public class ReasignarCasoBean {
             nuevaasign.setUzatasignarMotivo(motivo);
             nuevaasign.setUzatasignarId(getUserAttribute());
 
-            for (int i =0; i<this.casosSeleccionados.size();i++) {
+            for (int i = 0; i < this.casosSeleccionados.size(); i++) {
                 Uzatasign reasigM = new Uzatasign();
                 reasigM.setUzatasignarMotivo(this.nuevaasign.getUzatasignarMotivo());
                 reasigM.setUzatasignarFlag(BigDecimal.ONE);
@@ -131,9 +146,8 @@ public class ReasignarCasoBean {
                 ProcuradoriaMethods.insertAsign(reasigM);
             }
             addMessage("Se han reasignado los casos satisfactoriamente.");
-        }else
-        {
-            this.nuevofunci=null;
+        } else {
+            this.nuevofunci = null;
             addMessage("Seleccione algún abogado para realizar la acción.");
         }
 
