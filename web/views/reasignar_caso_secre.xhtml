@@ -10,73 +10,88 @@
         <ui:composition template="./menu_secre.xhtml">
 
             <ui:define name="content">
-                 <h:form id="principal">
-                    <p:growl id="growl" life="2000" />
-                    <p:panel id="panelNumerodeCausa" header="Buscar Caso por Numero de Causa" >
-                        <h:panelGrid columns="3" cellpadding="10">
-                            <h:outputText value="Número de Causa" />
-                            <p:inputText value="#{reasignarCasoBean.numCausa}"/>  
-                            <p:commandButton value="Buscar" update=":principal:panelDatosCaso" actionListener="#{reasignarCasoBean.cargarCaso()}"></p:commandButton>
+                <h:form id="principal">
+                    <p:growl id="growl" life="3000" />
+                    <p:panel id="panelNumerodeCausa" header="Buscar Caso por Número de Causa" >
+                        <div align="center">
+                            <h:panelGrid columns="3" cellpadding="5">
+                                <h:outputText value="Número de Causa" />
+                                <p:inputText placeholder="Ingrese número de causa." value="#{reasignarCasoBean.numCausa}"></p:inputText>  
+                                <p:commandButton value="Buscar" update=":principal:growl, :principal:tablaCaso" 
+                                                 actionListener="#{reasignarCasoBean.cargarCaso()}"></p:commandButton>
 
-                        </h:panelGrid>  
+                            </h:panelGrid>  
+                        </div>
                     </p:panel>
+                    <div align="center">
+                        <p:dataTable id="tablaCaso" var="casoA" 
+                                     value="#{reasignarCasoBean.selectedCaso}" 
+                                     tableStyle="width:auto"
+                                     emptyMessage="No se ha encontrado ningún caso.">
 
-                    <p:panel id="panelDatosCaso" header="Detalles del Caso" >
-                        <h:panelGrid columns="2" cellpadding="10">
-                            <h:outputText value="Numero de Causa:"/>
-                            <h:outputText value="#{reasignarCasoBean.selectedCaso.uzatcasoNumcausa}" />
-                            <h:outputText value="Motivo:"/>
-                            <h:outputText value="#{reasignarCasoBean.selectedCaso.uzatcasoMotivo}" />
-                            <h:outputText value="Detalle:"/>
-                            <h:inputTextarea disabled="true" value="#{reasignarCasoBean.selectedCaso.uzatcasoDetalle}" />
-                            <h:outputText value="Tipo:"/>
-                            <h:outputText value="#{reasignarCasoBean.selectedCaso.uzatcasoTipo}" /> 
-                            <h:outputText value="Funcionario Asignado:"/>
-                            <h:outputText value="#{reasignarCasoBean.asignold.uzatfunci.uzatfuncionarioNombres} #{reasignarCasoBean.asignold.uzatfunci.uzatfuncionarioApellidos}" /> 
+                            <p:column headerText="Núm. Causa" >
+                                <h:outputText value="#{casoA.uzatcasoNumcausa}" />
+                            </p:column>
+                            <p:column headerText="Motivo">
+                                <h:outputText value="#{casoA.uzatcasoMotivo}" />
+                            </p:column>
+                            <p:column headerText="Detalle">
+                                <h:outputText value="#{casoA.uzatcasoDetalle}" />
+                            </p:column>
+                            <p:column headerText="Tipo">
+                                <h:outputText value="#{casoA.uzatcasoTipo}" />
+                            </p:column>
+                            <p:column headerText="Fecha Inicial">
+                                <h:outputText value="#{casoA.uzatcasoFechaIn}" />
+                            </p:column>
+                            <p:column headerText="Funcionario Asignado">
+                                <h:outputText value="#{reasignarCasoBean.asignold.uzatfunci.uzatfuncionarioNombres} #{reasignarCasoBean.asignold.uzatfunci.uzatfuncionarioApellidos}" />
+                            </p:column>
+                            <p:column headerText="Reasignar">
+                                <div align="center">
+                                    <p:commandButton icon="ui-icon-shuffle" update=":principal:reasignarabo" actionListener="#{reasignarCasoBean.inicializarReasig()}" ></p:commandButton> 
+                                </div>
+                            </p:column>
+                        </p:dataTable>
+                    </div>
 
-                            <p:commandButton value="Reasignar Caso" oncomplete="PF('wabo').show();" ></p:commandButton>
-
-                        </h:panelGrid>  
-                    </p:panel>
-                    
-                    
                     <p:dialog id="reasignarabo" widgetVar="wabo" header="Seleccione Nuevo Abogado"  
-                               modal="true" showEffect="fade" resizable="false" position="center center">
-                            <h2> Asignar Abogado</h2>
-                            
-                            <p:panel id="panelCedulaAbogado" header="Ingrese Numero de Cedula de Abogado" >
-                                <h:panelGrid columns="3" cellpadding="10">
-                                    <h:outputText value="Cedula:" />  
-                                    <p:inputText value="#{reasignarCasoBean.cedulaAbo}"/>
-                                    <p:commandButton value="Buscar" actionListener="#{reasignarCasoBean.findAbobyCedula()}" update=":principal:panelDatosAbo"></p:commandButton>
-                                </h:panelGrid>    
-                            </p:panel>
-                            
-                            <p:panel id="panelDatosAbo" header="Detalles Abogado" >
-                                <h:panelGrid columns="2" cellpadding="10">
-                                    <h:outputText value="Nombres:" />
-                                    <h:outputText value="#{reasignarCasoBean.nuevofunci.uzatfuncionarioNombres}"/>
-                                    <h:outputText value="Apellidos:" />
-                                    <h:outputText value="#{reasignarCasoBean.nuevofunci.uzatfuncionarioApellidos}"/>
-                                    <h:outputText value="Cedula:" />
-                                    <h:outputText value="#{reasignarCasoBean.nuevofunci.uzatfuncionarioCedula}"/>
-                                    <h:outputText value="ID Banner:" />
-                                    <h:outputText value="#{reasignarCasoBean.nuevofunci.uzatfuncionarioIdbanner}"/>
-                                    <h:outputText value="e-mail:" />
-                                    <h:outputText value="#{reasignarCasoBean.nuevofunci.uzatfuncionarioEmail}"/>
-                                    <h:outputText value="Celular:" />
-                                    <h:outputText value="#{reasignarCasoBean.nuevofunci.uzatfuncionarioMovil}"/>
-                                    
-                                    <h:outputText value=" " />
-                                    <h:outputText value=" " />
-                                    <h:outputText value="Motivo:" />
-                                    <p:inputTextarea value="#{reasignarCasoBean.motivo}"></p:inputTextarea>
-                                    
-                                    <p:commandButton value="Reasignar Caso" update=":principal:reasignarabo, :principal:panelDatosCaso, growl" actionListener="#{reasignarCasoBean.asignarcaso()}"></p:commandButton>
-                                </h:panelGrid>    
-                            </p:panel>
-                     </p:dialog>
-               </h:form>
+                              modal="true" showEffect="fade" resizable="false" position="center center">
+                        <h2> Asignar Abogado</h2>
+
+                        <p:panel id="panelCedulaAbogado" header="Ingrese Número de Cédula de Abogado" >
+                            <h:panelGrid columns="3" cellpadding="5">
+                                <h:outputText value="Cédula:" />  
+                                <p:inputText placeholder="Ingrese la cédula." value="#{reasignarCasoBean.cedulaAbo}"/>
+                                <p:commandButton value="Buscar" actionListener="#{reasignarCasoBean.findAbobyCedula()}" 
+                                                 update=":principal:panelDatosAbo, :principal:growl"></p:commandButton>
+                            </h:panelGrid>    
+                        </p:panel>
+
+                        <p:panel id="panelDatosAbo" header="Detalles Abogado" >
+                            <h:panelGrid columns="2" cellpadding="5">
+                                <h:outputText value="Nombres:" />
+                                <h:outputText value="#{reasignarCasoBean.nuevofunci.uzatfuncionarioNombres}"/>
+                                <h:outputText value="Apellidos:" />
+                                <h:outputText value="#{reasignarCasoBean.nuevofunci.uzatfuncionarioApellidos}"/>
+                                <h:outputText value="Cédula:" />
+                                <h:outputText value="#{reasignarCasoBean.nuevofunci.uzatfuncionarioCedula}"/>
+                                <h:outputText value="ID Banner:" />
+                                <h:outputText value="#{reasignarCasoBean.nuevofunci.uzatfuncionarioIdbanner}"/>
+                                <h:outputText value="E-mail:" />
+                                <h:outputText value="#{reasignarCasoBean.nuevofunci.uzatfuncionarioEmail}"/>
+                                <h:outputText value="Celular:" />
+                                <h:outputText value="#{reasignarCasoBean.nuevofunci.uzatfuncionarioMovil}"/>
+                                <h:outputText value="Motivo:" />
+                                <p:inputTextarea placeholder="Ingrese el motivo." value="#{reasignarCasoBean.motivo}"/>
+
+                                <p:commandButton value="Reasignar Caso" 
+                                                 update=":principal:tablaCaso, :principal:panelNumerodeCausa :principal:growl" 
+                                                 actionListener="#{reasignarCasoBean.asignarcaso()}"></p:commandButton>
+                            </h:panelGrid>    
+                        </p:panel>
+                    </p:dialog>
+                </h:form>
             </ui:define>
 
         </ui:composition>

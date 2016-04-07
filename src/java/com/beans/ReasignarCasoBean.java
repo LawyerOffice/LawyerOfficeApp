@@ -5,6 +5,7 @@
  */
 package com.beans;
 
+import com.util.ReasignacionMasivaRun;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.text.SimpleDateFormat;
@@ -112,7 +113,7 @@ public class ReasignarCasoBean {
             nuevaasign.setUzatasignarId(getUserAttribute());
 
             if (ProcuradoriaMethods.insertAsign(nuevaasign)) {
-                this.NumCausa="";
+                this.NumCausa = "";
                 this.asignold = ProcuradoriaMethods.GetActiveAbogadosByIdCaso(this.selectedCaso.getUzatcasoId());
                 RequestContext.getCurrentInstance().execute("PF('wabo').hide();");
                 addMessage("Se ha reasignado el caso satisfactoriamente");
@@ -133,24 +134,21 @@ public class ReasignarCasoBean {
 
     public void asignarcasoMasivo() {
         if (this.nuevofunci != null) {
-            nuevaasign.setUzatasignarMotivo(motivo);
-            nuevaasign.setUzatasignarId(getUserAttribute());
 
-            for (int i = 0; i < this.casosSeleccionados.size(); i++) {
-                Uzatasign reasigM = new Uzatasign();
-                reasigM.setUzatasignarMotivo(this.nuevaasign.getUzatasignarMotivo());
-                reasigM.setUzatasignarFlag(BigDecimal.ONE);
-                reasigM.setUzatasignarId(this.nuevaasign.getUzatasignarId());
-                reasigM.setId(new UzatasignId(this.nuevofunci.getUzatfuncionarioId(), this.casosSeleccionados.get(i).getId().getUzatcasoId()));
-                reasigM.setUzatasignarFechaIn(getDate());
-                ProcuradoriaMethods.insertAsign(reasigM);
+            ReasignacionMasivaRun Hilo = new ReasignacionMasivaRun(nuevofunci, nuevaasign, casosSeleccionados, motivo, getUserAttribute());
+            Hilo.run();
+            Boolean exito = Hilo.getExito();
+
+            if (exito) {
+                addMessage("Se han reasignado los casos satisfactoriamente.");
+            } else {
+                addMessage("Ha ocurrido un error.");
             }
-            addMessage("Se han reasignado los casos satisfactoriamente.");
+
         } else {
             this.nuevofunci = null;
             addMessage("Seleccione algún abogado para realizar la acción.");
         }
-
     }
 
     private BigDecimal getUserAttribute() {
