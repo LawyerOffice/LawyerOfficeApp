@@ -8,6 +8,7 @@ package com.beans;
 import banner.crud.BannerMethos;
 import banner.map.PersonaBanner;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
@@ -80,7 +81,7 @@ public class AsignarPermisoBean {
 
     public void loadlistFuncionarios() {
         ArrayList<String> selectItemsCli = new ArrayList<String>();
-        selectItemsCli.add("ID ESPE");
+        selectItemsCli.add("Id Banner");
         selectItemsCli.add("Cédula");
         this.ItemsFuncionarios.clear();
         for (String Item : selectItemsCli) {
@@ -98,17 +99,21 @@ public class AsignarPermisoBean {
 
     public void genratedPermiso(ActionEvent event) {
 
-        GregorianCalendar g1 = new GregorianCalendar();
-        SimpleDateFormat s1 = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-        this.newRol.setUzatrolFechaIn(s1.format(g1.getTime()));
-        this.newRol.setUzatrolFlag(BigDecimal.ONE);
-        this.newRol.getId().setUzatfuncionarioId(this.newFuncionario.getUzatfuncionarioId());
-        this.newRol.getUzatfunci().setUzatfuncionarioId(this.newFuncionario.getUzatfuncionarioId());
-        this.newRol.getUzattrol().setUzattiporolId(this.newRol.getId().getUzattiporolId());
-        Boolean exito = ProcuradoriaMethods.InsertRol(this.newRol);
-        if (exito) {
-            RequestContext.getCurrentInstance().execute("PF('dlgNewRespMSG').show();");
-            this.init();
+        if (!this.newRol.getId().getUzattiporolId().equals(new BigDecimal(BigInteger.ZERO))) {
+            GregorianCalendar g1 = new GregorianCalendar();
+            SimpleDateFormat s1 = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+            this.newRol.setUzatrolFechaIn(s1.format(g1.getTime()));
+            this.newRol.setUzatrolFlag(BigDecimal.ONE);
+            this.newRol.getId().setUzatfuncionarioId(this.newFuncionario.getUzatfuncionarioId());
+            this.newRol.getUzatfunci().setUzatfuncionarioId(this.newFuncionario.getUzatfuncionarioId());
+            this.newRol.getUzattrol().setUzattiporolId(this.newRol.getId().getUzattiporolId());
+            Boolean exito = ProcuradoriaMethods.InsertRol(this.newRol);
+            if (exito) {
+                RequestContext.getCurrentInstance().execute("PF('dlgNewRespMSG').show();");
+                this.init();
+            }
+        }else{
+            generateMessage(FacesMessage.SEVERITY_INFO, "Por favor", "Seleccionar el tipo de permiso.");
         }
     }
 
@@ -117,13 +122,12 @@ public class AsignarPermisoBean {
         if (this.patterFuncionario.equals("Id Banner")) {
             if (!ValidateFuncionario(this.claveFuncionario, 0)) {
             }
-        } else if (patterFuncionario.equals("Cedula")) {
+        } else if (patterFuncionario.equals("Cédula")) {
             if (!ValidateFuncionario(this.claveFuncionario, 1)) {
             }
         } else {
-            generateMessage(FacesMessage.SEVERITY_INFO, "Por favor", "Seleciona un campo.");
+            generateMessage(FacesMessage.SEVERITY_INFO, "Por favor", "Seleccionar una opción para realizar la búsqueda.");
         }
-
     }
 
     public void loadCasosAsigandos(ActionEvent event) {

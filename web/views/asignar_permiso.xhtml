@@ -11,8 +11,7 @@
         <ui:composition template="./menu_procu.xhtml">
 
             <ui:define name="content">
-
-                <p:growl id="growl" showDetail="true" life="3000" /> 
+ 
                 <h:form id="form_PA"> 
                     <p:growl id="growl" showDetail="true" life="3000" /> 
 
@@ -59,7 +58,7 @@
                                              oncomplete="PF('listAsgCas').show()" icon="ui-icon-search"/>
 
                             <p:commandButton actionListener="#{asignarPermisoBean.EraseItem(event)}" 
-                                             update=":form_PA, :growl" style="float: right" 
+                                             update=":form_PA:growl" style="float: right" 
                                              icon="ui-icon-close" value="Eliminar"/>
                         </f:facet>
                     </p:panel>
@@ -70,12 +69,12 @@
 
                             <h:panelGrid columns="4" cellpadding="10">
                                 <h:outputLabel for="patter" value="Buscar por:"/>
-                                <p:selectOneMenu id="patter" required="false" value="#{asignarPermisoBean.patterFuncionario}">
+                                <p:selectOneMenu id="patter" value="#{asignarPermisoBean.patterFuncionario}">
                                     <f:selectItem itemLabel="Seleccionar" itemValue="" noSelectionOption="true"/>
                                     <f:selectItems value="#{asignarPermisoBean.itemsFuncionarios}"/>
                                 </p:selectOneMenu>
-                                <p:inputText id="findPatter" required="fasle" value="#{asignarPermisoBean.claveFuncionario}"/>
-                                <p:commandButton value="Buscar" id="btnPatterFuncionario" icon="ui-icon-search" update=":growl , :form_PA:panelFunc"
+                                <p:inputText id="findPatter" value="#{asignarPermisoBean.claveFuncionario}"/>
+                                <p:commandButton value="Buscar" id="btnPatterFuncionario" icon="ui-icon-search" update=":form_PA:growl , :form_PA:panelFunc"
                                                  actionListener="#{asignarPermisoBean.findFuncionario(event)}"/>
                             </h:panelGrid>
                             <p:panel id="panelFunc" header="Funcionario">
@@ -91,7 +90,7 @@
                                     <h:outputText value="E-mail:"/>
                                     <h:outputText value="#{asignarPermisoBean.newFuncionario.uzatfuncionarioEmail}"/>
                                     <h:outputLabel for="cliMovil" value="Movil:"/>
-                                    <p:inputText id="cliMovil" required="false" value="#{asignarPermisoBean.newFuncionario.uzatfuncionarioMovil}"/>
+                                    <p:inputText id="cliMovil" value="#{asignarPermisoBean.newFuncionario.uzatfuncionarioMovil}"/>
                                 </h:panelGrid>
                             </p:panel>
 
@@ -106,7 +105,7 @@
                         <f:facet name="footer">
                             <p:commandButton value="Asignar" id="btnConfirmarNewPermiso"
                                              actionListener="#{asignarPermisoBean.genratedPermiso(event)}"
-                                             update=":growl , :form_PA , :form_PA:dtPermiAsig"
+                                             update=" :form_PA:growl"
                                              icon="ui-icon-check"/> <!-- action ="" -->
 
                         </f:facet> 
@@ -122,7 +121,7 @@
 
                         <f:facet name="footer">
                             <p:commandButton value="Aceptar" id="btnAsigarNuevoCasoMSG"
-                                             update=":form_PA, :growl"
+                                             update=":form_PA:growl, :form_PA:dtPermiAsig"
                                              oncomplete="PF('dlgNewRespMSG').hide(); PF('dlgNewPermits').hide();" > <!-- action ="" -->
                             </p:commandButton>
                         </f:facet> 
