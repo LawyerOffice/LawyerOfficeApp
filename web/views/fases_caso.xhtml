@@ -140,8 +140,14 @@
                                                         <h:outputText value="#{DocById.uzatdocsCompromiso}" />
                                                     </p:column>
 
-                                                    <p:column headerText="Archivo">
-
+                                                    <p:column headerText="Descargar" style="text-align: center">
+                                                        <p:commandButton id="btnDesDoc" 
+                                                                         icon="icon-download"
+                                                                         ajax="false"
+                                                                         actionListener="#{fasesCasoBean.GeneratePDF(event)}">
+                                                            <f:setPropertyActionListener value="#{DocById}" target="#{fasesCasoBean.selectedDocument}" />
+                                                            <p:fileDownload value="#{fasesCasoBean.pdfFile}" />
+                                                        </p:commandButton>
                                                     </p:column>
 
                                                 </p:dataTable>

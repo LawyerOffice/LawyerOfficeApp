@@ -7,6 +7,7 @@
 package com.beans;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.math.BigInteger;
@@ -24,6 +25,8 @@ import javax.servlet.http.HttpSession;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.event.TabChangeEvent;
 import org.primefaces.event.ToggleEvent;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
 import org.primefaces.model.UploadedFile;
 import org.primefaces.model.Visibility;
 import procuradoria.crud.ProcuradoriaMethods;
@@ -47,6 +50,7 @@ public class FasesCasoBean {
     private ArrayList<Uzatcita> ListCitaFasesById;
 
     private Uzatcaso SelectedCaso;
+    private Uzatdocs SelectedDocument;
     private BigDecimal CodCaso;
 
     private Uzatfase SelectedFase;
@@ -57,7 +61,9 @@ public class FasesCasoBean {
 
     private Uzatdocs NewDocumento;
     private String DirecURLDoc;
+    
     private UploadedFile file;
+    private StreamedContent pdfFile;
 
     private Uzatcita NewCita;
     private Date FechaCita;
@@ -413,6 +419,20 @@ public class FasesCasoBean {
             generateMessage(FacesMessage.SEVERITY_ERROR, "No has escogido un logo ", "");
         }
     }
+    
+    public void GeneratePDF(ActionEvent event){
+        if (this.getSelectedDocument() != null) {
+            
+        }     
+    }
+    
+    public void downloadCmpPDF(String fileName) {
+        if (this.getSelectedDocument() != null) {
+            InputStream CmpPDF = ((ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext()).getResourceAsStream("WEB-INF/cmp/" + fileName);
+            this.setPdfFile(new DefaultStreamedContent(CmpPDF, "application/pdf", fileName));
+
+        }
+    }
 
     public Boolean getEnableNewFase() {
         return EnableNewFase;
@@ -445,5 +465,23 @@ public class FasesCasoBean {
     public void setValueFindCaso(String valueFindCaso) {
         this.valueFindCaso = valueFindCaso;
     }
+
+    public StreamedContent getPdfFile() {
+        return pdfFile;
+    }
+
+    public void setPdfFile(StreamedContent pdfFile) {
+        this.pdfFile = pdfFile;
+    }
+
+    public Uzatdocs getSelectedDocument() {
+        return SelectedDocument;
+    }
+
+    public void setSelectedDocument(Uzatdocs SelectedDocument) {
+        this.SelectedDocument = SelectedDocument;
+    }
+
+
 
 }
