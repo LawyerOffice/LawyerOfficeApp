@@ -119,13 +119,16 @@ public class ReasignarCasoBean {
     public void asignarcasoMasivo() {
         if (this.nuevofunci != null) {
             nuevaasign.setUzatasignarMotivo(motivo);
-            nuevaasign.setUzatasignarFlag(BigDecimal.ONE);
             nuevaasign.setUzatasignarId(getUserAttribute());
 
-            for (Uzatasign obj : this.casosSeleccionados) {
-                nuevaasign.setId(new UzatasignId(this.nuevofunci.getUzatfuncionarioId(), obj.getUzatcaso().getUzatcasoId()));
-                nuevaasign.setUzatasignarFechaIn(getDate());
-                ProcuradoriaMethods.insertAsign(nuevaasign);
+            for (int i =0; i<this.casosSeleccionados.size();i++) {
+                Uzatasign reasigM = new Uzatasign();
+                reasigM.setUzatasignarMotivo(this.nuevaasign.getUzatasignarMotivo());
+                reasigM.setUzatasignarFlag(BigDecimal.ONE);
+                reasigM.setUzatasignarId(this.nuevaasign.getUzatasignarId());
+                reasigM.setId(new UzatasignId(this.nuevofunci.getUzatfuncionarioId(), this.casosSeleccionados.get(i).getId().getUzatcasoId()));
+                reasigM.setUzatasignarFechaIn(getDate());
+                ProcuradoriaMethods.insertAsign(reasigM);
             }
             addMessage("Se han reasignado los casos satisfactoriamente.");
         }else
