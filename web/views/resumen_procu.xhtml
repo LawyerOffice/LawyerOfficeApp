@@ -12,6 +12,41 @@
 
             <ui:define name="content">
                 <h:form id="form_noti">
+                    <p:growl id="growl" life="2000" />
+                    
+                    <p:panel id="pnlprocunoabo" header="CASOS SIN ABOGADO ASIGNADO">
+                        <p:dataTable id="dataTablesinAbogados" 
+                                     var="casoI" 
+                                     value="#{resumenProcuBean.lazyModelCasossinAbogado}" 
+                                     paginator="true" rows="5"
+                                     emptyMessage="No se ha encontrado casos sin abogados"
+                                     paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                     rowsPerPageTemplate="5" lazy="true"
+                                     selectionMode="single" selection="#{resumenProcuBean.selectedCaso}" rowKey="#{casoI}">
+                            
+                            <p:ajax event="rowSelect" 
+                                    listener="#{resumenProcuBean.selectionaction()}" 
+                                    update=":form_noti:growl" oncomplete="PF('wfunci').show();"/>
+                            
+                            <p:column headerText="Núm. Causa" >
+                                <h:outputText value="#{casoI.uzatcasoNumcausa}" />
+                            </p:column>
+                            <p:column headerText="Motivo">
+                                <h:outputText value="#{casoI.uzatcasoMotivo}" />
+                            </p:column>
+                            <p:column headerText="Detalle">
+                                <h:outputText value="#{casoI.uzatcasoDetalle}" />
+                            </p:column>
+                            <p:column headerText="Tipo">
+                                <h:outputText value="#{casoI.uzatcasoTipo}" />
+                            </p:column>
+                            <p:column headerText="Fecha Inicial">
+                                <h:outputText value="#{casoI.uzatcasoFechaIn}" />
+                            </p:column>
+                        </p:dataTable>
+
+                    </p:panel>
+                    <p:separator/>
                     <p:panel id="pnlprocu" header="CASOS ASIGNADOS SIN INICIAR">
                         <p:dataTable id="dataTableInactivos" 
                                      var="casoI" 
@@ -39,6 +74,47 @@
                         </p:dataTable>
 
                     </p:panel>
+                    
+                    <p:dialog id="selectfunci" widgetVar="wfunci" header="Seleccione Funcionario"  
+                              modal="true" showEffect="fade" resizable="false" position="center center">
+                        <h2> Asignar Funcionario</h2>
+
+                        <p:panel id="panelCedulaFuncionario" header="Ingrese Numero de Cedula o ID ESPE" >
+                            <h:panelGrid columns="4" cellpadding="10">
+                                <h:outputText value="Seleccione:" />
+                                <p:selectOneMenu id="patter" required="false" value="#{resumenProcuBean.idocedula}">
+                                    <f:selectItem itemLabel="Seleccionar" itemValue="" noSelectionOption="true"/>
+                                    <f:selectItem itemLabel="Cédula" itemValue="0"/>
+                                    <f:selectItem itemLabel="ID ESPE" itemValue="1"/>
+                                </p:selectOneMenu>
+                                <p:inputText value="#{resumenProcuBean.cedulaActor}"/>
+                                <p:commandButton value="Buscar" update=":form_noti:panelfunci, :form_noti:growl" actionListener="#{resumenProcuBean.findFuncionariobycedula()}"></p:commandButton>
+
+
+                            </h:panelGrid>  
+                        </p:panel>
+
+                        <p:panel id="panelfunci" header="Detalles Funcionario" >
+                            <h:panelGrid columns="2" cellpadding="10">
+                                <h:outputText value="Nombres:" />
+                                <p:inputText value="#{resumenProcuBean.selectedFunci.uzatfuncionarioNombres}"/>
+                                <h:outputText value="Apellidos:" />
+                                <p:inputText value="#{resumenProcuBean.selectedFunci.uzatfuncionarioApellidos}"/>
+                                <h:outputText value="Cedula:" />
+                                <p:inputText value="#{resumenProcuBean.selectedFunci.uzatfuncionarioCedula}"/>
+                                <h:outputText value="e-mail:" />
+                                <p:inputText value="#{resumenProcuBean.selectedFunci.uzatfuncionarioEmail}"/>
+                                <h:outputText value="Celular:" />
+                                <p:inputText value="#{resumenProcuBean.selectedFunci.uzatfuncionarioMovil}"/>
+                                <h:outputText value="ID Banner:" />
+                                <p:inputText value="#{resumenProcuBean.selectedFunci.uzatfuncionarioIdbanner}"/>
+                                <p:commandButton value="Asignar" 
+                                                 update=":form_noti:selectfunci, form_noti:dataTablesinAbogados, :form_noti:growl" 
+                                                 actionListener="#{resumenProcuBean.asignarFuncionario()}"></p:commandButton>
+                            </h:panelGrid>   
+                        </p:panel>
+                    </p:dialog>    
+                    
                 </h:form>  
             </ui:define>
 
