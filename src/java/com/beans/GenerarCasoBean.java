@@ -226,6 +226,20 @@ public class GenerarCasoBean {
         ProcuradoriaMethods.InsertCaso(newCaso);
     }
     
+    public void grabarCaso2()
+    {
+        BigDecimal idmateri = new BigDecimal(idMateria);
+        BigDecimal idjudi = new BigDecimal(idJudicatura);
+        newJuzgado.setId(new UzatjudiId(idmateri, idjudi));
+        newCaso.setUzatjudi(newJuzgado);
+        newCaso.setUzatcasoTipo(tipoCaso);
+        newCaso.setUzatcasoNumcausa(numCausa);
+        newCaso.setUzatcasoFechaIn(getDate());
+        newCaso.setUzatcasoMotivo("Por asignar");
+        newCaso.setUzatcasoFlag(new BigDecimal(3));
+        ProcuradoriaMethods.InsertCaso(newCaso);
+    }
+    
     public static String getDate() {
         SimpleDateFormat sdfDate = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");//dd/MM/yyyy
         Date now = new Date();
@@ -251,6 +265,18 @@ public class GenerarCasoBean {
             grabarFuncionarios();
             grabarCaso();
             AsignarCasoAbogado();
+            generateMessage(FacesMessage.SEVERITY_INFO, "Éxito", "Se ha generado un nuevo caso satisfactoriamente");
+        }catch(Exception ex)
+        {
+            generateMessage(FacesMessage.SEVERITY_FATAL, "ERROR no se ha grabado nuevo caso", ex.getMessage());
+        }
+        
+    }
+    
+    public void grabarnuevoCasoSecretaria(ActionEvent event)
+    {
+        try{
+            grabarCaso2();
             generateMessage(FacesMessage.SEVERITY_INFO, "Éxito", "Se ha generado un nuevo caso satisfactoriamente");
         }catch(Exception ex)
         {

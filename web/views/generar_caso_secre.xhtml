@@ -20,10 +20,6 @@
                             <h:outputText value="Numero de Causa"/>
                             <p:inputText value="#{generarCasoBean.numCausa}"/>
 
-                            <h:outputText value="Abogado:"/>
-                            <p:commandButton value="Añadir" style="width:170px"
-                                             oncomplete="PF('dlgNewPermits').show();"/>
-
                             <h:outputText value="Tipo de Caso"/>
                             <p:inputText value="#{generarCasoBean.tipoCaso}"/>
 
@@ -36,47 +32,7 @@
                         </f:facet>
                     </p:panel>
 
-                    <p:dialog id="dlgNuevoPermiso" widgetVar="dlgNewPermits" header="Asignar Abogado" minHeight="40" modal="true" visible="false" 
-                              showEffect="fade" hideEffect="fade" resizable="false">
-                        <h:panelGrid id="panelNuevoPermiso" columns="1" cellpadding="6">
-
-                            <h:panelGrid columns="4" cellpadding="10">
-                                <h:outputLabel for="patter" value="Buscar por:"/>
-                                <p:selectOneMenu id="patter" required="false" value="#{generarCasoBean.patterFuncionario}">
-                                    <f:selectItem itemLabel="Seleccionar" itemValue="" noSelectionOption="true"/>
-                                    <f:selectItems value="#{generarCasoBean.itemsFuncionarios}"/>
-                                </p:selectOneMenu>
-
-                                <p:inputText id="findPatter" required="fasle" value="#{generarCasoBean.claveFuncionario}"/>
-                                <p:commandButton value="Buscar" id="btnPatterFuncionario" icon="ui-icon-search" update=":growl , :form_Caso:panelFunc"
-                                                 actionListener="#{generarCasoBean.findFuncionario(event)}"/>
-                            </h:panelGrid>
-                            <p:panel id="panelFunc" header="Funcionario">
-                                <h:panelGrid  columns="4" cellpadding="10">
-                                    <h:outputText value="Id Banner:"/>
-                                    <h:outputText value="#{generarCasoBean.newFuncionario.uzatfuncionarioIdbanner}"/>
-                                    <h:outputText value="Cedula:"/>
-                                    <h:outputText value="#{generarCasoBean.newFuncionario.uzatfuncionarioCedula}"/>
-                                    <h:outputText value="Nombres:"/>
-                                    <h:outputText value="#{generarCasoBean.newFuncionario.uzatfuncionarioNombres}"/>
-                                    <h:outputText value="Apellidos:"/>
-                                    <h:outputText value="#{generarCasoBean.newFuncionario.uzatfuncionarioApellidos}"/> 
-                                    <h:outputText value="E-mail:"/>
-                                    <h:outputText value="#{generarCasoBean.newFuncionario.uzatfuncionarioEmail}"/>
-                                    <h:outputLabel for="cliMovil" value="Movil:"/>
-                                    <p:inputText id="cliMovil" required="false" value="#{generarCasoBean.newFuncionario.uzatfuncionarioMovil}"/>
-                                </h:panelGrid>
-                            </p:panel>
-
-                        </h:panelGrid>
-
-                        <f:facet name="footer">
-                            <p:commandButton value="Asignar" id="btnConfirmarNewPermiso"
-                                             update=":growl , :form_Caso"
-                                             icon="ui-icon-check"/> <!-- action ="" -->
-
-                        </f:facet> 
-                    </p:dialog>
+                    
 
 
 
