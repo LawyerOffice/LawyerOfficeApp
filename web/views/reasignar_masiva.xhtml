@@ -19,9 +19,7 @@
                         <div align="center">
                             <h:panelGrid columns="4" cellpadding="10">
                                 <h:outputLabel value="Ingrese la cédula:"/>
-
-                                <p:inputText value="#{reasignarCasoBean.valueFindCasos}"/>
-
+                                <p:inputText placeholder="Ingrese número de cédula." value="#{reasignarCasoBean.valueFindCasos}"/>
                                 <p:commandButton value="Buscar" actionListener="#{reasignarCasoBean.loadCasosAsignados()}" update=":principal:tablaCasos, :principal:growl"/>
                             </h:panelGrid>
                         </div>
@@ -66,17 +64,15 @@
                     <p:dialog header="Reasignar" widgetVar="multiCarDialog" 
                               modal="true" showEffect="fade" hideEffect="fade" resizable="false">
                         <p:panel id="multiCarDetail" header="Casos seleccionados">
-
                             <div align="center">
-                                <p:selectOneListbox id="advanced" 
-                                                    var="car" scrollHeight="80">
-                                    <f:selectItems value="#{reasignarCasoBean.casosSeleccionados}"  />
-
-                                    <p:column>
-                                        <h:outputText value="#{car.uzatcaso.uzatcasoNumcausa}" />
-                                    </p:column>
-
-                                </p:selectOneListbox>
+   
+                                <p:scrollPanel mode="native" style="width:250px;height:100px">
+                                    <ui:repeat value="#{reasignarCasoBean.casosSeleccionados}" var="car">
+                                        <p>
+                                            <h:outputText value="#{car.uzatcaso.uzatcasoNumcausa}" />
+                                        </p>
+                                    </ui:repeat>
+                                </p:scrollPanel>
                             </div>
                         </p:panel>
 
@@ -86,7 +82,7 @@
                                     <h:outputText value="Cédula:" />  
                                     <p:inputText placeholder="Ingrese la cédula." value="#{reasignarCasoBean.cedulaAbo}"/>
                                     <p:commandButton value="Buscar" actionListener="#{reasignarCasoBean.findAbobyCedula()}" 
-                                                     update=":principal:panelDatosAbo"></p:commandButton>
+                                                     update=":principal:panelDatosAbo, :principal:growl"></p:commandButton>
                                 </h:panelGrid>  
                             </div>
                             <p:panel id="panelDatosAbo" header="Detalles Abogado" >
