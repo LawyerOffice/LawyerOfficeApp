@@ -1,14 +1,109 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <body>
 
         <ui:composition template="./menu_secre.xhtml">
 
             <ui:define name="content">
-                content
+                
+                <h:form id="principal">
+                    <p:growl id="growl" life="3000" />
+
+                    <p:panel id="panel_find_caso" header="CASOS ACTUALES">
+                        <div align="center">
+                            <h:panelGrid columns="4" cellpadding="10">
+                                <h:outputLabel value="Ingrese la cédula:"/>
+                                <p:inputText placeholder="Ingrese número de cédula." value="#{reasignarCasoBean.valueFindCasos}"/>
+                                <p:commandButton value="Buscar" actionListener="#{reasignarCasoBean.loadCasosAsignados()}" update=":principal:tablaCasos, :principal:growl"/>
+                            </h:panelGrid>
+                        </div>
+                    </p:panel>
+
+                    <div align="center">
+                        <p:dataTable id="tablaCasos" 
+                                     var="caso" 
+                                     value="#{reasignarCasoBean.casosAsigandos}" 
+                                     tableStyle="width:auto"
+                                     emptyMessage="No se han encontrado casos relacionados."
+                                     selection="#{reasignarCasoBean.casosSeleccionados}" 
+                                     rowKey="#{caso.id.uzatcasoId}" style="margin-bottom:0">
+
+                            <p:column selectionMode="multiple" style="width:16px;text-align:center"/>
+                            <p:column headerText="Num. Causa">
+                                <h:outputText value="#{caso.uzatcaso.uzatcasoNumcausa}" />
+                            </p:column>
+
+                            <p:column headerText="Fecha Asignacion">
+                                <h:outputText value="#{caso.uzatasignarFechaIn}" />
+                            </p:column>
+
+                            <p:column headerText="Fecha Caso">
+                                <h:outputText value="#{caso.uzatcaso.uzatcasoFechaIn}" />
+                            </p:column>
+
+                            <p:column headerText="Num. Fase Actual">
+                                <h:outputText value="#{caso.ultimaFaseActual.uzatfaseNumfase}" />
+                            </p:column>
+
+                            <p:column headerText="Fase Actual">
+                                <h:outputText value="#{caso.ultimaFaseActual.uzatfaseNombre}" />
+                            </p:column>
+                            <f:facet name="footer">
+                                <p:commandButton process="tablaCasos" update=":principal:multiCarDetail,:principal:panelCedulaAbogado, :principal:growl" 
+                                                 icon="ui-icon-pin-s" value="Reasignar" actionListener="#{reasignarCasoBean.ReasignarValidacion(event)}" />
+                            </f:facet>
+                        </p:dataTable>
+                    </div>
+
+                    <p:dialog header="Reasignar" widgetVar="multiCarDialog" 
+                              modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+                        <p:panel id="multiCarDetail" header="Casos seleccionados">
+                            <div align="center">
+   
+                                <p:scrollPanel mode="native" style="width:250px;height:100px">
+                                    <ui:repeat value="#{reasignarCasoBean.casosSeleccionados}" var="car">
+                                        <p>
+                                            <h:outputText value="#{car.uzatcaso.uzatcasoNumcausa}" />
+                                        </p>
+                                    </ui:repeat>
+                                </p:scrollPanel>
+                            </div>
+                        </p:panel>
+
+                        <p:panel id="panelCedulaAbogado" header="Abogado al que se le asignarán los casos" >
+                            <div align="center">
+                                <h:panelGrid columns="3" cellpadding="5">
+                                    <h:outputText value="Cédula:" />  
+                                    <p:inputText placeholder="Ingrese la cédula." value="#{reasignarCasoBean.cedulaAbo}"/>
+                                    <p:commandButton value="Buscar" actionListener="#{reasignarCasoBean.findAbobyCedula()}" 
+                                                     update=":principal:panelDatosAbo, :principal:growl"></p:commandButton>
+                                </h:panelGrid>  
+                            </div>
+                            <p:panel id="panelDatosAbo" header="Detalles Abogado" >
+                                <h:panelGrid columns="2" cellpadding="5">
+                                    <h:outputText value="ID Banner:" />
+                                    <h:outputText value="#{reasignarCasoBean.nuevofunci.uzatfuncionarioIdbanner}"/>
+                                    <h:outputText value="Nombre:" />
+                                    <h:outputText value="#{reasignarCasoBean.nuevofunci.uzatfuncionarioApellidos} #{reasignarCasoBean.nuevofunci.uzatfuncionarioNombres}"/> 
+
+                                    <h:outputText value="Motivo:" />
+                                    <p:inputTextarea placeholder="Ingrese el motivo." rows="4" cols="30" value="#{reasignarCasoBean.motivo}"/>
+
+                                </h:panelGrid>  
+                            </p:panel>
+                            <p:commandButton value="Reasignar" update=":principal:growl, :principal:tablaCasos, :principal:panel_find_caso" actionListener="#{reasignarCasoBean.asignarcasoMasivo()}"></p:commandButton>
+                        </p:panel>
+
+                    </p:dialog>
+
+                </h:form>
+
             </ui:define>
 
         </ui:composition>
