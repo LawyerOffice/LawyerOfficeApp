@@ -58,6 +58,9 @@ public class ReasignarCasoBean {
         if (this.casosSeleccionados.isEmpty()) {
             addMessage("Seleccione los casos que desea reasignar.");
         } else {
+            this.nuevofunci = null;
+            this.cedulaAbo = "";
+            this.motivo = "";
             RequestContext.getCurrentInstance().execute("PF('multiCarDialog').show()");
         }
     }
@@ -140,7 +143,11 @@ public class ReasignarCasoBean {
             Boolean exito = Hilo.getExito();
 
             if (exito) {
+                RequestContext.getCurrentInstance().execute("PF('multiCarDialog').hide();");
+                this.casosAsigandos.clear();
+                this.valueFindCasos = "";
                 addMessage("Se han reasignado los casos satisfactoriamente.");
+
             } else {
                 addMessage("Ha ocurrido un error.");
             }

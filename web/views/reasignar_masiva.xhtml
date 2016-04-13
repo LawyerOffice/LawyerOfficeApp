@@ -55,7 +55,7 @@
                                 <h:outputText value="#{caso.ultimaFaseActual.uzatfaseNombre}" />
                             </p:column>
                             <f:facet name="footer">
-                                <p:commandButton process="tablaCasos" update=":principal:multiCarDetail, :principal:growl" 
+                                <p:commandButton process="tablaCasos" update=":principal:multiCarDetail,:principal:panelCedulaAbogado, :principal:growl" 
                                                  icon="ui-icon-pin-s" value="Reasignar" actionListener="#{reasignarCasoBean.ReasignarValidacion(event)}" />
                             </f:facet>
                         </p:dataTable>
@@ -97,7 +97,7 @@
 
                                 </h:panelGrid>  
                             </p:panel>
-                            <p:commandButton value="Reasignar" update=":principal:growl" actionListener="#{reasignarCasoBean.asignarcasoMasivo()}"></p:commandButton>
+                            <p:commandButton value="Reasignar" update=":principal:growl, :principal:tablaCasos, :principal:panel_find_caso" actionListener="#{reasignarCasoBean.asignarcasoMasivo()}"></p:commandButton>
                         </p:panel>
 
                     </p:dialog>
