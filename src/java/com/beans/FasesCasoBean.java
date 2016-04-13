@@ -302,8 +302,11 @@ public class FasesCasoBean {
 
     public void buscarCasoByNumCausa(ActionEvent actionEvent) {
         if (!valueFindCaso.equals("")) {
-            this.setSelectedCaso(ProcuradoriaMethods.CasoByNumCausaFlagVisible(this.valueFindCaso, BigDecimal.valueOf(1)));
-            this.init();
+            Uzatcaso findCaso = ProcuradoriaMethods.CasoByNumCausaFlagVisible(this.valueFindCaso, BigDecimal.valueOf(1));
+            if (findCaso != null) {
+                this.setSelectedCaso(ProcuradoriaMethods.CasoByNumCausaFlagVisible(this.valueFindCaso, BigDecimal.valueOf(1)));
+                this.init();
+            }
         } else {
             this.setSelectedCaso(null);
             this.setListFases(null);
@@ -427,7 +430,7 @@ public class FasesCasoBean {
             String filepath = "WEB-INF/docs/";
             Boolean exito = DocumentsPdf.CreateFilePDF(this.SelectedDocument, serverPath + filepath);
             if (exito) {
-                this.downloadFileName = SelectedDocument.getId().getUzatdocsId()+".pdf";
+                this.downloadFileName = SelectedDocument.getId().getUzatdocsId() + ".pdf";
                 downloadDocsPDF(this.downloadFileName);
                 //DocumentsPdf.RemoveFilePDF(this.downloadFileName);
             }
