@@ -445,6 +445,14 @@ public class FasesCasoBean {
         }
     }
 
+    public void CloseCaso(ActionEvent event) {
+        BigDecimal idcaso = this.SelectedCaso.getUzatcasoId();
+        if(idcaso != null){
+            
+        }
+        
+    }
+
     public Boolean getEnableNewFase() {
         return EnableNewFase;
     }

@@ -42,12 +42,20 @@
 
                             FASES ACTUALES
 
+                            <p:menuButton value="Cerrar Caso" 
+                                          style="float: right" 
+                                          id="btnCloseCaso">
+                                <p:menuitem value="Si" icon="ui-icon-locked" oncomplete="PF('dlgCerrarCaso').show();"/>
+                                <p:menuitem value="No" icon="ui-icon-unlocked"/>
+                            </p:menuButton>
+
                             <p:commandButton value="Nueva Fase" 
                                              style="float: right" 
                                              id="btnNewFase"
                                              update=":form_FC:pdgNuevafase"
                                              oncomplete="PF('dlgNewFase').show();"
                                              icon="ui-icon-disk"/>
+
                         </f:facet>
 
                         <div align="center">
@@ -289,6 +297,30 @@
                                              update=":growl , :form_FC:dtCaso , :form_FC:dlgNuevaCita"
                                              actionListener="#{fasesCasoBean.genratedCita(event)}"
                                              icon="ui-icon-check"/>
+                        </f:facet> 
+
+                    </p:dialog>
+
+                    <p:dialog id="dlgCloseCaso" widgetVar="dlgCerrarCaso" header="Cerrar Caso" minHeight="40" modal="true" 
+                              showEffect="fade" hideEffect="fade" resizable="false">
+
+                        <h:panelGrid id="pdgCloseCaso" columns="1" cellpadding="6">
+                            <h:outputLabel  value="Fecha de cierre:" />
+                            <p:clock id="patterCloseCaso" pattern="dd/MM/yyyy HH:mm:ss"/>
+                            
+                            <h:outputLabel  value="Resolucion:" />
+                            <p:inputTextarea rows="5" cols="30" counter="displayCloseCaso" maxlength="10" counterTemplate="{0} characters remaining." autoResize="false" />
+                            <h:outputText id="displayCloseCaso" />
+
+
+                        </h:panelGrid>
+
+                        <f:facet name="footer">
+                            <p:commandButton value="Cerrar Caso" 
+                                             id="btnConfirmarCloseCaso" 
+                                             update=":growl , :form_FC:dtCaso , :form_FC:dlgCloseCaso" 
+                                             actionListener="#{fasesCasoBean.CloseCaso(event)}"
+                                             icon="ui-icon-circle-close"/>
                         </f:facet> 
 
                     </p:dialog>
