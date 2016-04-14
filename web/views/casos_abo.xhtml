@@ -46,6 +46,10 @@
                             <p:column headerText="Fecha Caso">
                                 <h:outputText value="#{caso.uzatcaso.uzatcasoFechaIn}" />
                             </p:column>
+                            
+                            <p:column headerText="Materia">
+                                <h:outputText value="#{caso.uzatcaso.uzatjudi.uzatmateri.uzatmateriaDescripcion}" />
+                            </p:column>
 
                             <p:column headerText="Num. Fase Actual">
                                 <h:outputText value="#{caso.ultimaFaseActual.uzatfaseNumfase}" />
@@ -57,11 +61,11 @@
 
                             <p:rowExpansion>
                                 <p:panel>
-                                    <h:panelGrid id="expGrid"  columns="4" styleClass="outerpanelgrid" cellpadding="5">
+                                    <h:panelGrid id="expGrid"  columns="4" styleClass="outerpanelgrid" cellpadding="1">
                                         <h:outputText value="Materia:" />
                                         <h:outputText value="#{caso.uzatcaso.uzatjudi.uzatmateri.uzatmateriaDescripcion}" />
 
-                                        <h:outputText value="Judicatura:" />
+                                        <h:outputText value="Especializacion:" />
                                         <h:outputText value="#{caso.uzatcaso.uzatjudi.uzatjudiDescripcion}" />
 
                                         <h:outputText value="Motivo:" />
