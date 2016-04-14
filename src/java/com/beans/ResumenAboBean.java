@@ -14,6 +14,7 @@ import java.math.BigInteger;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -48,6 +49,8 @@ public class ResumenAboBean{
     private String botonAgregarActor = "Agregar Actor";         
     private LazyDataModel<Uzatcaso> lazyModelCasosAsignados;   
     private String idocedula;
+    private String numeroocedula;
+    private String valorbusqueda;
     
     private Uzatcaso selectedCaso;
     private Uzatactor selectedActor;
@@ -57,20 +60,31 @@ public class ResumenAboBean{
 
     private String idMateria = "100";
     private String idJudicatura = "100";    
+    private String textoBotonVincular;
+    
+    private Uzatcaso findCaso;
+    private String nombreActorAnterior;
+    private String cedulaActorAnterior;
+    
+    private Uzatjudi vincuJudi;
+    private Uzatmateri vincuMateria;
     
     public ResumenAboBean() {
-        
         lazyModelCasosAsignados = new LazyCasoDataModel(this.getUserAttribute(), new BigDecimal(2));
         selectedCaso = new Uzatcaso();
+        findCaso = new Uzatcaso();
         this.selectedActor = new Uzatactor();
         this.idCaso = "vacio";
         this.idocedula = "vacio";
         this.cedulaActor= "";
         this.ItemsJudicaturas = new ArrayList<SelectItem>();
         this.ItemsMaterias = new ArrayList<SelectItem>(); 
-
+        this.textoBotonVincular = "Buscar";
         this.loadlistMaterias();
         this.ItemsJudicaturas.clear();
+        
+        vincuMateria = new Uzatmateri();
+        vincuJudi = new Uzatjudi();
     }
 
     private BigDecimal getUserAttribute() {
@@ -111,7 +125,9 @@ public class ResumenAboBean{
     
     public void botonActualizarCaso()
     {
-        
+        if(this.selectedCaso.getUzatcasoVincu() == null)
+            this.selectedCaso.setUzatcasoVincu(this.selectedCaso.getUzatcasoId());
+        System.out.println("");
         updateCaso();
         asignarActoraCaso();
     }
@@ -272,7 +288,27 @@ public class ResumenAboBean{
        
     }
     
+    public void findCasos()
+    {
+        this.findCaso = ProcuradoriaMethods.FindCasobyNumCausa(this.valorbusqueda);
+        
+        if(this.findCaso != null)
+        {    
+            this.vincuJudi = this.findCaso.getUzatjudi();
+            this.vincuMateria = ProcuradoriaMethods.findMateribyJudiId(this.vincuJudi.getId().getUzatjudiId());      
+             addMessage("Se ha encontrado el Caso Solicitado");       
+            
+        }else{
+            addMessage("No se ha encontrado Caso con el número de Causa ingresado");
+        }
+    }   
     
+    public void vincular()
+    {
+        this.textoBotonVincular = "Cambiar";
+        this.selectedCaso.setUzatcasoVincu(this.findCaso.getUzatcasoId());
+        addMessage("Se ha vinculado el caso");
+    }
     
 
 // <editor-fold defaultstate="collapsed" desc=" Getters and Setters ">
@@ -380,9 +416,70 @@ public class ResumenAboBean{
         this.idJudicatura = idJudicatura;
     }
     
-// </editor-fold>
+    public String getTextoBotonVincular() {
+        return textoBotonVincular;
+    }
 
+    public void setTextoBotonVincular(String textoBotonVincular) {
+        this.textoBotonVincular = textoBotonVincular;
+    }
     
+    public String getNumeroocedula() {
+        return numeroocedula;
+    }
 
+    public void setNumeroocedula(String numeroocedula) {
+        this.numeroocedula = numeroocedula;
+    }
+    
+    public String getValorbusqueda() {
+        return valorbusqueda;
+    }
+
+    public void setValorbusqueda(String valorbusqueda) {
+        this.valorbusqueda = valorbusqueda;
+    }
+    
+    public Uzatcaso getFindCaso() {
+        return findCaso;
+    }
+
+    public void setFindCaso(Uzatcaso findCaso) {
+        this.findCaso = findCaso;
+    }
+
+    public String getNombreActorAnterior() {
+        return nombreActorAnterior;
+    }
+
+    public void setNombreActorAnterior(String nombreActorAnterior) {
+        this.nombreActorAnterior = nombreActorAnterior;
+    }
+
+    public String getCedulaActorAnterior() {
+        return cedulaActorAnterior;
+    }
+
+    public void setCedulaActorAnterior(String cedulaActorAnterior) {
+        this.cedulaActorAnterior = cedulaActorAnterior;
+    }
+
+    public Uzatjudi getVincuJudi() {
+        return vincuJudi;
+    }
+
+    public void setVincuJudi(Uzatjudi vincuJudi) {
+        this.vincuJudi = vincuJudi;
+    }
+
+    public Uzatmateri getVincuMateria() {
+        return vincuMateria;
+    }
+
+    public void setVincuMateria(Uzatmateri vincuMateria) {
+        this.vincuMateria = vincuMateria;
+    }
+// </editor-fold>
+ 
 }
 

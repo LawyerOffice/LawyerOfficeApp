@@ -96,10 +96,20 @@
                                 <h:outputText value="#{resumenAboBean.selectedActor.uzatactorNombres} #{resumenAboBean.selectedActor.uzatactorApellidos}"/>
                             </h:panelGrid>
 
+                        </p:panel>
+                        
+                        <p:panel id="panelCasoVincu" header="Vincular Caso" style="border-style: none !important">
+                            <h:panelGrid columns="2" cellpadding="10">
+                                <h:outputText value="Vincular caso con caso anterior: "/>
+                                <p:commandButton value="#{resumenAboBean.textoBotonVincular}"
+                                                 oncomplete="PF('wcasos').show();"/>
+                                <h:outputText value="Caso Vinculado: "/>
+                                <h:outputText value="#{resumenAboBean.findCaso.uzatcasoNumcausa}"/>
+                            </h:panelGrid> 
+                                 
                             <f:facet name="footer">
                                 <p:commandButton value="Actualizar e Iniciar Caso" update=":principal:dataTableAsignados, :principal:dabogados  , growl" actionListener="#{resumenAboBean.botonActualizarCaso()}"></p:commandButton>
                             </f:facet>
-
                         </p:panel>
 
                     </p:dialog>
@@ -140,7 +150,71 @@
                                 <p:commandButton value="Agregar" update=":principal:selectactor, :principal:panelActor , growl" actionListener="#{resumenAboBean.botonActualizarActor()}"></p:commandButton>
                             </h:panelGrid>    
                         </p:panel>
-                    </p:dialog>       
+                    </p:dialog>
+                    
+                    
+                    <p:dialog id="mostrarcasos" widgetVar="wcasos" header="Seleccione Caso"  
+                              modal="true" showEffect="fade" resizable="false" position="center center">
+                        <h2>Selección de Caso</h2>
+
+                        <p:panel id="panelCedulaCaso" 
+                                 header="Ingrese Numero de Causa del Caso" >
+                            <h:panelGrid columns="3" cellpadding="10">
+                                <h:outputText value="Numero de Causa" />
+                                <p:inputText value="#{resumenAboBean.valorbusqueda}"/>
+                                <p:commandButton value="Buscar" 
+                                                 update=":principal:panelDatosCaso, :principal:growl" 
+                                                 actionListener="#{resumenAboBean.findCasos()}"></p:commandButton>
+
+
+                            </h:panelGrid>    
+                        </p:panel>
+
+                        <p:panel id="panelDatosCaso" header="Casos" >
+                            
+                            <h2>Detalles Caso</h2>
+                            <h:panelGrid columns="2" cellpadding="10">
+                                
+                                <h:outputText value="Numero Causa:" />
+                                <h:outputText value="#{resumenAboBean.findCaso.uzatcasoNumcausa}"/>
+                                <h:outputText value="Motivo:" />
+                                <h:outputText value="#{resumenAboBean.findCaso.uzatcasoMotivo}"/>
+                                <h:outputText value="Descripcion:" />
+                                <h:outputText value="#{resumenAboBean.findCaso.uzatcasoDetalle}"/>
+                                <h:outputText value="Materia" />
+                                <h:outputText value="#{resumenAboBean.vincuMateria.uzatmateriaDescripcion}"/>
+                                <h:outputText value="Judicatura" />
+                                <h:outputText value="#{resumenAboBean.vincuJudi.uzatjudiDescripcion}"/>
+                            </h:panelGrid>
+                                
+                            <p:separator/>            
+
+                            <h:panelGrid columns="2" cellpadding="10">
+                                <p:commandButton value="Vincular"
+                                                 update=":principal:ventanaConfirmacion"
+                                                 oncomplete="PF('wconfirma').show();"></p:commandButton>
+                                <p:commandButton value="Cancelar" 
+                                                 oncomplete="PF('wcasos').hide()" 
+                                ></p:commandButton>
+                            </h:panelGrid>
+
+                        </p:panel>
+                    </p:dialog>
+                    
+                    <p:dialog id="ventanaConfirmacion" widgetVar="wconfirma" header="Seleccione Caso"  
+                              modal="true" showEffect="fade" resizable="false" position="center center">
+                        <h2>¿Desea Vincular el caso #{resumenAboBean.selectedCaso.uzatcasoNumcausa} a el caso #{resumenAboBean.findCaso.uzatcasoNumcausa}?</h2>
+                        <p:separator/>
+                        <h:panelGrid columns="2" cellpadding="10">
+                            <p:commandButton value="Aceptar" 
+                                             update=":principal:growl, :principal:panelCasoVincu" 
+                                             actionListener="#{resumenAboBean.vincular()}"
+                                             oncomplete="PF('wconfirma').hide(), PF('wcasos').hide()"></p:commandButton>
+                            <p:commandButton value="Cancelar" 
+                                             oncomplete="PF('wconfirma').hide()" 
+                            ></p:commandButton>
+                        </h:panelGrid>
+                    </p:dialog>
                 </h:form>
             </ui:define>
 
