@@ -309,7 +309,13 @@
                             <p:clock id="patterCloseCaso" pattern="dd/MM/yyyy HH:mm:ss"/>
                             
                             <h:outputLabel  value="Resolucion:" />
-                            <p:inputTextarea rows="5" cols="30" counter="displayCloseCaso" maxlength="10" counterTemplate="{0} characters remaining." autoResize="false" />
+                            <p:inputTextarea rows="5" cols="30" 
+                                             counter="displayCloseCaso" 
+                                             maxlength="349" 
+                                             counterTemplate="{0} characters remaining." 
+                                             autoResize="false" 
+                                             value="#{fasesCasoBean.selectedCaso.uzatcasoResolucion}"/>
+                            
                             <h:outputText id="displayCloseCaso" />
 
 

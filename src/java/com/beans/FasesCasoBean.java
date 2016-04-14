@@ -448,7 +448,17 @@ public class FasesCasoBean {
     public void CloseCaso(ActionEvent event) {
         BigDecimal idcaso = this.SelectedCaso.getUzatcasoId();
         if(idcaso != null){
-            
+            BigDecimal facesCerras = ProcuradoriaMethods.GetNumberFacesOpenCloseByNumCausa(idcaso, new BigDecimal(BigInteger.ZERO));
+            if(facesCerras.equals(new BigDecimal(BigInteger.ZERO))){
+                this.SelectedCaso.setUzatcasoFlag(new BigDecimal(BigInteger.ZERO));
+                this.SelectedCaso.setUzatcasoFechaOut(this.FechaHoraActual());
+                Boolean exito = ProcuradoriaMethods.UpdateCaso(this.SelectedCaso);
+                if(exito){
+                    generateMessage(FacesMessage.SEVERITY_INFO, "Se ha carrado el caso exitosamente", "");
+                }
+            }else{
+                generateMessage(FacesMessage.SEVERITY_ERROR, "Cierre las faces para cerrar el caso", "");
+            }
         }
         
     }
