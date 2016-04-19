@@ -14,6 +14,8 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -395,19 +397,23 @@ public class FasesCasoBean {
     public void genratedDocumento(ActionEvent event) {
         if (this.file != null) {
             if ((file.getFileName().endsWith(".pdf") || file.getFileName().endsWith(".PDF"))) {
-                this.NewDocumento.getId().setUzatcasoId(SelectedCaso.getUzatcasoId());
-                this.NewDocumento.getId().setUzatfaseId(SelectedFase.getId().getUzatfaseId());
-                this.NewDocumento.setUzatdocsFecha(FechaHoraActual());
-                this.NewDocumento.setUzatfuncionarioId(this.getUserAttribute());
-                String filename = this.file.getFileName();
-                ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance()
-                        .getExternalContext().getContext();
-                String serverPath = ctx.getRealPath("/");
-                String filepath = "WEB-INF/docs/";
-                Boolean exito = DocumentsPdf.CovertPdfToByteArray(this.NewDocumento, serverPath + filepath + filename);
-                if (exito) {
-                    RequestContext.getCurrentInstance().update(":growl , :form_FC:dtCaso , :form:dlgNuevoDocumento");
-                    generateMessage(FacesMessage.SEVERITY_WARN, "Se ha guardado con exito su archivo .pdf", "");
+                try {
+                    this.NewDocumento.getId().setUzatcasoId(SelectedCaso.getUzatcasoId());
+                    this.NewDocumento.getId().setUzatfaseId(SelectedFase.getId().getUzatfaseId());
+                    this.NewDocumento.setUzatdocsFecha(FechaHoraActual());
+                    this.NewDocumento.setUzatfuncionarioId(this.getUserAttribute());
+                    this.NewDocumento.setUzatdocsPdf(this.file.getInputstream());
+                    String filename = this.file.getFileName();
+                    ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance()
+                            .getExternalContext().getContext();
+                    String serverPath = ctx.getRealPath("/");
+                    String filepath = "WEB-INF/docs/";
+                    Boolean exito = DocumentsPdf.CovertPdfToByteArray(this.NewDocumento, serverPath + filepath + filename);
+                    if (exito) {
+                        RequestContext.getCurrentInstance().execute("PF('dlgConfirmUpPdf').show();");
+                    }
+                } catch (IOException ex) {
+//                    Logger.getLogger(FasesCasoBean.class.getName()).log(Level.SEVERE, null, ex);
                 }
             } else {
                 generateMessage(FacesMessage.SEVERITY_WARN, "El archivo escogido es muy grande o no esta en el formato, recuerda subir archivos .pdf", "");
