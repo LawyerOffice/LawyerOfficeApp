@@ -307,7 +307,7 @@
                         <h:panelGrid id="pdgCloseCaso" columns="1" cellpadding="6">
                             <h:outputLabel  value="Fecha de cierre:" />
                             <p:clock id="patterCloseCaso" pattern="dd/MM/yyyy HH:mm:ss"/>
-                            
+
                             <h:outputLabel  value="Resolucion:" />
                             <p:inputTextarea rows="5" cols="30" 
                                              counter="displayCloseCaso" 
@@ -315,7 +315,7 @@
                                              counterTemplate="{0} characters remaining." 
                                              autoResize="false" 
                                              value="#{fasesCasoBean.selectedCaso.uzatcasoResolucion}"/>
-                            
+
                             <h:outputText id="displayCloseCaso" />
 
 
@@ -353,10 +353,10 @@
                         <f:facet name="footer">
                             <p:commandButton id="btnSubmit" actionListener="#{fasesCasoBean.genratedDocumento(event)}" 
                                              ajax="false"
-                                             icon="ui-icon-check"
-                                             update=":growl , :form_FC:dtCaso , :form:dlgNuevoDocumento"
+                                             icon="ui-icon-check"          
                                              value="Añadir">
-                                <f:ajax event="click" execute="@form" render="@form"/>
+                                <f:ajax event="click" execute="@form" render="@form" />
+                                <p:ajax update=":growl , :form_FC:dtCaso , :form:dlgNuevoDocumento"/>
                             </p:commandButton>                         
                         </f:facet> 
                     </p:dialog>
