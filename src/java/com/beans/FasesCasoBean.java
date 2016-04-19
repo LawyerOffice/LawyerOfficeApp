@@ -22,6 +22,7 @@ import javax.faces.context.FacesContext;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.event.TabChangeEvent;
 import org.primefaces.event.ToggleEvent;
@@ -394,30 +395,26 @@ public class FasesCasoBean {
     public void genratedDocumento(ActionEvent event) {
         if (this.file != null) {
             if ((file.getFileName().endsWith(".pdf") || file.getFileName().endsWith(".PDF"))) {
-                try {
-                    this.NewDocumento.getId().setUzatcasoId(SelectedCaso.getUzatcasoId());
-                    this.NewDocumento.getId().setUzatfaseId(SelectedFase.getId().getUzatfaseId());
-                    this.NewDocumento.setUzatdocsFecha(FechaHoraActual());
-                    this.NewDocumento.setUzatdocsPdf(this.file.getInputstream());
-                    this.NewDocumento.setUzatfuncionarioId(this.getUserAttribute());
-                    this.NewDocumento.setUzatdocsPdfSize(this.file.getSize());
-                    String filename = this.file.getFileName();
-                    ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance()
-                            .getExternalContext().getContext();
-                    String serverPath = ctx.getRealPath("/");
-                    String filepath = "WEB-INF/docs/";
-                    Boolean exito = DocumentsPdf.CovertPdfToByteArray(this.NewDocumento, serverPath + filepath + filename);
-
-                } catch (IOException ex) {
-                    // Logger.getLogger(FasesCasoBean.class.getName()).log(Level.SEVERE, null, ex);
+                this.NewDocumento.getId().setUzatcasoId(SelectedCaso.getUzatcasoId());
+                this.NewDocumento.getId().setUzatfaseId(SelectedFase.getId().getUzatfaseId());
+                this.NewDocumento.setUzatdocsFecha(FechaHoraActual());
+                this.NewDocumento.setUzatfuncionarioId(this.getUserAttribute());
+                String filename = this.file.getFileName();
+                ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance()
+                        .getExternalContext().getContext();
+                String serverPath = ctx.getRealPath("/");
+                String filepath = "WEB-INF/docs/";
+                Boolean exito = DocumentsPdf.CovertPdfToByteArray(this.NewDocumento, serverPath + filepath + filename);
+                if (exito) {
+                    RequestContext.getCurrentInstance().update(":growl , :form_FC:dtCaso , :form:dlgNuevoDocumento");
+                    generateMessage(FacesMessage.SEVERITY_WARN, "Se ha guardado con exito su archivo .pdf", "");
                 }
-
             } else {
-                generateMessage(FacesMessage.SEVERITY_WARN, "El archivo escogido es muy grande o no esta en el formato, recuerda subir archivos .png", "");
+                generateMessage(FacesMessage.SEVERITY_WARN, "El archivo escogido es muy grande o no esta en el formato, recuerda subir archivos .pdf", "");
 
             }
         } else {
-            generateMessage(FacesMessage.SEVERITY_ERROR, "No has escogido un logo ", "");
+            generateMessage(FacesMessage.SEVERITY_ERROR, "Selecciones un archivo .pdf porfavor", "");
         }
     }
 
@@ -447,20 +444,20 @@ public class FasesCasoBean {
 
     public void CloseCaso(ActionEvent event) {
         BigDecimal idcaso = this.SelectedCaso.getUzatcasoId();
-        if(idcaso != null){
+        if (idcaso != null) {
             BigDecimal facesCerras = ProcuradoriaMethods.GetNumberFacesOpenCloseByNumCausa(idcaso, new BigDecimal(BigInteger.ZERO));
-            if(facesCerras.equals(new BigDecimal(BigInteger.ZERO))){
+            if (facesCerras.equals(new BigDecimal(BigInteger.ZERO))) {
                 this.SelectedCaso.setUzatcasoFlag(new BigDecimal(BigInteger.ZERO));
                 this.SelectedCaso.setUzatcasoFechaOut(this.FechaHoraActual());
                 Boolean exito = ProcuradoriaMethods.UpdateCaso(this.SelectedCaso);
-                if(exito){
+                if (exito) {
                     generateMessage(FacesMessage.SEVERITY_INFO, "Se ha carrado el caso exitosamente", "");
                 }
-            }else{
+            } else {
                 generateMessage(FacesMessage.SEVERITY_ERROR, "Cierre las faces para cerrar el caso", "");
             }
         }
-        
+
     }
 
     public Boolean getEnableNewFase() {
