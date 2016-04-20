@@ -6,6 +6,7 @@
  */
 package com.beans;
 
+import com.util.UploadingPdfRun;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
@@ -408,7 +409,9 @@ public class FasesCasoBean {
                             .getExternalContext().getContext();
                     String serverPath = ctx.getRealPath("/");
                     String filepath = "WEB-INF/docs/";
-                    Boolean exito = DocumentsPdf.CovertPdfToByteArray(this.NewDocumento, serverPath + filepath + filename);
+                    UploadingPdfRun uploadfile = new UploadingPdfRun(this.NewDocumento, serverPath + filepath + filename);
+                    uploadfile.run();
+                    Boolean exito = uploadfile.getExito();
                     if (exito) {
                         RequestContext.getCurrentInstance().execute("PF('dlgConfirmUpPdf').show();");
                     }
