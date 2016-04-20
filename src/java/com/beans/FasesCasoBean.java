@@ -15,8 +15,6 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -25,7 +23,6 @@ import javax.faces.context.FacesContext;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.event.TabChangeEvent;
 import org.primefaces.event.ToggleEvent;
@@ -292,6 +289,16 @@ public class FasesCasoBean {
         return getStateFaseDisabled();
     }
 
+    public Boolean estadoCitaDisabled(Uzatcita citaFase) {
+        Boolean stateCita;
+        if (citaFase.getUzatcitaFlag() == BigDecimal.ZERO) {
+            stateCita = true;
+        } else {
+            stateCita = false;
+        }
+        return stateCita;
+    }
+
     public Boolean disableFase(ActionEvent event, Uzatfase faseClose) {
         Boolean disable = true;
         faseClose.setUzatfaseFechaOut(FechaHoraActual());
@@ -300,6 +307,16 @@ public class FasesCasoBean {
         if (disable) {
             disable = false;
             this.EnableNewFase = false;
+        }
+        return disable;
+    }
+
+    public Boolean disableCita(ActionEvent event, Uzatcita citaFase) {
+        Boolean disable = false;
+        citaFase.setUzatcitaFlag(BigDecimal.ZERO);
+        Boolean exito = ProcuradoriaMethods.UpdateCita(citaFase);
+        if (exito) {
+            disable = true;
         }
         return disable;
     }
@@ -413,7 +430,7 @@ public class FasesCasoBean {
                     uploadfile.run();
                     Boolean exito = uploadfile.getExito();
                     if (exito) {
-                        RequestContext.getCurrentInstance().execute("PF('dlgConfirmUpPdf').show();");
+                        this.initDocumentos();
                     }
                 } catch (IOException ex) {
 //                    Logger.getLogger(FasesCasoBean.class.getName()).log(Level.SEVERE, null, ex);

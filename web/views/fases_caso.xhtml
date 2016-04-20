@@ -191,8 +191,13 @@
                                                         <h:outputText value="#{CitaById.uzatcitaFecha}" />
                                                     </p:column>
 
-                                                    <p:column headerText="Activo">
-                                                        <h:outputText value="#{CitaById.uzatcitaFlag}" />
+                                                    <p:column headerText="Desactivar Cita" style="text-align: center">
+                                                        <p:commandButton id="btnBlockCita" 
+                                                                         icon="ui-icon-check" 
+                                                                         disabled="#{fasesCasoBean.estadoCitaDisabled(CitaById)}"
+                                                                         update=":growl , :form_FC , :form_FC:dtCaso"
+                                                                         actionListener="#{fasesCasoBean.disableCita(event, CitaById)}">
+                                                        </p:commandButton>
                                                     </p:column>
 
                                                 </p:dataTable>
@@ -371,7 +376,8 @@
                                              ajax="false"
                                              icon="ui-icon-check"          
                                              value="Añadir">
-                                <f:ajax event="click" execute="@form" render="@form" />
+                                <f:ajax event="click" execute="@form" render="@form"/>
+                                <p:ajax update=":growl , :form_FC:dtCaso" oncomplete="PF('dlgConfirmUpPdf').show();"/>
                             </p:commandButton>                         
                         </f:facet> 
                     </p:dialog>
