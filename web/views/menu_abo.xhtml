@@ -20,6 +20,13 @@
         </div>
         <div>
             <h:form>
+                <div align="right">
+                    <strong> <h:outputText value="#{loginBean.userInformation1}"/></strong>
+                    <br/>
+                    <h:outputText value="#{loginBean.userInformation3}"/>
+                    <br/>
+                    <h:outputText value="#{loginBean.userInformation2}"/>
+                </div>
                 <p:menubar>
                     <p:menuitem value="Resumen" icon="ui-icon-circle-arrow-e" url="#{appBean.URL_Menu}/resumen_abo.xhtml" />
                     <p:menuitem value="Administrar Casos" icon="ui-icon-circle-arrow-e" url="#{appBean.URL_Menu}/casos_abo.xhtml" />
@@ -36,7 +43,7 @@
                 </p:menubar>
             </h:form>
         </div>
-        
+
         <div id="content" class="panel-body">
             <ui:insert name="content">
 

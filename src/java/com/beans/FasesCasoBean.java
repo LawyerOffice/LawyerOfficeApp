@@ -298,6 +298,16 @@ public class FasesCasoBean {
         }
         return stateCita;
     }
+    
+    public String estadoCitaText(Uzatcita citaFase) {
+        String stateCita;
+        if (citaFase.getUzatcitaFlag() == BigDecimal.ZERO) {
+            stateCita = "SI";
+        } else {
+            stateCita = "NO";
+        }
+        return stateCita;
+    }
 
     public Boolean disableFase(ActionEvent event, Uzatfase faseClose) {
         Boolean disable = true;

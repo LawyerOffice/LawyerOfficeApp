@@ -7,6 +7,7 @@ package com.beans;
 
 import com.util.LawyerOfficeUtil;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -71,13 +72,13 @@ public class LoginBean {
         this.setUrlRequest(this.urlRequest = this.urlRequest.replace("faces/views/resumen_procu.xhtml", ""));
         this.setUrlRequest(this.urlRequest = this.urlRequest.replace("faces/views/ver_caso_procu.xhtml", ""));
         this.setUrlRequest(this.urlRequest = this.urlRequest.replace("faces/views/ver_caso_abo.xhtml", ""));
-        
+
         this.setUrlRequest(this.urlRequest = this.urlRequest.replace("faces/views/judi_procu.xhtml", ""));
         this.setUrlRequest(this.urlRequest = this.urlRequest.replace("faces/views/judi_secre.xhtml", ""));
-        
+
         this.setUrlRequest(this.urlRequest = this.urlRequest.replace("faces/views/reasignar_caso_secre.xhtml", ""));
         this.setUrlRequest(this.urlRequest = this.urlRequest.replace("faces/views/reasignar_masiva_secre.xhtml", ""));
-        
+
         this.setUrlRequest(this.urlRequest = this.urlRequest.replace("faces/resources/js/jquery.jsresources/", ""));
         this.setUrlRequest(this.urlRequest = this.urlRequest.replace("faces/index.xhtml", ""));
         this.setUrlRequest(this.urlRequest = this.urlRequest.replace("faces/loginPage", ""));
@@ -154,6 +155,45 @@ public class LoginBean {
     public void generateMessage(FacesMessage.Severity Tipo, String Header, String Mensaje) {
         FacesMessage message = new FacesMessage(Tipo, Header, Mensaje);
         FacesContext.getCurrentInstance().addMessage(null, message);
+    }
+
+    public String getUserInformation1() {
+        String UserInformation = "";
+        BigDecimal id = new BigDecimal(BigInteger.ZERO);
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        HttpSession session = (HttpSession) facesContext.getExternalContext().getSession(false);
+        if (session == null) {
+        } else {
+            Object Nombres = session.getAttribute("uzatfuncionarioNombres");
+            Object Apellidos = session.getAttribute("uzatfuncionarioApellidos");
+            UserInformation = Nombres.toString() + " " + Apellidos.toString() + "   ";
+        }
+        return UserInformation;
+    }
+    public String getUserInformation3() {
+        String UserInformation = "";
+        BigDecimal id = new BigDecimal(BigInteger.ZERO);
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        HttpSession session = (HttpSession) facesContext.getExternalContext().getSession(false);
+        if (session == null) {
+        } else {
+            Object IdBanner = session.getAttribute("uzatfuncionarioIdbanner");
+            UserInformation = IdBanner.toString()+"     ";
+        }
+        return UserInformation;
+    }
+    
+    public String getUserInformation2() {
+        String UserInformation = "";
+        BigDecimal id = new BigDecimal(BigInteger.ZERO);
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        HttpSession session = (HttpSession) facesContext.getExternalContext().getSession(false);
+        if (session == null) {
+        } else {
+            Object Email = session.getAttribute("uzatfuncionarioEmail");
+            UserInformation = Email.toString() +"    ";
+        }
+        return UserInformation;
     }
 
     public String getUrlRequest() {
