@@ -11,6 +11,10 @@
         <ui:composition template="./menu_procu.xhtml">
 
             <ui:define name="content">
+                <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+                <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+                    <img src="#{loginBean.urlRequest}/resources/img/load.gif"></img>
+                </p:dialog>
 
                 <h:form id="form">
 
@@ -102,12 +106,12 @@
                     </p:dialog>
                     <script type="text/javascript">
                         function handleLoginRequest(xhr, status, args) {
-                            if (args.validationFailed || !args.loggedIn) {
-                                jQuery('#formLogin').effect("shake", {times: 5}, 100);
-                            }
-                            else {
-                                location.href = args.ruta;
-                            }
+                        if (args.validationFailed || !args.loggedIn) {
+                        jQuery('#formLogin').effect("shake", {times: 5}, 100);
+                        }
+                        else {
+                        location.href = args.ruta;
+                        }
                         }
                     </script>
 

@@ -23,6 +23,8 @@ import javax.faces.context.FacesContext;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import org.primefaces.context.RequestContext;
+import org.primefaces.event.FileUploadEvent;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.event.TabChangeEvent;
 import org.primefaces.event.ToggleEvent;
@@ -421,10 +423,14 @@ public class FasesCasoBean {
             this.initCitas();
         }
     }
+    
+    public void handleFileUpload(FileUploadEvent event) {
+        this.file = event.getFile();
+    }
 
     public void genratedDocumento(ActionEvent event) {
         if (this.file != null) {
-            if ((file.getFileName().endsWith(".pdf") || file.getFileName().endsWith(".PDF"))) {
+            if ((file.getFileName().endsWith(".pdf") || file.getFileName().endsWith(".PDF")) && this.file.getSize() < 20971520) {
                 try {
                     this.NewDocumento.getId().setUzatcasoId(SelectedCaso.getUzatcasoId());
                     this.NewDocumento.getId().setUzatfaseId(SelectedFase.getId().getUzatfaseId());
@@ -441,6 +447,7 @@ public class FasesCasoBean {
                     Boolean exito = uploadfile.getExito();
                     if (exito) {
                         this.initDocumentos();
+                        RequestContext.getCurrentInstance().execute("PF('dlgConfirmUpPdf').show();");
                     }
                 } catch (IOException ex) {
 //                    Logger.getLogger(FasesCasoBean.class.getName()).log(Level.SEVERE, null, ex);

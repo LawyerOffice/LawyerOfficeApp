@@ -11,6 +11,10 @@
         <ui:composition template="./menu_procu.xhtml">
 
             <ui:define name="content">
+                <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+                <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+                    <img src="#{loginBean.urlRequest}/resources/img/load.gif"></img>
+                </p:dialog>
                 <h:form id="form">
                     <p:growl id="msgs" showDetail="true" />
 

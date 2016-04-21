@@ -11,7 +11,10 @@
         <ui:composition template="./menu_secre.xhtml">
 
             <ui:define name="content">
-                
+                <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+                <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+                    <img src="#{loginBean.urlRequest}/resources/img/load.gif"></img>
+                </p:dialog>
                 <h:form id="principal">
                     <p:growl id="growl" life="3000" />
 
@@ -65,7 +68,7 @@
                               modal="true" showEffect="fade" hideEffect="fade" resizable="false">
                         <p:panel id="multiCarDetail" header="Casos seleccionados">
                             <div align="center">
-   
+
                                 <p:scrollPanel mode="native" style="width:250px;height:100px">
                                     <ui:repeat value="#{reasignarCasoBean.casosSeleccionados}" var="car">
                                         <p>

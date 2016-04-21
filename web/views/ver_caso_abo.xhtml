@@ -11,6 +11,10 @@
         <ui:composition template="./menu_abo.xhtml">
 
             <ui:define name="content">
+                <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+                <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+                    <img src="#{loginBean.urlRequest}/resources/img/load.gif"></img>
+                </p:dialog>
                 <p:growl id="growl" showDetail="true" life="3000" /> 
                 <h:form id="form_FC">
                     <p:growl id="growl" showDetail="true" life="3000" />
@@ -26,7 +30,7 @@
                             </h:panelGrid>
                         </div>
                     </p:panel>
-                    
+
                     <p:panel id="CasoDetails" >
 
                         <f:facet name="header">

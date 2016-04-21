@@ -11,6 +11,10 @@
         <ui:composition template="./menu_abo.xhtml">
 
             <ui:define name="content">
+                <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+                <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+                    <img src="#{loginBean.urlRequest}/resources/img/load.gif"></img>
+                </p:dialog>
                 <p:growl id="growl" showDetail="true" life="3000" /> 
                 <h:form id="form_FC">
                     <p:growl id="growl" showDetail="true" life="3000" />
@@ -153,7 +157,7 @@
                                                                          icon="ui-icon-arrowthickstop-1-s"
                                                                          ajax="false"
                                                                          actionListener="#{fasesCasoBean.GeneratePDF(event, DocById)}">
-                                                            <p:fileDownload value="#{fasesCasoBean.pdfFile}" />
+                                                            <p:fileDownload value="#{fasesCasoBean.pdfFile}"/>
                                                         </p:commandButton>
                                                     </p:column>
 
@@ -368,7 +372,7 @@
                             <p:inputText id="compromiso" value="#{fasesCasoBean.newDocumento.uzatdocsCompromiso}"  style="width:170px"/>
 
                             <h:outputLabel value="Documento:"/>
-                            <p:fileUpload value="#{fasesCasoBean.file}" mode="simple"   />
+                            <p:fileUpload value="#{fasesCasoBean.file}" mode="simple" sizeLimit="20000"/>
                         </h:panelGrid>
 
                         <f:facet name="footer">
@@ -377,7 +381,7 @@
                                              icon="ui-icon-check"          
                                              value="Añadir">
                                 <f:ajax event="click" execute="@form" render="@form"/>
-                                <p:ajax update=":growl , :form_FC:dtCaso" oncomplete="PF('dlgConfirmUpPdf').show();"/>
+                                <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
                             </p:commandButton>                         
                         </f:facet> 
                     </p:dialog>

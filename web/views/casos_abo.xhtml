@@ -46,7 +46,7 @@
                             <p:column headerText="Fecha Caso">
                                 <h:outputText value="#{caso.uzatcaso.uzatcasoFechaIn}" />
                             </p:column>
-                            
+
                             <p:column headerText="Materia">
                                 <h:outputText value="#{caso.uzatcaso.uzatjudi.uzatmateri.uzatmateriaDescripcion}" />
                             </p:column>
@@ -88,12 +88,12 @@
 
                     <script type="text/javascript">
                         function handleLoginRequest(xhr, status, args) {
-                            if (args.validationFailed || !args.loggedIn) {
-                                jQuery('#formLogin').effect("shake", {times: 5}, 100);
-                            }
-                            else {
-                                location.href = args.ruta;
-                            }
+                        if (args.validationFailed || !args.loggedIn) {
+                        jQuery('#formLogin').effect("shake", {times: 5}, 100);
+                        }
+                        else {
+                        location.href = args.ruta;
+                        }
                         }
                     </script>
                     <style>

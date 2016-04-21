@@ -24,6 +24,10 @@
             <div class="toggle"><i class="fa fa-times fa-pencil"></i>
             </div>
             <div class="form">
+                <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+                <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+                    <img src="#{loginBean.urlRequest}/resources/img/load.gif"></img>
+                </p:dialog>
                 <h2>Iniciar Sesión</h2>
                 <h:form id="formLogin">
                     <p:outputLabel value="Usuario:"/>
@@ -32,7 +36,7 @@
                     <p:outputLabel value="Contraseña:"/>
                     <br/>
                     <p:password id="Password" value="#{loginBean.password}"/>  
-                    
+
                     <p:commandButton id="loginButto" value="Entrar" 
                                      actionListener="#{loginBean.login(event)}" 
                                      update=":growl , formLogin"
@@ -42,12 +46,12 @@
         </div>
         <script type="text/javascript">
             function handleLoginRequest(xhr, status, args) {
-                if (args.validationFailed || !args.loggedIn) {
-                    jQuery('#formLogin').effect("shake", {times: 5}, 100);
-                }
-                else {
-                    location.href = args.ruta;
-                }
+            if (args.validationFailed || !args.loggedIn) {
+            jQuery('#formLogin').effect("shake", {times: 5}, 100);
+            }
+            else {
+            location.href = args.ruta;
+            }
             }
         </script>
     </h:body>

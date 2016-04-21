@@ -11,133 +11,137 @@
         <ui:composition template="./menu_secre.xhtml">
 
             <ui:define name="content">
+                <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+                <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+                    <img src="#{loginBean.urlRequest}/resources/img/load.gif"></img>
+                </p:dialog>
                 <h:form id="principal">
-                        
-                        <p:growl id="growl" life="2000" />
-        
-                        <p:layout>
-                            
-                            <p:layoutUnit position="west" resizable="false" style="min-width:50% !important; max-width:50% !important">
-                                    <p:dataTable id="dataTableMaterias" var="materi" value="#{judi_procuBean.materias}"
-                                                 emptyMessage="No se ha encontrado materias existentes"
-                                                 selectionMode="single" selection="#{judi_procuBean.selectedMateria}" rowKey="#{materi}">
-                                        <p:ajax event="rowSelect" listener="#{judi_procuBean.cargarJudicaturas()}" update=":principal:growl, :principal:dataTableJudicatura" />
 
-                                        <f:facet name="header">
+                    <p:growl id="growl" life="2000" />
 
-                                            <h:outputText value="Lista de Materias"></h:outputText>
+                    <p:layout>
 
-                                            <div align="right">
-                                                <p:commandButton value="Nueva" 
-                                                                 actionListener="#{judi_procuBean.inicializarMateria()}" 
-                                                                 oncomplete="PF('wnuevo').show();"></p:commandButton>
-                                            </div>
-                                        </f:facet>
+                        <p:layoutUnit position="west" resizable="false" style="min-width:50% !important; max-width:50% !important">
+                            <p:dataTable id="dataTableMaterias" var="materi" value="#{judi_procuBean.materias}"
+                                         emptyMessage="No se ha encontrado materias existentes"
+                                         selectionMode="single" selection="#{judi_procuBean.selectedMateria}" rowKey="#{materi}">
+                                <p:ajax event="rowSelect" listener="#{judi_procuBean.cargarJudicaturas()}" update=":principal:growl, :principal:dataTableJudicatura" />
 
-                                        <p:column headerText="Descripción" >
-                                            <h:outputText value="#{materi.uzatmateriaDescripcion}" />
-                                        </p:column>
-                                        <p:column headerText="Editar" style="width:40px;text-align: center">
-                                            <p:commandButton icon="ui-icon-disk" actionListener="#{judi_procuBean.cambiarmateria(materi.uzatmateriaId)}" oncomplete="PF('weditar').show();"></p:commandButton>                   
-                                        </p:column>
-                                    </p:dataTable>
-                                </p:layoutUnit>
+                                <f:facet name="header">
 
-                                <p:layoutUnit position="center">
+                                    <h:outputText value="Lista de Materias"></h:outputText>
 
-                                    <p:dataTable id="dataTableJudicatura" var="judi" value="#{judi_procuBean.judicatura}"
-                                                 emptyMessage="Seleccione una materia por favor">
-                                        <f:facet name="header">
+                                    <div align="right">
+                                        <p:commandButton value="Nueva" 
+                                                         actionListener="#{judi_procuBean.inicializarMateria()}" 
+                                                         oncomplete="PF('wnuevo').show();"></p:commandButton>
+                                    </div>
+                                </f:facet>
 
-                                            <h:outputText value="Lista de Especialización"></h:outputText>
+                                <p:column headerText="Descripción" >
+                                    <h:outputText value="#{materi.uzatmateriaDescripcion}" />
+                                </p:column>
+                                <p:column headerText="Editar" style="width:40px;text-align: center">
+                                    <p:commandButton icon="ui-icon-disk" actionListener="#{judi_procuBean.cambiarmateria(materi.uzatmateriaId)}" oncomplete="PF('weditar').show();"></p:commandButton>                   
+                                </p:column>
+                            </p:dataTable>
+                        </p:layoutUnit>
 
-                                            <div align="right">
-                                                <p:commandButton value="Nueva" 
-                                                                 actionListener="#{judi_procuBean.inicializarJudicatura()}" 
-                                                                 oncomplete="PF('wnuevoJ').show();"></p:commandButton>
-                                            </div>
-                                        </f:facet>
+                        <p:layoutUnit position="center">
 
-                                        <p:column headerText="Nombre" >
-                                            <h:outputText value="#{judi.uzatjudiDescripcion}" />
-                                        </p:column>
-                                        <p:column headerText="Editar" style="width:40px;text-align: center">
-                                            <p:commandButton icon="ui-icon-disk" 
-                                                             actionListener="#{judi_procuBean.cambiarjudicatura(judi.id.uzatjudiId)}" 
-                                                             oncomplete="PF('weditarJ').show();"></p:commandButton>                   
-                                        </p:column>
-                                    </p:dataTable>
-                                </p:layoutUnit>
-                           </p:layout>
-                       
-                        
-                        <p:dialog id="dEditar" widgetVar="weditar" header="Editar Materia"  
-                                  modal="true" showEffect="fade" resizable="false" position="center center">
-                            <h2> Editara Materia</h2>
+                            <p:dataTable id="dataTableJudicatura" var="judi" value="#{judi_procuBean.judicatura}"
+                                         emptyMessage="Seleccione una materia por favor">
+                                <f:facet name="header">
 
-                            <p:panel id="panelEditarMateria" header="Ingrese el nuevo nombre de la Materia" >
-                                <h:panelGrid columns="4" cellpadding="10">
-                                    <h:outputText value="Ingrese:" />                    
-                                    <p:inputText value="#{judi_procuBean.changeMateria.uzatmateriaDescripcion}"/>
-                                    <p:commandButton value="Cambiar" update=":principal:growl, :principal:dataTableMaterias, :principal:dEditar" 
-                                                     actionListener="#{judi_procuBean.editarMaterias()}"></p:commandButton>
-                                    <p:commandButton value="Cancelar" update=":principal:dEditar, :principal:growl"></p:commandButton>        
+                                    <h:outputText value="Lista de Especialización"></h:outputText>
 
-                                </h:panelGrid>    
-                            </p:panel>
-                        </p:dialog>
-                        
-                        <p:dialog id="dEditarJ" widgetVar="weditarJ" header="Editar Especialización"  
-                                  modal="true" showEffect="fade" resizable="false" position="center center">
-                            <h2> Editar Especialización</h2>
+                                    <div align="right">
+                                        <p:commandButton value="Nueva" 
+                                                         actionListener="#{judi_procuBean.inicializarJudicatura()}" 
+                                                         oncomplete="PF('wnuevoJ').show();"></p:commandButton>
+                                    </div>
+                                </f:facet>
 
-                            <p:panel id="panelEditarEspecialización" header="Ingrese el nuevo nombre de la Especialización" >
-                                <h:panelGrid columns="4" cellpadding="10">
-                                    <h:outputText value="Ingrese:" />                    
-                                    <p:inputText value="#{judi_procuBean.changejudicatura.uzatjudiDescripcion}"/>
-                                    <p:commandButton value="Cambiar" update=":principal:growl, :principal:dataTableJudicatura, :principal:dEditarJ"
-                                                     actionListener="#{judi_procuBean.editarJudicaturas()}"></p:commandButton>
-                                    <p:commandButton value="Cancelar" update=":principal:dEditarJ, :principal:growl"></p:commandButton> 
-
-                                </h:panelGrid>    
-                            </p:panel>
-                        </p:dialog>                                       
-                        
-                        
-                        <p:dialog id="dNuevo" widgetVar="wnuevo" header="Nueva Materia"  
-                                  modal="true" showEffect="fade" resizable="false" position="center center">
-                            <h2> Nueva Materia</h2>
-
-                            <p:panel id="panelNuevaMateria" header="Ingrese Nueva Materia" >
-                                <h:panelGrid columns="4" cellpadding="10">
-                                    <h:outputText value="Ingrese:" />                    
-                                    <p:inputText value="#{judi_procuBean.newMateria.uzatmateriaDescripcion}"/>
-                                    <p:commandButton value="Ingresar" update=":principal:growl, :principal:dataTableMaterias, :principal:dNuevo" 
-                                                     actionListener="#{judi_procuBean.nuevaMaterias()}"></p:commandButton>
-                                    <p:commandButton value="Cancelar" update=":principal:dNuevo, :principal:growl"></p:commandButton>
-
-                                </h:panelGrid>    
-                            </p:panel>
-                        </p:dialog>
-                        
-                        <p:dialog id="dNuevoJ" widgetVar="wnuevoJ" header="Nueva Especialización"  
-                                  modal="true" showEffect="fade" resizable="false" position="center center">
-                            <h2> Nueva Especialización</h2>
-
-                            <p:panel id="panelNuevaEspecialización" header="Ingrese Nueva Especialización" >
-                                <h:panelGrid columns="4" cellpadding="10">
-                                    <h:outputText value="Ingrese:" />                    
-                                    <p:inputText value="#{judi_procuBean.newjudicatura.uzatjudiDescripcion}"/>
-                                    <p:commandButton value="Ingresar" update=":principal:growl, :principal:dataTableJudicatura, :principal:dNuevoJ" 
-                                                     actionListener="#{judi_procuBean.nuevaJudicaturas()}"></p:commandButton>
-                                    <p:commandButton value="Cancelar" update=":principal:dNuevoJ, :principal:growl"></p:commandButton>
+                                <p:column headerText="Nombre" >
+                                    <h:outputText value="#{judi.uzatjudiDescripcion}" />
+                                </p:column>
+                                <p:column headerText="Editar" style="width:40px;text-align: center">
+                                    <p:commandButton icon="ui-icon-disk" 
+                                                     actionListener="#{judi_procuBean.cambiarjudicatura(judi.id.uzatjudiId)}" 
+                                                     oncomplete="PF('weditarJ').show();"></p:commandButton>                   
+                                </p:column>
+                            </p:dataTable>
+                        </p:layoutUnit>
+                    </p:layout>
 
 
-                                </h:panelGrid>    
-                            </p:panel>
-                        </p:dialog>
-                        
-                    </h:form>    
+                    <p:dialog id="dEditar" widgetVar="weditar" header="Editar Materia"  
+                              modal="true" showEffect="fade" resizable="false" position="center center">
+                        <h2> Editara Materia</h2>
+
+                        <p:panel id="panelEditarMateria" header="Ingrese el nuevo nombre de la Materia" >
+                            <h:panelGrid columns="4" cellpadding="10">
+                                <h:outputText value="Ingrese:" />                    
+                                <p:inputText value="#{judi_procuBean.changeMateria.uzatmateriaDescripcion}"/>
+                                <p:commandButton value="Cambiar" update=":principal:growl, :principal:dataTableMaterias, :principal:dEditar" 
+                                                 actionListener="#{judi_procuBean.editarMaterias()}"></p:commandButton>
+                                <p:commandButton value="Cancelar" update=":principal:dEditar, :principal:growl"></p:commandButton>        
+
+                            </h:panelGrid>    
+                        </p:panel>
+                    </p:dialog>
+
+                    <p:dialog id="dEditarJ" widgetVar="weditarJ" header="Editar Especialización"  
+                              modal="true" showEffect="fade" resizable="false" position="center center">
+                        <h2> Editar Especialización</h2>
+
+                        <p:panel id="panelEditarEspecialización" header="Ingrese el nuevo nombre de la Especialización" >
+                            <h:panelGrid columns="4" cellpadding="10">
+                                <h:outputText value="Ingrese:" />                    
+                                <p:inputText value="#{judi_procuBean.changejudicatura.uzatjudiDescripcion}"/>
+                                <p:commandButton value="Cambiar" update=":principal:growl, :principal:dataTableJudicatura, :principal:dEditarJ"
+                                                 actionListener="#{judi_procuBean.editarJudicaturas()}"></p:commandButton>
+                                <p:commandButton value="Cancelar" update=":principal:dEditarJ, :principal:growl"></p:commandButton> 
+
+                            </h:panelGrid>    
+                        </p:panel>
+                    </p:dialog>                                       
+
+
+                    <p:dialog id="dNuevo" widgetVar="wnuevo" header="Nueva Materia"  
+                              modal="true" showEffect="fade" resizable="false" position="center center">
+                        <h2> Nueva Materia</h2>
+
+                        <p:panel id="panelNuevaMateria" header="Ingrese Nueva Materia" >
+                            <h:panelGrid columns="4" cellpadding="10">
+                                <h:outputText value="Ingrese:" />                    
+                                <p:inputText value="#{judi_procuBean.newMateria.uzatmateriaDescripcion}"/>
+                                <p:commandButton value="Ingresar" update=":principal:growl, :principal:dataTableMaterias, :principal:dNuevo" 
+                                                 actionListener="#{judi_procuBean.nuevaMaterias()}"></p:commandButton>
+                                <p:commandButton value="Cancelar" update=":principal:dNuevo, :principal:growl"></p:commandButton>
+
+                            </h:panelGrid>    
+                        </p:panel>
+                    </p:dialog>
+
+                    <p:dialog id="dNuevoJ" widgetVar="wnuevoJ" header="Nueva Especialización"  
+                              modal="true" showEffect="fade" resizable="false" position="center center">
+                        <h2> Nueva Especialización</h2>
+
+                        <p:panel id="panelNuevaEspecialización" header="Ingrese Nueva Especialización" >
+                            <h:panelGrid columns="4" cellpadding="10">
+                                <h:outputText value="Ingrese:" />                    
+                                <p:inputText value="#{judi_procuBean.newjudicatura.uzatjudiDescripcion}"/>
+                                <p:commandButton value="Ingresar" update=":principal:growl, :principal:dataTableJudicatura, :principal:dNuevoJ" 
+                                                 actionListener="#{judi_procuBean.nuevaJudicaturas()}"></p:commandButton>
+                                <p:commandButton value="Cancelar" update=":principal:dNuevoJ, :principal:growl"></p:commandButton>
+
+
+                            </h:panelGrid>    
+                        </p:panel>
+                    </p:dialog>
+
+                </h:form>    
             </ui:define>
 
         </ui:composition>

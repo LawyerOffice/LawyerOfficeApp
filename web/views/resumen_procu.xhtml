@@ -11,9 +11,13 @@
         <ui:composition template="./menu_procu.xhtml">
 
             <ui:define name="content">
+                <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+                <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+                    <img src="#{loginBean.urlRequest}/resources/img/load.gif"></img>
+                </p:dialog>
                 <h:form id="form_noti">
                     <p:growl id="growl" life="2000" />
-                    
+
                     <p:panel id="pnlprocunoabo" header="CASOS SIN ABOGADO ASIGNADO">
                         <p:dataTable id="dataTablesinAbogados" 
                                      var="casoI" 
@@ -23,11 +27,11 @@
                                      paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                      rowsPerPageTemplate="5" lazy="true"
                                      selectionMode="single" selection="#{resumenProcuBean.selectedCaso}" rowKey="#{casoI}">
-                            
+
                             <p:ajax event="rowSelect" 
                                     listener="#{resumenProcuBean.selectionaction()}" 
                                     update=":form_noti:growl" oncomplete="PF('wfunci').show();"/>
-                            
+
                             <p:column headerText="Núm. Causa" >
                                 <h:outputText value="#{casoI.uzatcasoNumcausa}" />
                             </p:column>
@@ -74,7 +78,7 @@
                         </p:dataTable>
 
                     </p:panel>
-                    
+
                     <p:dialog id="selectfunci" widgetVar="wfunci" header="Seleccione Funcionario"  
                               modal="true" showEffect="fade" resizable="false" position="center center">
                         <h2> Asignar Funcionario</h2>
@@ -114,7 +118,7 @@
                             </h:panelGrid>   
                         </p:panel>
                     </p:dialog>    
-                    
+
                 </h:form>  
             </ui:define>
 
