@@ -57,8 +57,8 @@ public class ResumenAboBean{
     private ArrayList<SelectItem> ItemsMaterias;
     private ArrayList<SelectItem> ItemsJudicaturas;
 
-    private String idMateria = "100";
-    private String idJudicatura = "100";    
+    private BigDecimal idMateria;
+    private BigDecimal idJudicatura;  
     private String textoBotonVincular;
     
     private Uzatcaso findCaso;
@@ -264,7 +264,7 @@ public class ResumenAboBean{
     }
 
     public void loadlistJudi() {
-        BigDecimal idmateri = new BigDecimal(idMateria);
+        BigDecimal idmateri = this.getIdMateria();
         ArrayList<Uzatjudi> selectItemsJud = ProcuradoriaMethods.findjudibyMateriId(idmateri);
         
         if(!(selectItemsJud == null))
@@ -398,22 +398,6 @@ public class ResumenAboBean{
     public void setItemsJudicaturas(ArrayList<SelectItem> ItemsJudicaturas) {
         this.ItemsJudicaturas = ItemsJudicaturas;
     }
-
-    public String getIdMateria() {
-        return idMateria;
-    }
-
-    public void setIdMateria(String idMateria) {
-        this.idMateria = idMateria;
-    }
-
-    public String getIdJudicatura() {
-        return idJudicatura;
-    }
-
-    public void setIdJudicatura(String idJudicatura) {
-        this.idJudicatura = idJudicatura;
-    }
     
     public String getTextoBotonVincular() {
         return textoBotonVincular;
@@ -479,6 +463,22 @@ public class ResumenAboBean{
         this.vincuMateria = vincuMateria;
     }
 // </editor-fold>
+
+    public BigDecimal getIdMateria() {
+        return idMateria;
+    }
+
+    public void setIdMateria(BigDecimal idMateria) {
+        this.idMateria = idMateria;
+    }
+
+    public BigDecimal getIdJudicatura() {
+        return idJudicatura;
+    }
+
+    public void setIdJudicatura(BigDecimal idJudicatura) {
+        this.idJudicatura = idJudicatura;
+    }
  
 }
 
