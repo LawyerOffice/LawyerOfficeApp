@@ -53,15 +53,15 @@
                               modal="true" showEffect="fade" resizable="false" position="center center">
                         <h2> Editar Detalles del Caso</h2>
                         <p:panel id="panelFunc" header="Detalles del Caso" style="border-style: none !important">
-                            <h:panelGrid columns="4" cellpadding="10">
-
+                            <h:panelGrid columns="4" cellpadding="6">
 
                                 <h:outputText value="Numero de Causa:"/>
                                 <p:inputText value="#{resumenAboBean.selectedCaso.uzatcasoNumcausa}" style="width:245px" />
                                 <h:outputText value="Motivo:"/>
                                 <p:inputText value="#{resumenAboBean.selectedCaso.uzatcasoMotivo}" style="width:245px"/>
                                 <h:outputText value="Detalle:"/>
-                                <p:inputTextarea value="#{resumenAboBean.selectedCaso.uzatcasoDetalle}" style="width:245px"/>
+                                <p:inputTextarea value="#{resumenAboBean.selectedCaso.uzatcasoDetalle}" 
+                                                 rows="2" cols="33"/>
                                 <h:outputText value="Tipo:"/>
                                 <p:inputText value="#{resumenAboBean.selectedCaso.uzatcasoTipo}" style="width:245px"/>
                                 <h:outputText value="Materia:"/>
@@ -69,12 +69,12 @@
                                 <p:selectOneMenu id="Materia" value="#{resumenAboBean.idMateria}">
                                     <f:selectItem itemLabel="Seleccionar" itemValue="" noSelectionOption="true"/>
                                     <f:selectItems value="#{resumenAboBean.itemsMaterias}"/>
-                                    <p:ajax update="Judicatura"  listener="#{resumenAboBean.loadlistJudi()}" />
+                                    <p:ajax update="Especializacion"  listener="#{resumenAboBean.loadlistJudi()}" />
 
                                 </p:selectOneMenu>
 
-                                <h:outputText value="Judicatura:"/>                           
-                                <p:selectOneMenu id="Judicatura" value="#{resumenAboBean.idJudicatura}" style="width:252px">
+                                <h:outputText value="Especializacion:"/>                           
+                                <p:selectOneMenu id="Especializacion" value="#{resumenAboBean.idJudicatura}" style="width:252px">
                                     <f:selectItem itemLabel="Seleccionar" itemValue="" noSelectionOption="true" />
                                     <f:selectItems value="#{resumenAboBean.itemsJudicaturas}"/>
                                 </p:selectOneMenu>
@@ -84,7 +84,7 @@
                         </p:panel> 
                         <h:outputText value="                       "/>
                         <p:panel id="panelActor" header="Seleccione el Actor" style="border-style: none !important">
-                            <h:panelGrid columns="4" cellpadding="10">
+                            <h:panelGrid columns="6" cellpadding="6">
 
                                 <h:outputText value="Tipo de Actor:"/>
                                 <p:selectOneMenu id="patron" required="false" value="#{resumenAboBean.tipoActor}">
@@ -103,8 +103,8 @@
                         </p:panel>
 
                         <p:panel id="panelCasoVincu" header="Vincular Caso" style="border-style: none !important">
-                            <h:panelGrid columns="2" cellpadding="10">
-                                <h:outputText value="Vincular caso con caso anterior: "/>
+                            <h:panelGrid columns="4" cellpadding="10">
+                                <h:outputText value="Vincular caso: "/>
                                 <p:commandButton value="#{resumenAboBean.textoBotonVincular}"
                                                  oncomplete="PF('wcasos').show();"/>
                                 <h:outputText value="Caso Vinculado: "/>
@@ -123,7 +123,7 @@
                         <h2> Asignar Actor</h2>
 
                         <p:panel id="panelCedulaActor" header="Ingrese Numero de Cedula o ID ESPE" >
-                            <h:panelGrid columns="4" cellpadding="10">
+                            <h:panelGrid columns="4" cellpadding="6">
                                 <h:outputText value="Seleccione:" />
                                 <p:selectOneMenu id="patter" required="false" value="#{resumenAboBean.idocedula}">
                                     <f:selectItem itemLabel="Seleccionar" itemValue="" noSelectionOption="true"/>
@@ -138,7 +138,7 @@
                         </p:panel>
 
                         <p:panel id="panelDatosActor" header="Detalles Actor" >
-                            <h:panelGrid columns="2" cellpadding="10">
+                            <h:panelGrid columns="2" cellpadding="6">
                                 <h:outputText value="Nombres:" />
                                 <p:inputText value="#{resumenAboBean.selectedActor.uzatactorNombres}"></p:inputText>
                                 <h:outputText value="Apellidos:" />
@@ -151,9 +151,11 @@
                                 <p:inputText value="#{resumenAboBean.selectedActor.uzatactorMovil}"></p:inputText>
                                 <h:outputText value="Institución:" />
                                 <p:inputText value="#{resumenAboBean.selectedActor.uzatactorInstitutcion}"></p:inputText>
-                                <p:commandButton value="Agregar" update=":principal:selectactor, :principal:panelActor , growl" actionListener="#{resumenAboBean.botonActualizarActor()}"></p:commandButton>
                             </h:panelGrid>    
                         </p:panel>
+                        <f:facet name="footer"> 
+                            <p:commandButton value="Agregar" update=":principal:selectactor, :principal:panelActor , growl" actionListener="#{resumenAboBean.botonActualizarActor()}"></p:commandButton>
+                        </f:facet>
                     </p:dialog>
 
 
@@ -177,7 +179,7 @@
                         <p:panel id="panelDatosCaso" header="Casos" >
 
                             <h2>Detalles Caso</h2>
-                            <h:panelGrid columns="2" cellpadding="10">
+                            <h:panelGrid columns="2" cellpadding="6">
 
                                 <h:outputText value="Numero Causa:" />
                                 <h:outputText value="#{resumenAboBean.findCaso.uzatcasoNumcausa}"/>
@@ -187,21 +189,18 @@
                                 <h:outputText value="#{resumenAboBean.findCaso.uzatcasoDetalle}"/>
                                 <h:outputText value="Materia" />
                                 <h:outputText value="#{resumenAboBean.vincuMateria.uzatmateriaDescripcion}"/>
-                                <h:outputText value="Judicatura" />
+                                <h:outputText value="Especializacion" />
                                 <h:outputText value="#{resumenAboBean.vincuJudi.uzatjudiDescripcion}"/>
                             </h:panelGrid>
 
-                            <p:separator/>            
-
-                            <h:panelGrid columns="2" cellpadding="10">
+                            <f:facet name="footer">
                                 <p:commandButton value="Vincular"
                                                  update=":principal:ventanaConfirmacion"
                                                  oncomplete="PF('wconfirma').show();"></p:commandButton>
-                                <p:commandButton value="Cancelar" 
+                                <p:commandButton value="Cancelar" style="float: right" 
                                                  oncomplete="PF('wcasos').hide()" 
                                                  ></p:commandButton>
-                            </h:panelGrid>
-
+                            </f:facet>          
                         </p:panel>
                     </p:dialog>
 
