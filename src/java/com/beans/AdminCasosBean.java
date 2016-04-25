@@ -39,6 +39,8 @@ public class AdminCasosBean {
     private String patterFindCaso;
     private String valueFindCaso;
     private String valueFindCaso2;
+    private String valueFindCaso3;
+    private String valueFindCaso4;
 
     private List<Uzatasign> casosAsigandos;
 
@@ -166,10 +168,27 @@ public class AdminCasosBean {
             if (!this.getIdMateria().equals(new BigDecimal(BigInteger.ZERO))) {
                 this.casosAsigandos = ProcuradoriaMethods.FindCasosAdminLazyByNumCausaMateria(BigDecimal.ONE, this.valueFindCaso2,this.idMateria);
                 if (this.casosAsigandos.size() == 0) {
-                    generateMessage(FacesMessage.SEVERITY_INFO, "Error", "No se encuentran casos relacionados con dicho número de causa.");
+                    generateMessage(FacesMessage.SEVERITY_INFO, "Error", "No se encuentran casos relacionados con dicho número de causa y materia.");
                 }
             } else {
                 generateMessage(FacesMessage.SEVERITY_INFO, "Error", "Seleccione la materia.");
+            }
+        }
+    }
+    
+    public void buscarCasoByVinculacion(ActionEvent actionEvent) {
+
+        if (this.getValueFindCaso3().equals("")) {
+            generateMessage(FacesMessage.SEVERITY_INFO, "Error", "Ingrese la cédula del abogado.");
+            this.casosAsigandos = null;
+        } else {
+            if (!this.valueFindCaso4.equals("")) {
+                this.casosAsigandos = ProcuradoriaMethods.FindCasosAdminLazyByVinculacion(BigDecimal.ONE, this.valueFindCaso3,this.valueFindCaso4);
+                if (this.casosAsigandos.size() == 0) {
+                    generateMessage(FacesMessage.SEVERITY_INFO, "Error", "No se encuentran casos relacionados con dicho número de causa y cédula.");
+                }
+            } else {
+                generateMessage(FacesMessage.SEVERITY_INFO, "Error", "Ingrese el número de causa a ser buscado.");
             }
         }
     }
@@ -232,6 +251,22 @@ public class AdminCasosBean {
 
     public void setValueFindCaso2(String valueFindCaso2) {
         this.valueFindCaso2 = valueFindCaso2;
+    }
+
+    public String getValueFindCaso3() {
+        return valueFindCaso3;
+    }
+
+    public void setValueFindCaso3(String valueFindCaso3) {
+        this.valueFindCaso3 = valueFindCaso3;
+    }
+
+    public String getValueFindCaso4() {
+        return valueFindCaso4;
+    }
+
+    public void setValueFindCaso4(String valueFindCaso4) {
+        this.valueFindCaso4 = valueFindCaso4;
     }
 
 }

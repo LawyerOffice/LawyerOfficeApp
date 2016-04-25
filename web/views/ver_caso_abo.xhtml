@@ -20,9 +20,9 @@
                     <p:growl id="growl" showDetail="true" life="3000" />
 
                     <p:accordionPanel>
-                        
+
                         <p:ajax event="tabChange" listener="#{adminCasosBean.onTabChange}"/>
-                        
+
                         <p:tab title="Búsqueda por Número de Causa">
                             <p:panel id="panel_find_caso" >
                                 <div align="center">
@@ -37,14 +37,14 @@
                                 </div>
                             </p:panel>
                         </p:tab>
-                        
+
                         <p:tab title="Búsqueda por Materia y Número de Causa">
                             <p:panel id="panel_find_caso_mat" >
                                 <div align="center">
                                     <h:panelGrid columns="5" cellpadding="10">
 
                                         <h:outputLabel value="Materia:"/>
-                                        
+
                                         <p:selectOneMenu id="Materia" value="#{adminCasosBean.idMateria}">
                                             <f:selectItem itemLabel="Seleccionar" itemValue="" noSelectionOption="true"/>
                                             <f:selectItems value="#{adminCasosBean.itemsMaterias}"/>
@@ -60,11 +60,25 @@
                                 </div>
                             </p:panel>
                         </p:tab>
-                        
-                        <p:tab title="Godfather Part III">
 
+                        <p:tab title="Búsqueda por Cédula del Abogado y Número de Causa (Vinculaciones)">
+                            <p:panel id="panel_find_caso_vinc" >
+                                <div align="center">
+                                    <h:panelGrid columns="5" cellpadding="10">
+
+                                        <h:outputLabel value="Ingrese la Cédula:"/>
+                                        <p:inputText value="#{adminCasosBean.valueFindCaso3}"/>
+
+                                        <h:outputLabel value="Ingrese el Núm. Causa:"/>
+                                        <p:inputText value="#{adminCasosBean.valueFindCaso4}"/>
+
+                                        <p:commandButton value="Buscar" actionListener="#{adminCasosBean.buscarCasoByVinculacion}" 
+                                                         update=":form_FC:tablaCasos, :growl"/>
+                                    </h:panelGrid>
+                                </div>
+                            </p:panel>
                         </p:tab>
-                        
+
                     </p:accordionPanel>
 
                     <div align="center">
