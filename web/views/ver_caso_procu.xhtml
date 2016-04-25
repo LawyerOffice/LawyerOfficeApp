@@ -15,9 +15,21 @@
                 <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
                     <img src="#{loginBean.urlRequest}/resources/img/load.gif"></img>
                 </p:dialog>
-                <p:growl id="growl" showDetail="true" life="3000" /> 
+            <p:growl id="growl" showDetail="true" life="3000" /> 
                 <h:form id="form_FC">
                     <p:growl id="growl" showDetail="true" life="3000" />
+
+                    <p:panel id="panel_find_caso" >
+                        <div align="center">
+                            <h:panelGrid columns="4" cellpadding="10">
+                                <h:outputLabel value="Ingrese el Núm. Causa:"/>
+
+                                <p:inputText value="#{fasesCasoBean.valueFindCaso}"/>
+
+                                <p:commandButton value="Buscar" actionListener="#{fasesCasoBean.buscarCasoByNumCausa}" update=":form_FC:dtCaso, :form_FC:CasoDetails"/>
+                            </h:panelGrid>
+                        </div>
+                    </p:panel>
 
                     <p:panel id="CasoDetails" >
 
@@ -120,8 +132,13 @@
                                                         <h:outputText value="#{DocById.uzatdocsCompromiso}" />
                                                     </p:column>
 
-                                                    <p:column headerText="Archivo">
-
+                                                    <p:column headerText="Descargar" style="text-align: center">
+                                                        <p:commandButton id="btnDesDoc" 
+                                                                         icon="ui-icon-arrowthickstop-1-s"
+                                                                         ajax="false"
+                                                                         actionListener="#{fasesCasoBean.GeneratePDF(event, DocById)}">
+                                                            <p:fileDownload value="#{fasesCasoBean.pdfFile}" />
+                                                        </p:commandButton>
                                                     </p:column>
 
                                                 </p:dataTable>
@@ -150,7 +167,7 @@
                                                     </p:column>
 
                                                     <p:column headerText="Activo">
-                                                        <h:outputText value="#{CitaById.uzatcitaFlag}" />
+                                                        <h:outputText value="#{fasesCasoBean.estadoCitaText(CitaById)}" />
                                                     </p:column>
 
                                                 </p:dataTable>
