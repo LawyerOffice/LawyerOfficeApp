@@ -28,7 +28,6 @@ public class LazyCasoDataModel extends LazyDataModel<Uzatcaso> {
     private BigDecimal uzatfuncionarioId;
 
     //TOMAR EN CUENTA EL CONSTRUCTOR
-
     public LazyCasoDataModel(List<Uzatcaso> datasource) {
         this.datasource = datasource;
     }
@@ -63,10 +62,10 @@ public class LazyCasoDataModel extends LazyDataModel<Uzatcaso> {
     @Override
     public List<Uzatcaso> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String, Object> filters) {
         List<Uzatcaso> data = new ArrayList<Uzatcaso>();
-        
-        if(Flag != null && uzatfuncionarioId != null){
+
+        if (Flag != null && uzatfuncionarioId != null) {
             datasource = ProcuradoriaMethods.FindCasosLazy(uzatfuncionarioId, Flag, first, pageSize);
-        }else if(Flag != null){
+        } else if (Flag != null) {
             datasource = ProcuradoriaMethods.FindCasosLazy(Flag, first, pageSize);
         }
 
@@ -79,8 +78,11 @@ public class LazyCasoDataModel extends LazyDataModel<Uzatcaso> {
                     try {
                         String filterProperty = it.next();
                         Object filterValue = filters.get(filterProperty);
-                        Field field = caso.getClass().getField(filterProperty);
-                        Object objectFieldValue = field.get(caso);
+                        Field field = caso.getClass().getDeclaredField(filterProperty);
+                        field.setAccessible(true);
+                        Class<?> targetType = field.getType();
+                        Object objectValue = targetType.newInstance();
+                        Object objectFieldValue = field.get(objectValue);
                         String fieldValue = objectFieldValue.toString();
 
                         if (filterValue == null || fieldValue.startsWith(filterValue.toString())) {
