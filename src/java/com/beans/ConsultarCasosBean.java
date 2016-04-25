@@ -9,6 +9,7 @@ import com.util.LawyerOfficeUtil;
 import com.util.LazyCasoDataModel;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
@@ -38,16 +39,15 @@ public class ConsultarCasosBean {
     private Uzatcaso Caso;
     private Uzatcaso SlectedCaso;
     private ArrayList<Uzatcaso> ListCasos;
-    
+
     private LazyDataModel<Uzatcaso> lazyModelCasosActivos;
-    
     private Uzatasign Asignar;
-    
+
     private ArrayList<Uzatcomt> ListComtFases;
-    
+
     private ArrayList<Uzatfase> ListFases;
     private Uzatfase SelectedFase;
-    
+
     private ArrayList<Uzatcomt> ListComtFasesById;
 
     public ConsultarCasosBean() {
@@ -57,15 +57,15 @@ public class ConsultarCasosBean {
     private void init() {
         setLazyModelCasosActivos(new LazyCasoDataModel(BigDecimal.ONE));
         this.setCaso(new Uzatcaso());
-        this.setSlectedCaso ( new Uzatcaso());
-        this.setSelectedFase ( new Uzatfase());
+        this.setSlectedCaso(new Uzatcaso());
+        this.setSelectedFase(new Uzatfase());
         this.setAsignar(new Uzatasign());
         this.setListCasos(new ArrayList<Uzatcaso>());
         this.setListComtFases(new ArrayList<Uzatcomt>());
         this.setListFases(new ArrayList<Uzatfase>());
         //this.loadlistCasos();
     }
-    
+
     public void loadlistCasos() {
         this.ListCasos.clear();
         this.ListCasos = ProcuradoriaMethods.ListCasosByFlag(BigDecimal.ONE);
@@ -73,11 +73,11 @@ public class ConsultarCasosBean {
 
     public void onRowSelectCaso(SelectEvent event) {
         this.SlectedCaso = (Uzatcaso) event.getObject();
-        this.Asignar =  ProcuradoriaMethods.GetActiveAbogadosByIdCaso(this.SlectedCaso.getUzatcasoId());
+        this.Asignar = ProcuradoriaMethods.GetActiveAbogadosByIdCaso(this.SlectedCaso.getUzatcasoId());
         this.ListFases = ProcuradoriaMethods.listFasesByIdCaso(this.SlectedCaso.getUzatcasoId());
     }
-    
-     public void openCaso(ActionEvent event, BigDecimal uzatcasoId) {
+
+    public void openCaso(ActionEvent event, BigDecimal uzatcasoId) {
         RequestContext context = RequestContext.getCurrentInstance();
         String ruta = LawyerOfficeUtil.getURL_Login() + "views/ver_caso_procu.xhtml";
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().
@@ -157,7 +157,7 @@ public class ConsultarCasosBean {
     public void setListComtFasesById(ArrayList<Uzatcomt> ListComtFasesById) {
         this.ListComtFasesById = ListComtFasesById;
     }
-    
+
     public void onRowToggle(ToggleEvent event) {
         this.setSelectedFase((Uzatfase) event.getData());
         if (event.getVisibility() == Visibility.VISIBLE) {

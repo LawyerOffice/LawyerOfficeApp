@@ -19,7 +19,7 @@
                 <h:form id="form">
 
                     <p:dataTable var="caso" 
-                                 value="#{consultarCasosBean.lazyModelCasosActivos}" 
+                                 value="#{consultarCasosBean.lazyModelCasosActivos}"
                                  paginator="true" rows="10"
                                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                  rowsPerPageTemplate="10" lazy="true"
@@ -36,7 +36,7 @@
                             LISTA DE CASOS
                         </f:facet>
 
-                        <p:column headerText="Número de Causa" >
+                        <p:column headerText="Número de Causa" filterBy="#{caso.uzatcasoNumcausa}" footerText="contains" filterMatchMode="contains">
                             <h:outputText value="#{caso.uzatcasoNumcausa}" />
                         </p:column>
                         <p:column headerText="Motivo">

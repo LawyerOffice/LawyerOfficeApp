@@ -5,6 +5,7 @@
  */
 package com.util;
 
+import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +28,7 @@ public class LazyCasoDataModel extends LazyDataModel<Uzatcaso> {
     private BigDecimal uzatfuncionarioId;
 
     //TOMAR EN CUENTA EL CONSTRUCTOR
+
     public LazyCasoDataModel(List<Uzatcaso> datasource) {
         this.datasource = datasource;
     }
@@ -77,7 +79,9 @@ public class LazyCasoDataModel extends LazyDataModel<Uzatcaso> {
                     try {
                         String filterProperty = it.next();
                         Object filterValue = filters.get(filterProperty);
-                        String fieldValue = String.valueOf(caso.getClass().getField(filterProperty).get(caso));
+                        Field field = caso.getClass().getField(filterProperty);
+                        Object objectFieldValue = field.get(caso);
+                        String fieldValue = objectFieldValue.toString();
 
                         if (filterValue == null || fieldValue.startsWith(filterValue.toString())) {
                             match = true;

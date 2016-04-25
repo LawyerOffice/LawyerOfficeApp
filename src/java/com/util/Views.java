@@ -33,6 +33,7 @@ public class Views {
         this.views_abo.add("faces/views/menu_abo.xhtml");
         this.views_abo.add("faces/views/resumen_abo.xhtml");
         this.views_abo.add("faces/views/ver_caso_abo.xhtml");
+        this.views_abo.add("faces/views/ver_caso_procu.xhtml");
         this.views_abo.add("faces/index.xhtml");
         this.views_abo.add("faces/loginPage");
         
