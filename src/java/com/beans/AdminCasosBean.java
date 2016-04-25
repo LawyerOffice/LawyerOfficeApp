@@ -19,6 +19,7 @@ import javax.faces.model.SelectItem;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import org.primefaces.context.RequestContext;
+import org.primefaces.event.TabChangeEvent;
 import procuradoria.crud.ProcuradoriaMethods;
 import procuradoria.map.Uzatasign;
 import procuradoria.map.Uzatcaso;
@@ -37,6 +38,7 @@ public class AdminCasosBean {
      */
     private String patterFindCaso;
     private String valueFindCaso;
+    private String valueFindCaso2;
 
     private List<Uzatasign> casosAsigandos;
 
@@ -137,19 +139,46 @@ public class AdminCasosBean {
             this.loadCasosAsignados();
         } else {
             this.casosAsigandos = ProcuradoriaMethods.FindCasosAdminLazyByNumCausa(this.getUserIdAttribute(), BigDecimal.ONE, BigDecimal.ONE, valueFindCaso);
-        }
-    }
-
-    public void buscarCasoByNumCausaGeneral(ActionEvent actionEvent) {
-        if (valueFindCaso.equals("")) {
-            generateMessage(FacesMessage.SEVERITY_INFO, "Error", "Ingrese el número de causa a ser buscado.");
-            this.casosAsigandos = null;
-        } else {
-            this.casosAsigandos = ProcuradoriaMethods.FindCasosAdminLazyByNumCausaGen(BigDecimal.ONE, BigDecimal.ONE, valueFindCaso);
             if (this.casosAsigandos == null) {
                 generateMessage(FacesMessage.SEVERITY_INFO, "Error", "No se encuentran casos relacionados con dicho número de causa.");
             }
         }
+    }
+
+    public void buscarCasoByNumCausaGeneral(ActionEvent actionEvent) {
+        if (this.valueFindCaso.equals("")) {
+            generateMessage(FacesMessage.SEVERITY_INFO, "Error", "Ingrese el número de causa a ser buscado.");
+            this.casosAsigandos = null;
+        } else {
+            this.casosAsigandos = ProcuradoriaMethods.FindCasosAdminLazyByNumCausaGen(BigDecimal.ONE, valueFindCaso);
+            if (this.casosAsigandos.size() == 0) {
+                generateMessage(FacesMessage.SEVERITY_INFO, "Error", "No se encuentran casos relacionados con dicho número de causa.");
+            }
+        }
+    }
+
+    public void buscarCasoByNumCausaMateria(ActionEvent actionEvent) {
+
+        if (this.valueFindCaso2.equals("")) {
+            generateMessage(FacesMessage.SEVERITY_INFO, "Error", "Ingrese el número de causa a ser buscado.");
+            this.casosAsigandos = null;
+        } else {
+            if (!this.getIdMateria().equals(new BigDecimal(BigInteger.ZERO))) {
+                this.casosAsigandos = ProcuradoriaMethods.FindCasosAdminLazyByNumCausaMateria(BigDecimal.ONE, this.valueFindCaso2,this.idMateria);
+                if (this.casosAsigandos.size() == 0) {
+                    generateMessage(FacesMessage.SEVERITY_INFO, "Error", "No se encuentran casos relacionados con dicho número de causa.");
+                }
+            } else {
+                generateMessage(FacesMessage.SEVERITY_INFO, "Error", "Seleccione la materia.");
+            }
+        }
+    }
+
+    public void onTabChange(TabChangeEvent event) {
+        this.patterFindCaso = "";
+        this.valueFindCaso = "";
+        this.valueFindCaso2 = "";
+        this.setIdMateria(new BigDecimal(BigInteger.ZERO));
     }
 
     public void generateMessage(FacesMessage.Severity Tipo, String Header, String Mensaje) {
@@ -195,6 +224,14 @@ public class AdminCasosBean {
 
     public void setIdMateria(BigDecimal idMateria) {
         this.idMateria = idMateria;
+    }
+
+    public String getValueFindCaso2() {
+        return valueFindCaso2;
+    }
+
+    public void setValueFindCaso2(String valueFindCaso2) {
+        this.valueFindCaso2 = valueFindCaso2;
     }
 
 }

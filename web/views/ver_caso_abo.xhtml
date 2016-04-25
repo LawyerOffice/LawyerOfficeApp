@@ -20,6 +20,9 @@
                     <p:growl id="growl" showDetail="true" life="3000" />
 
                     <p:accordionPanel>
+                        
+                        <p:ajax event="tabChange" listener="#{adminCasosBean.onTabChange}"/>
+                        
                         <p:tab title="Búsqueda por Número de Causa">
                             <p:panel id="panel_find_caso" >
                                 <div align="center">
@@ -34,6 +37,7 @@
                                 </div>
                             </p:panel>
                         </p:tab>
+                        
                         <p:tab title="Búsqueda por Materia y Número de Causa">
                             <p:panel id="panel_find_caso_mat" >
                                 <div align="center">
@@ -48,17 +52,19 @@
 
                                         <h:outputLabel value="Ingrese el Núm. Causa:"/>
 
-                                        <p:inputText value="#{adminCasosBean.valueFindCaso}"/>
+                                        <p:inputText value="#{adminCasosBean.valueFindCaso2}"/>
 
-                                        <p:commandButton value="Buscar" actionListener="#{adminCasosBean.buscarCasoByNumCausaGeneral}" 
+                                        <p:commandButton value="Buscar" actionListener="#{adminCasosBean.buscarCasoByNumCausaMateria}" 
                                                          update=":form_FC:tablaCasos, :growl"/>
                                     </h:panelGrid>
                                 </div>
                             </p:panel>
                         </p:tab>
+                        
                         <p:tab title="Godfather Part III">
 
                         </p:tab>
+                        
                     </p:accordionPanel>
 
                     <div align="center">
