@@ -34,8 +34,27 @@
                                 </div>
                             </p:panel>
                         </p:tab>
-                        <p:tab title="Godfather Part II">
+                        <p:tab title="Búsqueda por Materia y Número de Causa">
+                            <p:panel id="panel_find_caso_mat" >
+                                <div align="center">
+                                    <h:panelGrid columns="5" cellpadding="10">
 
+                                        <h:outputLabel value="Materia:"/>
+                                        
+                                        <p:selectOneMenu id="Materia" value="#{adminCasosBean.idMateria}">
+                                            <f:selectItem itemLabel="Seleccionar" itemValue="" noSelectionOption="true"/>
+                                            <f:selectItems value="#{adminCasosBean.itemsMaterias}"/>
+                                        </p:selectOneMenu>
+
+                                        <h:outputLabel value="Ingrese el Núm. Causa:"/>
+
+                                        <p:inputText value="#{adminCasosBean.valueFindCaso}"/>
+
+                                        <p:commandButton value="Buscar" actionListener="#{adminCasosBean.buscarCasoByNumCausaGeneral}" 
+                                                         update=":form_FC:tablaCasos, :growl"/>
+                                    </h:panelGrid>
+                                </div>
+                            </p:panel>
                         </p:tab>
                         <p:tab title="Godfather Part III">
 
@@ -46,6 +65,7 @@
                         <p:dataTable id="tablaCasos" 
                                      var="caso" 
                                      value="#{adminCasosBean.casosAsigandos}" 
+                                     emptyMessage="No hay casos registrados."
                                      tableStyle="width:auto">
 
                             <p:column style="width:16px">

@@ -15,12 +15,14 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import javax.faces.model.SelectItem;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import org.primefaces.context.RequestContext;
 import procuradoria.crud.ProcuradoriaMethods;
 import procuradoria.map.Uzatasign;
 import procuradoria.map.Uzatcaso;
+import procuradoria.map.Uzatmateri;
 
 /**
  *
@@ -38,6 +40,9 @@ public class AdminCasosBean {
 
     private List<Uzatasign> casosAsigandos;
 
+    private ArrayList<SelectItem> ItemsMaterias;
+    private BigDecimal idMateria;
+
     public AdminCasosBean() {
 
         HttpServletRequest origRequest
@@ -49,6 +54,8 @@ public class AdminCasosBean {
             this.init();
         } else {
             this.casosAsigandos = null;
+            this.ItemsMaterias = new ArrayList<SelectItem>();
+            this.loadlistMaterias();
         }
 
     }
@@ -60,6 +67,17 @@ public class AdminCasosBean {
 
     public void loadCasosAsignados() {
         this.casosAsigandos = ProcuradoriaMethods.FindCasosAdminLazy(this.getUserIdAttribute(), BigDecimal.ONE, BigDecimal.ONE);
+    }
+
+    public void loadlistMaterias() {
+        ArrayList<Uzatmateri> selectItemsMat = ProcuradoriaMethods.ListMaterias();
+        this.getItemsMaterias().clear();
+        SelectItem si;
+        for (int i = 0; i < selectItemsMat.size(); i++) {
+            si = new SelectItem(selectItemsMat.get(i).getUzatmateriaId(), selectItemsMat.get(i).getUzatmateriaDescripcion());
+            this.getItemsMaterias().add(si);
+        }
+        this.getItemsMaterias().remove(0);
     }
 
     private String getUserAttribute() {
@@ -99,7 +117,7 @@ public class AdminCasosBean {
 
     public void openfaseOnlySee(ActionEvent event, BigDecimal uzatcasoId) {
         RequestContext context = RequestContext.getCurrentInstance();
-        String ruta = LawyerOfficeUtil.getURL_Login() + "views/ver_caso_procu.xhtml";
+        String ruta = LawyerOfficeUtil.getURL_Login() + "views/ver_caso_busq.xhtml";
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().
                 put("uzatcasoId", uzatcasoId);
         context.addCallbackParam("loggedIn", true);
@@ -161,6 +179,22 @@ public class AdminCasosBean {
 
     public void setValueFindCaso(String valueFindCaso) {
         this.valueFindCaso = valueFindCaso;
+    }
+
+    public ArrayList<SelectItem> getItemsMaterias() {
+        return ItemsMaterias;
+    }
+
+    public void setItemsMaterias(ArrayList<SelectItem> ItemsMaterias) {
+        this.ItemsMaterias = ItemsMaterias;
+    }
+
+    public BigDecimal getIdMateria() {
+        return idMateria;
+    }
+
+    public void setIdMateria(BigDecimal idMateria) {
+        this.idMateria = idMateria;
     }
 
 }
