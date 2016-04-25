@@ -10,14 +10,17 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import org.primefaces.context.RequestContext;
 import procuradoria.crud.ProcuradoriaMethods;
 import procuradoria.map.Uzatasign;
+import procuradoria.map.Uzatcaso;
 
 /**
  *
@@ -36,7 +39,18 @@ public class AdminCasosBean {
     private List<Uzatasign> casosAsigandos;
 
     public AdminCasosBean() {
-        this.init();
+
+        HttpServletRequest origRequest
+                = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        String urlRequest = origRequest.getRequestURI().toString();
+        urlRequest = urlRequest.replace("/LawyerOfficeApp/faces/views/", "");
+
+        if (!urlRequest.equals("ver_caso_abo.xhtml")) {
+            this.init();
+        } else {
+            this.casosAsigandos = null;
+        }
+
     }
 
     private void init() {
@@ -83,6 +97,15 @@ public class AdminCasosBean {
         context.addCallbackParam("ruta", ruta);
     }
 
+    public void openfaseOnlySee(ActionEvent event, BigDecimal uzatcasoId) {
+        RequestContext context = RequestContext.getCurrentInstance();
+        String ruta = LawyerOfficeUtil.getURL_Login() + "views/ver_caso_procu.xhtml";
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().
+                put("uzatcasoId", uzatcasoId);
+        context.addCallbackParam("loggedIn", true);
+        context.addCallbackParam("ruta", ruta);
+    }
+
     public Boolean StateFlagOnOff(BigDecimal flag) {
         Boolean State = false;
         if (flag.equals(new BigDecimal(1))) {
@@ -95,8 +118,25 @@ public class AdminCasosBean {
         if (valueFindCaso.equals("")) {
             this.loadCasosAsignados();
         } else {
-            this.casosAsigandos = ProcuradoriaMethods.FindCasosAdminLazyByNumCausa(this.getUserIdAttribute(), BigDecimal.ONE, BigDecimal.ONE,valueFindCaso);
+            this.casosAsigandos = ProcuradoriaMethods.FindCasosAdminLazyByNumCausa(this.getUserIdAttribute(), BigDecimal.ONE, BigDecimal.ONE, valueFindCaso);
         }
+    }
+
+    public void buscarCasoByNumCausaGeneral(ActionEvent actionEvent) {
+        if (valueFindCaso.equals("")) {
+            generateMessage(FacesMessage.SEVERITY_INFO, "Error", "Ingrese el número de causa a ser buscado.");
+            this.casosAsigandos = null;
+        } else {
+            this.casosAsigandos = ProcuradoriaMethods.FindCasosAdminLazyByNumCausaGen(BigDecimal.ONE, BigDecimal.ONE, valueFindCaso);
+            if (this.casosAsigandos == null) {
+                generateMessage(FacesMessage.SEVERITY_INFO, "Error", "No se encuentran casos relacionados con dicho número de causa.");
+            }
+        }
+    }
+
+    public void generateMessage(FacesMessage.Severity Tipo, String Header, String Mensaje) {
+        FacesMessage message = new FacesMessage(Tipo, Header, Mensaje);
+        FacesContext.getCurrentInstance().addMessage(null, message);
     }
 
     public List<Uzatasign> getCasosAsigandos() {

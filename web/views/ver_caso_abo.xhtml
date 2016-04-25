@@ -19,168 +19,123 @@
                 <h:form id="form_FC">
                     <p:growl id="growl" showDetail="true" life="3000" />
 
-                    <p:panel id="panel_find_caso" >
-                        <div align="center">
-                            <h:panelGrid columns="4" cellpadding="10">
-                                <h:outputLabel value="Ingrese el Núm. Causa:"/>
+                    <p:accordionPanel>
+                        <p:tab title="Búsqueda por Número de Causa">
+                            <p:panel id="panel_find_caso" >
+                                <div align="center">
+                                    <h:panelGrid columns="4" cellpadding="10">
+                                        <h:outputLabel value="Ingrese el Núm. Causa:"/>
 
-                                <p:inputText value="#{fasesCasoBean.valueFindCaso}"/>
+                                        <p:inputText value="#{adminCasosBean.valueFindCaso}"/>
 
-                                <p:commandButton value="Buscar" actionListener="#{fasesCasoBean.buscarCasoByNumCausa}" 
-                                                 update=":form_FC:dtCaso, :form_FC:CasoDetails, :growl"/>
-                            </h:panelGrid>
-                        </div>
-                    </p:panel>
+                                        <p:commandButton value="Buscar" actionListener="#{adminCasosBean.buscarCasoByNumCausaGeneral}" 
+                                                         update=":form_FC:tablaCasos, :growl"/>
+                                    </h:panelGrid>
+                                </div>
+                            </p:panel>
+                        </p:tab>
+                        <p:tab title="Godfather Part II">
 
-                    <p:panel id="CasoDetails" >
+                        </p:tab>
+                        <p:tab title="Godfather Part III">
 
-                        <f:facet name="header">
-                            DETALLES DEL CASO
-                        </f:facet>
+                        </p:tab>
+                    </p:accordionPanel>
 
-                        <h:panelGrid columns="6" cellpadding="5"> 
+                    <div align="center">
+                        <p:dataTable id="tablaCasos" 
+                                     var="caso" 
+                                     value="#{adminCasosBean.casosAsigandos}" 
+                                     tableStyle="width:auto">
 
-                            <h:outputText value="Número de Causa: " style="font-weight:bold;text-decoration:underline"/>
-                            <h:outputText value="#{fasesCasoBean.selectedCaso.uzatcasoNumcausa}" />
+                            <p:column style="width:16px">
+                                <p:rowToggler />
+                            </p:column>
 
-                            <h:outputText value="Tipo de caso: " style="font-weight:bold;text-decoration:underline"/>
-                            <h:outputText value="#{fasesCasoBean.selectedCaso.uzatcasoTipo}" />
+                            <p:column headerText="Num. Causa">
+                                <h:outputText value="#{caso.uzatcaso.uzatcasoNumcausa}" />
+                            </p:column>
 
-                            <h:outputText value="Creación: " style="font-weight:bold;text-decoration:underline"/>
-                            <h:outputText value="#{fasesCasoBean.selectedCaso.uzatcasoFechaIn}" />
+                            <p:column headerText="Fecha Asignacion">
+                                <h:outputText value="#{caso.uzatasignarFechaIn}" />
+                            </p:column>
 
-                        </h:panelGrid>
+                            <p:column headerText="Fecha Caso">
+                                <h:outputText value="#{caso.uzatcaso.uzatcasoFechaIn}" />
+                            </p:column>
 
-                    </p:panel>
+                            <p:column headerText="Materia">
+                                <h:outputText value="#{caso.uzatcaso.uzatjudi.uzatmateri.uzatmateriaDescripcion}" />
+                            </p:column>
 
-                    <p:panel id="FasesDetails" >
+                            <p:column headerText="Num. Fase Actual">
+                                <h:outputText value="#{caso.ultimaFaseActual.uzatfaseNumfase}" />
+                            </p:column>
 
-                        <f:facet name="header">
+                            <p:column headerText="Fase Actual">
+                                <h:outputText value="#{caso.ultimaFaseActual.uzatfaseNombre}" />
+                            </p:column>
 
-                            FASES ACTUALES
+                            <p:rowExpansion>
+                                <p:panel>
+                                    <h:panelGrid id="expGrid"  columns="4" styleClass="outerpanelgrid" cellpadding="1">
+                                        <h:outputText value="Materia:" />
+                                        <h:outputText value="#{caso.uzatcaso.uzatjudi.uzatmateri.uzatmateriaDescripcion}" />
 
-                        </f:facet>
+                                        <h:outputText value="Especializacion:" />
+                                        <h:outputText value="#{caso.uzatcaso.uzatjudi.uzatjudiDescripcion}" />
 
-                        <div align="center">
-                            <p:dataTable var="ComtFase" 
-                                         value="#{fasesCasoBean.listFases}" 
-                                         widgetVar="casoTable" 
-                                         tableStyle="width:auto"
-                                         sortBy="#{ComtFase.uzatfaseNumfase}"
-                                         emptyMessage="No se han encontrado fases disponibles."
-                                         id="dtCaso">
+                                        <h:outputText value="Motivo:" />
+                                        <h:outputText value="#{caso.uzatcaso.uzatcasoMotivo}"/>
 
-                                <p:ajax event="rowToggle" listener="#{fasesCasoBean.onRowToggle}"/>
+                                        <h:outputText value="Detalle:" />
+                                        <h:outputText value="#{caso.uzatcaso.uzatcasoDetalle}" />
+                                    </h:panelGrid>
+                                    <f:facet name="footer">
+                                        <p:commandButton id="loadfaces_abo" value="Ver" 
+                                                         icon="ui-icon-search" update=":form_FC"
+                                                         actionListener="#{adminCasosBean.openfaseOnlySee(event, caso.id.uzatcasoId)}"
+                                                         oncomplete="handleLoginRequest(xhr, status, args)"/>  
+                                    </f:facet>
+                                </p:panel>
+                            </p:rowExpansion>
 
-                                <p:column style="width:16px">
-                                    <p:rowToggler/>
-                                </p:column>
+                        </p:dataTable>
+                    </div>
 
-                                <p:column headerText="Número">
-                                    <h:outputText value="#{ComtFase.uzatfaseNumfase}" />
-                                </p:column>
-                                <p:column headerText="Nombre">
-                                    <h:outputText value="#{ComtFase.uzatfaseNombre}" />
-                                </p:column>
-                                <p:column headerText="Fecha Inicio">
-                                    <h:outputText value="#{ComtFase.uzatfaseFechaIn}" />
-                                </p:column>
-                                <p:column headerText="Fecha Salida">
-                                    <h:outputText value="#{ComtFase.uzatfaseFechaOut}" />
-                                </p:column>
+                    <script type="text/javascript">
+                        function handleLoginRequest(xhr, status, args) {
+                            if (args.validationFailed || !args.loggedIn) {
+                                jQuery('#formLogin').effect("shake", {times: 5}, 100);
+                            }
+                            else {
+                                location.href = args.ruta;
+                            }
+                        }
+                    </script>
+                    <style>
+                        #form_FC\:expGrid td{
+                            border: none !important;
+                        }
 
-                                <p:rowExpansion >
-                                    <p:tabView id="tabFasesCaso" dynamic="true" cache="true">
-                                        <p:ajax event="tabChange" listener="#{fasesCasoBean.onTabChange(event)}"/>
+                        #form_FC\:expGrid tr{
+                            border: none !important;
+                        }
+                        .outerpanelgrid>tbody>tr{
+                            border: none !important;
+                        }
+                        .outerpanelgrid>tbody>tr>td{
+                            border: none !important;
+                        }
 
-                                        <p:tab title="Comentarios" id="TabComentarios">
+                        .outerpanelgrid tbody tr, .outerpanelgrid tbody td{  
+                            border: none;
+                        }
+                        .innerpanelgrid tbody tr, .innerpanelgrid tbody td{
+                            border: 1px solid red ;
+                        }
+                    </style>
 
-                                            <div align="center">
-                                                <p:dataTable var="ComtById" id="ComtFaseId" 
-                                                             value="#{fasesCasoBean.listComtFasesById}"
-                                                             tableStyle="width:auto"
-                                                             emptyMessage="No se han encontrado comentarios disponibles.">
-                                                    <p:column headerText="Fecha">
-                                                        <h:outputText value="#{ComtById.uzatcomtFecha}" />
-                                                    </p:column>
-
-                                                    <p:column headerText="Descripción">
-                                                        <h:outputText value="#{ComtById.uzatcomtDescripcion}" />
-                                                    </p:column>
-
-                                                </p:dataTable>
-                                            </div>
-
-                                        </p:tab>
-
-                                        <p:tab title="Documentos" id="TabDocumentos">
-
-                                            <div align="center">
-                                                <p:dataTable var="DocById" id="DocFaseId" 
-                                                             value="#{fasesCasoBean.listDocsFasesById}"
-                                                             tableStyle="width:auto"
-                                                             emptyMessage="No se han encontrado documentos disponibles.">
-                                                    <p:column headerText="Casilla">
-
-                                                        <h:outputText value="#{DocById.uzatdocsCasilla}" />
-                                                    </p:column>
-
-                                                    <p:column headerText="Fecha">
-                                                        <h:outputText value="#{DocById.uzatdocsFecha}" />
-                                                    </p:column>
-
-                                                    <p:column headerText="Compromiso">
-                                                        <h:outputText value="#{DocById.uzatdocsCompromiso}" />
-                                                    </p:column>
-
-                                                    <p:column headerText="Descargar" style="text-align: center">
-                                                        <p:commandButton id="btnDesDoc" 
-                                                                         icon="ui-icon-arrowthickstop-1-s"
-                                                                         ajax="false"
-                                                                         actionListener="#{fasesCasoBean.GeneratePDF(event, DocById)}">
-                                                            <p:fileDownload value="#{fasesCasoBean.pdfFile}" />
-                                                        </p:commandButton>
-                                                    </p:column>
-
-                                                </p:dataTable>
-                                            </div>
-
-                                        </p:tab>
-
-                                        <p:tab title="Citas" id="TabCitas">
-
-                                            <div align="center">
-                                                <p:dataTable var="CitaById" id="CitaFaseId" 
-                                                             value="#{fasesCasoBean.listCitaFasesById}"
-                                                             tableStyle="width:auto"
-                                                             emptyMessage="No se han encontrado citas disponibles.">
-
-                                                    <p:column headerText="Descripción">
-                                                        <h:outputText value="#{CitaById.uzatcitaDescripcion}" />
-                                                    </p:column>
-
-                                                    <p:column headerText="Sala">
-                                                        <h:outputText value="#{CitaById.uzatcitaSala}" />
-                                                    </p:column>
-
-                                                    <p:column headerText="Fecha">
-                                                        <h:outputText value="#{CitaById.uzatcitaFecha}" />
-                                                    </p:column>
-
-                                                    <p:column headerText="Activo">
-                                                        <h:outputText value="#{fasesCasoBean.estadoCitaText(CitaById)}" />
-                                                    </p:column>
-
-                                                </p:dataTable>
-                                            </div>
-                                        </p:tab>
-                                    </p:tabView>
-
-                                </p:rowExpansion>
-
-                            </p:dataTable>
-                        </div>
-                    </p:panel>
 
                 </h:form>
             </ui:define>

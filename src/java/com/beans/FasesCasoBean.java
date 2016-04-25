@@ -77,20 +77,9 @@ public class FasesCasoBean {
 
     public FasesCasoBean() {
 
-        HttpServletRequest origRequest
-                = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-        String urlRequest = origRequest.getRequestURI().toString();
-        urlRequest = urlRequest.replace("/LawyerOfficeApp/faces/views/", "");
-
         if (!this.getCasoIdAttribute().equals(new BigDecimal(BigInteger.ZERO))) {
-            if (!urlRequest.equals("ver_caso_abo.xhtml")) {
-                this.CodCaso = this.getCasoIdAttribute();
-                this.setSelectedCaso(ProcuradoriaMethods.CasoByIdCaso(this.CodCaso));
-            } else {
-                this.CodCaso = BigDecimal.ONE;
-                Uzatcaso SelectedCasoAux = new Uzatcaso(this.CodCaso, null);
-                this.setSelectedCaso(SelectedCasoAux);
-            }
+            this.CodCaso = this.getCasoIdAttribute();
+            this.setSelectedCaso(ProcuradoriaMethods.CasoByIdCaso(this.CodCaso));
         } else {
             this.CodCaso = BigDecimal.ONE;
             Uzatcaso SelectedCasoAux = new Uzatcaso(this.CodCaso, null);
