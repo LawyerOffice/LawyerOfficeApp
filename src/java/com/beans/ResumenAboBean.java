@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.beans;
 
 import banner.crud.BannerMethos;
@@ -28,6 +27,7 @@ import procuradoria.map.Uzatactor;
 import procuradoria.map.UzatinvCa;
 import procuradoria.map.UzatinvCaId;
 import procuradoria.map.Uzatjudi;
+import procuradoria.map.UzatjudiId;
 import procuradoria.map.Uzatmateri;
 
 /**
@@ -36,7 +36,7 @@ import procuradoria.map.Uzatmateri;
  */
 @ManagedBean
 @ViewScoped
-public class ResumenAboBean{
+public class ResumenAboBean {
 
     /**
      * Creates a new instance of ResumenProcuBean
@@ -44,30 +44,30 @@ public class ResumenAboBean{
     private String idCaso;
     private String cedulaActor;
     private String tipoActor;
-    private String cajaTextoSeleccionarActor="Por favor, Seleccione un actor";
-    private String botonAgregarActor = "Agregar Actor";         
-    private LazyDataModel<Uzatcaso> lazyModelCasosAsignados;   
+    private String cajaTextoSeleccionarActor = "Por favor, Seleccione un actor";
+    private String botonAgregarActor = "Agregar Actor";
+    private LazyDataModel<Uzatcaso> lazyModelCasosAsignados;
     private String idocedula;
     private String numeroocedula;
     private String valorbusqueda;
-    
+
     private Uzatcaso selectedCaso;
     private Uzatactor selectedActor;
- 
+
     private ArrayList<SelectItem> ItemsMaterias;
     private ArrayList<SelectItem> ItemsJudicaturas;
 
     private BigDecimal idMateria;
-    private BigDecimal idJudicatura;  
+    private BigDecimal idJudicatura;
     private String textoBotonVincular;
-    
+
     private Uzatcaso findCaso;
     private String nombreActorAnterior;
     private String cedulaActorAnterior;
-    
+
     private Uzatjudi vincuJudi;
     private Uzatmateri vincuMateria;
-    
+
     public ResumenAboBean() {
         lazyModelCasosAsignados = new LazyCasoDataModel(this.getUserAttribute(), new BigDecimal(2));
         selectedCaso = new Uzatcaso();
@@ -75,13 +75,13 @@ public class ResumenAboBean{
         this.selectedActor = new Uzatactor();
         this.idCaso = "vacio";
         this.idocedula = "vacio";
-        this.cedulaActor= "";
+        this.cedulaActor = "";
         this.ItemsJudicaturas = new ArrayList<SelectItem>();
-        this.ItemsMaterias = new ArrayList<SelectItem>(); 
+        this.ItemsMaterias = new ArrayList<SelectItem>();
         this.textoBotonVincular = "Buscar";
         this.loadlistMaterias();
         this.ItemsJudicaturas.clear();
-        
+
         vincuMateria = new Uzatmateri();
         vincuJudi = new Uzatjudi();
     }
@@ -99,81 +99,73 @@ public class ResumenAboBean{
         }
         return id;
     }
-    
-    public void findCasobyid(String id)
-    {
-        this.idCaso = id ;
+
+    public void findCasobyid(String id) {
+        this.idCaso = id;
         this.selectedCaso = ProcuradoriaMethods.findCasobyId(new BigDecimal(idCaso));
     }
-    
-    public void findActorbycedula()
-    {
-        if(!cedulaActor.equals("Ingrese número de cédula")){
+
+    public void findActorbycedula() {
+        if (!cedulaActor.equals("Ingrese número de cédula")) {
             ValidateFuncionario(cedulaActor);
             System.out.println(this.selectedActor.getUzatactorNombres());
             this.botonAgregarActor = "Ver Datos Actor";
             this.cajaTextoSeleccionarActor = this.selectedActor.getUzatactorNombres() + " " + this.selectedActor.getUzatactorApellidos();
         }
     }
-    
-    public void botonActualizarActor()
-    {
-        updateActor();      
-        
+
+    public void botonActualizarActor() {
+        updateActor();
+
     }
-    
-    public void botonActualizarCaso()
-    {
-        if(this.selectedCaso.getUzatcasoVincu() == null)
+
+    public void botonActualizarCaso() {
+        if (this.selectedCaso.getUzatcasoVincu() == null) {
             this.selectedCaso.setUzatcasoVincu(this.selectedCaso.getUzatcasoId());
-        System.out.println("");
+        }
         updateCaso();
         asignarActoraCaso();
     }
-    
+
     public void buttonAction(ActionEvent actionEvent) {
         addMessage("Welcome to Primefaces!!");
     }
-     
+
     public void addMessage(String summary) {
-        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary,  null);
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary, null);
         FacesContext.getCurrentInstance().addMessage(null, message);
     }
-    
+
     private void updateActor() {
-        if(ProcuradoriaMethods.UpdateActor(selectedActor))
-        {
+        if (ProcuradoriaMethods.UpdateActor(selectedActor)) {
             addMessage("Se han actualizado los Datos de Actor");
         }
     }
 
     private void updateCaso() {
+        this.selectedCaso.setUzatjudi(new Uzatjudi(new UzatjudiId(idMateria, idJudicatura), new Uzatmateri(idMateria)));
         this.selectedCaso.setUzatcasoFlag(new BigDecimal(1));
-        
-        if(ProcuradoriaMethods.UpdateCaso(selectedCaso))
-        {
+
+        if (ProcuradoriaMethods.UpdateCaso(selectedCaso)) {
             addMessage("Se han actualizado los Datos del Caso");
-        }else
-        {
+        } else {
             addMessage("Ha ocurrido un error");
         }
     }
 
     private void asignarActoraCaso() {
-         UzatinvCa involucrado = new UzatinvCa();
-         UzatinvCaId idinvolucrado = new UzatinvCaId(this.selectedActor.getUzatactorId(), this.selectedCaso.getUzatcasoId());
-         involucrado.setId(idinvolucrado);
-         involucrado.setUzatinvTipo(tipoActor);
-         involucrado.setUzatinvolCa(getDate());
-         involucrado.setUzatcaso(selectedCaso);
-         involucrado.setUzatactor(selectedActor);
-         if(ProcuradoriaMethods.InsertInvolCa(involucrado))
-         {
+        UzatinvCa involucrado = new UzatinvCa();
+        UzatinvCaId idinvolucrado = new UzatinvCaId(this.selectedActor.getUzatactorId(), this.selectedCaso.getUzatcasoId());
+        involucrado.setId(idinvolucrado);
+        involucrado.setUzatinvTipo(tipoActor);
+        involucrado.setUzatinvolCa(getDate());
+        involucrado.setUzatcaso(selectedCaso);
+        involucrado.setUzatactor(selectedActor);
+        if (ProcuradoriaMethods.InsertInvolCa(involucrado)) {
             addMessage("Se ha asignado corretamente el caso");
-         }else
-         {
-             addMessage("Ha ocurrido un error");
-         }
+        } else {
+            addMessage("Ha ocurrido un error");
+        }
     }
 
     public static String getDate() {
@@ -183,32 +175,28 @@ public class ResumenAboBean{
         return strDate;
     }
 
-    
     //Busqueda de actor en banner
-    
     private Boolean ValidateFuncionario(String claveFuncionario) {
         Boolean exito = false;
         PersonaBanner find = null;
         String mdatoCli = claveFuncionario.trim();
         claveFuncionario = mdatoCli.toUpperCase();
         if (!findFuncionarioProcuaradoria(claveFuncionario, idocedula)) {
-       
-                if(idocedula.equals("0")){
-                    find = BannerMethos.FindPersonBannerByCedula(claveFuncionario);
-                }else if(idocedula.equals("1"))
-                {
-                    find = BannerMethos.FindPersonBannerByIdBanner(claveFuncionario);
-                }
-            
+
+            if (idocedula.equals("0")) {
+                find = BannerMethos.FindPersonBannerByCedula(claveFuncionario);
+            } else if (idocedula.equals("1")) {
+                find = BannerMethos.FindPersonBannerByIdBanner(claveFuncionario);
+            }
+
             if (find != null) {
-                
+
                 SendDataFuncionario(find);
                 addMessage("Se ha ingresado Actor en Base de Datos");
                 exito = true;
             }
-            
-        }else
-        {
+
+        } else {
             addMessage("Se ha encontrado Actor en Base de Datos");
         }
         return exito;
@@ -216,16 +204,13 @@ public class ResumenAboBean{
 
     public Boolean findFuncionarioProcuaradoria(String claveFuncionario, String idocedula) {
         Boolean exito = false;
-        if(idocedula.equals("0"))
-        {
+        if (idocedula.equals("0")) {
             this.selectedActor = ProcuradoriaMethods.findActorbyCedula(claveFuncionario);
-        }
-        else
-        {
+        } else {
             this.selectedActor = ProcuradoriaMethods.findActorbyIDBanner(claveFuncionario);
         }
 
-        if (this.selectedActor != null) {           
+        if (this.selectedActor != null) {
             exito = true;
         } else {
             this.selectedActor = new Uzatactor();
@@ -240,24 +225,22 @@ public class ResumenAboBean{
         this.selectedActor.setUzatactorNombres(Funcionario.getNombres());
         this.selectedActor.setUzatactorIdbanner(Funcionario.getIdBanner());
         this.selectedActor.setUzatactorId(new BigDecimal(1111));
-        
+
         Boolean exito = ProcuradoriaMethods.insertActor(this.selectedActor);
         if (exito) {
             this.selectedActor = ProcuradoriaMethods.findActorbyCedula(this.selectedActor.getUzatactorCedula());
-        }
-        else
-        {
+        } else {
             addMessage("A ocurrido un error, no se han Grabado los Datos en el Registro");
         }
-        
+
     }
-    
-    public void loadlistMaterias() {     
+
+    public void loadlistMaterias() {
         ArrayList<Uzatmateri> selectItemsMat = ProcuradoriaMethods.ListMaterias();
         this.ItemsMaterias.clear();
-        SelectItem  si;
+        SelectItem si;
         for (int i = 0; i < selectItemsMat.size(); i++) {
-            si = new SelectItem(selectItemsMat.get(i).getUzatmateriaId(),selectItemsMat.get(i).getUzatmateriaDescripcion());
+            si = new SelectItem(selectItemsMat.get(i).getUzatmateriaId(), selectItemsMat.get(i).getUzatmateriaDescripcion());
             this.ItemsMaterias.add(si);
         }
         this.ItemsMaterias.remove(0);
@@ -266,95 +249,88 @@ public class ResumenAboBean{
     public void loadlistJudi() {
         BigDecimal idmateri = this.getIdMateria();
         ArrayList<Uzatjudi> selectItemsJud = ProcuradoriaMethods.findjudibyMateriId(idmateri);
-        
-        if(!(selectItemsJud == null))
-        {
+
+        if (!(selectItemsJud == null)) {
             this.ItemsJudicaturas.clear();
-            SelectItem  si;
+            SelectItem si;
             for (int i = 0; i < selectItemsJud.size(); i++) {
-                si = new SelectItem(selectItemsJud.get(i).getId().getUzatjudiId(),selectItemsJud.get(i).getUzatjudiDescripcion());
+                si = new SelectItem(selectItemsJud.get(i).getId().getUzatjudiId(), selectItemsJud.get(i).getUzatjudiDescripcion());
                 this.ItemsJudicaturas.add(si);
-             
+
             }
-        }
-        else
-        {
+        } else {
             this.ItemsJudicaturas.clear();
-            SelectItem  si;
-            si = new SelectItem("100","No existe Judicatura");
-            this.ItemsJudicaturas.add(si); 
+            SelectItem si;
+            si = new SelectItem("100", "No existe Judicatura");
+            this.ItemsJudicaturas.add(si);
         }
-       
+
     }
-    
-    public void findCasos()
-    {
+
+    public void findCasos() {
         this.findCaso = ProcuradoriaMethods.FindCasobyNumCausa(this.valorbusqueda);
-        
-        if(this.findCaso != null)
-        {    
+
+        if (this.findCaso != null) {
             this.vincuJudi = this.findCaso.getUzatjudi();
-            this.vincuMateria = ProcuradoriaMethods.findMateribyJudiId(this.vincuJudi.getId().getUzatjudiId());      
-             addMessage("Se ha encontrado el Caso Solicitado");       
-            
-        }else{
+            this.vincuMateria = ProcuradoriaMethods.findMateribyJudiId(this.vincuJudi.getId().getUzatjudiId());
+            addMessage("Se ha encontrado el Caso Solicitado");
+
+        } else {
             addMessage("No se ha encontrado Caso con el número de Causa ingresado");
         }
-    }   
-    
-    public void vincular()
-    {
+    }
+
+    public void vincular() {
         this.textoBotonVincular = "Cambiar";
         this.selectedCaso.setUzatcasoVincu(this.findCaso.getUzatcasoId());
         addMessage("Se ha vinculado el caso");
     }
-    
 
 // <editor-fold defaultstate="collapsed" desc=" Getters and Setters ">
     public Uzatcaso getSelectedCaso() {
         return selectedCaso;
     }
-    
+
     public void setSelectedCaso(Uzatcaso selectedCaso) {
         this.selectedCaso = selectedCaso;
     }
-    
+
     public LazyDataModel<Uzatcaso> getLazyModelCasosAsignados() {
         return lazyModelCasosAsignados;
     }
-    
+
     public void setLazyModelCasosAsignados(LazyDataModel<Uzatcaso> lazyModelCasosAsignados) {
         this.lazyModelCasosAsignados = lazyModelCasosAsignados;
     }
-    
+
     public String getIdCaso() {
         return idCaso;
     }
-    
+
     public void setIdCaso(String idCaso) {
         this.idCaso = idCaso;
     }
-    
+
     public String getTipoActor() {
         return tipoActor;
     }
-    
+
     public void setTipoActor(String tipoActor) {
         this.tipoActor = tipoActor;
     }
-    
+
     public Uzatactor getSelectedActor() {
         return selectedActor;
     }
-    
+
     public void setSelectedActor(Uzatactor selectedActor) {
         this.selectedActor = selectedActor;
     }
-    
+
     public String getCedulaActor() {
         return cedulaActor;
     }
-    
+
     public void setCedulaActor(String cedulaActor) {
         this.cedulaActor = cedulaActor;
     }
@@ -366,7 +342,7 @@ public class ResumenAboBean{
     public void setBotonAgregarActor(String botonAgregarActor) {
         this.botonAgregarActor = botonAgregarActor;
     }
-    
+
     public String getCajaTextoSeleccionarActor() {
         return cajaTextoSeleccionarActor;
     }
@@ -382,7 +358,7 @@ public class ResumenAboBean{
     public void setIdocedula(String idocedula) {
         this.idocedula = idocedula;
     }
-    
+
     public ArrayList<SelectItem> getItemsMaterias() {
         return ItemsMaterias;
     }
@@ -398,7 +374,7 @@ public class ResumenAboBean{
     public void setItemsJudicaturas(ArrayList<SelectItem> ItemsJudicaturas) {
         this.ItemsJudicaturas = ItemsJudicaturas;
     }
-    
+
     public String getTextoBotonVincular() {
         return textoBotonVincular;
     }
@@ -406,7 +382,7 @@ public class ResumenAboBean{
     public void setTextoBotonVincular(String textoBotonVincular) {
         this.textoBotonVincular = textoBotonVincular;
     }
-    
+
     public String getNumeroocedula() {
         return numeroocedula;
     }
@@ -414,7 +390,7 @@ public class ResumenAboBean{
     public void setNumeroocedula(String numeroocedula) {
         this.numeroocedula = numeroocedula;
     }
-    
+
     public String getValorbusqueda() {
         return valorbusqueda;
     }
@@ -422,7 +398,7 @@ public class ResumenAboBean{
     public void setValorbusqueda(String valorbusqueda) {
         this.valorbusqueda = valorbusqueda;
     }
-    
+
     public Uzatcaso getFindCaso() {
         return findCaso;
     }
@@ -479,6 +455,5 @@ public class ResumenAboBean{
     public void setIdJudicatura(BigDecimal idJudicatura) {
         this.idJudicatura = idJudicatura;
     }
- 
-}
 
+}

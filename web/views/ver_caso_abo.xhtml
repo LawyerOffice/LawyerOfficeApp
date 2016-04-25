@@ -90,7 +90,7 @@
 
                                 <p:rowExpansion >
                                     <p:tabView id="tabFasesCaso" dynamic="true" cache="true">
-                                        <p:ajax event="tabChange" listener="#{fasesCasoBean.onTabChange}"/>
+                                        <p:ajax event="tabChange" listener="#{fasesCasoBean.onTabChange(event)}"/>
 
                                         <p:tab title="Comentarios" id="TabComentarios">
 

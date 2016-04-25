@@ -268,10 +268,13 @@ public class FasesCasoBean {
     }
 
     public void onTabChange(TabChangeEvent event) {
+        
         if (event.getTab().getId().equals("TabDocumentos")) {
             this.initDocumentos();
         } else if (event.getTab().getId().equals("TabCitas")) {
             this.initCitas();
+        } else if (event.getTab().getId().equals("TabComentarios")) {
+            this.initComentarios();
         }
     }
 
@@ -279,6 +282,8 @@ public class FasesCasoBean {
         this.SelectedFase = (Uzatfase) event.getData();
         if (event.getVisibility() == Visibility.VISIBLE) {
             this.initComentarios();
+            this.initCitas();
+            this.initDocumentos();
         }
     }
 
@@ -300,13 +305,13 @@ public class FasesCasoBean {
         }
         return stateCita;
     }
-    
+
     public String estadoCitaText(Uzatcita citaFase) {
         String stateCita;
         if (citaFase.getUzatcitaFlag() == BigDecimal.ZERO) {
-            stateCita = "SI";
+            stateCita = "N0";
         } else {
-            stateCita = "NO";
+            stateCita = "SI";
         }
         return stateCita;
     }
@@ -423,7 +428,7 @@ public class FasesCasoBean {
             this.initCitas();
         }
     }
-    
+
     public void handleFileUpload(FileUploadEvent event) {
         this.file = event.getFile();
     }
