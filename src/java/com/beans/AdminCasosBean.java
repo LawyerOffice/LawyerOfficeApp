@@ -183,7 +183,7 @@ public class AdminCasosBean {
             this.casosAsigandos = null;
         } else {
             if (!this.valueFindCaso4.equals("")) {
-                this.casosAsigandos = ProcuradoriaMethods.FindCasosAdminLazyByVinculacion(BigDecimal.ONE, this.valueFindCaso3,this.valueFindCaso4);
+                this.casosAsigandos = ProcuradoriaMethods.FindCasosAdminLazyByVinculacion(this.valueFindCaso3,this.valueFindCaso4);
                 if (this.casosAsigandos.size() == 0) {
                     generateMessage(FacesMessage.SEVERITY_INFO, "Error", "No se encuentran casos relacionados con dicho número de causa y cédula.");
                 }
