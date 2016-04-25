@@ -268,7 +268,7 @@ public class FasesCasoBean {
     }
 
     public void onTabChange(TabChangeEvent event) {
-        
+
         if (event.getTab().getId().equals("TabDocumentos")) {
             this.initDocumentos();
         } else if (event.getTab().getId().equals("TabCitas")) {
@@ -344,8 +344,11 @@ public class FasesCasoBean {
             if (findCaso != null) {
                 this.setSelectedCaso(ProcuradoriaMethods.CasoByNumCausaFlagVisible(this.valueFindCaso, BigDecimal.valueOf(1)));
                 this.init();
+            } else {
+                generateMessage(FacesMessage.SEVERITY_INFO, "Error", "No se encuentran casos relacionados con dicho número de causa.");
             }
         } else {
+            generateMessage(FacesMessage.SEVERITY_INFO, "Error", "Ingrese el número de causa a ser buscado.");
             this.setSelectedCaso(null);
             this.setListFases(null);
         }

@@ -26,7 +26,8 @@
 
                                 <p:inputText value="#{fasesCasoBean.valueFindCaso}"/>
 
-                                <p:commandButton value="Buscar" actionListener="#{fasesCasoBean.buscarCasoByNumCausa}" update=":form_FC:dtCaso, :form_FC:CasoDetails"/>
+                                <p:commandButton value="Buscar" actionListener="#{fasesCasoBean.buscarCasoByNumCausa}" 
+                                                 update=":form_FC:dtCaso, :form_FC:CasoDetails, :growl"/>
                             </h:panelGrid>
                         </div>
                     </p:panel>
