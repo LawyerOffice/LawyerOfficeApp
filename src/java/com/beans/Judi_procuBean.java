@@ -130,6 +130,8 @@ public class Judi_procuBean{
                 return 0;
             }
             });
+            
+            this.judicatura.remove(0);
         }
     }
     
@@ -192,16 +194,24 @@ public class Judi_procuBean{
     
     public void inicializarJudicatura()
     {
-        this.newjudicatura = new Uzatjudi(new UzatjudiId(selectedMateria.getUzatmateriaId(),new BigDecimal("120")),selectedMateria,"vacio",null);
-        
+        this.newjudicatura = new Uzatjudi(new UzatjudiId(selectedMateria.getUzatmateriaId(),new BigDecimal("120")),selectedMateria,"vacio",null);       
     }
     
     public void nuevaMaterias()
     {
         if(ProcuradoriaMethods.insertMateria(newMateria))
         {
-            addMessage("Se ha ingresado la Materia Correctamente");
-            this.loadlistMaterias();
+            Uzatmateri temp = ProcuradoriaMethods.findmateribynombre(newMateria.getUzatmateriaDescripcion());
+            if(temp != null)
+            {
+                Uzatjudi judiVacio = new Uzatjudi(new UzatjudiId(temp.getUzatmateriaId(),new BigDecimal("120")),temp,"VACIO",null);
+                ProcuradoriaMethods.insertJudicatura(judiVacio);
+                
+                
+                addMessage("Se ha ingresado la Materia Correctamente");
+                this.loadlistMaterias();
+            }
+            
         }else
         {
             addMessage("Ha ocurrido un error");
