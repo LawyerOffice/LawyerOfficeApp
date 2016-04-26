@@ -221,7 +221,7 @@ public class GenerarCasoBean {
         newCaso.setUzatcasoTipo(tipoCaso);
         newCaso.setUzatcasoNumcausa(numCausa);
         newCaso.setUzatcasoFechaIn(getDate());
-        newCaso.setUzatcasoMotivo("Por asignar");
+        newCaso.setUzatcasoMotivo(motivo);
         newCaso.setUzatcasoFlag(new BigDecimal(2));
         ProcuradoriaMethods.InsertCaso(newCaso);
     }
@@ -235,7 +235,7 @@ public class GenerarCasoBean {
         newCaso.setUzatcasoTipo(tipoCaso);
         newCaso.setUzatcasoNumcausa(numCausa);
         newCaso.setUzatcasoFechaIn(getDate());
-        newCaso.setUzatcasoMotivo("Por asignar");
+//        newCaso.setUzatcasoMotivo(motivo);
         newCaso.setUzatcasoFlag(new BigDecimal(3));
         ProcuradoriaMethods.InsertCaso(newCaso);
     }
