@@ -6,7 +6,6 @@
 
 package com.beans;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.text.SimpleDateFormat;
@@ -201,17 +200,17 @@ public class Judi_procuBean{
     {
         if(ProcuradoriaMethods.insertMateria(newMateria))
         {
-            Uzatmateri temp = ProcuradoriaMethods.findmateribynombre(newMateria.getUzatmateriaDescripcion());
-            if(temp != null)
-            {
-                Uzatjudi judiVacio = new Uzatjudi(new UzatjudiId(temp.getUzatmateriaId(),new BigDecimal("120")),temp,"VACIO",null);
-                ProcuradoriaMethods.insertJudicatura(judiVacio);
-                
-                
-                addMessage("Se ha ingresado la Materia Correctamente");
-                this.loadlistMaterias();
-            }
-            
+            //Uzatmateri temp = ProcuradoriaMethods.findmateribynombre(newMateria.getUzatmateriaDescripcion());
+//            if(temp != null)
+//            {
+//                Uzatjudi judiVacio = new Uzatjudi(new UzatjudiId(temp.getUzatmateriaId(),new BigDecimal("120")),temp,"VACIO",null);
+//                ProcuradoriaMethods.insertJudicatura(judiVacio);
+//                
+//                
+//                addMessage("Se ha ingresado la Materia Correctamente");
+//                this.loadlistMaterias();
+//            }
+//            
         }else
         {
             addMessage("Ha ocurrido un error");
