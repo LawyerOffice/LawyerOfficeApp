@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.beans;
 
 import banner.crud.BannerMethos;
@@ -41,11 +40,11 @@ public class GenerarCasoBean {
      * Creates a new instance of GenerarCasoBean
      */
     private String claveFuncionario;
-    
+
     private ArrayList<SelectItem> ItemsMaterias;
     private ArrayList<SelectItem> ItemsJudicaturas;
     private ArrayList<SelectItem> ItemsFuncionarios;
-    
+
     private String idMateria = "100";
     private String idJudicatura = "100";
     private String patterFuncionario = "Vacio";
@@ -54,33 +53,32 @@ public class GenerarCasoBean {
     private String tipoCaso = "";
     public BigDecimal idFunci;
     public BigDecimal idCaso;
-    public String motivo;
-    
+    public String motivo = "";
+
     private Uzatcaso newCaso;
     private Uzatfunci newFuncionario;
     private Uzatjudi newJuzgado;
-    
+
     public GenerarCasoBean() {
         this.init();
     }
-    
-    public void init(){        
+
+    public void init() {
         this.ItemsJudicaturas = new ArrayList<SelectItem>();
         this.ItemsMaterias = new ArrayList<SelectItem>();
         this.ItemsFuncionarios = new ArrayList<SelectItem>();
-        
+
         newCaso = new Uzatcaso();
         newFuncionario = new Uzatfunci();
         idAsignador = getUserAttribute();
         newJuzgado = new Uzatjudi();
-        
+
         this.loadlistMaterias();
         this.loadlistFuncionarios();
-        
+
     }
 
-    
-     public void loadlistFuncionarios() {
+    public void loadlistFuncionarios() {
         ArrayList<String> selectItemsCli = new ArrayList<String>();
         selectItemsCli.add("Id Banner");
         selectItemsCli.add("Cedula");
@@ -88,39 +86,36 @@ public class GenerarCasoBean {
         for (String Item : selectItemsCli) {
             this.ItemsFuncionarios.add(new SelectItem(Item, Item));
         }
-    }   
-     
-     
-   public void loadlistMaterias() {
-       //Dennis Santamaria
-       
+    }
+
+    public void loadlistMaterias() {
+        //Dennis Santamaria
+
         ArrayList<Uzatmateri> selectItemsMat = ProcuradoriaMethods.ListMaterias();
         this.ItemsMaterias.clear();
-        SelectItem  si;
+        SelectItem si;
         for (int i = 0; i < selectItemsMat.size(); i++) {
-            if(selectItemsMat.get(i).getUzatmateriaId() != new BigDecimal(100))
-            {
-                si = new SelectItem(selectItemsMat.get(i).getUzatmateriaId(),selectItemsMat.get(i).getUzatmateriaDescripcion());
-                    this.ItemsMaterias.add(si);   
+            if (selectItemsMat.get(i).getUzatmateriaId() != new BigDecimal(100)) {
+                si = new SelectItem(selectItemsMat.get(i).getUzatmateriaId(), selectItemsMat.get(i).getUzatmateriaDescripcion());
+                this.ItemsMaterias.add(si);
             }
         }
     }
-   
-      public void loadlistJudi() {
-       //Dennis Santamaria
+
+    public void loadlistJudi() {
+        //Dennis Santamaria
         BigDecimal idmateri = new BigDecimal(idMateria);
         ArrayList<Uzatjudi> selectItemsJud = ProcuradoriaMethods.findjudibyMateriId(idmateri);
         this.ItemsJudicaturas.clear();
-        SelectItem  si;
+        SelectItem si;
         for (int i = 0; i < selectItemsJud.size(); i++) {
-            if(selectItemsJud.get(i).getId().getUzatjudiId() != new BigDecimal(100))
-            {
-                si = new SelectItem(selectItemsJud.get(i).getId().getUzatjudiId(),selectItemsJud.get(i).getUzatjudiDescripcion());
-                this.ItemsJudicaturas.add(si);   
+            if (selectItemsJud.get(i).getId().getUzatjudiId() != new BigDecimal(100)) {
+                si = new SelectItem(selectItemsJud.get(i).getId().getUzatjudiId(), selectItemsJud.get(i).getUzatjudiDescripcion());
+                this.ItemsJudicaturas.add(si);
             }
         }
     }
-        
+
     public void findFuncionario(ActionEvent event) {
 
         if (this.patterFuncionario.equals("Id Banner")) {
@@ -134,7 +129,7 @@ public class GenerarCasoBean {
         }
 
     }
-    
+
     private Boolean ValidateFuncionario(String claveFuncionario, int type) {
         Boolean exito = false;
         PersonaBanner find = null;
@@ -164,7 +159,7 @@ public class GenerarCasoBean {
         }
         return exito;
     }
-    
+
     public void SendDataFuncionario(PersonaBanner Funcionario) {
         this.newFuncionario.setUzatfuncionarioApellidos(Funcionario.getApellidos());
         this.newFuncionario.setUzatfuncionarioCedula(Funcionario.getCedula());
@@ -173,16 +168,14 @@ public class GenerarCasoBean {
         this.newFuncionario.setUzatfuncionarioNombres(Funcionario.getNombres());
         this.newFuncionario.setUzatfuncionarioIdbanner(Funcionario.getIdBanner());
     }
-    
+
     //Generar mensaje de no encontrado
     public void generateMessage(FacesMessage.Severity Tipo, String Header, String Mensaje) {
         FacesMessage message = new FacesMessage(Tipo, Header, Mensaje);
         FacesContext.getCurrentInstance().addMessage(null, message);
     }
-    
-    
+
     //Obtener el funcionario que en ese momento esta asignando
-    
     private BigDecimal getUserAttribute() {
         String UserAttribute = "";
         BigDecimal id = new BigDecimal(BigInteger.ZERO);
@@ -196,24 +189,25 @@ public class GenerarCasoBean {
         }
         return id;
     }
-    
-    public void grabarFuncionarios()
-    {
+
+    public Boolean grabarFuncionarios() {
+        Boolean exito = false;
         Uzatfunci temp = ProcuradoriaMethods.FindFuncionarioByCedula(newFuncionario.getUzatfuncionarioCedula());
-        if(temp == null)
-        {
+        if (temp == null) {
             newFuncionario.setUzatfuncionarioId(new BigDecimal(1));
             ProcuradoriaMethods.InserFuncionario(newFuncionario);
             idFunci = ProcuradoriaMethods.FindFuncionarioByCedula(newFuncionario.getUzatfuncionarioCedula()).getUzatfuncionarioId();
-        }
-        else
-        {
+        } else {
             idFunci = temp.getUzatfuncionarioId();
         }
+        if (idFunci != null) {
+            exito = true;
+        }
+        return exito;
     }
-    
-    public void grabarCaso()
-    {
+
+    public Boolean grabarCaso() {
+        Boolean Exito = false;
         BigDecimal idmateri = new BigDecimal(idMateria);
         BigDecimal idjudi = new BigDecimal(idJudicatura);
         newJuzgado.setId(new UzatjudiId(idmateri, idjudi));
@@ -223,11 +217,11 @@ public class GenerarCasoBean {
         newCaso.setUzatcasoFechaIn(getDate());
         newCaso.setUzatcasoMotivo(motivo);
         newCaso.setUzatcasoFlag(new BigDecimal(2));
-        ProcuradoriaMethods.InsertCaso(newCaso);
+        Exito = ProcuradoriaMethods.InsertCaso(newCaso);
+        return Exito;
     }
-    
-    public void grabarCaso2()
-    {
+
+    public Boolean grabarCaso2() {
         BigDecimal idmateri = new BigDecimal(idMateria);
         BigDecimal idjudi = new BigDecimal(idJudicatura);
         newJuzgado.setId(new UzatjudiId(idmateri, idjudi));
@@ -235,129 +229,134 @@ public class GenerarCasoBean {
         newCaso.setUzatcasoTipo(tipoCaso);
         newCaso.setUzatcasoNumcausa(numCausa);
         newCaso.setUzatcasoFechaIn(getDate());
-//        newCaso.setUzatcasoMotivo(motivo);
+        newCaso.setUzatcasoMotivo(motivo);
         newCaso.setUzatcasoFlag(new BigDecimal(3));
-        ProcuradoriaMethods.InsertCaso(newCaso);
+        Boolean exito = ProcuradoriaMethods.InsertCaso(newCaso);
+        return exito;
     }
-    
+
     public static String getDate() {
         SimpleDateFormat sdfDate = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");//dd/MM/yyyy
         Date now = new Date();
         String strDate = sdfDate.format(now);
         return strDate;
     }
-    
-    public void AsignarCasoAbogado()
-    {
+
+    public Boolean AsignarCasoAbogado() {
+        Boolean exito = true;
         Uzatasign asign = new Uzatasign();
-        asign.setId(new UzatasignId(idFunci,ProcuradoriaMethods.FindCasobyNumCausa(numCausa).getUzatcasoId()));
+        asign.setId(new UzatasignId(idFunci, ProcuradoriaMethods.FindCasobyNumCausa(numCausa).getUzatcasoId()));
         asign.setUzatasignarFlag(BigDecimal.ONE);
         asign.setUzatasignarId(idAsignador);
         asign.setUzatasignarMotivo(motivo);
         asign.setUzatasignarFechaIn(getDate());
-        
-        ProcuradoriaMethods.InsertNuevaAsignacion(asign);
+        exito = ProcuradoriaMethods.InsertNuevaAsignacion(asign);
+        return exito;
     }
-    
-    public void grabarnuevoCaso(ActionEvent event)
-    {
-        try{
-            grabarFuncionarios();
-            grabarCaso();
-            AsignarCasoAbogado();
-            generateMessage(FacesMessage.SEVERITY_INFO, "Éxito", "Se ha generado un nuevo caso satisfactoriamente");
-        }catch(Exception ex)
-        {
-            generateMessage(FacesMessage.SEVERITY_FATAL, "ERROR no se ha grabado nuevo caso", ex.getMessage());
+
+    public void grabarnuevoCaso(ActionEvent event) {
+        if (grabarFuncionarios()) {
+            if (grabarCaso()) {
+                if (AsignarCasoAbogado()) {
+                    generateMessage(FacesMessage.SEVERITY_INFO, "Éxito", "Se ha generado un nuevo caso satisfactoriamente");
+                    this.numCausa = "";
+                    this.motivo = "";
+                    this.tipoCaso = "";
+                    this.init();
+                } else {
+                    generateMessage(FacesMessage.SEVERITY_FATAL, "ERROR no se ha grabado nuevo caso", "");
+                }
+            }
         }
-        
     }
-    
-    public void grabarnuevoCasoSecretaria(ActionEvent event)
-    {
-        try{
-            grabarCaso2();
+
+    public void grabarnuevoCasoSecretaria(ActionEvent event) {
+
+        if (grabarCaso2()) {
+            this.numCausa = "";
+            this.motivo = "";
+            this.tipoCaso = "";
+            this.init();
             generateMessage(FacesMessage.SEVERITY_INFO, "Éxito", "Se ha generado un nuevo caso satisfactoriamente");
-        }catch(Exception ex)
-        {
-            generateMessage(FacesMessage.SEVERITY_FATAL, "ERROR no se ha grabado nuevo caso", ex.getMessage());
+        } else {
+            generateMessage(FacesMessage.SEVERITY_FATAL, "ERROR no se ha grabado nuevo caso", "");
         }
-        
+
     }
-    
+
     // <editor-fold defaultstate="collapsed" desc=" Getters and Setters ">
     public ArrayList<SelectItem> getItemsMaterias() {
         return ItemsMaterias;
     }
-    
+
     public void setItemsMaterias(ArrayList<SelectItem> ItemsMaterias) {
         this.ItemsMaterias = ItemsMaterias;
     }
-    
+
     public ArrayList<SelectItem> getItemsJudicaturas() {
         return ItemsJudicaturas;
     }
-    
+
     public Uzatcaso getNewCaso() {
         return newCaso;
     }
-    
+
     public void setNewCaso(Uzatcaso newCaso) {
         this.newCaso = newCaso;
     }
-    
+
     public void setItemsJudicaturas(ArrayList<SelectItem> ItemsJudicaturas) {
         this.ItemsJudicaturas = ItemsJudicaturas;
     }
-    
+
     public String getIdMateria() {
         return idMateria;
     }
-    
+
     public BigDecimal getBigIdMateria(String id) {
         return new BigDecimal(id);
     }
-    
+
     public void setIdMateria(String idMateria) {
         this.idMateria = idMateria;
     }
-    
+
     public String getIdJudicatura() {
         return idJudicatura;
     }
-    
+
     public void setIdJudicatura(String idJudicatura) {
         this.idJudicatura = idJudicatura;
     }
-    
+
     public String getPatterFuncionario() {
         return patterFuncionario;
     }
-    
+
     public void setPatterFuncionario(String patterFuncionario) {
         this.patterFuncionario = patterFuncionario;
     }
-    
+
     public ArrayList<SelectItem> getItemsFuncionarios() {
         return ItemsFuncionarios;
     }
-    
+
     public void setItemsFuncionarios(ArrayList<SelectItem> ItemsFuncionarios) {
         this.ItemsFuncionarios = ItemsFuncionarios;
     }
-    
+
     public String getClaveFuncionario() {
         return claveFuncionario;
     }
-    
+
     public void setClaveFuncionario(String claveFuncionario) {
         this.claveFuncionario = claveFuncionario;
     }
-    
+
     public Uzatfunci getNewFuncionario() {
         return newFuncionario;
     }
-    
+
     public void setNewFuncionario(Uzatfunci newFuncionario) {
         this.newFuncionario = newFuncionario;
     }
@@ -377,7 +376,7 @@ public class GenerarCasoBean {
     public void setTipoCaso(String tipoCaso) {
         this.tipoCaso = tipoCaso;
     }
-    
+
     public String getMotivo() {
         return motivo;
     }
@@ -385,10 +384,6 @@ public class GenerarCasoBean {
     public void setMotivo(String motivo) {
         this.motivo = motivo;
     }
-    
+
 // </editor-fold>
-
-    
-
-
 }

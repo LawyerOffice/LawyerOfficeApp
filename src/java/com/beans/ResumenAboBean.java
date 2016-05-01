@@ -145,6 +145,7 @@ public class ResumenAboBean {
     private void updateCaso() {
         this.selectedCaso.setUzatjudi(new Uzatjudi(new UzatjudiId(idMateria, idJudicatura), new Uzatmateri(idMateria)));
         this.selectedCaso.setUzatcasoFlag(new BigDecimal(1));
+        this.selectedCaso.setUzatcasoFechaIn(getDate());
 
         if (ProcuradoriaMethods.UpdateCaso(selectedCaso)) {
             addMessage("Se han actualizado los Datos del Caso");
