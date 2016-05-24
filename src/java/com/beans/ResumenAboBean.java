@@ -120,9 +120,10 @@ public class ResumenAboBean {
     }
 
     public void botonActualizarCaso() {
-        if (this.selectedCaso.getUzatcasoVincu() == null) {
-            this.selectedCaso.setUzatcasoVincu(this.selectedCaso.getUzatcasoId());
-        }
+        BigDecimal cero = new BigDecimal(0);       
+        if (this.selectedCaso.getUzatcasoVincu().equals(cero) || this.selectedCaso.getUzatcasoVincu() == null) {            
+            this.selectedCaso.setUzatcasoVincu(this.selectedCaso.getUzatcasoId());           
+        }       
         updateCaso();
         asignarActoraCaso();
     }
@@ -270,7 +271,7 @@ public class ResumenAboBean {
 
     public void findCasos() {
         this.findCaso = ProcuradoriaMethods.FindCasobyNumCausa(this.valorbusqueda);
-
+        System.out.println("");
         if (this.findCaso != null) {
             this.vincuJudi = this.findCaso.getUzatjudi();
             this.vincuMateria = ProcuradoriaMethods.findMateribyJudiId(this.vincuJudi.getId().getUzatjudiId());
