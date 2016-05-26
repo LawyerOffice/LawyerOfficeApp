@@ -270,11 +270,10 @@ public class ResumenAboBean {
     }
 
     public void findCasos() {
-        this.findCaso = ProcuradoriaMethods.FindCasobyNumCausa(this.valorbusqueda);
-        System.out.println("");
+        this.findCaso = ProcuradoriaMethods.FindCasobyNumCausa2(this.valorbusqueda);
         if (this.findCaso != null) {
             this.vincuJudi = this.findCaso.getUzatjudi();
-            this.vincuMateria = ProcuradoriaMethods.findMateribyJudiId(this.vincuJudi.getId().getUzatjudiId());
+            this.vincuMateria = ProcuradoriaMethods.findMateribyJudiId(this.vincuJudi.getId().getUzatjudiId());           
             addMessage("Se ha encontrado el Caso Solicitado");
 
         } else {
