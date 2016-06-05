@@ -15,7 +15,6 @@
                 <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
                     <img src="#{loginBean.urlRequest}/resources/img/load.gif"></img>
                 </p:dialog>
-                <p:growl id="growl" showDetail="true" life="3000" />
                 <h:form id="form_Caso">
                     <p:growl id="growl" showDetail="true" life="3000" />
 
@@ -25,9 +24,12 @@
                             <p:inputText value="#{generarCasoBean.numCausa}"/>
 
                             <h:outputText value="Abogado:"/>
-                            <p:commandButton value="Añadir" style="width:170px"
+                            <p:commandButton value="#{generarCasoBean.txtbotonasignarabo}" style="width:170px"
                                              oncomplete="PF('dlgNewPermits').show();"/>
-
+                            
+                            <h:panelGroup />
+                            <h:outputText value="#{generarCasoBean.txtaboSelecionado}"/>
+                            
                             <h:outputText value="Delito/Acción"/>
                             <p:inputText value="#{generarCasoBean.tipoCaso}"/>
 
@@ -36,7 +38,7 @@
 
                         </h:panelGrid>
                         <f:facet name="footer">
-                            <p:commandButton value="Crear" style="width:170px" update=":growl , :form_Caso" actionListener="#{generarCasoBean.grabarnuevoCaso(event)}"/>
+                            <p:commandButton value="Crear" style="width:170px" update=":form_Caso:growl , :form_Caso" actionListener="#{generarCasoBean.grabarnuevoCaso(event)}"/>
                         </f:facet>
                     </p:panel>
 
@@ -52,7 +54,7 @@
                                 </p:selectOneMenu>
 
                                 <p:inputText id="findPatter" required="fasle" value="#{generarCasoBean.claveFuncionario}"/>
-                                <p:commandButton value="Buscar" id="btnPatterFuncionario" icon="ui-icon-search" update=":growl , :form_Caso:panelFunc"
+                                <p:commandButton value="Buscar" id="btnPatterFuncionario" icon="ui-icon-search" update=":form_Caso:growl , :form_Caso:panelFunc"
                                                  actionListener="#{generarCasoBean.findFuncionario(event)}"/>
                             </h:panelGrid>
                             <p:panel id="panelFunc" header="Funcionario">
@@ -76,7 +78,8 @@
 
                         <f:facet name="footer">
                             <p:commandButton value="Asignar" id="btnConfirmarNewPermiso"
-                                             update=":growl , :form_Caso"
+                                             update=":form_Caso:growl ,:form_Caso:panelCaso"
+                                             oncomplete="PF('dlgNewPermits').hide();"
                                              icon="ui-icon-check"/> <!-- action ="" -->
 
                         </f:facet> 

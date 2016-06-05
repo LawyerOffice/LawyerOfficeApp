@@ -55,9 +55,14 @@ public class GenerarCasoBean {
     public BigDecimal idCaso;
     public String motivo = "";
 
+    public String txtaboSelecionado="";
+    public String txtbotonasignarabo="Seleccionar";
+    
     private Uzatcaso newCaso;
     private Uzatfunci newFuncionario;
     private Uzatjudi newJuzgado;
+    
+    private boolean existFunci=false;
 
     public GenerarCasoBean() {
         this.init();
@@ -117,36 +122,47 @@ public class GenerarCasoBean {
     }
 
     public void findFuncionario(ActionEvent event) {
-
-        if (this.patterFuncionario.equals("Id Banner")) {
-            if (!ValidateFuncionario(this.claveFuncionario, 0)) {
-            }
-        } else if (patterFuncionario.equals("Cedula")) {
-            if (!ValidateFuncionario(this.claveFuncionario, 1)) {
-            }
-        } else {
-            generateMessage(FacesMessage.SEVERITY_INFO, "Por favor", "Seleciona un campo.");
+        switch (this.patterFuncionario) {
+            case "Id Banner":
+                ValidateFuncionario(this.claveFuncionario, 0);
+                break;
+            case "Cedula":
+                ValidateFuncionario(this.claveFuncionario, 1);
+                break;
+            default:
+                generateMessage(FacesMessage.SEVERITY_INFO, "Por favor", "Seleciona un campo.");
+                break;
         }
 
     }
 
-    private Boolean ValidateFuncionario(String claveFuncionario, int type) {
-        Boolean exito = false;
+    private void ValidateFuncionario(String claveFuncionario, int type) {     
         PersonaBanner find = null;
         String mdatoCli = claveFuncionario.trim();
         claveFuncionario = mdatoCli.toUpperCase();
         if (!findFuncionarioProcuaradoria(claveFuncionario)) {
             if (type == 0) {
                 find = BannerMethos.FindPersonBannerByIdBanner(claveFuncionario);
+                
             } else if (type == 1) {
                 find = BannerMethos.FindPersonBannerByCedula(claveFuncionario);
             }
             if (find != null) {
                 SendDataFuncionario(find);
-                exito = true;
+            }else
+            {
+                generateMessage(FacesMessage.SEVERITY_INFO, "Ningún Resultado", "No se ha encontrado a ningún funcionario");
+                this.newFuncionario = new Uzatfunci();
+                existFunci = false;
+                this.txtaboSelecionado = "";
+                this.txtbotonasignarabo="Seleccionar";
+                return;
             }
         }
-        return exito;
+        existFunci = true;
+        this.txtbotonasignarabo="Cambiar";
+        txtaboSelecionado = this.newFuncionario.getUzatfuncionarioApellidos() 
+                +" "+ this.newFuncionario.getUzatfuncionarioNombres();      
     }
 
     public Boolean findFuncionarioProcuaradoria(String claveFuncionario) {
@@ -167,6 +183,8 @@ public class GenerarCasoBean {
         this.newFuncionario.setUzatfuncionarioFlag(BigDecimal.ONE);
         this.newFuncionario.setUzatfuncionarioNombres(Funcionario.getNombres());
         this.newFuncionario.setUzatfuncionarioIdbanner(Funcionario.getIdBanner());
+        
+        
     }
 
     //Generar mensaje de no encontrado
@@ -191,6 +209,7 @@ public class GenerarCasoBean {
     }
 
     public Boolean grabarFuncionarios() {
+        
         Boolean exito = false;
         Uzatfunci temp = ProcuradoriaMethods.FindFuncionarioByCedula(newFuncionario.getUzatfuncionarioCedula());
         if (temp == null) {
@@ -198,7 +217,8 @@ public class GenerarCasoBean {
             ProcuradoriaMethods.InserFuncionario(newFuncionario);
             idFunci = ProcuradoriaMethods.FindFuncionarioByCedula(newFuncionario.getUzatfuncionarioCedula()).getUzatfuncionarioId();
         } else {
-            idFunci = temp.getUzatfuncionarioId();
+            idFunci = temp.getUzatfuncionarioId(); 
+            ProcuradoriaMethods.UpdateFunci(newFuncionario);
         }
         if (idFunci != null) {
             exito = true;
@@ -255,6 +275,11 @@ public class GenerarCasoBean {
     }
 
     public void grabarnuevoCaso(ActionEvent event) {
+        if(!informacionCompleta())
+        {
+            return;
+        }
+        
         if (grabarFuncionarios()) {
             if (grabarCaso()) {
                 if (AsignarCasoAbogado()) {
@@ -262,6 +287,8 @@ public class GenerarCasoBean {
                     this.numCausa = "";
                     this.motivo = "";
                     this.tipoCaso = "";
+                    this.txtaboSelecionado = "";
+                    this.existFunci = false;
                     this.init();
                 } else {
                     generateMessage(FacesMessage.SEVERITY_FATAL, "ERROR no se ha grabado nuevo caso", "");
@@ -270,12 +297,33 @@ public class GenerarCasoBean {
         }
     }
 
+    public Boolean informacionCompleta()
+    {
+        Boolean exito = false;
+        
+        if("".equals(this.numCausa.trim())){
+            generateMessage(FacesMessage.SEVERITY_INFO, "Campos Incompletos", "Ingrese el Número de Causa");
+        }else if("".equals(this.motivo.trim())){
+            generateMessage(FacesMessage.SEVERITY_INFO, "Campos Incompletos", "Ingrese el Motivo");
+        }else if("".equals(this.tipoCaso.trim())){
+            generateMessage(FacesMessage.SEVERITY_INFO, "Campos Incompletos", "Ingrese el Delito/Acción");
+        }else if(existFunci == false){
+            generateMessage(FacesMessage.SEVERITY_INFO, "Campos Incompletos", "Seleccione a un abogado responsable del caso");
+        }else
+        {
+            exito = true;
+        }
+        
+        return exito;
+    }
+    
     public void grabarnuevoCasoSecretaria(ActionEvent event) {
 
         if (grabarCaso2()) {
             this.numCausa = "";
             this.motivo = "";
             this.tipoCaso = "";
+            this.txtaboSelecionado = "";
             this.init();
             generateMessage(FacesMessage.SEVERITY_INFO, "Éxito", "Se ha generado un nuevo caso satisfactoriamente");
         } else {
@@ -283,6 +331,8 @@ public class GenerarCasoBean {
         }
 
     }
+
+    
 
     // <editor-fold defaultstate="collapsed" desc=" Getters and Setters ">
     public ArrayList<SelectItem> getItemsMaterias() {
@@ -385,5 +435,21 @@ public class GenerarCasoBean {
         this.motivo = motivo;
     }
 
+    public String getTxtaboSelecionado() {
+        return txtaboSelecionado;
+    }
+
+    public void setTxtaboSelecionado(String txtaboSelecionado) {
+        this.txtaboSelecionado = txtaboSelecionado;
+    }
+    
+    public String getTxtbotonasignarabo() {
+        return txtbotonasignarabo;
+    }
+
+    public void setTxtbotonasignarabo(String txtbotonasignarabo) {
+        this.txtbotonasignarabo = txtbotonasignarabo;
+    }
+    
 // </editor-fold>
 }
