@@ -18,6 +18,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 import javax.servlet.http.HttpSession;
 import procuradoria.crud.ProcuradoriaMethods;
 import procuradoria.map.Uzatjudi;
@@ -51,6 +52,8 @@ public class Judi_procuBean{
     private BigDecimal idmateriaeditar;
     private BigDecimal idjudicaturaeditar;
     
+    private boolean botonNuevaEspecializacionDeshabilitado;
+    
     public Judi_procuBean() {
         
         materias = new ArrayList<Uzatmateri>();
@@ -67,6 +70,8 @@ public class Judi_procuBean{
         nuevaMateria = "vacio";
         nuevaJudicatura = "vacio";
         
+        botonNuevaEspecializacionDeshabilitado = true;
+                
         this.loadlistMaterias(); 
         
     }
@@ -140,14 +145,22 @@ public class Judi_procuBean{
         temp = ProcuradoriaMethods.findNumerosdeCasosbyMateri(materia);  
         return temp;
     }
+    
+    public int getNumeroCasosporJudi(String judi)
+    {
+        int temp = 0;
+        temp = ProcuradoriaMethods.findNumerosdeCasosbyJudi(judi);  
+        return temp;
+    }
 
     public void cargarJudicaturas()
     {
+        this.botonNuevaEspecializacionDeshabilitado = false;
         addMessage(selectedMateria.getUzatmateriaDescripcion());
         loadlistJudi(selectedMateria.getUzatmateriaId());
     }
     
-    public void editarMaterias()
+    public void editarMaterias(ActionEvent event)
     {
         
         if(ProcuradoriaMethods.UpdateMateria(changeMateria))
@@ -160,7 +173,14 @@ public class Judi_procuBean{
         }
     }
     
-    public void editarJudicaturas()
+    public void cambiarmateria(BigDecimal ID)
+    {
+        this.idmateriaeditar = ID;
+        changeMateria = ProcuradoriaMethods.FindMateriabyId(this.idmateriaeditar);
+        
+    }
+    
+    public void editarJudicaturas(ActionEvent event)
     {
         if(ProcuradoriaMethods.UpdateJudicatura(changejudicatura))
         {
@@ -170,14 +190,7 @@ public class Judi_procuBean{
         {
             addMessage("Ha ocurrido un error");
         }
-    }
-    
-    public void cambiarmateria(BigDecimal ID)
-    {
-        this.idmateriaeditar = ID;
-        changeMateria = ProcuradoriaMethods.FindMateriabyId(this.idmateriaeditar);
-        
-    }
+    }  
     
     public void cambiarjudicatura(BigDecimal ID)
     {
@@ -192,11 +205,11 @@ public class Judi_procuBean{
     }
     
     public void inicializarJudicatura()
-    {
+    {   
         this.newjudicatura = new Uzatjudi(new UzatjudiId(selectedMateria.getUzatmateriaId(),new BigDecimal("120")),selectedMateria,"vacio",null);       
     }
     
-    public void nuevaMaterias()
+    public void nuevaMaterias(ActionEvent event)
     {
         if(ProcuradoriaMethods.insertMateria(newMateria))
         {
@@ -209,6 +222,9 @@ public class Judi_procuBean{
                 
                 addMessage("Se ha ingresado la Materia Correctamente");
                 this.loadlistMaterias();
+                this.newMateria = new Uzatmateri();
+                judicatura = new ArrayList<>();
+                this.botonNuevaEspecializacionDeshabilitado = true;
             }
             
         }else
@@ -217,16 +233,54 @@ public class Judi_procuBean{
         }
     }
     
-    public void nuevaJudicaturas()
+    public void nuevaJudicaturas(ActionEvent event)
     {
         if(ProcuradoriaMethods.insertJudicatura(newjudicatura))
         {
             addMessage("Se ha ingresado la Especialización Correctamente");
+            this.newjudicatura= new Uzatjudi();
             cargarJudicaturas();
         }else
         {
             addMessage("Ha ocurrido un error");
         }
+    }
+    
+    public void borrarMateria(BigDecimal ID)
+    {       
+        this.idmateriaeditar = ID;
+        if(getNumeroCasosporMateria(this.idmateriaeditar.toString()) > 0){
+            addMessage("Existe un caso con la materia Seleccionada. No es posible eliminar.");
+        }else
+        {
+            borrartodasJudicaturas(ID);
+            ProcuradoriaMethods.DeleteMateriabyId(this.idmateriaeditar);
+            addMessage("Se ha eliminado la materia satisfactoriamente.");
+            this.loadlistMaterias();
+            judicatura = new ArrayList<>();
+            this.botonNuevaEspecializacionDeshabilitado = true;
+        }
+        
+    }
+    
+    public void borrartodasJudicaturas(BigDecimal materiID) {
+        List<Uzatjudi> lista = ProcuradoriaMethods.findjudibyMateriId(materiID);
+        for (int i = 0; i < lista.size(); i++) {
+            ProcuradoriaMethods.DeleteJudi(lista.get(i).getId().getUzatmateriaId(),lista.get(i).getId().getUzatjudiId());
+        }    
+    }
+    
+    public void borrarJudicatura(BigDecimal materiID, BigDecimal judiID) {
+        if(getNumeroCasosporJudi(judiID.toString()) > 0){
+            addMessage("Existe un caso con la especialización Seleccionada. No es posible eliminar.");
+        }else
+        {
+            String datos = "MateriaID: "+materiID.toString() + " JudiID: " + judiID.toString();
+            ProcuradoriaMethods.DeleteJudi(materiID, judiID);         
+            addMessage("Se ha eliminado la Especialización satisfactoriamente.");
+            cargarJudicaturas();
+        }
+            
     }
     
 // <editor-fold defaultstate="collapsed" desc=" GETTERS ANS SETTERS ">
@@ -325,21 +379,16 @@ public class Judi_procuBean{
     public void setChangejudicatura(Uzatjudi changejudicatura) {
         this.changejudicatura = changejudicatura;
     }
+    
+    public boolean isBotonNuevaEspecializacionDeshabilitado() {
+        return botonNuevaEspecializacionDeshabilitado;
+    }
+
+    public void setBotonNuevaEspecializacionDeshabilitado(boolean botonNuevaEspecializacionDeshabilitado) {
+        this.botonNuevaEspecializacionDeshabilitado = botonNuevaEspecializacionDeshabilitado;
+    }
+
 
 // </editor-fold>
-    
-
-    
-    
-    
-   
-
-    
-
-    
-
-    
-    
-    
 }
 

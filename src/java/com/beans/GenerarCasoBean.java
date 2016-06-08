@@ -274,6 +274,45 @@ public class GenerarCasoBean {
         return exito;
     }
 
+    public Boolean informacionCompleta()
+    {
+        Boolean exito = false;
+        
+        if("".equals(this.numCausa.trim())){
+            generateMessage(FacesMessage.SEVERITY_INFO, "Campos Incompletos", "Ingrese el Número de Causa");
+        }else if("".equals(this.motivo.trim())){
+            generateMessage(FacesMessage.SEVERITY_INFO, "Campos Incompletos", "Ingrese el Motivo");
+        }else if("".equals(this.tipoCaso.trim())){
+            generateMessage(FacesMessage.SEVERITY_INFO, "Campos Incompletos", "Ingrese el Delito/Acción");
+        }else if(existFunci == false){
+            generateMessage(FacesMessage.SEVERITY_INFO, "Campos Incompletos", "Seleccione a un abogado responsable del caso");
+        }else
+        {
+            exito = true;
+        }
+        
+        return exito;
+    }
+    
+    public Boolean informacionCompleta_secre()
+    {
+        Boolean exito = false;
+        existFunci =true;
+        
+        if("".equals(this.numCausa.trim())){
+            generateMessage(FacesMessage.SEVERITY_INFO, "Campos Incompletos", "Ingrese el Número de Causa");
+        }else if("".equals(this.motivo.trim())){
+            generateMessage(FacesMessage.SEVERITY_INFO, "Campos Incompletos", "Ingrese el Motivo");
+        }else if("".equals(this.tipoCaso.trim())){
+            generateMessage(FacesMessage.SEVERITY_INFO, "Campos Incompletos", "Ingrese el Delito/Acción");
+        }else
+        {
+            exito = true;
+        }
+        
+        return exito;
+    }
+    
     public void grabarnuevoCaso(ActionEvent event) {
         if(!informacionCompleta())
         {
@@ -296,34 +335,20 @@ public class GenerarCasoBean {
             }
         }
     }
-
-    public Boolean informacionCompleta()
-    {
-        Boolean exito = false;
-        
-        if("".equals(this.numCausa.trim())){
-            generateMessage(FacesMessage.SEVERITY_INFO, "Campos Incompletos", "Ingrese el Número de Causa");
-        }else if("".equals(this.motivo.trim())){
-            generateMessage(FacesMessage.SEVERITY_INFO, "Campos Incompletos", "Ingrese el Motivo");
-        }else if("".equals(this.tipoCaso.trim())){
-            generateMessage(FacesMessage.SEVERITY_INFO, "Campos Incompletos", "Ingrese el Delito/Acción");
-        }else if(existFunci == false){
-            generateMessage(FacesMessage.SEVERITY_INFO, "Campos Incompletos", "Seleccione a un abogado responsable del caso");
-        }else
-        {
-            exito = true;
-        }
-        
-        return exito;
-    }
     
     public void grabarnuevoCasoSecretaria(ActionEvent event) {
 
+        if(!informacionCompleta_secre())
+        {
+            return;
+        }
+        
         if (grabarCaso2()) {
             this.numCausa = "";
             this.motivo = "";
             this.tipoCaso = "";
             this.txtaboSelecionado = "";
+            this.existFunci = false;
             this.init();
             generateMessage(FacesMessage.SEVERITY_INFO, "Éxito", "Se ha generado un nuevo caso satisfactoriamente");
         } else {

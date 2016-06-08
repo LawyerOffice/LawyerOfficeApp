@@ -371,8 +371,9 @@ public class FasesCasoBean {
 
         Boolean exito = ProcuradoriaMethods.InsertFase(this.NewFase);
         if (exito) {
+            System.out.println("");
             UzatinvFfId invffId = new UzatinvFfId();
-            invffId.setUzatfuncionarioId(this.getCasoIdAttribute());
+            invffId.setUzatfuncionarioId(this.getUserAttribute());
             invffId.setUzatcasoId(this.CodCaso);
             SelectedFase.getId().getUzatfaseId();
             invffId.setUzatfaseId(ProcuradoriaMethods.GetUltimaFaseIdByCaso(CodCaso, new BigDecimal(BigInteger.ONE)));
