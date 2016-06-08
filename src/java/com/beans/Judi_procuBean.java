@@ -125,15 +125,15 @@ public class Judi_procuBean{
         if(this.judicatura != null){
             
             Collections.sort(judicatura, new Comparator<Uzatjudi>() {
-            @Override public int compare(Uzatjudi p1, Uzatjudi p2) {
-                if (p1.getId().getUzatjudiId().doubleValue() > p2.getId().getUzatjudiId().doubleValue()) {
-                    return 1;
-                } else if (p1.getId().getUzatjudiId().doubleValue() < p2.getId().getUzatjudiId().doubleValue()) {
-                    return -1;
+                @Override public int compare(Uzatjudi p1, Uzatjudi p2) {
+                    if (p1.getId().getUzatjudiId().doubleValue() > p2.getId().getUzatjudiId().doubleValue()) {
+                        return 1;
+                    } else if (p1.getId().getUzatjudiId().doubleValue() < p2.getId().getUzatjudiId().doubleValue()) {
+                        return -1;
+                    }
+                    return 0;
                 }
-                return 0;
-            }
-            });
+                });
             
             this.judicatura.remove(0);
         }
@@ -162,7 +162,6 @@ public class Judi_procuBean{
     
     public void editarMaterias(ActionEvent event)
     {
-        
         if(ProcuradoriaMethods.UpdateMateria(changeMateria))
         {
             addMessage("Se ha actualizado la Materia Correctamente");

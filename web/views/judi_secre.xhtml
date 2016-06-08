@@ -15,6 +15,7 @@
                 <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
                     <img src="#{loginBean.urlRequest}/resources/img/load.gif"></img>
                 </p:dialog>
+                
                 <h:form id="principal">
 
                     <p:growl id="growl" life="2000" />
@@ -41,8 +42,14 @@
                                 <p:column headerText="Descripción" >
                                     <h:outputText value="#{materi.uzatmateriaDescripcion}" />
                                 </p:column>
+                                <p:column headerText="# Casos " style="width:40px;text-align: center">
+                                    <h:outputText value="#{judi_procuBean.getNumeroCasosporMateria(materi.uzatmateriaId)}"/>
+                                </p:column>                                
                                 <p:column headerText="Editar" style="width:40px;text-align: center">
                                     <p:commandButton icon="ui-icon-disk" actionListener="#{judi_procuBean.cambiarmateria(materi.uzatmateriaId)}" oncomplete="PF('weditar').show();"></p:commandButton>                   
+                                </p:column>
+                                <p:column headerText="Borrar" style="width:40px;text-align: center">
+                                    <p:commandButton icon="ui-icon-trash" actionListener="#{judi_procuBean.borrarMateria(materi.uzatmateriaId)}" update=":principal:growl, :principal:dataTableMaterias, :principal:dataTableJudicatura"></p:commandButton>                   
                                 </p:column>
                             </p:dataTable>
                         </p:layoutUnit>
@@ -58,17 +65,23 @@
                                     <div align="right">
                                         <p:commandButton value="Nueva" 
                                                          actionListener="#{judi_procuBean.inicializarJudicatura()}" 
-                                                         oncomplete="PF('wnuevoJ').show();"></p:commandButton>
+                                                         oncomplete="PF('wnuevoJ').show();" disabled="#{judi_procuBean.botonNuevaEspecializacionDeshabilitado}"></p:commandButton>
                                     </div>
                                 </f:facet>
 
                                 <p:column headerText="Nombre" >
                                     <h:outputText value="#{judi.uzatjudiDescripcion}" />
                                 </p:column>
+                                <p:column headerText="# Casos " style="width:40px;text-align: center">
+                                    <h:outputText value="#{judi_procuBean.getNumeroCasosporJudi(judi.id.uzatjudiId)}"/>
+                                </p:column> 
                                 <p:column headerText="Editar" style="width:40px;text-align: center">
                                     <p:commandButton icon="ui-icon-disk" 
                                                      actionListener="#{judi_procuBean.cambiarjudicatura(judi.id.uzatjudiId)}" 
                                                      oncomplete="PF('weditarJ').show();"></p:commandButton>                   
+                                </p:column>
+                                <p:column headerText="Borrar" style="width:40px;text-align: center">
+                                    <p:commandButton icon="ui-icon-trash" actionListener="#{judi_procuBean.borrarJudicatura(judi.id.uzatmateriaId,judi.id.uzatjudiId)}" update=":principal:growl, :principal:dataTableJudicatura"></p:commandButton>                   
                                 </p:column>
                             </p:dataTable>
                         </p:layoutUnit>
@@ -77,14 +90,14 @@
 
                     <p:dialog id="dEditar" widgetVar="weditar" header="Editar Materia"  
                               modal="true" showEffect="fade" resizable="false" position="center center">
-                        <h2> Editara Materia</h2>
+                        <h2> Editar Materia</h2>
 
                         <p:panel id="panelEditarMateria" header="Ingrese el nuevo nombre de la Materia" >
                             <h:panelGrid columns="4" cellpadding="10">
                                 <h:outputText value="Ingrese:" />                    
                                 <p:inputText value="#{judi_procuBean.changeMateria.uzatmateriaDescripcion}"/>
                                 <p:commandButton value="Cambiar" update=":principal:growl, :principal:dataTableMaterias, :principal:dEditar" 
-                                                 actionListener="#{judi_procuBean.editarMaterias()}"></p:commandButton>
+                                                 actionListener="#{judi_procuBean.editarMaterias(event)}"></p:commandButton>
                                 <p:commandButton value="Cancelar" update=":principal:dEditar, :principal:growl"></p:commandButton>        
 
                             </h:panelGrid>    
@@ -100,7 +113,7 @@
                                 <h:outputText value="Ingrese:" />                    
                                 <p:inputText value="#{judi_procuBean.changejudicatura.uzatjudiDescripcion}"/>
                                 <p:commandButton value="Cambiar" update=":principal:growl, :principal:dataTableJudicatura, :principal:dEditarJ"
-                                                 actionListener="#{judi_procuBean.editarJudicaturas()}"></p:commandButton>
+                                                 actionListener="#{judi_procuBean.editarJudicaturas(event)}"></p:commandButton>
                                 <p:commandButton value="Cancelar" update=":principal:dEditarJ, :principal:growl"></p:commandButton> 
 
                             </h:panelGrid>    
@@ -116,8 +129,8 @@
                             <h:panelGrid columns="4" cellpadding="10">
                                 <h:outputText value="Ingrese:" />                    
                                 <p:inputText value="#{judi_procuBean.newMateria.uzatmateriaDescripcion}"/>
-                                <p:commandButton value="Ingresar" update=":principal:growl, :principal:dataTableMaterias, :principal:dNuevo" 
-                                                 actionListener="#{judi_procuBean.nuevaMaterias()}"></p:commandButton>
+                                <p:commandButton value="Ingresar" update=":principal:growl, :principal:dataTableMaterias, :principal:dataTableJudicatura, :principal:dNuevo" 
+                                                 actionListener="#{judi_procuBean.nuevaMaterias(event)}"></p:commandButton>
                                 <p:commandButton value="Cancelar" update=":principal:dNuevo, :principal:growl"></p:commandButton>
 
                             </h:panelGrid>    
@@ -133,7 +146,7 @@
                                 <h:outputText value="Ingrese:" />                    
                                 <p:inputText value="#{judi_procuBean.newjudicatura.uzatjudiDescripcion}"/>
                                 <p:commandButton value="Ingresar" update=":principal:growl, :principal:dataTableJudicatura, :principal:dNuevoJ" 
-                                                 actionListener="#{judi_procuBean.nuevaJudicaturas()}"></p:commandButton>
+                                                 actionListener="#{judi_procuBean.nuevaJudicaturas(event)}"></p:commandButton>
                                 <p:commandButton value="Cancelar" update=":principal:dNuevoJ, :principal:growl"></p:commandButton>
 
 
@@ -141,7 +154,7 @@
                         </p:panel>
                     </p:dialog>
 
-                </h:form>    
+                </h:form>
             </ui:define>
 
         </ui:composition>

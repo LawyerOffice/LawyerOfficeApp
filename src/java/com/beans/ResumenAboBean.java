@@ -12,6 +12,8 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -239,12 +241,25 @@ public class ResumenAboBean {
 
     public void loadlistMaterias() {
         ArrayList<Uzatmateri> selectItemsMat = ProcuradoriaMethods.ListMaterias();
+        
+        Collections.sort(selectItemsMat, new Comparator<Uzatmateri>() {
+            @Override public int compare(Uzatmateri p1, Uzatmateri p2) {
+                if (p1.getUzatmateriaId().doubleValue() > p2.getUzatmateriaId().doubleValue()) {
+                    return 1;
+                } else if (p1.getUzatmateriaId().doubleValue() < p2.getUzatmateriaId().doubleValue()) {
+                    return -1;
+                }
+                return 0;
+            }
+            });
+        
         this.ItemsMaterias.clear();
         SelectItem si;
         for (int i = 0; i < selectItemsMat.size(); i++) {
             si = new SelectItem(selectItemsMat.get(i).getUzatmateriaId(), selectItemsMat.get(i).getUzatmateriaDescripcion());
             this.ItemsMaterias.add(si);
         }
+        
         this.ItemsMaterias.remove(0);
     }
 
@@ -252,21 +267,32 @@ public class ResumenAboBean {
         BigDecimal idmateri = this.getIdMateria();
         ArrayList<Uzatjudi> selectItemsJud = ProcuradoriaMethods.findjudibyMateriId(idmateri);
 
+        Collections.sort(selectItemsJud, new Comparator<Uzatjudi>() {
+                @Override public int compare(Uzatjudi p1, Uzatjudi p2) {
+                    if (p1.getId().getUzatjudiId().doubleValue() > p2.getId().getUzatjudiId().doubleValue()) {
+                        return 1;
+                    } else if (p1.getId().getUzatjudiId().doubleValue() < p2.getId().getUzatjudiId().doubleValue()) {
+                        return -1;
+                    }
+                    return 0;
+                }
+                });
+        
         if (!(selectItemsJud == null)) {
             this.ItemsJudicaturas.clear();
             SelectItem si;
             for (int i = 0; i < selectItemsJud.size(); i++) {
                 si = new SelectItem(selectItemsJud.get(i).getId().getUzatjudiId(), selectItemsJud.get(i).getUzatjudiDescripcion());
                 this.ItemsJudicaturas.add(si);
-
             }
+            this.ItemsJudicaturas.remove(0);
         } else {
             this.ItemsJudicaturas.clear();
             SelectItem si;
             si = new SelectItem("100", "No existe Judicatura");
             this.ItemsJudicaturas.add(si);
         }
-
+        
     }
 
     public void findCasos() {
