@@ -33,6 +33,7 @@ import org.primefaces.model.StreamedContent;
 import org.primefaces.model.UploadedFile;
 import org.primefaces.model.Visibility;
 import procuradoria.crud.ProcuradoriaMethods;
+import procuradoria.crud.tools.UpdateInvolFF;
 import procuradoria.map.*;
 import procuradoria.pdf.util.DocumentsPdf;
 
@@ -310,7 +311,10 @@ public class FasesCasoBean {
         faseClose.setUzatfaseFechaOut(FechaHoraActual());
         faseClose.setUzatfaseFlag(BigDecimal.ZERO);
         disable = ProcuradoriaMethods.UpdateFase(faseClose);
-        if (disable) {
+        UpdateInvolFF ids = new UpdateInvolFF();
+        Boolean involff = ProcuradoriaMethods.UpdateUzatInvolfff(ids, FechaHoraActual());
+        //aki====>>>>
+        if (disable && involff) {
             disable = false;
             this.EnableNewFase = false;
         }
