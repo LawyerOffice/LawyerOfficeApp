@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -26,6 +27,7 @@ import org.primefaces.model.LazyDataModel;
 import procuradoria.map.Uzatcaso;
 import procuradoria.crud.ProcuradoriaMethods;
 import procuradoria.map.Uzatactor;
+import procuradoria.map.Uzatasign;
 import procuradoria.map.UzatinvCa;
 import procuradoria.map.UzatinvCaId;
 import procuradoria.map.Uzatjudi;
@@ -62,7 +64,10 @@ public class ResumenAboBean {
     private BigDecimal idMateria;
     private BigDecimal idJudicatura;
     private String textoBotonVincular;
-
+    private String textohabilitarvinculación;
+    private String valueFindCaso3 ="";
+    private String valueFindCaso4 ="";
+    
     private Uzatcaso findCaso;
     private String nombreActorAnterior;
     private String cedulaActorAnterior;
@@ -70,10 +75,14 @@ public class ResumenAboBean {
     private Uzatjudi vincuJudi;
     private Uzatmateri vincuMateria;
 
+    private List<Uzatasign> casosAsigandos;
+    
     public ResumenAboBean() {
         lazyModelCasosAsignados = new LazyCasoDataModel(this.getUserAttribute(), new BigDecimal(2));
         selectedCaso = new Uzatcaso();
         findCaso = new Uzatcaso();
+        
+        this.casosAsigandos = new ArrayList<Uzatasign>();
         this.selectedActor = new Uzatactor();
         this.idCaso = "vacio";
         this.idocedula = "vacio";
@@ -83,7 +92,8 @@ public class ResumenAboBean {
         this.textoBotonVincular = "Buscar";
         this.loadlistMaterias();
         this.ItemsJudicaturas.clear();
-
+        this.textohabilitarvinculación = "Si";
+         
         vincuMateria = new Uzatmateri();
         vincuJudi = new Uzatjudi();
     }
@@ -309,8 +319,23 @@ public class ResumenAboBean {
 
     public void vincular() {
         this.textoBotonVincular = "Cambiar";
-        this.selectedCaso.setUzatcasoVincu(this.findCaso.getUzatcasoId());
+        BigDecimal codigoVincu = this.casosAsigandos.get(0).getUzatcaso().getUzatcasoVincu();
+        this.selectedCaso.setUzatcasoVincu(codigoVincu);
         addMessage("Se ha vinculado el caso");
+    }
+    
+    public void buscarCasoByVinculacion(ActionEvent actionEvent) {
+        this.valueFindCaso3 = this.selectedActor.getUzatactorCedula();
+            
+        if (!this.valueFindCaso4.equals("")) {
+            this.casosAsigandos = ProcuradoriaMethods.FindCasosAdminLazyByVinculacion(this.valueFindCaso3,this.valueFindCaso4);
+            if (this.casosAsigandos.isEmpty()) {
+                addMessage("Error No se encuentran casos relacionados con el mismo actor.");
+            }
+        } else {
+            addMessage("Error Ingrese el número de causa a ser buscado.");
+        }
+        
     }
 
 // <editor-fold defaultstate="collapsed" desc=" Getters and Setters ">
@@ -483,4 +508,38 @@ public class ResumenAboBean {
         this.idJudicatura = idJudicatura;
     }
 
+    public String getTextohabilitarvinculación() {
+        return textohabilitarvinculación;
+    }
+
+    public void setTextohabilitarvinculación(String textohabilitarvinculación) {
+        this.textohabilitarvinculación = textohabilitarvinculación;
+    }  
+
+    public String getValueFindCaso3() {
+        return valueFindCaso3;
+    }
+
+    public void setValueFindCaso3(String valueFindCaso3) {
+        this.valueFindCaso3 = valueFindCaso3;
+    }
+
+    public String getValueFindCaso4() {
+        return valueFindCaso4;
+    }
+
+    public void setValueFindCaso4(String valueFindCaso4) {
+        this.valueFindCaso4 = valueFindCaso4;
+    }
+
+    public List<Uzatasign> getCasosAsigandos() {
+        return casosAsigandos;
+    }
+
+    public void setCasosAsigandos(List<Uzatasign> casosAsigandos) {
+        this.casosAsigandos = casosAsigandos;
+    }
+    
+    
+    
 }
