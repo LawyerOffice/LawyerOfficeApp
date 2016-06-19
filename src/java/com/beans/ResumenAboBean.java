@@ -67,7 +67,6 @@ public class ResumenAboBean {
     private String textohabilitarvinculación;
     private String valueFindCaso3 ="";
     private String valueFindCaso4 ="";
-    
     private Uzatcaso findCaso;
     private String nombreActorAnterior;
     private String cedulaActorAnterior;
@@ -77,6 +76,8 @@ public class ResumenAboBean {
 
     private List<Uzatasign> casosAsigandos;
     
+    private boolean tieneActor = false;
+          
     public ResumenAboBean() {
         lazyModelCasosAsignados = new LazyCasoDataModel(this.getUserAttribute(), new BigDecimal(2));
         selectedCaso = new Uzatcaso();
@@ -90,10 +91,10 @@ public class ResumenAboBean {
         this.ItemsJudicaturas = new ArrayList<SelectItem>();
         this.ItemsMaterias = new ArrayList<SelectItem>();
         this.textoBotonVincular = "Buscar";
-        this.loadlistMaterias();
         this.ItemsJudicaturas.clear();
         this.textohabilitarvinculación = "Si";
-         
+        this.loadlistMaterias();
+        
         vincuMateria = new Uzatmateri();
         vincuJudi = new Uzatjudi();
     }
@@ -118,15 +119,25 @@ public class ResumenAboBean {
     }
 
     public void findActorbycedula() {
+        if(idocedula.equals(""))
+        {
+            addMessage("Seleccione ID o Cedula");
+            return;
+        }
+        
         if (!cedulaActor.equals("Ingrese número de cédula")) {
-            ValidateFuncionario(cedulaActor);
-            System.out.println(this.selectedActor.getUzatactorNombres());
-            this.botonAgregarActor = "Ver Datos Actor";
-            this.cajaTextoSeleccionarActor = this.selectedActor.getUzatactorNombres() + " " + this.selectedActor.getUzatactorApellidos();
+            if(ValidateFuncionario(cedulaActor))
+            {/*Aqui parece que nunca entra */
+                this.botonAgregarActor = "Ver Datos Actor";
+                this.cajaTextoSeleccionarActor = this.selectedActor.getUzatactorNombres() + " " + this.selectedActor.getUzatactorApellidos();
+            }else
+            {
+                addMessage("No se ha encontrado Actor. Por favor, Ingrese los Datos del Actor");
+            }
         }
     }
 
-    public void botonActualizarActor() {
+    public void botonActualizarActor() {       
         updateActor();
 
     }
@@ -202,7 +213,6 @@ public class ResumenAboBean {
             } else if (idocedula.equals("1")) {
                 find = BannerMethos.FindPersonBannerByIdBanner(claveFuncionario);
             }
-
             if (find != null) {
 
                 SendDataFuncionario(find);
@@ -490,8 +500,7 @@ public class ResumenAboBean {
     public void setVincuMateria(Uzatmateri vincuMateria) {
         this.vincuMateria = vincuMateria;
     }
-// </editor-fold>
-
+    
     public BigDecimal getIdMateria() {
         return idMateria;
     }
@@ -539,7 +548,15 @@ public class ResumenAboBean {
     public void setCasosAsigandos(List<Uzatasign> casosAsigandos) {
         this.casosAsigandos = casosAsigandos;
     }
+
+    public boolean isTieneActor() {
+        return tieneActor;
+    }
+
+    public void setTieneActor(boolean tieneActor) {
+        this.tieneActor = tieneActor;
+    }   
     
-    
-    
+// </editor-fold>
+
 }
