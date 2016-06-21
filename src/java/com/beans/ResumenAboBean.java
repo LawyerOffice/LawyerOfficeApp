@@ -70,19 +70,19 @@ public class ResumenAboBean {
     private Uzatcaso findCaso;
     private String nombreActorAnterior;
     private String cedulaActorAnterior;
-
+    
     private Uzatjudi vincuJudi;
     private Uzatmateri vincuMateria;
 
     private List<Uzatasign> casosAsigandos;
     
     private boolean tieneActor = false;
-          
+         
     public ResumenAboBean() {
         lazyModelCasosAsignados = new LazyCasoDataModel(this.getUserAttribute(), new BigDecimal(2));
         selectedCaso = new Uzatcaso();
         findCaso = new Uzatcaso();
-        
+        idMateria = new BigDecimal("100");
         this.casosAsigandos = new ArrayList<Uzatasign>();
         this.selectedActor = new Uzatactor();
         this.idCaso = "vacio";
@@ -116,39 +116,85 @@ public class ResumenAboBean {
     public void findCasobyid(String id) {
         this.idCaso = id;
         this.selectedCaso = ProcuradoriaMethods.findCasobyId(new BigDecimal(idCaso));
+        this.tieneActor = false;
+        this.selectedActor = new Uzatactor();
+        botonAgregarActor = "Agregar Actor";
     }
 
     public void findActorbycedula() {
+        this.tieneActor = false;
         if(idocedula.equals(""))
         {
             addMessage("Seleccione ID o Cedula");
             return;
         }
-        
         if (!cedulaActor.equals("Ingrese número de cédula")) {
             if(ValidateFuncionario(cedulaActor))
             {/*Aqui parece que nunca entra */
                 this.botonAgregarActor = "Ver Datos Actor";
                 this.cajaTextoSeleccionarActor = this.selectedActor.getUzatactorNombres() + " " + this.selectedActor.getUzatactorApellidos();
+                this.tieneActor = true;
             }else
             {
                 addMessage("No se ha encontrado Actor. Por favor, Ingrese los Datos del Actor");
+                this.tieneActor = false;
             }
         }
     }
 
-    public void botonActualizarActor() {       
-        updateActor();
+    public void botonActualizarActor() {      
+        if(this.tieneActor)
+        {
+            updateActor();
+        }else
+        {
+            addActor();
+        }
 
     }
 
+    public void addActor()
+    {
+        String cedula = this.selectedActor.getUzatactorCedula();
+        if(!(this.selectedActor.getUzatactorCedula().equals("") && 
+                this.selectedActor.getUzatactorNombres().equals("") && 
+                this.selectedActor.getUzatactorApellidos().equals("")))
+        {
+            addMessage("Por favor Ingrese Cédula y Nombres");
+            this.selectedActor = new Uzatactor();
+            return;
+        }
+        
+        if (ProcuradoriaMethods.insertActor(selectedActor)) {
+            this.selectedActor = ProcuradoriaMethods.findActorbyCedula(cedula);
+            addMessage("Se han registrado los Datos de Actor");
+            this.botonAgregarActor = "Ver Datos Actor";
+                this.cajaTextoSeleccionarActor = this.selectedActor.getUzatactorNombres() + " " + this.selectedActor.getUzatactorApellidos();
+        }else
+        {
+            addMessage("Ha ocurrido un error");
+        }
+    }
+    
     public void botonActualizarCaso() {
+        if(this.idMateria.equals(new BigDecimal("100")) || this.idMateria.equals(new BigDecimal("0")))
+        {
+            addMessage("No se han asignado la materia, No se ha iniciado el caso");
+            return;
+        }
+        
+        if(!this.tieneActor){
+            addMessage("No existe Actor asignado. No se ha iniciado el caso");
+            return;
+        }
+        
         BigDecimal cero = new BigDecimal(0);       
         if (this.selectedCaso.getUzatcasoVincu().equals(cero) || this.selectedCaso.getUzatcasoVincu() == null) {            
             this.selectedCaso.setUzatcasoVincu(this.selectedCaso.getUzatcasoId());           
         }       
         updateCaso();
         asignarActoraCaso();
+        
     }
 
     public void buttonAction(ActionEvent actionEvent) {
@@ -222,6 +268,7 @@ public class ResumenAboBean {
 
         } else {
             addMessage("Se ha encontrado Actor en Base de Datos");
+            exito = true;
         }
         return exito;
     }
