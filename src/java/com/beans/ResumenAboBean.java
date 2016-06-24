@@ -23,6 +23,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.model.SelectItem;
 import javax.servlet.http.HttpSession;
+import org.primefaces.context.RequestContext;
 import org.primefaces.model.LazyDataModel;
 import procuradoria.map.Uzatcaso;
 import procuradoria.crud.ProcuradoriaMethods;
@@ -83,6 +84,8 @@ public class ResumenAboBean {
         selectedCaso = new Uzatcaso();
         findCaso = new Uzatcaso();
         idMateria = new BigDecimal("100");
+        idJudicatura = new BigDecimal("100");
+        
         this.casosAsigandos = new ArrayList<Uzatasign>();
         this.selectedActor = new Uzatactor();
         this.idCaso = "vacio";
@@ -136,7 +139,7 @@ public class ResumenAboBean {
                 this.tieneActor = true;
             }else
             {
-                addMessage("No se ha encontrado Actor. Por favor, Ingrese los Datos del Actor");
+                addMessage("No se ha encontrado Actor. Por favor, Ingrese los Datos del Actor o realice otra busqueda");
                 this.tieneActor = false;
             }
         }
@@ -156,24 +159,82 @@ public class ResumenAboBean {
     public void addActor()
     {
         String cedula = this.selectedActor.getUzatactorCedula();
-        if(!(this.selectedActor.getUzatactorCedula().equals("") && 
-                this.selectedActor.getUzatactorNombres().equals("") && 
-                this.selectedActor.getUzatactorApellidos().equals("")))
+        
+        if(!(!cedula.equals("") && 
+                !this.selectedActor.getUzatactorNombres().equals("") && 
+                !this.selectedActor.getUzatactorApellidos().equals("")))
         {
             addMessage("Por favor Ingrese Cédula y Nombres");
-            this.selectedActor = new Uzatactor();
             return;
         }
         
-        if (ProcuradoriaMethods.insertActor(selectedActor)) {
+        if(!validadorDeCedula(cedula)){
+            addMessage("La cédula es incorrecta");
+            return;}
+            
+        if(ProcuradoriaMethods.findActorbyCedula(cedula)!= null){
             this.selectedActor = ProcuradoriaMethods.findActorbyCedula(cedula);
             addMessage("Se han registrado los Datos de Actor");
             this.botonAgregarActor = "Ver Datos Actor";
-                this.cajaTextoSeleccionarActor = this.selectedActor.getUzatactorNombres() + " " + this.selectedActor.getUzatactorApellidos();
-        }else
-        {
-            addMessage("Ha ocurrido un error");
+            this.cajaTextoSeleccionarActor = this.selectedActor.getUzatactorNombres() + " " + this.selectedActor.getUzatactorApellidos();
+            RequestContext.getCurrentInstance().update("principal:selectactor");
+        }else if (ProcuradoriaMethods.insertActor(selectedActor)) {
+            this.selectedActor = ProcuradoriaMethods.findActorbyCedula(cedula);
+            addMessage("Se han registrado los Datos de Actor");
+            this.botonAgregarActor = "Ver Datos Actor";
+            this.cajaTextoSeleccionarActor = this.selectedActor.getUzatactorNombres() + " " + this.selectedActor.getUzatactorApellidos();
+            RequestContext.getCurrentInstance().update("principal:selectactor");                
+        }else{
+            addMessage("Ha ocurrido un error");}
+    }
+    
+    public boolean validadorDeCedula(String cedula) {
+        boolean cedulaCorrecta = false;
+
+        try {
+
+            if (cedula.length() == 10) // ConstantesApp.LongitudCedula
+            {
+                int tercerDigito = Integer.parseInt(cedula.substring(2, 3));
+                if (tercerDigito < 6) {
+                    // Coeficientes de validación cédula
+                    // El decimo digito se lo considera dígito verificador
+                    int[] coefValCedula = { 2, 1, 2, 1, 2, 1, 2, 1, 2 };
+                    int verificador = Integer.parseInt(cedula.substring(9,10));
+                    int suma = 0;
+                    int digito = 0;
+                    
+                    for (int i = 0; i < (cedula.length() - 1); i++) {
+                        digito = Integer.parseInt(cedula.substring(i, i + 1))* coefValCedula[i];
+                        suma += ((digito % 10) + (digito / 10));
+                    }
+
+                    if ((suma % 10 == 0) && (suma % 10 == verificador)) {
+                        cedulaCorrecta = true;
+                    }
+                    else if ((10 - (suma % 10)) == verificador) {
+                        cedulaCorrecta = true;
+                    } else {
+                        cedulaCorrecta = false;
+                    }
+                } else {
+                cedulaCorrecta = false;
+                }
+            } else {
+            cedulaCorrecta = false;
+            }
+        } catch (NumberFormatException nfe) {
+            addMessage("La cédula solo debe contener numeros");
+            cedulaCorrecta = false;
+        } catch (Exception err) {
+            addMessage("Ocurrio un erro: " + err.getMessage());
+            cedulaCorrecta = false;
         }
+
+        if (!cedulaCorrecta) {
+            System.out.println("La Cédula ingresada es Incorrecta");
+        }
+        return cedulaCorrecta;
     }
     
     public void botonActualizarCaso() {
@@ -188,13 +249,15 @@ public class ResumenAboBean {
             return;
         }
         
+        
         BigDecimal cero = new BigDecimal(0);       
         if (this.selectedCaso.getUzatcasoVincu().equals(cero) || this.selectedCaso.getUzatcasoVincu() == null) {            
             this.selectedCaso.setUzatcasoVincu(this.selectedCaso.getUzatcasoId());           
-        }       
+        }  
+        System.out.println("");
         updateCaso();
         asignarActoraCaso();
-        
+        RequestContext.getCurrentInstance().update("principal:dabogados");
     }
 
     public void buttonAction(ActionEvent actionEvent) {
@@ -210,9 +273,15 @@ public class ResumenAboBean {
         if (ProcuradoriaMethods.UpdateActor(selectedActor)) {
             addMessage("Se han actualizado los Datos de Actor");
         }
+        RequestContext.getCurrentInstance().update("principal:selectactor");     
     }
 
     private void updateCaso() {
+        if(idJudicatura.equals(new BigDecimal("0")))
+        {
+            idJudicatura = new BigDecimal("100");
+        }
+        
         this.selectedCaso.setUzatjudi(new Uzatjudi(new UzatjudiId(idMateria, idJudicatura), new Uzatmateri(idMateria)));
         this.selectedCaso.setUzatcasoFlag(new BigDecimal(1));
         this.selectedCaso.setUzatcasoFechaIn(getDate());
@@ -606,4 +675,9 @@ public class ResumenAboBean {
     
 // </editor-fold>
 
+    public ArrayList<Uzatjudi> loadlistJudi2(BigDecimal idMateria)
+    {
+        ArrayList<Uzatjudi> selectItemsJud = ProcuradoriaMethods.findjudibyMateriId(idMateria);
+        return selectItemsJud;
+    }
 }

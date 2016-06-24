@@ -114,7 +114,7 @@
                             </h:panelGrid> 
 
                             <f:facet name="footer">
-                                <p:commandButton value="Actualizar e Iniciar Caso" update=":principal:dataTableAsignados, :principal:dabogados  , growl" actionListener="#{resumenAboBean.botonActualizarCaso()}"></p:commandButton>
+                                <p:commandButton value="Actualizar e Iniciar Caso" update=":principal:dataTableAsignados, growl" actionListener="#{resumenAboBean.botonActualizarCaso()}"></p:commandButton>
                             </f:facet>
                         </p:panel>
 
@@ -150,12 +150,20 @@
                                 <p:inputTextarea value="#{resumenAboBean.selectedActor.uzatactorDireccion}"></p:inputTextarea>
                                 <h:outputText value="Celular:" />
                                 <p:inputText value="#{resumenAboBean.selectedActor.uzatactorMovil}"></p:inputText>
+                                <h:outputText value="e-mail"></h:outputText>
+                                <p:inputText value="#{resumenAboBean.selectedActor.uzatactorEmail}"></p:inputText>
+                                
+                                    <p:separator/>
+                                    <p:separator/>
                                 <h:outputText value="Institución:" />
                                 <p:inputText value="#{resumenAboBean.selectedActor.uzatactorInstitutcion}"></p:inputText>
+                                <h:outputText value="ID Institucional"></h:outputText>
+                                <p:inputText value="#{resumenAboBean.selectedActor.uzatactorIdbanner}"></p:inputText>
+                                
                             </h:panelGrid>    
                         </p:panel>
                         <f:facet name="footer"> 
-                            <p:commandButton value="Agregar" update=":principal:selectactor, :principal:panelActor , growl" actionListener="#{resumenAboBean.botonActualizarActor()}"></p:commandButton>
+                            <p:commandButton value="Agregar" update=":principal:panelActor , :principal:growl" actionListener="#{resumenAboBean.botonActualizarActor()}"></p:commandButton>
                         </f:facet>
                     </p:dialog>
 
