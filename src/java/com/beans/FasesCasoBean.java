@@ -133,6 +133,11 @@ public class FasesCasoBean {
     }
 
     public void closeFaseTrigger(ActionEvent event) {
+        UpdateInvolFF ids = new UpdateInvolFF();
+        ids.setUzatIdCaso(CodCaso);
+        ids.setUzatIdFase(ProcuradoriaMethods.GetUltimaFaseIdByCaso(CodCaso, new BigDecimal(BigInteger.ONE)));
+        ids.setUzatIdFun(getUserAttribute());
+        Boolean involff = ProcuradoriaMethods.UpdateUzatInvolfff(ids, FechaHoraActual());
         this.EnableNewFase = false;
     }
 
@@ -311,12 +316,15 @@ public class FasesCasoBean {
         faseClose.setUzatfaseFlag(BigDecimal.ZERO);
         disable = ProcuradoriaMethods.UpdateFase(faseClose);
         UpdateInvolFF ids = new UpdateInvolFF();
+        ids.setUzatIdCaso(CodCaso);
+        ids.setUzatIdFase(faseClose.getId().getUzatfaseId());
+        ids.setUzatIdFun(getUserAttribute());
         Boolean involff = ProcuradoriaMethods.UpdateUzatInvolfff(ids, FechaHoraActual());
-        //aki====>>>>
         if (disable && involff) {
             disable = false;
             this.EnableNewFase = false;
         }
+
         return disable;
     }
 
@@ -367,18 +375,15 @@ public class FasesCasoBean {
     }
 
     public void genratedFase(ActionEvent event) {
+
         this.NewFase.getId().setUzatcasoId(SelectedCaso.getUzatcasoId());
         this.NewFase.setUzatfaseFechaIn(FechaHoraActual());
         this.NewFase.setUzatfaseFlag(BigDecimal.ONE);
-        ///INSERTAR DATOS EN LA TABLA FF CUADO CRE AUNA FASE
-
         Boolean exito = ProcuradoriaMethods.InsertFase(this.NewFase);
         if (exito) {
-            System.out.println("");
             UzatinvFfId invffId = new UzatinvFfId();
             invffId.setUzatfuncionarioId(this.getUserAttribute());
             invffId.setUzatcasoId(this.CodCaso);
-            SelectedFase.getId().getUzatfaseId();
             invffId.setUzatfaseId(ProcuradoriaMethods.GetUltimaFaseIdByCaso(CodCaso, new BigDecimal(BigInteger.ONE)));
             UzatinvFf invff = new UzatinvFf();
             invff.setId(invffId);
@@ -387,6 +392,7 @@ public class FasesCasoBean {
             invff.setUzatinvolFfFIn(FechaHoraActual());
             Boolean sucsse = ProcuradoriaMethods.insertInvFf(invff);
             if (sucsse) {
+                this.EnableNewFase = true;
                 generateMessage(FacesMessage.SEVERITY_INFO, "Nueva fase", "Creada exitosamente.");
                 this.init();
             }
