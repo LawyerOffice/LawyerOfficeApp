@@ -437,7 +437,9 @@ public class FasesCasoBean {
 
     public void genratedDocumento(ActionEvent event) {
         if (this.file != null) {
-            if ((file.getFileName().endsWith(".pdf") || file.getFileName().endsWith(".PDF")) && this.file.getSize() < 20971520) {
+            if ((file.getFileName().endsWith(".pdf")
+                    || file.getFileName().endsWith(".PDF"))
+                    && this.file.getSize() < 20971520) {
                 try {
                     this.NewDocumento.getId().setUzatcasoId(SelectedCaso.getUzatcasoId());
                     this.NewDocumento.getId().setUzatfaseId(SelectedFase.getId().getUzatfaseId());
@@ -460,11 +462,8 @@ public class FasesCasoBean {
 //                    Logger.getLogger(FasesCasoBean.class.getName()).log(Level.SEVERE, null, ex);
                 }
             } else {
-                generateMessage(FacesMessage.SEVERITY_WARN, "El archivo escogido es muy grande o no esta en el formato, recuerda subir archivos .pdf", "");
-
+                generateMessage(FacesMessage.SEVERITY_WARN, "Porfavor", "Selecciones un archivo .pdf");
             }
-        } else {
-            generateMessage(FacesMessage.SEVERITY_ERROR, "Selecciones un archivo .pdf porfavor", "");
         }
     }
 
