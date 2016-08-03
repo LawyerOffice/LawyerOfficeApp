@@ -86,6 +86,7 @@ public class ResumenAboBean {
         idMateria = new BigDecimal("100");
         idJudicatura = new BigDecimal("100");
         
+        
         this.casosAsigandos = new ArrayList<Uzatasign>();
         this.selectedActor = new Uzatactor();
         this.idCaso = "vacio";
@@ -95,7 +96,7 @@ public class ResumenAboBean {
         this.ItemsMaterias = new ArrayList<SelectItem>();
         this.textoBotonVincular = "Buscar";
         this.ItemsJudicaturas.clear();
-        this.textohabilitarvinculación = "Si";
+        this.textohabilitarvinculación = "";
         this.loadlistMaterias();
         
         vincuMateria = new Uzatmateri();
@@ -119,9 +120,21 @@ public class ResumenAboBean {
     public void findCasobyid(String id) {
         this.idCaso = id;
         this.selectedCaso = ProcuradoriaMethods.findCasobyId(new BigDecimal(idCaso));
-        this.tieneActor = false;
+        
+        limpiarDetalle();
+    }
+    
+    public void limpiarDetalle()
+    {
+        this.cedulaActor = "";
+        this.tipoActor = "";
+        this.cajaTextoSeleccionarActor = "Por favor, Seleccione un actor";
+        this.botonAgregarActor = "Agregar Actor";
         this.selectedActor = new Uzatactor();
-        botonAgregarActor = "Agregar Actor";
+        this.textoBotonVincular = "Buscar";
+        this.textohabilitarvinculación = "";
+        this.tieneActor = false;
+        this.textohabilitarvinculación = "";
     }
 
     public void findActorbycedula() {
@@ -244,10 +257,17 @@ public class ResumenAboBean {
             return;
         }
         
+        if(this.tipoActor.equals(""))
+        {
+            addMessage("No se han asignado el tipo de actor, No se ha iniciado el caso");
+            return;
+        }
+        
         if(!this.tieneActor){
             addMessage("No existe Actor asignado. No se ha iniciado el caso");
             return;
         }
+        
         
         
         BigDecimal cero = new BigDecimal(0);       
@@ -445,8 +465,11 @@ public class ResumenAboBean {
 
     public void vincular() {
         this.textoBotonVincular = "Cambiar";
-        BigDecimal codigoVincu = this.casosAsigandos.get(0).getUzatcaso().getUzatcasoVincu();
+        String codigoCaso = this.casosAsigandos.get(0).getUzatcaso().getUzatcasoNumcausa();
+        Uzatcaso temp = ProcuradoriaMethods.FindCasobyNumCausa(codigoCaso);
+        BigDecimal codigoVincu = temp.getUzatcasoVincu();
         this.selectedCaso.setUzatcasoVincu(codigoVincu);
+        this.textohabilitarvinculación = temp.getUzatcasoNumcausa();
         addMessage("Se ha vinculado el caso");
     }
     
