@@ -15,6 +15,8 @@
                 <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
                     <img src="#{loginBean.urlRequest}/resources/img/load.gif"></img>
                 </p:dialog>
+                
+                <p:growl id="growl" showDetail="true" life="3000" />
                 <h:form id="form_PA"> 
                     <p:growl id="growl" showDetail="true" life="3000" /> 
 
@@ -71,8 +73,8 @@
                         <h:panelGrid id="panelNuevoPermiso" columns="1" cellpadding="6">
 
                             <h:panelGrid columns="4" cellpadding="10">
-                                <h:outputLabel for="patter" value="Buscar por:"/>
-                                <p:selectOneMenu id="patter" value="#{asignarPermisoBean.patterFuncionario}">
+                                <h:outputLabel for="patterf" value="Buscar por:"/>
+                                <p:selectOneMenu id="patterf" value="#{asignarPermisoBean.patterFuncionario}">
                                     <f:selectItem itemLabel="Seleccionar" itemValue="" noSelectionOption="true"/>
                                     <f:selectItems value="#{asignarPermisoBean.itemsFuncionarios}"/>
                                 </p:selectOneMenu>
@@ -98,7 +100,7 @@
                             </p:panel>
 
                             <h:outputLabel value="Permiso:"/>
-                            <p:selectOneMenu id="RolPersona" value="#{asignarPermisoBean.newRol.id.uzattiporolId}" style="width:345px">
+                            <p:selectOneMenu id="RolPersonaF" value="#{asignarPermisoBean.newRol.id.uzattiporolId}" style="width:345px">
                                 <f:selectItem itemLabel="Seleccionar" itemValue="" noSelectionOption="true"/>
                                 <f:selectItems value="#{asignarPermisoBean.itemsRoles}"/>
                             </p:selectOneMenu>
@@ -108,7 +110,7 @@
                         <f:facet name="footer">
                             <p:commandButton value="Asignar" id="btnConfirmarNewPermiso"
                                              actionListener="#{asignarPermisoBean.genratedPermiso(event)}"
-                                             update=" :form_PA:growl"
+                                             update=" :form_PA:growl, growl"
                                              icon="ui-icon-check"/> <!-- action ="" -->
 
                         </f:facet> 
