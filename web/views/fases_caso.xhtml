@@ -139,7 +139,7 @@
                                                              value="#{fasesCasoBean.listDocsFasesById}"
                                                              tableStyle="width:auto"
                                                              emptyMessage="No se han encontrado documentos disponibles.">
-                                                    <p:column headerText="Casilla">
+                                                    <p:column headerText="Nombre Archivo">
 
                                                         <h:outputText value="#{DocById.uzatdocsCasilla}" />
                                                     </p:column>
@@ -187,7 +187,7 @@
                                                         <h:outputText value="#{CitaById.uzatcitaDescripcion}" />
                                                     </p:column>
 
-                                                    <p:column headerText="Sala">
+                                                    <p:column headerText="Asunto">
                                                         <h:outputText value="#{CitaById.uzatcitaSala}" />
                                                     </p:column>
 
@@ -365,11 +365,8 @@
                             <h:outputLabel value="Fecha de creación:"/>
                             <p:clock id="patter4" pattern="dd/MM/yyyy HH:mm:ss"/>
 
-                            <h:outputLabel value="Casilla:"/>
+                            <h:outputLabel value="Nombre Archivo:"/>
                             <p:inputText id="casilla" value="#{fasesCasoBean.newDocumento.uzatdocsCasilla}"  style="width:170px"/>
-
-                            <h:outputLabel value="Compromiso:"/>
-                            <p:inputText id="compromiso" value="#{fasesCasoBean.newDocumento.uzatdocsCompromiso}"  style="width:170px"/>
 
                             <h:outputLabel value="Documento:"/>
                             <p:fileUpload value="#{fasesCasoBean.file}" mode="simple" sizeLimit="20000"/>
