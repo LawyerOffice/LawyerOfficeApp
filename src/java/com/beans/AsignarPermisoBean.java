@@ -68,6 +68,7 @@ public class AsignarPermisoBean {
         this.asgsFunciCasos = new ArrayList<Uzatasign>();
         this.selectedRol = new Uzatrol();
         this.newRol = new Uzatrol();
+        this.loadlistRolesAsignados();
         this.loadlistRoles();
     }
 
@@ -201,6 +202,8 @@ public class AsignarPermisoBean {
     public void setPatterRoles(String patterRoles) {
         this.patterRoles = patterRoles;
     }
+
+
 
     public ArrayList<SelectItem> getItemsRoles() {
         return ItemsRoles;
