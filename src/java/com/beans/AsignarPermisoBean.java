@@ -91,7 +91,7 @@ public class AsignarPermisoBean {
             this.newRol.getUzatfunci().setUzatfuncionarioId(this.newFuncionario.getUzatfuncionarioId());
             this.newRol.getUzattrol().setUzattiporolId(this.newRol.getId().getUzattiporolId());
             ArrayList<Uzatrol> updateRol =  ProcuradoriaMethods.FindRolByIdFuncionario(this.newFuncionario.getUzatfuncionarioId(), BigDecimal.ONE);
-            ProcuradoriaMethods.UpdateRols(updateRol);
+            ProcuradoriaMethods.UpdateRols(updateRol,s1.format(g1.getTime()));
             Boolean exito = ProcuradoriaMethods.InsertRol(this.newRol);
             if (exito) {
                 RequestContext.getCurrentInstance().execute("PF('dlgNewRespMSG').show();");
