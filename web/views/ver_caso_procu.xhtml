@@ -15,7 +15,7 @@
                 <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
                     <img src="#{loginBean.urlRequest}/resources/img/load.gif"></img>
                 </p:dialog>
-            <p:growl id="growl" showDetail="true" life="3000" /> 
+                <p:growl id="growl" showDetail="true" life="3000" /> 
                 <h:form id="form_FC">
                     <p:growl id="growl" showDetail="true" life="3000" />
 
@@ -128,7 +128,7 @@
                                                         <h:outputText value="#{DocById.uzatdocsFecha}" />
                                                     </p:column>
 
-                                             
+
 
                                                     <p:column headerText="Descargar" style="text-align: center">
                                                         <p:commandButton id="btnDesDoc" 
@@ -152,12 +152,13 @@
                                                              tableStyle="width:auto"
                                                              emptyMessage="No se han encontrado citas disponibles.">
 
-                                                    <p:column headerText="Descripción">
-                                                        <h:outputText value="#{CitaById.uzatcitaDescripcion}" />
+
+                                                    <p:column headerText="Motivo">
+                                                        <h:outputText value="#{CitaById.uzatcitaSala}" />
                                                     </p:column>
 
-                                                    <p:column headerText="Asunto">
-                                                        <h:outputText value="#{CitaById.uzatcitaSala}" />
+                                                    <p:column headerText="Descripción">
+                                                        <h:outputText value="#{CitaById.uzatcitaDescripcion}" />
                                                     </p:column>
 
                                                     <p:column headerText="Fecha">
