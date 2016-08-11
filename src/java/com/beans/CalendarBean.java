@@ -61,21 +61,34 @@ public class CalendarBean {
     public void loadData() {
         this.ListCitas.clear();
         this.ListCitas = ProcuradoriaMethods.GetCitasCalendar(StringToday());
-        BigDecimal id=this.getUserAttribute();
-        
+        BigDecimal id = this.getUserAttribute();
+
         for (int i = 0; i < ListCitas.size(); i++) {
 
             DefaultScheduleEvent obj;
 
             if (ListCitas.get(i).getUzatfase().getUzatcaso().getFuncionarioAsignado().getUzatfuncionarioId().equals(id)) {
-                obj = new DefaultScheduleEvent(ListCitas.get(i).getUzatfase().getUzatcaso().getUzatcasoNumcausa(),
-                        dateBegin(ListCitas.get(i).getUzatcitaFecha()),
-                        dateFinish(ListCitas.get(i).getUzatcitaFecha()), "color");
-
+                
+                if (ListCitas.get(i).getUzatcitaFlag().equals(new BigDecimal(BigInteger.ZERO))) {
+                    obj = new DefaultScheduleEvent(ListCitas.get(i).getUzatfase().getUzatcaso().getUzatcasoNumcausa(),
+                            dateBegin(ListCitas.get(i).getUzatcitaFecha()),
+                            dateFinish(ListCitas.get(i).getUzatcitaFecha()), "color2");
+                } else {
+                    obj = new DefaultScheduleEvent(ListCitas.get(i).getUzatfase().getUzatcaso().getUzatcasoNumcausa(),
+                            dateBegin(ListCitas.get(i).getUzatcitaFecha()),
+                            dateFinish(ListCitas.get(i).getUzatcitaFecha()), "color");
+                }
             } else {
-                obj = new DefaultScheduleEvent(ListCitas.get(i).getUzatfase().getUzatcaso().getUzatcasoNumcausa(),
-                        dateBegin(ListCitas.get(i).getUzatcitaFecha()),
-                        dateFinish(ListCitas.get(i).getUzatcitaFecha()));
+                if (ListCitas.get(i).getUzatcitaFlag().equals(new BigDecimal(BigInteger.ZERO))) {
+                    obj = new DefaultScheduleEvent(ListCitas.get(i).getUzatfase().getUzatcaso().getUzatcasoNumcausa(),
+                            dateBegin(ListCitas.get(i).getUzatcitaFecha()),
+                            dateFinish(ListCitas.get(i).getUzatcitaFecha()), "color2");
+                } else {
+                    obj = new DefaultScheduleEvent(ListCitas.get(i).getUzatfase().getUzatcaso().getUzatcasoNumcausa(),
+                            dateBegin(ListCitas.get(i).getUzatcitaFecha()),
+                            dateFinish(ListCitas.get(i).getUzatcitaFecha()));
+                }
+
             }
 
             obj.setDescription(ListCitas.get(i).getId().getUzatcitaId().toString());
@@ -83,7 +96,7 @@ public class CalendarBean {
         }
 
     }
-
+    
     private BigDecimal getUserAttribute() {
         String UserAttribute = "";
         BigDecimal id = new BigDecimal(BigInteger.ZERO);
