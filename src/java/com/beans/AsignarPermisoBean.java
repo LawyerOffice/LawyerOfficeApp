@@ -42,7 +42,6 @@ public class AsignarPermisoBean {
 
     private String claveFuncionario;
 
-    private ArrayList<SelectItem> ItemsFuncionarios;
     private ArrayList<SelectItem> ItemsRoles;
 
     private List<Uzatrol> rolsAsignandos;
@@ -61,7 +60,6 @@ public class AsignarPermisoBean {
 
     private void init() {
         this.setNuevaAsiganacion(new Uzatasign());
-        this.setItemsFuncionarios(new ArrayList<SelectItem>());
         this.setItemsRoles(new ArrayList<SelectItem>());
         this.setPatterFuncionario("");
         this.setPatterRoles("");
@@ -70,22 +68,7 @@ public class AsignarPermisoBean {
         this.asgsFunciCasos = new ArrayList<Uzatasign>();
         this.selectedRol = new Uzatrol();
         this.newRol = new Uzatrol();
-        this.loadlistRolesAsignados();
-    }
-
-    public void loadAisgnarPermiso(ActionEvent event) {
-        this.loadlistFuncionarios();
         this.loadlistRoles();
-    }
-
-    public void loadlistFuncionarios() {
-        ArrayList<String> selectItemsCli = new ArrayList<String>();
-        selectItemsCli.add("Id Banner");
-        selectItemsCli.add("Cédula");
-        this.ItemsFuncionarios.clear();
-        for (String Item : selectItemsCli) {
-            this.ItemsFuncionarios.add(new SelectItem(Item, Item));
-        }
     }
 
     public void loadlistRoles() {
@@ -217,14 +200,6 @@ public class AsignarPermisoBean {
 
     public void setPatterRoles(String patterRoles) {
         this.patterRoles = patterRoles;
-    }
-
-    public ArrayList<SelectItem> getItemsFuncionarios() {
-        return ItemsFuncionarios;
-    }
-
-    public void setItemsFuncionarios(ArrayList<SelectItem> ItemsFuncionarios) {
-        this.ItemsFuncionarios = ItemsFuncionarios;
     }
 
     public ArrayList<SelectItem> getItemsRoles() {
